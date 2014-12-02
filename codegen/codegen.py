@@ -100,6 +100,9 @@ class CodeGenerator:
                     self.emit_h_p("      %s%s," % (a.cpptype_out, a.name))
                 self.emit_h_p("      const Glib::RefPtr<Gio::AsyncResult>& res);")
 
+            for p in i.properties:
+                self.emit_h_p("     {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
+
             self.emit_h_p("")
 
             self.emit_h_p(dedent('''
@@ -238,9 +241,12 @@ class CodeGenerator:
                 self.emit_h_s("virtual void %s (" % m.name)
 
                 for a in m.in_args:
-                    self.emit_h_s("    %s%s," % (a.cpptype_in, a.name))
+                    self.emit_h_s("    %s %s," % (a.cpptype_in, a.name))
 
                 self.emit_h_s("    const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) = 0;")
+
+            for p in i.properties:
+                self.emit_h_s("    virtual {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
 
             self.emit_h_s(dedent("""
             void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
@@ -312,9 +318,9 @@ class CodeGenerator:
                 self.emit_cpp_s("    if (method_name.compare(\"%s\") == 0) {" % m.name)
                 for ai in range(len(m.in_args)):
                     a = m.in_args[ai]
-                    self.emit_cpp_s("        Glib::Variant<%s> base_%s;" % (a.cpptype_out[:-1], a.name))
+                    self.emit_cpp_s("        Glib::Variant<%s> base_%s;" % (a.cpptype_in, a.name))
                     self.emit_cpp_s("        parameters.get_child(base_%s, %d);" % (a.name, ai))
-                    self.emit_cpp_s("        %s p_%s;" % (a.cpptype_out[:-1], a.name))
+                    self.emit_cpp_s("        %s p_%s;" % (a.cpptype_in, a.name))
                     self.emit_cpp_s("        p_%s = base_%s.get();" % (a.name, a.name))
                     self.emit_cpp_s("")
                 self.emit_cpp_s("        %s(" % m.name)
@@ -331,9 +337,15 @@ class CodeGenerator:
                                                    const Glib::ustring& sender,
                                                    const Glib::ustring& object_path,
                                                    const Glib::ustring& interface_name,
-                                                   const Glib::ustring& property_name) {{ 
-                property = Glib::Variant<std::string>::create("Hello world");
-                g_print("aaa\\n");
+                                                   const Glib::ustring& property_name) {{
+            ''').format(**locals()))
+            for p in i.properties:
+                self.emit_cpp_s(dedent('''
+                    if (property_name.compare("{p.name}") == 0) {{
+                        property = Glib::Variant<{p.cpptype_out}>::create({p.name}_get());
+                    }}
+                ''').format(**locals()))
+            self.emit_cpp_s(dedent('''
             }}
             void {i.cpp_namespace_name}::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                                      const Glib::ustring& /* name */) {{
