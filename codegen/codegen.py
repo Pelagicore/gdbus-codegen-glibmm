@@ -209,6 +209,7 @@ class CodeGenerator:
             self.emit_h_s ("const char interfaceXml%d[] = { " % i, False)
             for char in node_xml:
                 self.emit_h_s ("0x%s, " % char.encode("hex"), False)
+            self.emit_h_s("0x00") # Null terminator
             self.emit_h_s ("};")
 
     def generate_stub_intro(self):
