@@ -34,7 +34,7 @@ else:
     path = os.path.join('/usr/share', 'glib-2.0')
 
 sys.path.insert(0, os.path.abspath(path))
-sys.path.insert(0, ".")
+sys.path.insert(0, os.path.realpath(os.path.dirname(__file__)))
 from codegen import codegen_main
 
 sys.exit(codegen_main.codegen_main())

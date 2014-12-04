@@ -50,13 +50,13 @@ class Common:
         elif sig == 'g':
             return ('std::string', 'Glib::ustring')
         elif sig == 'ay':
-            return ('std::string', 'Glib::ustring')
+            return ('std::string', 'std::string')
         elif sig == 'as':
-            return ('std::vector<std::string> ', 'std::vector<Glib::ustring> ')
+            return ('std::vector<std::string> ', 'std::vector<Glib::ustring>')
         elif sig == 'ao':
-            return ('std::vector<std::string> ', 'std::vector<Glib::ustring> ')
+            return ('std::vector<std::string> ', 'std::vector<Glib::ustring>')
         elif sig == 'aay':
-            return ('std::vector<std::string> ', 'std::vector<Glib::ustring> ')
+            return ('std::vector<std::string> ', 'std::vector<std::string>')
         else:
             return (None, None)
 
@@ -76,10 +76,11 @@ class Arg:
         if self.name == None:
             self.name = 'unnamed_arg%d'%arg_number
 
-        self.cpptype_send = lambda name, param: "Glib::Variant<bool> "+name+" = Glib::Variant<bool>::create (arg_"+param+");"
-        self.cppvalue_get = lambda varname, outvar, idx: "Glib::Variant<bool> "+varname+";\n  wrapped.get_child("+varname+","+idx+");\n  "+outvar+" = "+varname+".get();"
 
         (self.cpptype_in, self.cpptype_out) = Common.cppSignatureForDbusSignature(self.signature)
+
+        self.cpptype_send = lambda name, param: "Glib::Variant<"+self.cpptype_out+"> "+name+" = Glib::Variant<"+self.cpptype_out+">::create (arg_"+param+");"
+        self.cppvalue_get = lambda varname, outvar, idx: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n  wrapped.get_child("+varname+","+idx+");\n  "+outvar+" = "+varname+".get();"
 
         if self.signature == 'as':
             self.cpptype_send = lambda name, param: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create (stdStringVecToGlibStringVec (arg_"+param+"));"
@@ -219,7 +220,9 @@ class Interface:
         self.ns_upper = cns_upper
         self.name_lower = cns_lower + utils.camel_case_to_uscore(name)
         self.name_upper = utils.camel_case_to_uscore(name).upper()
-        self.cpp_namespace_name = cns + "::" + self.name_without_prefix.replace(".", "::")
+        self.cpp_namespace_name = self.name_without_prefix.replace(".", "::")
+        if cns != '':
+            self.cpp_namespace_name = cns + "::" + self.cpp_namespace_name
         self.cpp_class_name = self.cpp_namespace_name.split("::")[-1]
 
         self.name_hyphen = self.name_upper.lower().replace('_', '-')

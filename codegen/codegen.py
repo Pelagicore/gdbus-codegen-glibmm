@@ -90,18 +90,18 @@ class CodeGenerator:
                 # Async call method
                 self.emit_h_p("    void %s (" % m.name)
                 for a in m.in_args:
-                    self.emit_h_p("      %s%s," % (a.cpptype_in, a.name))
+                    self.emit_h_p("      %s %s," % (a.cpptype_in, a.name))
                 self.emit_h_p("      const Gio::SlotAsyncReady &slot);\n")
                 self.emit_h_p("")
 
                 # _finish method
                 self.emit_h_p("    void %s_finish (" % m.name)
                 for a in m.out_args:
-                    self.emit_h_p("      %s%s," % (a.cpptype_out, a.name))
+                    self.emit_h_p("      %s& %s," % (a.cpptype_out, a.name))
                 self.emit_h_p("      const Glib::RefPtr<Gio::AsyncResult>& res);")
 
             for p in i.properties:
-                self.emit_h_p("     {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
+                self.emit_h_p("     {p.cpptype_out} {p.name}_get();".format(**locals()))
 
             self.emit_h_p("")
 
@@ -138,7 +138,7 @@ class CodeGenerator:
             # async begin
             self.emit_cpp_p('void %s::%s (' % (i.cpp_namespace_name, m.camel_name))
             for a in m.in_args:
-                self.emit_cpp_p('    %sarg_%s,'%(a.cpptype_in, a.name))
+                self.emit_cpp_p('    %s arg_%s,'%(a.cpptype_in, a.name))
             self.emit_cpp_p( '    const Gio::SlotAsyncReady &callback)'
                          '{')
 
@@ -167,7 +167,7 @@ class CodeGenerator:
             # Finish
             self.emit_cpp_p('void %s::%s_finish (' %(i.cpp_namespace_name, m.camel_name))
             for a in m.out_args:
-                self.emit_cpp_p('     %sout_%s,'%(a.cpptype_out, a.name))
+                self.emit_cpp_p('     %s& out_%s,'%(a.cpptype_out, a.name))
             self.emit_cpp_p(dedent('''
             const Glib::RefPtr<Gio::AsyncResult>& result)
             {{
@@ -181,6 +181,14 @@ class CodeGenerator:
                 self.emit_cpp_p("")
             self.emit_cpp_p("}")
             self.emit_cpp_p("")
+
+    def generate_property_handlers(self, i):
+            for p in i.properties:
+                self.emit_cpp_p(dedent('''
+                {p.cpptype_out} {p.name}_get() {{
+                    {p.cpptype_out} var;
+                    return var;
+                }}''').format(**locals()))
 
     def generate_proxy(self, i):
         self.emit_cpp_p(dedent('''
@@ -342,7 +350,7 @@ class CodeGenerator:
             for p in i.properties:
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.cpptype_out}>::create({p.name}_get());
+                        property = Glib::Variant<{p.cpptype_out} >::create({p.name}_get());
                     }}
                 ''').format(**locals()))
             self.emit_cpp_s(dedent('''
@@ -380,6 +388,7 @@ class CodeGenerator:
         self.declare_types()
         for i in self.ifaces:
             self.generate_method_calls(i)
+            self.generate_property_handlers(i)
             self.generate_proxy(i)
 
         # Stub
