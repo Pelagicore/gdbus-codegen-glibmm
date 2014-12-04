@@ -336,7 +336,6 @@ class CodeGenerator:
                     self.emit_cpp_s("    p_%s," % a.name)
                 self.emit_cpp_s("            invocation);")
                 self.emit_cpp_s("    }")
-            self.emit_cpp_s("    g_print (\"Callback\\n\");")
             self.emit_cpp_s("    }")
 
             self.emit_cpp_s(dedent('''

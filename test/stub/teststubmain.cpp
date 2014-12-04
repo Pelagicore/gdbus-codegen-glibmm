@@ -1,5 +1,6 @@
 #include "teststubmain.h"
 #include "tools.h"
+#include <iostream>
 
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
