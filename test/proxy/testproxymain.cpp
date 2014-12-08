@@ -7,9 +7,9 @@ Glib::RefPtr<org::gdbus::codegen::glibmm::Test> proxy;
 
 void printStatus (std::string message, bool isOK) {
     if (isOK) {
-        std::cout << std::setw(60) << std::left << message << std::right << "\033[32m[  OK  ]\033[0m" << std::endl;;
+        std::cout << std::setw(60) << std::left << message << std::right << "\033[32m[  OK  ]\033[0m" << std::endl;
     } else {
-        std::cout << std::setw(60) << std::left << message << std::right << "\033[31m[ FAIL ]\033[0m" << std::endl;;
+        std::cout << std::setw(60) << std::left << message << std::right << "\033[31m[ FAIL ]\033[0m" << std::endl;
     }
 }
 
@@ -177,8 +177,8 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Byte string array */
     proxy->TestByteStringArray(inputStrVec, sigc::bind(sigc::ptr_fun(&on_test_byte_string_array_finished), inputStrVec));
 
-    /* Object path array */
-    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished), inputObjPathVec));
+//    /* Object path array */
+//    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished), inputObjPathVec));
 
     /* String array */
     proxy->TestStringArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished), inputObjPathVec));
@@ -222,26 +222,81 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Boolean */
     proxy->TestBoolean(booleanValue, sigc::bind(sigc::ptr_fun(&on_test_boolean_finished), booleanValue));
 
-    /* All */
-    proxy->TestAll(inputStrVec,
-                   inputStrVec,
-                   inputStrVec,
-                   bytestring,
-                   signatureValue,
-                   objectPath,
-                   stringValue,
-                   doubleValue,
-                   uint64Value,
-                   int64Value,
-                   uintValue,
-                   intValue,
-                   uint16Value,
-                   int16Value,
-                   ucharValue,
-                   booleanValue,
-                   sigc::ptr_fun(&on_test_all_finished));
+//    /* All */
+//    proxy->TestAll(inputStrVec,
+//                   inputStrVec,
+//                   inputStrVec,
+//                   bytestring,
+//                   signatureValue,
+//                   objectPath,
+//                   stringValue,
+//                   doubleValue,
+//                   uint64Value,
+//                   int64Value,
+//                   uintValue,
+//                   intValue,
+//                   uint16Value,
+//                   int16Value,
+//                   ucharValue,
+//                   booleanValue,
+//                   sigc::ptr_fun(&on_test_all_finished));
+//
 
+    std::vector<std::string> PropReadByteStringArrayValue;
+    PropReadByteStringArrayValue.push_back("Value1");
+    PropReadByteStringArrayValue.push_back("Value2");
+    printStatus("Property (read): TestPropReadByteStringArray", proxy->TestPropReadByteStringArray_get() == PropReadByteStringArrayValue);
 
+    std::vector<std::string> PropReadObjectPathArrayValue;
+    PropReadObjectPathArrayValue.push_back("Value3");
+    PropReadObjectPathArrayValue.push_back("Value4");
+    printStatus("Property (read): TestPropReadObjectPathArrayValue", proxy->TestPropReadObjectPathArray_get() == PropReadObjectPathArrayValue);
+
+    std::vector<std::string> PropReadStringArrayValue;
+    PropReadStringArrayValue.push_back("Value5");
+    PropReadStringArrayValue.push_back("Value6");
+    printStatus("Property (read): TestPropReadStringArray", proxy->TestPropReadStringArray_get() == PropReadStringArrayValue);
+
+    printStatus("Property (read): TestPropReadByteString", proxy->TestPropReadByteString_get() == "Value7");
+    printStatus("Property (read): TestPropReadSignature", proxy->TestPropReadSignature_get() == "Value8");
+    printStatus("Property (read): TestPropReadObjectPath", proxy->TestPropReadObjectPath_get() == "Value9");
+    printStatus("Property (read): TestPropReadString", proxy->TestPropReadString_get() == "Value10");
+    printStatus("Property (read): TestPropReadDouble", proxy->TestPropReadDouble_get() == 1337);
+    printStatus("Property (read): TestPropReadUInt64", proxy->TestPropReadUInt64_get() == 1338);
+    printStatus("Property (read): TestPropReadInt64", proxy->TestPropReadInt64_get() == 1339);
+    printStatus("Property (read): TestPropReadUInt", proxy->TestPropReadUInt_get() == 1340);
+    printStatus("Property (read): TestPropReadInt", proxy->TestPropReadInt_get() == 1341);
+    printStatus("Property (read): TestPropReadUInt16", proxy->TestPropReadUInt16_get() == 1342);
+    printStatus("Property (read): TestPropReadInt16", proxy->TestPropReadInt16_get() == 1343);
+    printStatus("Property (read): TestPropReadChar", proxy->TestPropReadChar_get() == 'A');
+    printStatus("Property (read): TestPropReadBoolean", proxy->TestPropReadBoolean_get() == true);
+
+    std::vector<std::string> PropReadWriteByteStringArrayValue;
+    PropReadWriteByteStringArrayValue.push_back("Value21");
+    PropReadWriteByteStringArrayValue.push_back("Value22");
+    printStatus("Property (read): TestPropReadWriteByteStringArray", proxy->TestPropReadWriteByteStringArray_get() == PropReadWriteByteStringArrayValue);
+
+    std::vector<std::string> PropReadWriteObjectPathArrayValue;
+    PropReadWriteObjectPathArrayValue.push_back("Value23");
+    printStatus("Property (read): TestPropReadWriteObjectPathArray", proxy->TestPropReadWriteObjectPathArray_get() == PropReadWriteObjectPathArrayValue);
+
+    std::vector<std::string> PropReadWriteStringArrayValue;
+    PropReadWriteStringArrayValue.push_back("Value24");
+    printStatus("Property (read): TestPropReadWriteStringArrayValue", proxy->TestPropReadWriteStringArray_get() == PropReadWriteStringArrayValue);
+
+    printStatus("Property (read): TestPropReadWriteByteString", proxy->TestPropReadWriteByteString_get() == "Value25");
+    printStatus("Property (read): TestPropReadWriteSignature", proxy->TestPropReadWriteSignature_get() == "Value26");
+    printStatus("Property (read): TestPropReadWriteObjectPath", proxy->TestPropReadWriteObjectPath_get() == "Value27");
+    printStatus("Property (read): TestPropReadWriteString", proxy->TestPropReadWriteString_get() == "Value28");
+    printStatus("Property (read): TestPropReadWriteDouble", proxy->TestPropReadWriteDouble_get() == 1351);
+    printStatus("Property (read): TestPropReadWriteUInt64", proxy->TestPropReadWriteUInt64_get() == 1352);
+    printStatus("Property (read): TestPropReadWriteInt64", proxy->TestPropReadWriteInt64_get() == 1353);
+    printStatus("Property (read): TestPropReadWriteUInt", proxy->TestPropReadWriteUInt_get() == 1354);
+    printStatus("Property (read): TestPropReadWriteInt", proxy->TestPropReadWriteInt_get() == 1355);
+    printStatus("Property (read): TestPropReadWriteUInt16", proxy->TestPropReadWriteUInt16_get() == 1356);
+    printStatus("Property (read): TestPropReadWriteInt16", proxy->TestPropReadWriteInt16_get() == 1357);
+    printStatus("Property (read): TestPropReadWriteChar", proxy->TestPropReadWriteChar_get() == 'C');
+    printStatus("Property (read): TestPropReadWriteBoolean", proxy->TestPropReadWriteBoolean_get() == true);
 }
 
 int main() {

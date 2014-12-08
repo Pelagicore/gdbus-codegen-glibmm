@@ -178,9 +178,15 @@ class CodeGenerator:
     def generate_property_handlers(self, i):
             for p in i.properties:
                 self.emit_cpp_p(dedent('''
-                {p.cpptype_out} {p.name}_get() {{
-                    {p.cpptype_out} var;
-                    return var;
+                {p.cpptype_out} {i.cpp_namespace_name}::{p.name}_get() {{
+                    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
+                    Glib::Variant<{p.cpptype_get} > b;
+                    if (std::find(props.begin(), props.end(), "{p.name}") != props.end()) {{
+                        m_proxy->get_cached_property(b, "{p.name}");
+                    }} else {{
+                        g_print ("Todo: lookup value\\n");
+                    }}
+                    return {p.cpptype_get_cast}(b.get());
                 }}''').format(**locals()))
 
     def generate_proxy(self, i):

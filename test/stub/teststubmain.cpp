@@ -18,9 +18,9 @@ TestImpl::TestImpl() {
     m_PropReadUInt64Value = 1338;
     m_PropReadInt64Value = 1339;
     m_PropReadUIntValue = 1340;
-    m_PropReadIntValue = 1340;
-    m_PropReadUInt16Value = 1340;
-    m_PropReadInt16Value = 1340;
+    m_PropReadIntValue = 1341;
+    m_PropReadUInt16Value = 1342;
+    m_PropReadInt16Value = 1343;
     m_PropReadCharValue = 'A';
     m_PropReadBooleanValue = true;
     m_PropWriteByteStringArrayValue.push_back("Value11");
@@ -33,13 +33,13 @@ TestImpl::TestImpl() {
     m_PropWriteSignatureValue = "Value18";
     m_PropWriteObjectPathValue = "Value19";
     m_PropWriteStringValue = "Value20";
-    m_PropWriteDoubleValue = 1341;
-    m_PropWriteUInt64Value = 1342;
-    m_PropWriteInt64Value = 1343;
-    m_PropWriteUIntValue = 1344;
-    m_PropWriteIntValue = 1345;
-    m_PropWriteUInt16Value = 1346;
-    m_PropWriteInt16Value = 1347;
+    m_PropWriteDoubleValue = 1344;
+    m_PropWriteUInt64Value = 1345;
+    m_PropWriteInt64Value = 1346;
+    m_PropWriteUIntValue = 1347;
+    m_PropWriteIntValue = 1348;
+    m_PropWriteUInt16Value = 1349;
+    m_PropWriteInt16Value = 1350;
     m_PropWriteCharValue = 'B';
     m_PropWriteBooleanValue = false;
     m_PropReadWriteByteStringArrayValue.push_back("Value21");
@@ -50,13 +50,13 @@ TestImpl::TestImpl() {
     m_PropReadWriteSignatureValue = "Value26";
     m_PropReadWriteObjectPathValue = "Value27";
     m_PropReadWriteStringValue = "Value28";
-    m_PropReadWriteDoubleValue = 1348;
-    m_PropReadWriteUInt64Value = 1349;
-    m_PropReadWriteInt64Value = 1349;
-    m_PropReadWriteUIntValue = 1350;
-    m_PropReadWriteIntValue = 1351;
-    m_PropReadWriteUInt16Value = 1352;
-    m_PropReadWriteInt16Value = 1353;
+    m_PropReadWriteDoubleValue = 1351;
+    m_PropReadWriteUInt64Value = 1352;
+    m_PropReadWriteInt64Value = 1353;
+    m_PropReadWriteUIntValue = 1354;
+    m_PropReadWriteIntValue = 1355;
+    m_PropReadWriteUInt16Value = 1356;
+    m_PropReadWriteInt16Value = 1357;
     m_PropReadWriteCharValue = 'C';
     m_PropReadWriteWriteBooleanValue= true;
 }
@@ -229,7 +229,7 @@ guint64 TestImpl::TestPropReadWriteUInt64_get() {return m_PropReadWriteUInt64Val
 gint64 TestImpl::TestPropReadWriteInt64_get() {return m_PropReadWriteInt64Value;}
 guint32 TestImpl::TestPropReadWriteUInt_get() {return m_PropReadWriteUIntValue;}
 gint32 TestImpl::TestPropReadWriteInt_get() {return m_PropReadWriteIntValue;}
-guint16 TestImpl::TestPropReadWriteUInt16_get() {return m_PropReadUInt16Value;}
+guint16 TestImpl::TestPropReadWriteUInt16_get() {return m_PropReadWriteUInt16Value;}
 gint16 TestImpl::TestPropReadWriteInt16_get() {return m_PropReadWriteInt16Value;}
 guchar TestImpl::TestPropReadWriteChar_get() {return m_PropReadWriteCharValue;}
 bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteWriteBooleanValue;}
