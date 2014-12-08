@@ -234,6 +234,43 @@ gint16 TestImpl::TestPropReadWriteInt16_get() {return m_PropReadWriteInt16Value;
 guchar TestImpl::TestPropReadWriteChar_get() {return m_PropReadWriteCharValue;}
 bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteWriteBooleanValue;}
 
+void TestImpl::TestPropWriteByteStringArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropWriteObjectPathArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropWriteStringArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropWriteByteString_set(std::string value) {}
+void TestImpl::TestPropWriteSignature_set(std::string value) {}
+void TestImpl::TestPropWriteObjectPath_set(std::string value) {}
+void TestImpl::TestPropWriteString_set(std::string value) {}
+void TestImpl::TestPropWriteDouble_set(double value) {}
+void TestImpl::TestPropWriteUInt64_set(guint64 value) {}
+void TestImpl::TestPropWriteInt64_set(gint64 value) {}
+void TestImpl::TestPropWriteUInt_set(guint32 value) {}
+void TestImpl::TestPropWriteInt_set(gint32 value) {}
+void TestImpl::TestPropWriteUInt16_set(guint16 value) {}
+void TestImpl::TestPropWriteInt16_set(gint16 value) {}
+void TestImpl::TestPropWriteChar_set(guchar value) {}
+void TestImpl::TestPropWriteBoolean_set(bool value) {}
+void TestImpl::TestPropReadWriteByteStringArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropReadWriteStringArray_set(std::vector<std::string>  value) {}
+void TestImpl::TestPropReadWriteByteString_set(std::string value) {}
+void TestImpl::TestPropReadWriteSignature_set(std::string value) {}
+void TestImpl::TestPropReadWriteObjectPath_set(std::string value) {}
+
+void TestImpl::TestPropReadWriteString_set(std::string value) {
+    m_PropReadWriteStringValue = value;
+}
+
+void TestImpl::TestPropReadWriteDouble_set(double value) {}
+void TestImpl::TestPropReadWriteUInt64_set(guint64 value) {}
+void TestImpl::TestPropReadWriteInt64_set(gint64 value) {}
+void TestImpl::TestPropReadWriteUInt_set(guint32 value) {}
+void TestImpl::TestPropReadWriteInt_set(gint32 value) {}
+void TestImpl::TestPropReadWriteUInt16_set(guint16 value) {}
+void TestImpl::TestPropReadWriteInt16_set(gint16 value) {}
+void TestImpl::TestPropReadWriteChar_set(guchar value) {}
+void TestImpl::TestPropReadWriteBoolean_set(bool value) {}
+
 int main() {
     Glib::init();
     Gio::init();

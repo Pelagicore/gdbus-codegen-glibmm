@@ -119,6 +119,57 @@ public:
     guchar TestPropReadWriteChar_get();
     bool TestPropReadWriteBoolean_get();
 
+
+void TestPropReadByteStringArray_set(std::vector<std::string>  value);
+void TestPropReadObjectPathArray_set(std::vector<std::string>  value);
+void TestPropReadStringArray_set(std::vector<std::string>  value);
+void TestPropReadByteString_set(std::string value);
+void TestPropReadSignature_set(std::string value);
+void TestPropReadObjectPath_set(std::string value);
+void TestPropReadString_set(std::string value);
+void TestPropReadDouble_set(double value);
+void TestPropReadUInt64_set(guint64 value);
+void TestPropReadInt64_set(gint64 value);
+void TestPropReadUInt_set(guint32 value);
+void TestPropReadInt_set(gint32 value);
+void TestPropReadUInt16_set(guint16 value);
+void TestPropReadInt16_set(gint16 value);
+void TestPropReadChar_set(guchar value);
+void TestPropReadBoolean_set(bool value);
+void TestPropWriteByteStringArray_set(std::vector<std::string>  value);
+void TestPropWriteObjectPathArray_set(std::vector<std::string>  value);
+void TestPropWriteStringArray_set(std::vector<std::string>  value);
+void TestPropWriteByteString_set(std::string value);
+void TestPropWriteSignature_set(std::string value);
+void TestPropWriteObjectPath_set(std::string value);
+void TestPropWriteString_set(std::string value);
+void TestPropWriteDouble_set(double value);
+void TestPropWriteUInt64_set(guint64 value);
+void TestPropWriteInt64_set(gint64 value);
+void TestPropWriteUInt_set(guint32 value);
+void TestPropWriteInt_set(gint32 value);
+void TestPropWriteUInt16_set(guint16 value);
+void TestPropWriteInt16_set(gint16 value);
+void TestPropWriteChar_set(guchar value);
+void TestPropWriteBoolean_set(bool value);
+void TestPropReadWriteByteStringArray_set(std::vector<std::string>  value);
+void TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value);
+void TestPropReadWriteStringArray_set(std::vector<std::string>  value);
+void TestPropReadWriteByteString_set(std::string value);
+void TestPropReadWriteSignature_set(std::string value);
+void TestPropReadWriteObjectPath_set(std::string value);
+void TestPropReadWriteString_set(std::string value);
+void TestPropReadWriteDouble_set(double value);
+void TestPropReadWriteUInt64_set(guint64 value);
+void TestPropReadWriteInt64_set(gint64 value);
+void TestPropReadWriteUInt_set(guint32 value);
+void TestPropReadWriteInt_set(gint32 value);
+void TestPropReadWriteUInt16_set(guint16 value);
+void TestPropReadWriteInt16_set(gint16 value);
+void TestPropReadWriteChar_set(guchar value);
+void TestPropReadWriteBoolean_set(bool value);
+
+
 private:
 std::vector<std::string> m_PropReadByteStringArrayValue;
 std::vector<std::string> m_PropReadObjectPathArrayValue;

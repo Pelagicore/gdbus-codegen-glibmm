@@ -110,7 +110,11 @@ class CodeGenerator:
                 self.emit_h_p("      const Glib::RefPtr<Gio::AsyncResult>& res);")
 
             for p in i.properties:
-                self.emit_h_p("     {p.cpptype_out} {p.name}_get();".format(**locals()))
+                if p.readable:
+                    self.emit_h_p("     {p.cpptype_out} {p.name}_get();".format(**locals()))
+                if p.writable:
+                    self.emit_h_p("     void {p.name}_set({p.cpptype_in}, const Gio::SlotAsyncReady &);".format(**locals()))
+                    self.emit_h_p("     void {p.name}_set_finish({p.cpptype_in} , const Glib::RefPtr<Gio::AsyncResult>&);".format(**locals()))
 
             self.emit_h_p("")
 
@@ -177,17 +181,37 @@ class CodeGenerator:
 
     def generate_property_handlers(self, i):
             for p in i.properties:
-                self.emit_cpp_p(dedent('''
-                {p.cpptype_out} {i.cpp_namespace_name}::{p.name}_get() {{
-                    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
-                    Glib::Variant<{p.cpptype_get} > b;
-                    if (std::find(props.begin(), props.end(), "{p.name}") != props.end()) {{
-                        m_proxy->get_cached_property(b, "{p.name}");
-                    }} else {{
-                        g_print ("Todo: lookup value\\n");
+                if p.readable:
+                    self.emit_cpp_p(dedent('''
+                    {p.cpptype_out} {i.cpp_namespace_name}::{p.name}_get() {{
+                        std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
+                        Glib::Variant<{p.cpptype_get} > b;
+                        if (std::find(props.begin(), props.end(), "{p.name}") != props.end()) {{
+                            m_proxy->get_cached_property(b, "{p.name}");
+                        }} else {{
+                            g_print ("Todo: lookup value\\n");
+                        }}
+                        return {p.cpptype_get_cast}(b.get());
+                    }}''').format(**locals()))
+                if p.writable:
+                    self.emit_cpp_p(dedent('''
+
+                    void {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value, const Gio::SlotAsyncReady &cb) {{
+                        std::vector<Glib::VariantBase> paramsVec;
+                        paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{i.name}"));
+                        paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{p.name}"));
+                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}(value))));
+                        Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
+                        m_proxy->call("org.freedesktop.DBus.Properties.Set",
+                                      cb,
+                                      params
+                                      );
                     }}
-                    return {p.cpptype_get_cast}(b.get());
-                }}''').format(**locals()))
+
+                    void {i.cpp_namespace_name}::{p.name}_set_finish({p.cpptype_in} value,
+                            const Glib::RefPtr<Gio::AsyncResult>& res) {{
+                    }}
+                    ''').format(**locals()))
 
     def generate_proxy(self, i):
         self.emit_cpp_p(dedent('''
@@ -254,7 +278,10 @@ class CodeGenerator:
                 self.emit_h_s("    const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) = 0;")
 
             for p in i.properties:
-                self.emit_h_s("    virtual {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
+                if p.readable:
+                    self.emit_h_s("    virtual {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
+                if p.writable:
+                    self.emit_h_s("    virtual void {p.name}_set({p.cpptype_in} value) = 0;".format(**locals()))
 
             self.emit_h_s(dedent("""
             void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
@@ -280,6 +307,14 @@ class CodeGenerator:
                                                    const Glib::ustring& object_path,
                                                    const Glib::ustring& interface_name,
                                                    const Glib::ustring& property_name);
+
+            bool on_interface_set_property(
+                   const Glib::RefPtr<Gio::DBus::Connection>& connection,
+                   const Glib::ustring& sender,
+                   const Glib::ustring& object_path,
+                   const Glib::ustring& interface_name,
+                   const Glib::ustring& property_name,
+                   const Glib::VariantBase& value);
             private:
             guint connectionId, registeredId;
             Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
@@ -347,20 +382,68 @@ class CodeGenerator:
                                                    const Glib::ustring& property_name) {{
             ''').format(**locals()))
             for p in i.properties:
-                self.emit_cpp_s(dedent('''
-                    if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
-                    }}
-                ''').format(**locals()))
+                if p.readable:
+                    self.emit_cpp_s(dedent('''
+                        if (property_name.compare("{p.name}") == 0) {{
+                            property = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
+                        }}
+                    ''').format(**locals()))
+
             self.emit_cpp_s(dedent('''
             }}
+
+            bool {i.cpp_namespace_name}::on_interface_set_property(
+                   const Glib::RefPtr<Gio::DBus::Connection>& connection,
+                   const Glib::ustring& sender,
+                   const Glib::ustring& object_path,
+                   const Glib::ustring& interface_name,
+                   const Glib::ustring& property_name,
+                   const Glib::VariantBase& value) {{
+                std::map<Glib::ustring, Glib::VariantBase> changedProps;
+                std::vector<Glib::ustring> changedPropsNoValue;
+
+            ''').format(**locals()))
+
+            for p in i.properties:
+                if p.writable:
+                    self.emit_cpp_s(dedent('''
+                        if (property_name.compare("{p.name}") == 0) {{
+                            Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
+                            {p.cpptype_out} val;
+                            val = {p.cpptype_get_cast}(castValue.get());
+                            {p.name}_set(val);
+                            changedProps["{p.name}"] = castValue;
+                        }}
+                    ''').format(**locals()))
+
+            self.emit_cpp_s(dedent('''
+                Glib::Variant<std::map<Glib::ustring,  Glib::VariantBase> > changedPropsVar = Glib::Variant<std::map <Glib::ustring, Glib::VariantBase> >::create (changedProps);
+                Glib::Variant<std::vector<Glib::ustring> > changedPropsNoValueVar = Glib::Variant<std::vector<Glib::ustring> >::create(changedPropsNoValue);
+                std::vector<Glib::VariantBase> ps;
+                ps.push_back(Glib::Variant<Glib::ustring>::create(interface_name));
+                ps.push_back(changedPropsVar);
+                ps.push_back(changedPropsNoValueVar);
+                Glib::VariantContainerBase propertiesChangedVariant = Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(ps); 
+
+                connection->emit_signal(
+                    object_path,
+                    "org.freedesktop.DBus.Properties",
+                    "PropertiesChanged",
+                    Glib::ustring(),
+                    propertiesChangedVariant);
+                return true;
+            }}
+            ''').format(**locals()))
+
+            self.emit_cpp_s(dedent('''
             void {i.cpp_namespace_name}::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                                      const Glib::ustring& /* name */) {{
                 g_print("Bus name acquired!\\n");
                 Gio::DBus::InterfaceVTable *interface_vtable =
                       new Gio::DBus::InterfaceVTable(
                             sigc::mem_fun(this, &{i.cpp_class_name}::on_method_call),
-                            sigc::mem_fun(this, &{i.cpp_class_name}::on_interface_get_property));
+                            sigc::mem_fun(this, &{i.cpp_class_name}::on_interface_get_property),
+                            sigc::mem_fun(this, &{i.cpp_class_name}::on_interface_set_property));
                 try {{
                     registeredId = connection->register_object("{object_path}",
                     introspection_data->lookup_interface("{i.name}"),

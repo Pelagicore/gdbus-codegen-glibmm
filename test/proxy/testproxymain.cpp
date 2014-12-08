@@ -148,6 +148,11 @@ void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
 //    printStatus ("Boolean", res == expected);
 }
 
+void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result, const std::string &expected) {
+    std::string actual = proxy->TestPropReadWriteString_get();
+    printStatus("Property (write/read): TestPropReadWriteString", actual == expected);
+}
+
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
     std::vector<std::string> inputStrVec;
@@ -297,6 +302,8 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     printStatus("Property (read): TestPropReadWriteInt16", proxy->TestPropReadWriteInt16_get() == 1357);
     printStatus("Property (read): TestPropReadWriteChar", proxy->TestPropReadWriteChar_get() == 'C');
     printStatus("Property (read): TestPropReadWriteBoolean", proxy->TestPropReadWriteBoolean_get() == true);
+
+    proxy->TestPropReadWriteString_set("Hello world", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_string), "Hello world"));
 }
 
 int main() {
