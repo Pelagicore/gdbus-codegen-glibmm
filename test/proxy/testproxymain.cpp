@@ -19,14 +19,14 @@ void on_test_byte_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> re
     printStatus ("Byte string array", res == expected);
 }
 
-void on_test_object_path_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<Glib::ustring> expected) {
-    std::vector<Glib::ustring> res;
+void on_test_object_path_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
+    std::vector<std::string> res;
     proxy->TestObjectPathArray_finish(res, result);
     printStatus ("Object path array", res == expected);
 }
 
-void on_test_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<Glib::ustring> expected) {
-    std::vector<Glib::ustring> res;
+void on_test_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
+    std::vector<std::string> res;
     proxy->TestStringArray_finish(res, result);
     printStatus ("String array", res == expected);
 }
@@ -37,20 +37,20 @@ void on_test_byte_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, 
     printStatus ("Byte string", res == expected);
 }
 
-void on_test_signature_finished (const Glib::RefPtr<Gio::AsyncResult> result, Glib::ustring expected) {
-    Glib::ustring res;
+void on_test_signature_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
+    std::string res;
     proxy->TestSignature_finish(res, result);
     printStatus ("Signature", res == expected);
 }
 
-void on_test_object_path_finished (const Glib::RefPtr<Gio::AsyncResult> result, Glib::ustring expected) {
-    Glib::ustring res;
+void on_test_object_path_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
+    std::string res;
     proxy->TestObjectPath_finish(res, result);
     printStatus ("Object path", res == expected);
 }
 
 void on_test_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
-    Glib::ustring res;
+    std::string res;
     proxy->TestString_finish(res, result);
     printStatus ("String", res == expected);
 }
@@ -109,6 +109,45 @@ void on_test_boolean_finished (const Glib::RefPtr<Gio::AsyncResult> result, bool
     printStatus ("Boolean", res == expected);
 }
 
+void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
+    std::vector<std::string> resByteStringArray;
+    std::vector<std::string> resObjectPathArray;
+    std::vector<std::string> resStringArray;
+    std::string resBytestring;
+    std::string resSignature;
+    std::string resObjectPath;
+    std::string resString;
+    double resDouble;
+    guint64 resUint64;
+    gint64 resInt64;
+    guint resUint;
+    gint resInt;
+    guint16 resUint16;
+    gint16 resInt16;
+    guchar resUchar;
+    bool resBoolean;
+
+    proxy->TestAll_finish(
+            resByteStringArray,
+            resObjectPathArray,
+            resStringArray,
+            resBytestring,
+            resSignature,
+            resObjectPath,
+            resString,
+            resDouble,
+            resUint64,
+            resInt64,
+            resUint,
+            resInt,
+            resUint16,
+            resInt16,
+            resUchar,
+            resBoolean,
+            result);
+//    printStatus ("Boolean", res == expected);
+}
+
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
     std::vector<std::string> inputStrVec;
@@ -119,8 +158,8 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     inputObjPathVec.push_back("/org/gdbus/codegen/glibmm/Test");
 
     std::string bytestring = "Hello world!";
-    Glib::ustring signature = "Signature";
-    Glib::ustring objectPath = "/foo";
+    std::string signatureValue = "b";
+    std::string objectPath = "/foo";
     std::string stringValue = "String";
     double doubleValue = 1337;
     guint64 uint64Value = 1338;
@@ -132,24 +171,23 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     guchar ucharValue = 'A';
     bool booleanValue = true;
 
-    /* Proxy */
+    /* Proxy */ 
     proxy = org::gdbus::codegen::glibmm::Test::createForBusFinish(result);
 
     /* Byte string array */
     proxy->TestByteStringArray(inputStrVec, sigc::bind(sigc::ptr_fun(&on_test_byte_string_array_finished), inputStrVec));
 
     /* Object path array */
-    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished),
-                                                    CodegenTools::stdStringVecToGlibStringVec(inputObjPathVec)));
+    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished), inputObjPathVec));
+
     /* String array */
-    proxy->TestStringArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished),
-                                                    CodegenTools::stdStringVecToGlibStringVec(inputObjPathVec)));
+    proxy->TestStringArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished), inputObjPathVec));
 
     /* Byte string */
     proxy->TestByteString(bytestring, sigc::bind(sigc::ptr_fun(&on_test_byte_string_finished), bytestring));
 
     /* Signature */
-    proxy->TestSignature(signature, sigc::bind(sigc::ptr_fun(&on_test_signature_finished), signature));
+    proxy->TestSignature(signatureValue, sigc::bind(sigc::ptr_fun(&on_test_signature_finished), signatureValue));
 
     /* Object path */
     proxy->TestObjectPath(objectPath, sigc::bind(sigc::ptr_fun(&on_test_object_path_finished), objectPath));
@@ -183,6 +221,27 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Boolean */
     proxy->TestBoolean(booleanValue, sigc::bind(sigc::ptr_fun(&on_test_boolean_finished), booleanValue));
+
+    /* All */
+    proxy->TestAll(inputStrVec,
+                   inputStrVec,
+                   inputStrVec,
+                   bytestring,
+                   signatureValue,
+                   objectPath,
+                   stringValue,
+                   doubleValue,
+                   uint64Value,
+                   int64Value,
+                   uintValue,
+                   intValue,
+                   uint16Value,
+                   int16Value,
+                   ucharValue,
+                   booleanValue,
+                   sigc::ptr_fun(&on_test_all_finished));
+
+
 }
 
 int main() {

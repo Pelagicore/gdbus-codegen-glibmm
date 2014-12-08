@@ -87,12 +87,15 @@ def codegen_main():
         proxy_cpp = open(cpp_code + "_proxy" + '.cpp', 'w')
         stub_h = open(cpp_code + "_stub" + '.h', 'w')
         stub_cpp = open(cpp_code + "_stub" + '.cpp', 'w')
+        common_h = open(cpp_code + "_common" + '.h', 'w')
+        common_cpp = open(cpp_code + "_common" + '.cpp', 'w')
         gen = codegen.CodeGenerator(all_ifaces,
                                     opts.cpp_namespace,
                                     interface_prefix_list,
                                     node_xmls,
                                     proxy_h, proxy_cpp,
-                                    stub_cpp, stub_h);
+                                    stub_cpp, stub_h,
+                                    common_cpp, common_h);
         ret = gen.generate()
         proxy_h.close()
         proxy_cpp.close()

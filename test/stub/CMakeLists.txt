@@ -12,6 +12,8 @@ ENDIF ()
 SET (GENERATED_STUB
     ${CMAKE_BINARY_DIR}/generated/many-types_stub.cpp
     ${CMAKE_BINARY_DIR}/generated/many-types_stub.h
+    ${CMAKE_BINARY_DIR}/generated/many-types_common.cpp
+    ${CMAKE_BINARY_DIR}/generated/many-types_common.h
 )
 
 SET (INTROSPECTION_XML ${CMAKE_SOURCE_DIR}/../common/many-types.xml)
@@ -26,12 +28,14 @@ ADD_CUSTOM_COMMAND (OUTPUT ${GENERATED_STUB}
 SET (SOURCES
     teststubmain.cpp
     ${CMAKE_BINARY_DIR}/generated/many-types_stub.cpp
+    ${CMAKE_BINARY_DIR}/generated/many-types_common.cpp
 )
 
 SET (HEADERS
     teststubmain.h
     ../common/tools.h
     ${CMAKE_BINARY_DIR}/generated/many-types_stub.h
+    ${CMAKE_BINARY_DIR}/generated/many-types_common.h
 )
 
 INCLUDE_DIRECTORIES (

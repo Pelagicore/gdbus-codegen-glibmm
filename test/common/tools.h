@@ -7,7 +7,12 @@ class CodegenTools {
 public:
     template<typename T>
     static void retSingle (T retVal, const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-        invocation->return_value( Glib::VariantContainerBase::create_tuple(Glib::Variant<T>::create(retVal)));
+        retSingleRaw(Glib::Variant<T>::create(retVal), invocation);
+    }
+
+    template<typename T>
+    static void retSingleRaw (T retVal, const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
+        invocation->return_value(Glib::VariantContainerBase::create_tuple(retVal));
     }
 
     template<typename T>

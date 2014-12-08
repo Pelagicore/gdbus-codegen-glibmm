@@ -11,7 +11,16 @@ void TestImpl::TestByteStringArray (
 void TestImpl::TestObjectPathArray (
         std::vector<std::string>  Param1,
         const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (CodegenTools::stdStringVecToGlibStringVec(Param1), invocation);
+
+    std::vector<Glib::VariantBase> list;
+    GVariantBuilder builder;
+    g_variant_builder_init (&builder, G_VARIANT_TYPE("ao"));
+    for (int i = 0; i < Param1.size(); i++) {
+        g_variant_builder_add (&builder, "o", Param1[i].c_str());
+    }
+    Glib::VariantBase ret = Glib::wrap(g_variant_builder_end (&builder));
+
+    invocation->return_value(Glib::VariantContainerBase::create_tuple(ret));
 }
 
 void TestImpl::TestStringArray (
@@ -29,13 +38,13 @@ void TestImpl::TestByteString (
 void TestImpl::TestSignature (
         std::string Param1,
         const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Glib::ustring(Param1), invocation);
+    CodegenTools::retSingleRaw (Glib::wrap(g_variant_new_signature(Param1.c_str())), invocation);
 }
 
 void TestImpl::TestObjectPath (
         std::string Param1,
         const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Glib::ustring(Param1), invocation);
+    CodegenTools::retSingleRaw (Glib::wrap(g_variant_new_object_path(Param1.c_str())), invocation);
 }
 
 void TestImpl::TestString (
@@ -118,12 +127,12 @@ void TestImpl::TestAll (
         const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {}
 
 std::vector<std::string>  TestImpl::TestPropReadByteStringArray_get() {return m_PropReadByteStringArrayValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}
+std::vector<std::string>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
+std::vector<std::string>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}
 std::string TestImpl::TestPropReadByteString_get() {return m_PropReadByteStringValue;}
-Glib::ustring TestImpl::TestPropReadSignature_get() {return m_PropReadSignatureValue;}
-Glib::ustring TestImpl::TestPropReadObjectPath_get() {return m_PropReadObjectPathValue;}
-Glib::ustring TestImpl::TestPropReadString_get() {return m_PropReadStringValue;}
+std::string TestImpl::TestPropReadSignature_get() {return m_PropReadSignatureValue;}
+std::string TestImpl::TestPropReadObjectPath_get() {return m_PropReadObjectPathValue;}
+std::string TestImpl::TestPropReadString_get() {return m_PropReadStringValue;}
 double TestImpl::TestPropReadDouble_get() {return m_PropReadDoubleValue;}
 guint64 TestImpl::TestPropReadUInt64_get() {return m_PropReadUInt64Value;}
 gint64 TestImpl::TestPropReadInt64_get() {return m_PropReadInt64Value;}
@@ -134,12 +143,12 @@ gint16 TestImpl::TestPropReadInt16_get() {return m_PropReadInt16Value;}
 guchar TestImpl::TestPropReadChar_get() {return m_PropReadCharValue;}
 bool TestImpl::TestPropReadBoolean_get() {return m_PropReadBooleanValue;}
 std::vector<std::string>  TestImpl::TestPropWriteByteStringArray_get() {return m_PropWriteByteStringArrayValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropWriteObjectPathArray_get() {return m_PropWriteObjectPathArratValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropWriteStringArray_get() {return m_PropWriteStringArrayValue;}
+std::vector<std::string>  TestImpl::TestPropWriteObjectPathArray_get() {return m_PropWriteObjectPathArratValue;}
+std::vector<std::string>  TestImpl::TestPropWriteStringArray_get() {return m_PropWriteStringArrayValue;}
 std::string TestImpl::TestPropWriteByteString_get() {return m_PropWriteByteStringValue;}
-Glib::ustring TestImpl::TestPropWriteSignature_get() {return m_PropWriteSignatureValue;}
-Glib::ustring TestImpl::TestPropWriteObjectPath_get() {return m_PropWriteObjectPathValue;}
-Glib::ustring TestImpl::TestPropWriteString_get() {return m_PropWriteStringValue;}
+std::string TestImpl::TestPropWriteSignature_get() {return m_PropWriteSignatureValue;}
+std::string TestImpl::TestPropWriteObjectPath_get() {return m_PropWriteObjectPathValue;}
+std::string TestImpl::TestPropWriteString_get() {return m_PropWriteStringValue;}
 double TestImpl::TestPropWriteDouble_get() {return m_PropWriteDoubleValue;}
 guint64 TestImpl::TestPropWriteUInt64_get() {return m_PropWriteUInt64Value;}
 gint64 TestImpl::TestPropWriteInt64_get() {return m_PropWriteInt64Value;}
@@ -150,12 +159,12 @@ gint16 TestImpl::TestPropWriteInt16_get() {return m_PropWriteInt16Value;}
 guchar TestImpl::TestPropWriteChar_get() {return m_PropWriteCharValue;}
 bool TestImpl::TestPropWriteBoolean_get() {return m_PropWriteBooleanValue;}
 std::vector<std::string>  TestImpl::TestPropReadWriteByteStringArray_get() {return m_PropReadWriteByteStringArrayValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropReadWriteObjectPathArray_get() {return m_PropReadWriteObjectPathArrayValue;}
-std::vector<Glib::ustring>  TestImpl::TestPropReadWriteStringArray_get() {return m_PropReadWriteStringArrayValue;}
+std::vector<std::string>  TestImpl::TestPropReadWriteObjectPathArray_get() {return m_PropReadWriteObjectPathArrayValue;}
+std::vector<std::string>  TestImpl::TestPropReadWriteStringArray_get() {return m_PropReadWriteStringArrayValue;}
 std::string TestImpl::TestPropReadWriteByteString_get() {return m_PropReadWriteByteStringValue;}
-Glib::ustring TestImpl::TestPropReadWriteSignature_get() {return m_PropReadWriteSignatureValue;}
-Glib::ustring TestImpl::TestPropReadWriteObjectPath_get() {return m_PropReadWriteObjectPathValue;}
-Glib::ustring TestImpl::TestPropReadWriteString_get() {return m_PropReadWriteStringValue;}
+std::string TestImpl::TestPropReadWriteSignature_get() {return m_PropReadWriteSignatureValue;}
+std::string TestImpl::TestPropReadWriteObjectPath_get() {return m_PropReadWriteObjectPathValue;}
+std::string TestImpl::TestPropReadWriteString_get() {return m_PropReadWriteStringValue;}
 double TestImpl::TestPropReadWriteDouble_get() {return m_PropReadWriteDoubleValue;}
 guint64 TestImpl::TestPropReadWriteUInt64_get() {return m_PropReadWriteUInt64Value;}
 gint64 TestImpl::TestPropReadWriteInt64_get() {return m_PropReadWriteInt64Value;}
