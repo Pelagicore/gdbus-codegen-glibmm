@@ -114,7 +114,7 @@ class CodeGenerator:
                     self.emit_h_p("     {p.cpptype_out} {p.name}_get();".format(**locals()))
                 if p.writable:
                     self.emit_h_p("     void {p.name}_set({p.cpptype_in}, const Gio::SlotAsyncReady &);".format(**locals()))
-                    self.emit_h_p("     void {p.name}_set_finish({p.cpptype_in} , const Glib::RefPtr<Gio::AsyncResult>&);".format(**locals()))
+                    self.emit_h_p("     void {p.name}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&);".format(**locals()))
 
             self.emit_h_p("")
 
@@ -208,8 +208,7 @@ class CodeGenerator:
                                       );
                     }}
 
-                    void {i.cpp_namespace_name}::{p.name}_set_finish({p.cpptype_in} value,
-                            const Glib::RefPtr<Gio::AsyncResult>& res) {{
+                    void {i.cpp_namespace_name}::{p.name}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {{
                     }}
                     ''').format(**locals()))
 

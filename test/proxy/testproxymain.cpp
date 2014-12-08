@@ -149,6 +149,7 @@ void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
 }
 
 void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result, const std::string &expected) {
+    proxy->TestPropReadWriteString_set_finish(result);
     std::string actual = proxy->TestPropReadWriteString_get();
     printStatus("Property (write/read): TestPropReadWriteString", actual == expected);
 }
