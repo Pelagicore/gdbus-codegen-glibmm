@@ -1,6 +1,9 @@
 #include "many-types_stub.h"
 
 class TestImpl : public org::gdbus::codegen::glibmm::Test {
+public:
+    TestImpl();
+
     void TestByteStringArray (
             std::vector<std::string>  Param1,
             const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);

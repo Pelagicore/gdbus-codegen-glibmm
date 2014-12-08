@@ -343,7 +343,7 @@ class CodeGenerator:
             for p in i.properties:
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.cpptype_out} >::create({p.name}_get());
+                        property = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
                     }}
                 ''').format(**locals()))
             self.emit_cpp_s(dedent('''

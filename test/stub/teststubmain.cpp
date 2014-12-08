@@ -2,6 +2,65 @@
 #include "tools.h"
 #include <iostream>
 
+
+TestImpl::TestImpl() {
+    m_PropReadByteStringArrayValue.push_back("Value1");
+    m_PropReadByteStringArrayValue.push_back("Value2");
+    m_PropReadObjectPathArrayValue.push_back("Value3");
+    m_PropReadObjectPathArrayValue.push_back("Value4");
+    m_PropReadStringArrayValue.push_back("Value5");
+    m_PropReadStringArrayValue.push_back("Value6");
+    m_PropReadByteStringValue = "Value7";
+    m_PropReadSignatureValue = "Value8";
+    m_PropReadObjectPathValue = "Value9";
+    m_PropReadStringValue = "Value10";
+    m_PropReadDoubleValue = 1337;
+    m_PropReadUInt64Value = 1338;
+    m_PropReadInt64Value = 1339;
+    m_PropReadUIntValue = 1340;
+    m_PropReadIntValue = 1340;
+    m_PropReadUInt16Value = 1340;
+    m_PropReadInt16Value = 1340;
+    m_PropReadCharValue = 'A';
+    m_PropReadBooleanValue = true;
+    m_PropWriteByteStringArrayValue.push_back("Value11");
+    m_PropWriteByteStringArrayValue.push_back("Value12");
+    m_PropWriteObjectPathArratValue.push_back("Value13");
+    m_PropWriteObjectPathArratValue.push_back("Value14");
+    m_PropWriteObjectPathArratValue.push_back("Value15");
+    m_PropWriteStringArrayValue.push_back("Value16");
+    m_PropWriteByteStringValue = "Value17";
+    m_PropWriteSignatureValue = "Value18";
+    m_PropWriteObjectPathValue = "Value19";
+    m_PropWriteStringValue = "Value20";
+    m_PropWriteDoubleValue = 1341;
+    m_PropWriteUInt64Value = 1342;
+    m_PropWriteInt64Value = 1343;
+    m_PropWriteUIntValue = 1344;
+    m_PropWriteIntValue = 1345;
+    m_PropWriteUInt16Value = 1346;
+    m_PropWriteInt16Value = 1347;
+    m_PropWriteCharValue = 'B';
+    m_PropWriteBooleanValue = false;
+    m_PropReadWriteByteStringArrayValue.push_back("Value21");
+    m_PropReadWriteByteStringArrayValue.push_back("Value22");
+    m_PropReadWriteObjectPathArrayValue.push_back("Value23");
+    m_PropReadWriteStringArrayValue.push_back("Value24");
+    m_PropReadWriteByteStringValue = "Value25";
+    m_PropReadWriteSignatureValue = "Value26";
+    m_PropReadWriteObjectPathValue = "Value27";
+    m_PropReadWriteStringValue = "Value28";
+    m_PropReadWriteDoubleValue = 1348;
+    m_PropReadWriteUInt64Value = 1349;
+    m_PropReadWriteInt64Value = 1349;
+    m_PropReadWriteUIntValue = 1350;
+    m_PropReadWriteIntValue = 1351;
+    m_PropReadWriteUInt16Value = 1352;
+    m_PropReadWriteInt16Value = 1353;
+    m_PropReadWriteCharValue = 'C';
+    m_PropReadWriteWriteBooleanValue= true;
+}
+
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
         const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {

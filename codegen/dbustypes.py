@@ -30,40 +30,41 @@ class Common:
             - Type for "in"-parameter to generated function
             - Type for "out" parameter to generated function
             - Type for use with D-Bus function
-            - function for casting out-type to D-bus type
+            - function for casting D-Bus type to out-type
+            - function for casting out-type to D-Bus type
         """
         if sig == 'b':
-            return ('bool', 'bool', 'bool', "")
+            return ('bool', 'bool', 'bool', "", "")
         elif sig == 'y':
-            return ('guchar', 'guchar', 'guchar', "")
+            return ('guchar', 'guchar', 'guchar', "", "")
         elif sig == 'n':
-            return ('gint16', 'gint16', 'gint16', "")
+            return ('gint16', 'gint16', 'gint16', "", "")
         elif sig == 'q':
-            return ('guint16', 'guint16', 'guint16', "")
+            return ('guint16', 'guint16', 'guint16', "", "")
         elif sig == 'i':
-            return ('gint32', 'gint32', 'gint32', "")
+            return ('gint32', 'gint32', 'gint32', "", "")
         elif sig == 'u':
-            return ('guint32', 'guint32', 'guint32', "")
+            return ('guint32', 'guint32', 'guint32', "", "")
         elif sig == 'x':
-            return ('gint64', 'gint64', 'gint64', "")
+            return ('gint64', 'gint64', 'gint64', "", "")
         elif sig == 't':
-            return ('guint64', 'guint64', 'guint64', "")
+            return ('guint64', 'guint64', 'guint64', "", "")
         elif sig == 'd':
-            return ('double', 'double', 'double', "")
+            return ('double', 'double', 'double', "", "")
         elif sig == 's':
-            return ('std::string', 'std::string', 'Glib::ustring', "Glib::ustring")
+            return ('std::string', 'std::string', 'Glib::ustring', "Glib::ustring", "")
         elif sig == 'o':
-            return ('std::string', 'std::string', 'Glib::ustring', "")
+            return ('std::string', 'std::string', 'Glib::ustring', "", "")
         elif sig == 'g':
-            return ('std::string', 'std::string', 'Glib::ustring', "")
+            return ('std::string', 'std::string', 'Glib::ustring', "", "")
         elif sig == 'ay':
-            return ('std::string', 'std::string', 'std::string', "")
+            return ('std::string', 'std::string', 'std::string', "", "")
         elif sig == 'as':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<Glib::ustring>', "Common::glibStringVecToStdStringVec")
+            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<Glib::ustring>', "Common::glibStringVecToStdStringVec", "Common::stdStringVecToGlibStringVec")
         elif sig == 'ao':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "")
+            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
         elif sig == 'aay':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "")
+            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
         else:
             return (None, None)
 
@@ -84,7 +85,7 @@ class Arg:
             self.name = 'unnamed_arg%d'%arg_number
 
 
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast) = Common.cppSignatureForDbusSignature(self.signature)
+        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = Common.cppSignatureForDbusSignature(self.signature)
 
         self.cpptype_send = lambda name, param: "Glib::Variant<"+self.cpptype_get+"> "+name+" = Glib::Variant<"+self.cpptype_get+">::create (arg_"+param+");"
         self.cppvalue_get = lambda varname, outvar, idx: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n  wrapped.get_child("+varname+","+idx+");\n  "+outvar+" = "+varname+".get();"
@@ -177,7 +178,7 @@ class Property:
         else:
             raise RuntimeError('Invalid access type %s'%self.access)
 
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast) = Common.cppSignatureForDbusSignature(signature)
+        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = Common.cppSignatureForDbusSignature(signature)
 
         if (self.cpptype_in, self.cpptype_out) == (None, None):
             print "Unknown signature: " + self.signature
