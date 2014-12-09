@@ -148,10 +148,109 @@ void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
 //    printStatus ("Boolean", res == expected);
 }
 
-void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result, const std::string &expected) {
+void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    const std::string &expected) {
     proxy->TestPropReadWriteString_set_finish(result);
     std::string actual = proxy->TestPropReadWriteString_get();
     printStatus("Property (write/read): TestPropReadWriteString", actual == expected);
+}
+
+void on_test_prop_read_write_byte_string_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                               const std::vector<std::string> &expected) {
+    proxy->TestPropReadWriteByteStringArray_set_finish(result);
+    std::vector<std::string> actual = proxy->TestPropReadWriteByteStringArray_get();
+    printStatus("Property (write/read): TestPropReadWriteByteStringArray", actual == expected);
+}
+
+void on_test_prop_read_write_object_path_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                               const std::vector<std::string> &expected) {
+    proxy->TestPropReadWriteObjectPathArray_set_finish(result);
+    std::vector<std::string> actual = proxy->TestPropReadWriteObjectPathArray_get();
+    printStatus("Property (write/read): TestPropReadWriteObjectPathArray", actual == expected);
+}
+
+void on_test_prop_read_write_string_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                          const std::vector<std::string> &expected) {
+    proxy->TestPropReadWriteStringArray_set_finish(result);
+    std::vector<std::string> actual = proxy->TestPropReadWriteStringArray_get();
+    printStatus("Property (write/read): TestPropReadWriteStringArray", actual == expected);
+}
+
+void on_test_prop_read_write_byte_string(const Glib::RefPtr<Gio::AsyncResult> result,
+                                         const std::string &expected) {
+    proxy->TestPropReadWriteByteString_set_finish(result);
+    std::string actual = proxy->TestPropReadWriteByteString_get();
+    printStatus("Property (write/read): TestPropReadWriteByteString", actual == expected);
+}
+
+void on_test_prop_read_write_signature(const Glib::RefPtr<Gio::AsyncResult> result,
+                                       const std::string &expected) {
+    proxy->TestPropReadWriteSignature_set_finish(result);
+    std::string actual = proxy->TestPropReadWriteSignature_get();
+    printStatus("Property (write/read): TestPropReadWriteSignature", actual == expected);
+}
+
+void on_test_prop_read_write_double(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    const double &expected) {
+    proxy->TestPropReadWriteDouble_set_finish(result);
+    double actual = proxy->TestPropReadWriteDouble_get();
+    printStatus("Property (write/read): TestPropReadWriteDouble", actual == expected);
+}
+
+void on_test_prop_read_write_uint64(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    const guint64 &expected) {
+    proxy->TestPropReadWriteUInt64_set_finish(result);
+    guint64 actual = proxy->TestPropReadWriteUInt64_get();
+    printStatus("Property (write/read): TestPropReadWriteUInt64", actual == expected);
+}
+
+void on_test_prop_read_write_int64(const Glib::RefPtr<Gio::AsyncResult> result,
+                                   const gint64 &expected) {
+    proxy->TestPropReadWriteInt64_set_finish(result);
+    gint64 actual = proxy->TestPropReadWriteInt64_get();
+    printStatus("Property (write/read): TestPropReadWriteInt64", actual == expected);
+}
+
+void on_test_prop_read_write_uint(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  const guint &expected) {
+    proxy->TestPropReadWriteUInt_set_finish(result);
+    guint actual = proxy->TestPropReadWriteUInt_get();
+    printStatus("Property (write/read): TestPropReadWriteUInt", actual == expected);
+}
+
+void on_test_prop_read_write_int(const Glib::RefPtr<Gio::AsyncResult> result,
+                                 const gint &expected) {
+    proxy->TestPropReadWriteInt_set_finish(result);
+    int actual = proxy->TestPropReadWriteInt_get();
+    printStatus("Property (write/read): TestPropReadWriteInt", actual == expected);
+}
+
+void on_test_prop_read_write_uint16(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    const guint16 &expected) {
+    proxy->TestPropReadWriteUInt16_set_finish(result);
+    guint16 actual = proxy->TestPropReadWriteUInt16_get();
+    printStatus("Property (write/read): TestPropReadWriteUInt16", actual == expected);
+}
+
+void on_test_prop_read_write_int16(const Glib::RefPtr<Gio::AsyncResult> result,
+                                   const gint16 &expected) {
+    proxy->TestPropReadWriteInt16_set_finish(result);
+    gint16 actual = proxy->TestPropReadWriteInt16_get();
+    printStatus("Property (write/read): TestPropReadWriteInt16", actual == expected);
+}
+
+void on_test_prop_read_write_char(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  const guchar &expected) {
+    proxy->TestPropReadWriteChar_set_finish(result);
+    guchar actual = proxy->TestPropReadWriteChar_get();
+    printStatus("Property (write/read): TestPropReadWriteChar", actual == expected);
+}
+
+void on_test_prop_read_write_boolean(const Glib::RefPtr<Gio::AsyncResult> result,
+                                     const guchar &expected) {
+    proxy->TestPropReadWriteBoolean_set_finish(result);
+    bool actual = proxy->TestPropReadWriteBoolean_get();
+    printStatus("Property (write/read): TestPropReadWriteBoolean", actual == expected);
 }
 
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
@@ -304,7 +403,44 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     printStatus("Property (read): TestPropReadWriteChar", proxy->TestPropReadWriteChar_get() == 'C');
     printStatus("Property (read): TestPropReadWriteBoolean", proxy->TestPropReadWriteBoolean_get() == true);
 
+    std::vector<std::string> PropReadWriteByteStringArrayValue2;
+    PropReadWriteByteStringArrayValue2.push_back("Hello");
+    PropReadWriteByteStringArrayValue2.push_back("World");
+    proxy->TestPropReadWriteByteStringArray_set(
+        PropReadWriteByteStringArrayValue2,
+        sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_byte_string_array),
+                   PropReadWriteByteStringArrayValue2));
+
+    std::vector<std::string> PropReadWriteObjectPathArrayValue2;
+    PropReadWriteObjectPathArrayValue2.push_back("/object/path");
+    proxy->TestPropReadWriteObjectPathArray_set(
+        PropReadWriteObjectPathArrayValue2,
+        sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_object_path_array),
+                   PropReadWriteObjectPathArrayValue2));
+
+    std::vector<std::string> PropReadWriteStringArrayValue2;
+    PropReadWriteStringArrayValue2.push_back("Stringarray");
+    proxy->TestPropReadWriteStringArray_set(
+        PropReadWriteStringArrayValue2,
+        sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_string_array),
+                   PropReadWriteStringArrayValue2));
+
+    proxy->TestPropReadWriteByteString_set(
+        "ByteString test",
+        sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_byte_string),
+                   "ByteString test"));
+
+    proxy->TestPropReadWriteSignature_set("b", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_signature), "b"));
     proxy->TestPropReadWriteString_set("Hello world", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_string), "Hello world"));
+    proxy->TestPropReadWriteDouble_set(7331, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_double), 7331));
+    proxy->TestPropReadWriteUInt64_set(7332, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_uint64), 7332));
+    proxy->TestPropReadWriteInt64_set(7333, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_int64), 7333));
+    proxy->TestPropReadWriteUInt_set(7334, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_uint), 7334));
+    proxy->TestPropReadWriteInt_set(7335, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_int), 7335));
+    proxy->TestPropReadWriteUInt16_set(7336, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_uint16), 7336));
+    proxy->TestPropReadWriteInt16_set(7337, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_int16), 7337));
+    proxy->TestPropReadWriteChar_set('X', sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_char), 'X'));
+    proxy->TestPropReadWriteBoolean_set(true, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_boolean), true));
 }
 
 int main() {

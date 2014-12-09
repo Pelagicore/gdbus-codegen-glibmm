@@ -153,6 +153,7 @@ class Signal:
         name = self.name
         self.name_lower = utils.camel_case_to_uscore(name).lower().replace('-', '_')
         self.name_hyphen = self.name_lower.replace('_', '-')
+        self.iface_name = containing_iface.name
 
         arg_count = 0
         for a in self.args:

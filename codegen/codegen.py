@@ -30,6 +30,8 @@ from . import dbustypes
 
 # ----------------------------------------------------------------------------------------------------
 
+SIGNAL_MAX_PARAM = 10
+
 class CodeGenerator:
     def __init__(self, ifaces, namespace, interface_prefix, node_xmls, proxy_h, proxy_cpp, stub_cpp, stub_h, common_cpp, common_h):
         self.ifaces = ifaces
@@ -116,14 +118,32 @@ class CodeGenerator:
                     self.emit_h_p("     void {p.name}_set({p.cpptype_in}, const Gio::SlotAsyncReady &);".format(**locals()))
                     self.emit_h_p("     void {p.name}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&);".format(**locals()))
 
+
+            for s in i.signals:
+                if (len(s.args) > SIGNAL_MAX_PARAM):
+                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    continue
+                args = ""
+
+                for a in s.args:
+                    args += "," + a.cpptype_out
+
+                self.emit_h_p(dedent('''
+                void {s.name}_register(sigc::slot<void {args} >);''').format(**locals()))
+
             self.emit_h_p("")
 
+            # Constructor
             self.emit_h_p(dedent('''
                 void reference() {{}}
                 void unreference() {{}}
+                void handle_signal (const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters){{
+                    g_print(std::string(std::string("Received signal: ") + signal_name + "\\n").c_str());
+                }}
             private:
                 {i.cpp_class_name} (Glib::RefPtr<Gio::DBus::Proxy> proxy) : Glib::ObjectBase() {{
                     this->m_proxy = proxy;
+                    this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{i.cpp_class_name}::handle_signal));
                 }}
                 Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
             }};''').format(**locals()))
@@ -212,6 +232,20 @@ class CodeGenerator:
                     }}
                     ''').format(**locals()))
 
+    def generate_proxy_signal_handlers(self, i):
+            for s in i.signals:
+                if (len(s.args) > SIGNAL_MAX_PARAM):
+                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    continue
+
+                args = ""
+                for a in s.args:
+                    args += "," + a.cpptype_out
+
+                self.emit_cpp_p(dedent('''
+                void {i.cpp_namespace_name}::{s.name}_register(sigc::slot<void {args} >) {{
+                }}''').format(**locals()))
+
     def generate_proxy(self, i):
         self.emit_cpp_p(dedent('''
         void {i.cpp_namespace_name}::createForBus (
@@ -282,6 +316,19 @@ class CodeGenerator:
                 if p.writable:
                     self.emit_h_s("    virtual void {p.name}_set({p.cpptype_in} value) = 0;".format(**locals()))
 
+            for s in i.signals:
+                if (len(s.args) > SIGNAL_MAX_PARAM):
+                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    continue
+                args = []
+
+                for a in s.args:
+                    args.append(a.cpptype_out + " " + a.name)
+
+                argsStr = ", ".join(args)
+                self.emit_h_s(dedent('''
+                void {s.name}_emit({argsStr});''').format(**locals()))
+
             self.emit_h_s(dedent("""
             void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                                  const Glib::ustring& /* name */);
@@ -317,6 +364,7 @@ class CodeGenerator:
             private:
             guint connectionId, registeredId;
             Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
+            Glib::RefPtr<Gio::DBus::Connection> m_connection;
             };"""))
 
             for ns in reversed(i.cpp_namespace_name.split("::")[:-1]):
@@ -328,9 +376,9 @@ class CodeGenerator:
         for i in self.ifaces:
             object_path = "/" + i.name.replace(".", "/")
 
+            # Constructor
             self.emit_cpp_s(dedent('''
             {i.cpp_namespace_name}::{i.cpp_class_name} () : connectionId(0), registeredId(0) {{
-
             }}
             void {i.cpp_namespace_name}::connect (
                 Gio::DBus::BusType busType,
@@ -434,6 +482,26 @@ class CodeGenerator:
             }}
             ''').format(**locals()))
 
+            for s in i.signals:
+                if (len(s.args) > SIGNAL_MAX_PARAM):
+                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    continue
+                args = []
+
+                for a in s.args:
+                    args.append(a.cpptype_out + " " + a.name)
+
+                argsStr = ", ".join(args)
+                self.emit_cpp_s(dedent('''
+                void {i.cpp_namespace_name}::{s.name}_emit({argsStr}) {{
+                    m_connection->emit_signal(
+                        "{object_path}",
+                        "{s.iface_name}",
+                        "{s.name}",
+                        Glib::ustring(),
+                        Glib::VariantContainerBase());
+                }}''').format(**locals()))
+
             self.emit_cpp_s(dedent('''
             void {i.cpp_namespace_name}::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                                      const Glib::ustring& /* name */) {{
@@ -447,6 +515,7 @@ class CodeGenerator:
                     registeredId = connection->register_object("{object_path}",
                     introspection_data->lookup_interface("{i.name}"),
                     *interface_vtable);
+                    m_connection = connection;
                 }}
                 catch(const Glib::Error& ex) {{
                     g_warning("Registration of object failed");
@@ -502,6 +571,7 @@ class CodeGenerator:
         for i in self.ifaces:
             self.generate_method_calls(i)
             self.generate_property_handlers(i)
+            self.generate_proxy_signal_handlers(i)
             self.generate_proxy(i)
 
         # Stub

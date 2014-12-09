@@ -269,7 +269,9 @@ void TestImpl::TestPropReadWriteInt_set(gint32 value) {}
 void TestImpl::TestPropReadWriteUInt16_set(guint16 value) {}
 void TestImpl::TestPropReadWriteInt16_set(gint16 value) {}
 void TestImpl::TestPropReadWriteChar_set(guchar value) {}
-void TestImpl::TestPropReadWriteBoolean_set(bool value) {}
+void TestImpl::TestPropReadWriteBoolean_set(bool value) {
+    TestSignalBoolean_emit(value);
+}
 
 int main() {
     Glib::init();
