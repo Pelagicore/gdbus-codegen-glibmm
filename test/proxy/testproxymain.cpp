@@ -253,6 +253,70 @@ void on_test_prop_read_write_boolean(const Glib::RefPtr<Gio::AsyncResult> result
     printStatus("Property (write/read): TestPropReadWriteBoolean", actual == expected);
 }
 
+void on_test_signal_byte_string_array_cb(const std::vector<std::string> s) {
+    printStatus("Signal TestSignalByteStringArray", true);
+}
+
+void on_test_signal_object_path_array_cb(const std::vector<std::string> s) {
+    printStatus("Signal TestSignalObjectPathArray", true);
+}
+
+void on_test_signal_string_array_cb(const std::vector<std::string> s) {
+    printStatus("Signal TestSignalStringArray", true);
+}
+
+void on_test_signal_byte_string_cb(const std::string s) {
+    printStatus("Signal TestSignalByteString", true);
+}
+
+void on_test_signal_signature_cb(const std::string s) {
+    printStatus("Signal TestSignalSignature", true);
+}
+
+void on_test_signal_object_path_cb(const std::string s) {
+    printStatus("Signal TestSignalObjectPath", true);
+}
+
+void on_test_signal_string_cb(const std::string s) {
+    printStatus("Signal TestSignalString", true);
+}
+
+void on_test_signal_double_cb(const double s) {
+    printStatus("Signal TestSignalDouble", true);
+}
+
+void on_test_signal_uint64_cb(const guint64 s) {
+    printStatus("Signal TestSignalUInt64", true);
+}
+
+void on_test_signal_int64_cb(const gint64 s) {
+    printStatus("Signal TestSignalInt64", true);
+}
+
+void on_test_signal_uint_cb(const guint s) {
+    printStatus("Signal TestSignalUInt", true);
+}
+
+void on_test_signal_int_cb(const gint s) {
+    printStatus("Signal TestSignalInt", true);
+}
+
+void on_test_signal_uint16_cb(const guint16 s) {
+    printStatus("Signal TestSignalUInt16", true);
+}
+
+void on_test_signal_int16_cb(const gint16 s) {
+    printStatus("Signal TestSignalInt16", true);
+}
+
+void on_test_signal_char_cb(const guchar s) {
+    printStatus("Signal TestSignalChar", true);
+}
+
+void on_test_signal_boolean_cb(const bool s) {
+    printStatus("Signal TestSignalBoolean", true);
+}
+
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
     std::vector<std::string> inputStrVec;
@@ -441,6 +505,23 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     proxy->TestPropReadWriteInt16_set(7337, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_int16), 7337));
     proxy->TestPropReadWriteChar_set('X', sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_char), 'X'));
     proxy->TestPropReadWriteBoolean_set(true, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_boolean), true));
+
+    proxy->TestSignalByteStringArray_signal.connect(sigc::ptr_fun(&on_test_signal_byte_string_array_cb));
+    proxy->TestSignalObjectPathArray_signal.connect(sigc::ptr_fun(&on_test_signal_object_path_array_cb));
+    proxy->TestSignalStringArray_signal.connect(sigc::ptr_fun(&on_test_signal_string_array_cb));
+    proxy->TestSignalByteString_signal.connect(sigc::ptr_fun(&on_test_signal_byte_string_cb));
+    proxy->TestSignalSignature_signal.connect(sigc::ptr_fun(&on_test_signal_signature_cb));
+    proxy->TestSignalObjectPath_signal.connect(sigc::ptr_fun(&on_test_signal_object_path_cb));
+    proxy->TestSignalString_signal.connect(sigc::ptr_fun(&on_test_signal_string_cb));
+    proxy->TestSignalDouble_signal.connect(sigc::ptr_fun(&on_test_signal_double_cb));
+    proxy->TestSignalUInt64_signal.connect(sigc::ptr_fun(&on_test_signal_uint64_cb));
+    proxy->TestSignalInt64_signal.connect(sigc::ptr_fun(&on_test_signal_int64_cb));
+    proxy->TestSignalUInt_signal.connect(sigc::ptr_fun(&on_test_signal_uint_cb));
+    proxy->TestSignalInt_signal.connect(sigc::ptr_fun(&on_test_signal_int_cb));
+    proxy->TestSignalUInt16_signal.connect(sigc::ptr_fun(&on_test_signal_uint16_cb));
+    proxy->TestSignalInt16_signal.connect(sigc::ptr_fun(&on_test_signal_int16_cb));
+    proxy->TestSignalChar_signal.connect(sigc::ptr_fun(&on_test_signal_char_cb));
+    proxy->TestSignalBoolean_signal.connect(sigc::ptr_fun(&on_test_signal_boolean_cb));
 }
 
 int main() {

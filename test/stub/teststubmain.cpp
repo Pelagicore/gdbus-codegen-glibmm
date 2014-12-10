@@ -58,7 +58,7 @@ TestImpl::TestImpl() {
     m_PropReadWriteUInt16Value = 1356;
     m_PropReadWriteInt16Value = 1357;
     m_PropReadWriteCharValue = 'C';
-    m_PropReadWriteWriteBooleanValue= true;
+    m_PropReadWriteBooleanValue= true;
 }
 
 void TestImpl::TestByteStringArray (
@@ -232,45 +232,135 @@ gint32 TestImpl::TestPropReadWriteInt_get() {return m_PropReadWriteIntValue;}
 guint16 TestImpl::TestPropReadWriteUInt16_get() {return m_PropReadWriteUInt16Value;}
 gint16 TestImpl::TestPropReadWriteInt16_get() {return m_PropReadWriteInt16Value;}
 guchar TestImpl::TestPropReadWriteChar_get() {return m_PropReadWriteCharValue;}
-bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteWriteBooleanValue;}
+bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteBooleanValue;}
 
-void TestImpl::TestPropWriteByteStringArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropWriteObjectPathArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropWriteStringArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropWriteByteString_set(std::string value) {}
-void TestImpl::TestPropWriteSignature_set(std::string value) {}
-void TestImpl::TestPropWriteObjectPath_set(std::string value) {}
-void TestImpl::TestPropWriteString_set(std::string value) {}
-void TestImpl::TestPropWriteDouble_set(double value) {}
-void TestImpl::TestPropWriteUInt64_set(guint64 value) {}
-void TestImpl::TestPropWriteInt64_set(gint64 value) {}
-void TestImpl::TestPropWriteUInt_set(guint32 value) {}
-void TestImpl::TestPropWriteInt_set(gint32 value) {}
-void TestImpl::TestPropWriteUInt16_set(guint16 value) {}
-void TestImpl::TestPropWriteInt16_set(gint16 value) {}
-void TestImpl::TestPropWriteChar_set(guchar value) {}
-void TestImpl::TestPropWriteBoolean_set(bool value) {}
-void TestImpl::TestPropReadWriteByteStringArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropReadWriteStringArray_set(std::vector<std::string>  value) {}
-void TestImpl::TestPropReadWriteByteString_set(std::string value) {}
-void TestImpl::TestPropReadWriteSignature_set(std::string value) {}
-void TestImpl::TestPropReadWriteObjectPath_set(std::string value) {}
-
-void TestImpl::TestPropReadWriteString_set(std::string value) {
-    m_PropReadWriteStringValue = value;
+bool TestImpl::TestPropWriteByteStringArray_set(std::vector<std::string>  value) {
+    return false;
 }
-
-void TestImpl::TestPropReadWriteDouble_set(double value) {}
-void TestImpl::TestPropReadWriteUInt64_set(guint64 value) {}
-void TestImpl::TestPropReadWriteInt64_set(gint64 value) {}
-void TestImpl::TestPropReadWriteUInt_set(guint32 value) {}
-void TestImpl::TestPropReadWriteInt_set(gint32 value) {}
-void TestImpl::TestPropReadWriteUInt16_set(guint16 value) {}
-void TestImpl::TestPropReadWriteInt16_set(gint16 value) {}
-void TestImpl::TestPropReadWriteChar_set(guchar value) {}
-void TestImpl::TestPropReadWriteBoolean_set(bool value) {
-    TestSignalBoolean_emit(value);
+bool TestImpl::TestPropWriteObjectPathArray_set(std::vector<std::string>  value) {
+    return false;
+}
+bool TestImpl::TestPropWriteStringArray_set(std::vector<std::string>  value) {
+    return false;
+}
+bool TestImpl::TestPropWriteByteString_set(std::string value) {
+    return false;
+}
+bool TestImpl::TestPropWriteSignature_set(std::string value) {
+    return false;
+}
+bool TestImpl::TestPropWriteObjectPath_set(std::string value) {
+    return false;
+}
+bool TestImpl::TestPropWriteString_set(std::string value) {
+    return false;
+}
+bool TestImpl::TestPropWriteDouble_set(double value) {
+    return false;
+}
+bool TestImpl::TestPropWriteUInt64_set(guint64 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteInt64_set(gint64 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteUInt_set(guint32 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteInt_set(gint32 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteUInt16_set(guint16 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteInt16_set(gint16 value) {
+    return false;
+}
+bool TestImpl::TestPropWriteChar_set(guchar value) {
+    return false;
+}
+bool TestImpl::TestPropWriteBoolean_set(bool value) {
+    return false;
+}
+bool TestImpl::TestPropReadWriteByteStringArray_set(std::vector<std::string>  value) {
+    m_PropReadWriteByteStringArrayValue = value;
+    TestSignalByteStringArray_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value) {
+    m_PropReadWriteObjectPathArrayValue = value;
+    TestSignalObjectPathArray_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteStringArray_set(std::vector<std::string>  value) {
+    m_PropReadWriteStringArrayValue = value;
+    TestSignalStringArray_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteByteString_set(std::string value) {
+    m_PropReadWriteByteStringValue = value;
+    TestSignalByteString_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteSignature_set(std::string value) {
+    m_PropReadWriteSignatureValue = value;
+    TestSignalSignature_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteObjectPath_set(std::string value) {
+    m_PropReadWriteObjectPathValue = value;
+    TestSignalObjectPath_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteString_set(std::string value) {
+    m_PropReadWriteStringValue = value;
+    TestSignalString_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteDouble_set(double value) {
+    m_PropReadWriteDoubleValue = value;
+    TestSignalDouble_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteUInt64_set(guint64 value) {
+    m_PropReadWriteUInt64Value = value;
+    TestSignalUInt64_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteInt64_set(gint64 value) {
+    m_PropReadWriteInt64Value = value;
+    TestSignalInt64_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteUInt_set(guint32 value) {
+    m_PropReadWriteUIntValue = value;
+    TestSignalUInt_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteInt_set(gint32 value) {
+    m_PropReadWriteIntValue = value;
+    TestSignalInt_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteUInt16_set(guint16 value) {
+    m_PropReadWriteUInt16Value = value;
+    TestSignalUInt16_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteInt16_set(gint16 value) {
+    m_PropReadWriteInt16Value = value;
+    TestSignalInt16_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteChar_set(guchar value) {
+    m_PropReadWriteCharValue = value;
+    TestSignalChar_signal.emit(value);
+    return true;
+}
+bool TestImpl::TestPropReadWriteBoolean_set(bool value) {
+    m_PropReadWriteBooleanValue = value;
+    TestSignalBoolean_signal.emit(value);
+    return true;
 }
 
 int main() {
