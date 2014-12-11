@@ -556,7 +556,6 @@ class CodeGenerator:
         self.emit_cpp_s(dedent('''
         void {i.cpp_namespace_name}::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                                  const Glib::ustring& /* name */) {{
-            g_print("Bus name acquired!\\n");
             Gio::DBus::InterfaceVTable *interface_vtable =
                   new Gio::DBus::InterfaceVTable(
                         sigc::mem_fun(this, &{i.cpp_class_name}::on_method_call),

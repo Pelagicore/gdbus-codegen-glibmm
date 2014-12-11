@@ -35,6 +35,6 @@ else:
 
 sys.path.insert(0, os.path.abspath(path))
 sys.path.insert(0, os.path.realpath(os.path.dirname(__file__)))
-from codegen import codegen_main
+from codegen_glibmm import codegen_main
 
 sys.exit(codegen_main.codegen_main())
