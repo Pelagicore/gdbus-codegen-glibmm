@@ -325,7 +325,7 @@ class CodeGenerator:
                 for a in m.in_args:
                     self.emit_h_s("    %s %s," % (a.cpptype_in, a.name))
 
-                self.emit_h_s("    const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) = 0;")
+                self.emit_h_s("    const MessageHelper msg) = 0;")
 
             for p in i.properties:
                 if p.readable:
@@ -443,7 +443,7 @@ class CodeGenerator:
             self.emit_cpp_s("        %s(" % m.name)
             for a in m.in_args:
                 self.emit_cpp_s("    %s(p_%s)," % (a.cpptype_get_cast, a.name))
-            self.emit_cpp_s("            invocation);")
+            self.emit_cpp_s("            MessageHelper(invocation));")
             self.emit_cpp_s("    }")
         self.emit_cpp_s("    }")
 
@@ -588,7 +588,7 @@ class CodeGenerator:
             public:
                 template<typename T>
                 static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {
-                    for (int i = 0; i < wrapped.get_n_children (); i++) {
+                    for (uint i = 0; i < wrapped.get_n_children (); i++) {
                         Glib::Variant<T> item;
                         wrapped.get_child(item, i);
                         list.push_back(item.get());
@@ -597,7 +597,7 @@ class CodeGenerator:
 
                 static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {
                     std::vector<Glib::ustring> newStrv;
-                    for (int i = 0; i < strv.size(); i++) {
+                    for (uint i = 0; i < strv.size(); i++) {
                         newStrv.push_back(strv[i]);
                     }
 
@@ -606,13 +606,62 @@ class CodeGenerator:
 
                 static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {
                     std::vector<std::string> newStrv;
-                    for (int i = 0; i < strv.size(); i++) {
+                    for (uint i = 0; i < strv.size(); i++) {
                         newStrv.push_back(strv[i]);
                     }
 
                     return newStrv;
                 }
-        };"""))
+        };
+        class MessageHelper {
+        public:
+            MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
+                m_message(msg) {}
+
+            const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
+                return m_message;
+            }
+        """))
+
+        args = {}
+        for i in self.ifaces:
+            for m in i.methods:
+                argstring = ""
+                argvals = []
+                argdbusvals = []
+                for a in m.out_args:
+                    argstring += a.cpptype_out
+                    argvals.append(a.cpptype_out)
+                    argdbusvals.append(a.cpptype_get)
+                args[argstring] = (argvals, argdbusvals)
+
+        for a in args:
+            a = args[a]
+            (paramtypes, dbustypes) = a
+            templateVars = []
+            params = []
+            for i in range(len(dbustypes)):
+                templateVars.append("typename T%d" % i)
+                params.append(paramtypes[i] + " p%s" % i)
+            if (len(templateVars) > 0):
+                self.emit_h_common("template <"+','.join(templateVars)+">")
+            self.emit_h_common("void ret (" + ', '.join(params) +")")
+            self.emit_h_common("{")
+            self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
+
+            for i in range(len(dbustypes)):
+                self.emit_h_common("    vlist.push_back(Glib::Variant<"+dbustypes[i]+">::create(p{i}));".format(**locals()))
+
+            self.emit_h_common(dedent("""
+                m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+            }
+            """))
+
+        self.emit_h_common(dedent("""
+        private:
+            Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
+        };
+        """))
 
 
     def generate(self):

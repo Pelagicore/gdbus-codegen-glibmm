@@ -96,6 +96,7 @@ def codegen_main():
                                     proxy_h, proxy_cpp,
                                     stub_cpp, stub_h,
                                     common_cpp, common_h);
+        print proxy_h.name
         ret = gen.generate()
         proxy_h.close()
         proxy_cpp.close()
