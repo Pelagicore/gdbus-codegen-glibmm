@@ -63,13 +63,13 @@ TestImpl::TestImpl() {
 
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<std::vector<std::string> >(Param1);
 }
 
 void TestImpl::TestObjectPathArray (
         std::vector<std::string>  Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
+        MessageHelper invocation) {
 
     std::vector<Glib::VariantBase> list;
     GVariantBuilder builder;
@@ -79,91 +79,91 @@ void TestImpl::TestObjectPathArray (
     }
     Glib::VariantBase ret = Glib::wrap(g_variant_builder_end (&builder));
 
-    invocation->return_value(Glib::VariantContainerBase::create_tuple(ret));
+    invocation.ret<Glib::VariantBase>(ret);
 }
 
 void TestImpl::TestStringArray (
         std::vector<std::string>  Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (CodegenTools::stdStringVecToGlibStringVec(Param1), invocation);
+        MessageHelper invocation) {
+    invocation.ret<std::vector<Glib::ustring> >(Param1);
 }
 
 void TestImpl::TestByteString (
         std::string Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<std::string>(Param1);
 }
 
 void TestImpl::TestSignature (
         std::string Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingleRaw (Glib::wrap(g_variant_new_signature(Param1.c_str())), invocation);
+        MessageHelper invocation) {
+    invocation.ret<Glib::VariantBase>(Glib::wrap(g_variant_new_signature(Param1.c_str())));
 }
 
 void TestImpl::TestObjectPath (
         std::string Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingleRaw (Glib::wrap(g_variant_new_object_path(Param1.c_str())), invocation);
+        MessageHelper invocation) {
+    invocation.ret<Glib::VariantBase>(Glib::wrap(g_variant_new_object_path(Param1.c_str())));
 }
 
 void TestImpl::TestString (
         std::string Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Glib::ustring(Param1), invocation);
+        MessageHelper invocation) {
+    invocation.ret<Glib::ustring>(Param1);
 }
 
 void TestImpl::TestDouble (
         double Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<double>(Param1);
 }
 
 void TestImpl::TestUInt64 (
         guint64 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<guint64>(Param1);
 }
 
 void TestImpl::TestInt64 (
         gint64 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<gint64>(Param1);
 }
 
 void TestImpl::TestUInt (
         guint32 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<guint>(Param1);
 }
 
 void TestImpl::TestInt (
         gint32 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<gint>(Param1);
 }
 
 void TestImpl::TestUInt16 (
         guint16 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<guint16>(Param1);
 }
 
 void TestImpl::TestInt16 (
         gint16 Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<gint16>(Param1);
 }
 
 void TestImpl::TestChar (
         guchar Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<guchar>(Param1);
 }
 
 void TestImpl::TestBoolean (
         bool Param1,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {
-    CodegenTools::retSingle (Param1, invocation);
+        MessageHelper invocation) {
+    invocation.ret<bool>(Param1);
 }
 
 void TestImpl::TestAll (
@@ -183,7 +183,7 @@ void TestImpl::TestAll (
         gint16 in_Param14,
         guchar in_Param15,
         bool in_Param16,
-        const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {}
+        MessageHelper invocation) {}
 
 std::vector<std::string>  TestImpl::TestPropReadByteStringArray_get() {return m_PropReadByteStringArrayValue;}
 std::vector<std::string>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}

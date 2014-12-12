@@ -627,29 +627,26 @@ class CodeGenerator:
             for m in i.methods:
                 argstring = ""
                 argvals = []
-                argdbusvals = []
                 for a in m.out_args:
                     argstring += a.cpptype_out
-                    argvals.append(a.cpptype_out)
-                    argdbusvals.append(a.cpptype_get)
-                args[argstring] = (argvals, argdbusvals)
+                    argvals.append(a)
+                args[argstring] = argvals
 
         for a in args:
             a = args[a]
-            (paramtypes, dbustypes) = a
             templateVars = []
             params = []
-            for i in range(len(dbustypes)):
+            for i in range(len(a)):
                 templateVars.append("typename T%d" % i)
-                params.append(paramtypes[i] + " p%s" % i)
+                params.append(a[i].cpptype_out + " p%s" % i)
             if (len(templateVars) > 0):
                 self.emit_h_common("template <"+','.join(templateVars)+">")
             self.emit_h_common("void ret (" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
 
-            for i in range(len(dbustypes)):
-                self.emit_h_common("    vlist.push_back(Glib::Variant<"+dbustypes[i]+" >::create(p{i}));".format(**locals()))
+            for i in range(len(a)):
+                self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[i].cpptype_get+" >::create("+a[i].cpptype_to_dbus+"(p{i})));".format(**locals()))
 
             self.emit_h_common(dedent("""
                 m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));

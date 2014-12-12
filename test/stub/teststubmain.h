@@ -6,52 +6,52 @@ public:
 
     void TestByteStringArray (
             std::vector<std::string>  Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestObjectPathArray (
             std::vector<std::string>  Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestStringArray (
             std::vector<std::string>  Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestByteString (
             std::string Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestSignature (
             std::string Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestObjectPath (
             std::string Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestString (
             std::string Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestDouble (
             double Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestUInt64 (
             guint64 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestInt64 (
             gint64 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestUInt (
             guint32 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestInt (
             gint32 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestUInt16 (
             guint16 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestInt16 (
             gint16 Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestChar (
             guchar Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestBoolean (
             bool Param1,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     void TestAll (
             std::vector<std::string>  in_Param1,
             std::vector<std::string>  in_Param2,
@@ -69,7 +69,7 @@ public:
             gint16 in_Param14,
             guchar in_Param15,
             bool in_Param16,
-            const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation);
+            MessageHelper invocation);
     std::vector<std::string>  TestPropReadByteStringArray_get();
     std::vector<std::string>  TestPropReadObjectPathArray_get();
     std::vector<std::string>  TestPropReadStringArray_get();
