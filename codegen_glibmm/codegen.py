@@ -649,7 +649,7 @@ class CodeGenerator:
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
 
             for i in range(len(dbustypes)):
-                self.emit_h_common("    vlist.push_back(Glib::Variant<"+dbustypes[i]+">::create(p{i}));".format(**locals()))
+                self.emit_h_common("    vlist.push_back(Glib::Variant<"+dbustypes[i]+" >::create(p{i}));".format(**locals()))
 
             self.emit_h_common(dedent("""
                 m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
