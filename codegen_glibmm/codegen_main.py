@@ -55,8 +55,6 @@ def find_prop(iface, prop):
 
 def codegen_main():
     arg_parser = optparse.OptionParser('%prog [options]')
-    arg_parser.add_option('', '--xml-files', metavar='FILE', action='append',
-                          help='D-Bus introspection XML file')
     arg_parser.add_option('', '--interface-prefix', metavar='PREFIX', default='',
                             help='String to strip from D-Bus interface names for code and docs')
     arg_parser.add_option('', '--cpp-namespace', metavar='NAMESPACE', default='',
