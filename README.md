@@ -151,3 +151,28 @@ int main(int argc, char **argv) {
 ```
 
 It can be compiled in a similar fashion as the previous example.
+
+## CMake integration
+Running the code generator from CMake can be done using the following snippet:
+
+```cmake
+SET (CODEGEN gdbus-codegen-glibmm)
+SET (INTROSPECTION_XML ${CMAKE_SOURCE_DIR}/bar.xml)
+
+SET (GENERATED_STUB
+    ${CMAKE_BINARY_DIR}/generated/bar_stub.cpp
+    ${CMAKE_BINARY_DIR}/generated/bar_stub.h
+    ${CMAKE_BINARY_DIR}/generated/bar_common.cpp
+    ${CMAKE_BINARY_DIR}/generated/bar_common.h
+)
+
+ADD_CUSTOM_COMMAND (OUTPUT ${GENERATED_STUB}
+                    COMMAND mkdir -p ${CMAKE_BINARY_DIR}/generated/
+                    COMMAND ${CODEGEN} --generate-cpp-code=${CMAKE_BINARY_DIR}/generated/bar
+                                        ${INTROSPECTION_XML}
+                    DEPENDS ${INTROSPECTION_XML}
+                    COMMENT "Generate the stub for the test program")
+```
+
+The usage of the `$GENERATED_STUB` files will trigger the execution of the code
+generator.
