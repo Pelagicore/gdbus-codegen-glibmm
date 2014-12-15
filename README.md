@@ -8,7 +8,7 @@ glib.
 ## Installing
 `setup.py` is used for installing `gdbus-codegen-glibmm`. This is a Setuptools
 script, and can be invoked accordign to the [Setuptools
-manual](http://pythonhosted.org//setuptools/). In a nutshell, `./setup.py
+manual](http://pythonhosted.org//setuptools/). In a nutshell, `python ./setup.py
 install`
 with sufficient priveleges should get you going.
 
@@ -62,7 +62,7 @@ First, a D-Bus interface must be specified in XML. We will use the following:
 </node>
 ```
 
-The following invocation will generate a stub (and also a proxy, but this is unused in this section):
+In this tutorial we will keep the generated code in a subdirectory called `generated`, so go ahead and `mkdir generated`  before continuing. The following invocation will generate a stub (and also a proxy, but this is unused in this section):
 `gdbus-codegen-glibmm --generate-cpp-code=generated/bar bar.xml`
 
 The generated stub is a virtual class, designed to be implemented by a concrete
@@ -107,7 +107,6 @@ The above example can be compiled using the following command:
 ```bash
 clang++ -I . -I generated `pkg-config --cflags --libs glibmm-2.4 giomm-2.4`
             generated/bar_common.cpp
-            generated/bar_common.h
             generated/bar_stub.cpp
             barimpl.cpp
 ```
