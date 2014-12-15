@@ -583,6 +583,9 @@ class CodeGenerator:
 
     def create_common(self):
         self.emit_h_common(dedent("""
+        #include <iostream>
+        #include "glibmm.h"
+        #include "giomm.h"
         class Common {
             public:
                 template<typename T>
