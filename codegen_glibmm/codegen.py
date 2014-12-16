@@ -488,18 +488,22 @@ class CodeGenerator:
             if p.writable:
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
-                        {p.cpptype_out} val;
-                        val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
+                        try {{
+                            Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
+                            {p.cpptype_out} val;
+                            val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
                 # Only send PropertyChanged for readable signals.. Correct?
                 if p.readable:
                     self.emit_cpp_s(dedent('''
-                            if ({p.name}_set(val)) {{
-                                Glib::Variant<{p.cpptype_get} > castValue_get = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
-                                changedProps["{p.name}"] = castValue_get;
-                            }}
+                                if ({p.name}_set(val)) {{
+                                    Glib::Variant<{p.cpptype_get} > castValue_get = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
+                                    changedProps["{p.name}"] = castValue_get;
+                                }}
                     ''').format(**locals()))
                 self.emit_cpp_s(dedent('''
+                        }} catch (std::bad_cast e) {{
+                            g_warning ("Bad cast when casting {p.name}");
+                        }}
                     }}
                 ''').format(**locals()))
 
