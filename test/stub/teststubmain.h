@@ -120,55 +120,54 @@ public:
     bool TestPropReadWriteBoolean_get();
 
 
-bool TestPropReadByteStringArray_set(std::vector<std::string>  value);
-bool TestPropReadObjectPathArray_set(std::vector<std::string>  value);
-bool TestPropReadStringArray_set(std::vector<std::string>  value);
-bool TestPropReadByteString_set(std::string value);
-bool TestPropReadSignature_set(std::string value);
-bool TestPropReadObjectPath_set(std::string value);
-bool TestPropReadString_set(std::string value);
-bool TestPropReadDouble_set(double value);
-bool TestPropReadUInt64_set(guint64 value);
-bool TestPropReadInt64_set(gint64 value);
-bool TestPropReadUInt_set(guint32 value);
-bool TestPropReadInt_set(gint32 value);
-bool TestPropReadUInt16_set(guint16 value);
-bool TestPropReadInt16_set(gint16 value);
-bool TestPropReadChar_set(guchar value);
-bool TestPropReadBoolean_set(bool value);
-bool TestPropWriteByteStringArray_set(std::vector<std::string>  value);
-bool TestPropWriteObjectPathArray_set(std::vector<std::string>  value);
-bool TestPropWriteStringArray_set(std::vector<std::string>  value);
-bool TestPropWriteByteString_set(std::string value);
-bool TestPropWriteSignature_set(std::string value);
-bool TestPropWriteObjectPath_set(std::string value);
-bool TestPropWriteString_set(std::string value);
-bool TestPropWriteDouble_set(double value);
-bool TestPropWriteUInt64_set(guint64 value);
-bool TestPropWriteInt64_set(gint64 value);
-bool TestPropWriteUInt_set(guint32 value);
-bool TestPropWriteInt_set(gint32 value);
-bool TestPropWriteUInt16_set(guint16 value);
-bool TestPropWriteInt16_set(gint16 value);
-bool TestPropWriteChar_set(guchar value);
-bool TestPropWriteBoolean_set(bool value);
-bool TestPropReadWriteByteStringArray_set(std::vector<std::string>  value);
-bool TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value);
-bool TestPropReadWriteStringArray_set(std::vector<std::string>  value);
-bool TestPropReadWriteByteString_set(std::string value);
-bool TestPropReadWriteSignature_set(std::string value);
-bool TestPropReadWriteObjectPath_set(std::string value);
-bool TestPropReadWriteString_set(std::string value);
-bool TestPropReadWriteDouble_set(double value);
-bool TestPropReadWriteUInt64_set(guint64 value);
-bool TestPropReadWriteInt64_set(gint64 value);
-bool TestPropReadWriteUInt_set(guint32 value);
-bool TestPropReadWriteInt_set(gint32 value);
-bool TestPropReadWriteUInt16_set(guint16 value);
-bool TestPropReadWriteInt16_set(gint16 value);
-bool TestPropReadWriteChar_set(guchar value);
-bool TestPropReadWriteBoolean_set(bool value);
-
+bool TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropWriteObjectPathArray_setHandler(std::vector<std::string>  value);
+bool TestPropWriteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropWriteByteString_setHandler(std::string value);
+bool TestPropWriteSignature_setHandler(std::string value);
+bool TestPropWriteObjectPath_setHandler(std::string value);
+bool TestPropWriteString_setHandler(std::string value);
+bool TestPropWriteDouble_setHandler(double value);
+bool TestPropWriteUInt64_setHandler(guint64 value);
+bool TestPropWriteInt64_setHandler(gint64 value);
+bool TestPropWriteUInt_setHandler(guint32 value);
+bool TestPropWriteInt_setHandler(gint32 value);
+bool TestPropWriteUInt16_setHandler(guint16 value);
+bool TestPropWriteInt16_setHandler(gint16 value);
+bool TestPropWriteChar_setHandler(guchar value);
+bool TestPropWriteBoolean_setHandler(bool value);
+bool TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropReadWriteObjectPathArray_setHandler(std::vector<std::string>  value);
+bool TestPropReadWriteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropReadWriteByteString_setHandler(std::string value);
+bool TestPropReadWriteSignature_setHandler(std::string value);
+bool TestPropReadWriteObjectPath_setHandler(std::string value);
+bool TestPropReadWriteString_setHandler(std::string value);
+bool TestPropReadWriteDouble_setHandler(double value);
+bool TestPropReadWriteUInt64_setHandler(guint64 value);
+bool TestPropReadWriteInt64_setHandler(gint64 value);
+bool TestPropReadWriteUInt_setHandler(guint32 value);
+bool TestPropReadWriteInt_setHandler(gint32 value);
+bool TestPropReadWriteUInt16_setHandler(guint16 value);
+bool TestPropReadWriteInt16_setHandler(gint16 value);
+bool TestPropReadWriteChar_setHandler(guchar value);
+bool TestPropReadWriteBoolean_setHandler(bool value);
+bool TestPropReadByteStringArray_setHandler(std::vector<std::string>  value) {return true;}
+bool TestPropReadObjectPath_setHandler(std::string value) {return true;}
+bool TestPropReadByteString_setHandler(std::string) {return true;}
+bool TestPropReadSignature_setHandler(std::string) {return true;}
+bool TestPropReadString_setHandler(std::string) {return true;}
+bool TestPropReadObjectPathArray_setHandler(std::vector<std::string>  value) {return true;}
+bool TestPropReadStringArray_setHandler(std::vector<std::string>  value) {return true;}
+bool TestPropReadDouble_setHandler(double value) {return true;}
+bool TestPropReadUInt64_setHandler(guint64 value) {return true;}
+bool TestPropReadInt64_setHandler(gint64 value) {return true;}
+bool TestPropReadUInt_setHandler(guint32 value) {return true;}
+bool TestPropReadInt_setHandler(gint32 value) {return true;}
+bool TestPropReadUInt16_setHandler(guint16 value) {return true;}
+bool TestPropReadChar_setHandler(guchar value) {return true;}
+bool TestPropReadInt16_setHandler(gint16 value) {return true;}
+bool TestPropReadBoolean_setHandler(bool value) {return true;}
 
 private:
 std::vector<std::string> m_PropReadByteStringArrayValue;

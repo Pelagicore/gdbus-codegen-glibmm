@@ -234,134 +234,135 @@ gint16 TestImpl::TestPropReadWriteInt16_get() {return m_PropReadWriteInt16Value;
 guchar TestImpl::TestPropReadWriteChar_get() {return m_PropReadWriteCharValue;}
 bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteBooleanValue;}
 
-bool TestImpl::TestPropWriteByteStringArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPathArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteObjectPathArray_setHandler(std::vector<std::string>  value) {
     return false;
 }
-bool TestImpl::TestPropWriteStringArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteStringArray_setHandler(std::vector<std::string>  value) {
     return false;
 }
-bool TestImpl::TestPropWriteByteString_set(std::string value) {
+bool TestImpl::TestPropWriteByteString_setHandler(std::string value) {
     return false;
 }
-bool TestImpl::TestPropWriteSignature_set(std::string value) {
+bool TestImpl::TestPropWriteSignature_setHandler(std::string value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPath_set(std::string value) {
+bool TestImpl::TestPropWriteObjectPath_setHandler(std::string value) {
     return false;
 }
-bool TestImpl::TestPropWriteString_set(std::string value) {
+bool TestImpl::TestPropWriteString_setHandler(std::string value) {
     return false;
 }
-bool TestImpl::TestPropWriteDouble_set(double value) {
+bool TestImpl::TestPropWriteDouble_setHandler(double value) {
     return false;
 }
-bool TestImpl::TestPropWriteUInt64_set(guint64 value) {
+bool TestImpl::TestPropWriteUInt64_setHandler(guint64 value) {
     return false;
 }
-bool TestImpl::TestPropWriteInt64_set(gint64 value) {
+bool TestImpl::TestPropWriteInt64_setHandler(gint64 value) {
     return false;
 }
-bool TestImpl::TestPropWriteUInt_set(guint32 value) {
+bool TestImpl::TestPropWriteUInt_setHandler(guint32 value) {
     return false;
 }
-bool TestImpl::TestPropWriteInt_set(gint32 value) {
+bool TestImpl::TestPropWriteInt_setHandler(gint32 value) {
     return false;
 }
-bool TestImpl::TestPropWriteUInt16_set(guint16 value) {
+bool TestImpl::TestPropWriteUInt16_setHandler(guint16 value) {
     return false;
 }
-bool TestImpl::TestPropWriteInt16_set(gint16 value) {
+bool TestImpl::TestPropWriteInt16_setHandler(gint16 value) {
     return false;
 }
-bool TestImpl::TestPropWriteChar_set(guchar value) {
+bool TestImpl::TestPropWriteChar_setHandler(guchar value) {
     return false;
 }
-bool TestImpl::TestPropWriteBoolean_set(bool value) {
+bool TestImpl::TestPropWriteBoolean_setHandler(bool value) {
     return false;
 }
-bool TestImpl::TestPropReadWriteByteStringArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value) {
     m_PropReadWriteByteStringArrayValue = value;
     TestSignalByteStringArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPathArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteObjectPathArray_setHandler(std::vector<std::string>  value) {
     m_PropReadWriteObjectPathArrayValue = value;
     TestSignalObjectPathArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteStringArray_set(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteStringArray_setHandler(std::vector<std::string>  value) {
     m_PropReadWriteStringArrayValue = value;
     TestSignalStringArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteByteString_set(std::string value) {
+bool TestImpl::TestPropReadWriteByteString_setHandler(std::string value) {
     m_PropReadWriteByteStringValue = value;
     TestSignalByteString_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteSignature_set(std::string value) {
+bool TestImpl::TestPropReadWriteSignature_setHandler(std::string value) {
     m_PropReadWriteSignatureValue = value;
     TestSignalSignature_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPath_set(std::string value) {
+bool TestImpl::TestPropReadWriteObjectPath_setHandler(std::string value) {
     m_PropReadWriteObjectPathValue = value;
     TestSignalObjectPath_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteString_set(std::string value) {
+bool TestImpl::TestPropReadWriteString_setHandler(std::string value) {
     m_PropReadWriteStringValue = value;
     TestSignalString_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteDouble_set(double value) {
+bool TestImpl::TestPropReadWriteDouble_setHandler(double value) {
     m_PropReadWriteDoubleValue = value;
     TestSignalDouble_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteUInt64_set(guint64 value) {
+bool TestImpl::TestPropReadWriteUInt64_setHandler(guint64 value) {
     m_PropReadWriteUInt64Value = value;
     TestSignalUInt64_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteInt64_set(gint64 value) {
+bool TestImpl::TestPropReadWriteInt64_setHandler(gint64 value) {
     m_PropReadWriteInt64Value = value;
     TestSignalInt64_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteUInt_set(guint32 value) {
+bool TestImpl::TestPropReadWriteUInt_setHandler(guint32 value) {
     m_PropReadWriteUIntValue = value;
     TestSignalUInt_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteInt_set(gint32 value) {
+bool TestImpl::TestPropReadWriteInt_setHandler(gint32 value) {
     m_PropReadWriteIntValue = value;
     TestSignalInt_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteUInt16_set(guint16 value) {
+bool TestImpl::TestPropReadWriteUInt16_setHandler(guint16 value) {
     m_PropReadWriteUInt16Value = value;
     TestSignalUInt16_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteInt16_set(gint16 value) {
+bool TestImpl::TestPropReadWriteInt16_setHandler(gint16 value) {
     m_PropReadWriteInt16Value = value;
     TestSignalInt16_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteChar_set(guchar value) {
+bool TestImpl::TestPropReadWriteChar_setHandler(guchar value) {
     m_PropReadWriteCharValue = value;
     TestSignalChar_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteBoolean_set(bool value) {
+bool TestImpl::TestPropReadWriteBoolean_setHandler(bool value) {
     m_PropReadWriteBooleanValue = value;
     TestSignalBoolean_signal.emit(value);
     return true;
 }
+
 
 int main() {
     Glib::init();

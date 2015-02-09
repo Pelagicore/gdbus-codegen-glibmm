@@ -220,9 +220,9 @@ class CodeGenerator:
                         paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}(value))));
                         Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
                         m_proxy->call("org.freedesktop.DBus.Properties.Set",
-                                      cb,
-                                      params
-                                      );
+                                        cb,
+                                        params
+                                        );
                     }}
 
                     void {i.cpp_namespace_name}::{p.name}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {{
@@ -316,6 +316,8 @@ class CodeGenerator:
             self.emit_h_s("public:")
             self.emit_h_s("%s ();" %i.cpp_class_name)
             self.emit_h_s("void connect (Gio::DBus::BusType, std::string);")
+            for  p in i.properties:
+                self.emit_h_s("bool {p.name}_set({p.cpptype_in} value);".format(**locals()))
 
             self.emit_h_s("protected:")
             for m in i.methods:
@@ -328,10 +330,14 @@ class CodeGenerator:
                 self.emit_h_s("    const MessageHelper msg) = 0;")
 
             for p in i.properties:
-                if p.readable:
-                    self.emit_h_s("    virtual {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
-                if p.writable:
-                    self.emit_h_s("    virtual bool {p.name}_set({p.cpptype_in} value) = 0;".format(**locals()))
+                self.emit_h_s("virtual {p.cpptype_out} {p.name}_get() = 0;".format(**locals()))
+                self.emit_h_s(dedent('''
+                    /* Handle the setting of a property
+                        * This method will be called as a result of a call to <PropName>_set
+                        * and should implement the actual setting of the property value.
+                        * Should return true on sucess and false otherwise.
+                        */'''))
+                self.emit_h_s("virtual bool {p.name}_setHandler({p.cpptype_in} value) = 0;".format(**locals()))
 
             for s in i.signals:
                 if (len(s.args) > SIGNAL_MAX_PARAM):
@@ -379,10 +385,15 @@ class CodeGenerator:
                    const Glib::ustring& interface_name,
                    const Glib::ustring& property_name,
                    const Glib::VariantBase& value);
+
             private:
+            bool emitSignal(const std::string& propName, Glib::VariantBase& value);
+
             guint connectionId, registeredId;
             Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
             Glib::RefPtr<Gio::DBus::Connection> m_connection;
+            std::string m_objectPath;
+            std::string m_interfaceName;
             };"""))
 
             for ns in reversed(i.cpp_namespace_name.split("::")[:-1]):
@@ -391,9 +402,11 @@ class CodeGenerator:
             self.emit_h_s("")
 
     def define_types_stub_creation(self, i):
+        object_path = "/" + i.name.replace(".", "/")
+
         # Constructor
         self.emit_cpp_s(dedent('''
-        {i.cpp_namespace_name}::{i.cpp_class_name} () : connectionId(0), registeredId(0) {{
+        {i.cpp_namespace_name}::{i.cpp_class_name} () : connectionId(0), registeredId(0), m_objectPath("{object_path}"), m_interfaceName("{i.name}") {{
         ''').format(**locals()))
         for s in i.signals:
             if (len(s.args) > SIGNAL_MAX_PARAM):
@@ -479,49 +492,24 @@ class CodeGenerator:
                const Glib::ustring& interface_name,
                const Glib::ustring& property_name,
                const Glib::VariantBase& value) {{
-            std::map<Glib::ustring, Glib::VariantBase> changedProps;
-            std::vector<Glib::ustring> changedPropsNoValue;
-
         ''').format(**locals()))
 
         for p in i.properties:
-            if p.writable:
-                self.emit_cpp_s(dedent('''
-                    if (property_name.compare("{p.name}") == 0) {{
-                        try {{
-                            Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
-                            {p.cpptype_out} val;
-                            val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
-                # Only send PropertyChanged for readable signals.. Correct?
-                if p.readable:
-                    self.emit_cpp_s(dedent('''
-                                if ({p.name}_set(val)) {{
-                                    Glib::Variant<{p.cpptype_get} > castValue_get = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
-                                    changedProps["{p.name}"] = castValue_get;
-                                }}
-                    ''').format(**locals()))
-                self.emit_cpp_s(dedent('''
-                        }} catch (std::bad_cast e) {{
-                            g_warning ("Bad cast when casting {p.name}");
-                        }}
+            self.emit_cpp_s(dedent('''
+                if (property_name.compare("{p.name}") == 0) {{
+                    try {{
+                        Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
+                        {p.cpptype_out} val;
+                        val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
+            self.emit_cpp_s('''        {p.name}_set(val);'''.format(**locals()))
+            self.emit_cpp_s(dedent('''
+                    }} catch (std::bad_cast e) {{
+                        g_warning ("Bad cast when casting {p.name}");
                     }}
-                ''').format(**locals()))
+                }}
+            ''').format(**locals()))
 
         self.emit_cpp_s(dedent('''
-            Glib::Variant<std::map<Glib::ustring,  Glib::VariantBase> > changedPropsVar = Glib::Variant<std::map <Glib::ustring, Glib::VariantBase> >::create (changedProps);
-            Glib::Variant<std::vector<Glib::ustring> > changedPropsNoValueVar = Glib::Variant<std::vector<Glib::ustring> >::create(changedPropsNoValue);
-            std::vector<Glib::VariantBase> ps;
-            ps.push_back(Glib::Variant<Glib::ustring>::create(interface_name));
-            ps.push_back(changedPropsVar);
-            ps.push_back(changedPropsNoValueVar);
-            Glib::VariantContainerBase propertiesChangedVariant = Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(ps); 
-
-            connection->emit_signal(
-                object_path,
-                "org.freedesktop.DBus.Properties",
-                "PropertiesChanged",
-                Glib::ustring(),
-                propertiesChangedVariant);
             return true;
         }}
         ''').format(**locals()))
@@ -566,7 +554,7 @@ class CodeGenerator:
                         sigc::mem_fun(this, &{i.cpp_class_name}::on_interface_get_property),
                         sigc::mem_fun(this, &{i.cpp_class_name}::on_interface_set_property));
             try {{
-                registeredId = connection->register_object("{object_path}",
+                registeredId = connection->register_object(m_objectPath,
                 introspection_data->lookup_interface("{i.name}"),
                 *interface_vtable);
                 m_connection = connection;
@@ -584,6 +572,44 @@ class CodeGenerator:
                           const Glib::ustring& /* name */) {{}}
         ''').format(**locals()))
 
+    def define_types_property_setters_stub(self, i):
+        for p in i.properties:
+            self.emit_cpp_s(dedent('''
+            bool {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value) {{
+                if ({p.name}_setHandler(value)) {{
+                    Glib::Variant<{p.cpptype_get} > value_get = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
+                    emitSignal("{p.name}", value_get);
+                    return true;
+                }}
+
+                return false;
+            }}''').format(**locals()))
+
+    def define_types_emit_stub(self, i):
+            self.emit_cpp_s(dedent('''
+            bool {i.cpp_namespace_name}::emitSignal(const std::string& propName, Glib::VariantBase& value) {{
+                std::map<Glib::ustring, Glib::VariantBase> changedProps;
+                std::vector<Glib::ustring> changedPropsNoValue;
+
+                changedProps[propName] = value;
+
+                Glib::Variant<std::map<Glib::ustring,  Glib::VariantBase> > changedPropsVar = Glib::Variant<std::map <Glib::ustring, Glib::VariantBase> >::create (changedProps);
+                Glib::Variant<std::vector<Glib::ustring> > changedPropsNoValueVar = Glib::Variant<std::vector<Glib::ustring> >::create(changedPropsNoValue);
+                std::vector<Glib::VariantBase> ps;
+                ps.push_back(Glib::Variant<Glib::ustring>::create(m_interfaceName));
+                ps.push_back(changedPropsVar);
+                ps.push_back(changedPropsNoValueVar);
+                Glib::VariantContainerBase propertiesChangedVariant = Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(ps);
+
+                m_connection->emit_signal(
+                    m_objectPath,
+                    "org.freedesktop.DBus.Properties",
+                    "PropertiesChanged",
+                    Glib::ustring(),
+                    propertiesChangedVariant);
+
+                return true;
+            }}''').format(**locals()))
 
     def create_common(self):
         self.emit_h_common(dedent("""
@@ -688,6 +714,8 @@ class CodeGenerator:
             self.define_types_property_set_handlers_stub(i)
             self.define_types_signal_emitters_stub(i)
             self.define_types_dbus_callbacks_stub(i)
+            self.define_types_property_setters_stub(i)
+            self.define_types_emit_stub(i)
 
         # Common
         self.create_common()
