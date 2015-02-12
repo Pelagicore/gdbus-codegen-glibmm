@@ -185,6 +185,13 @@ void TestImpl::TestAll (
         bool in_Param16,
         MessageHelper invocation) {}
 
+void TestImpl::TestTriggerInternalPropertyChange(gint32 newValue,
+                                                 MessageHelper invocation) {
+    TestPropInternalReadPropertyChange_set (newValue);
+    TestPropInternalReadWritePropertyChange_set (newValue);
+    invocation.ret();
+}
+
 std::vector<std::string>  TestImpl::TestPropReadByteStringArray_get() {return m_PropReadByteStringArrayValue;}
 std::vector<std::string>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
 std::vector<std::string>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}
@@ -233,7 +240,10 @@ guint16 TestImpl::TestPropReadWriteUInt16_get() {return m_PropReadWriteUInt16Val
 gint16 TestImpl::TestPropReadWriteInt16_get() {return m_PropReadWriteInt16Value;}
 guchar TestImpl::TestPropReadWriteChar_get() {return m_PropReadWriteCharValue;}
 bool TestImpl::TestPropReadWriteBoolean_get() {return m_PropReadWriteBooleanValue;}
+gint32 TestImpl::TestPropInternalReadPropertyChange_get() {return m_TestPropInternalReadPropertyChangeValue;}
+gint32 TestImpl::TestPropInternalReadWritePropertyChange_get() {return m_TestPropInternalReadWritePropertyChangeValue;}
 
+/* These are not used, so we just return a dummy value here */
 bool TestImpl::TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value) {
     return false;
 }
@@ -282,6 +292,8 @@ bool TestImpl::TestPropWriteChar_setHandler(guchar value) {
 bool TestImpl::TestPropWriteBoolean_setHandler(bool value) {
     return false;
 }
+/* End return dummy value warning */
+
 bool TestImpl::TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value) {
     m_PropReadWriteByteStringArrayValue = value;
     TestSignalByteStringArray_signal.emit(value);
@@ -363,6 +375,15 @@ bool TestImpl::TestPropReadWriteBoolean_setHandler(bool value) {
     return true;
 }
 
+bool TestImpl::TestPropInternalReadPropertyChange_setHandler(gint32 value) {
+    m_TestPropInternalReadPropertyChangeValue = value;
+    return true;
+}
+
+bool TestImpl::TestPropInternalReadWritePropertyChange_setHandler(gint32 value) {
+    m_TestPropInternalReadWritePropertyChangeValue = value;
+    return true;
+}
 
 int main() {
     Glib::init();

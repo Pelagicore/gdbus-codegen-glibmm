@@ -70,6 +70,10 @@ public:
             guchar in_Param15,
             bool in_Param16,
             MessageHelper invocation);
+    void TestTriggerInternalPropertyChange(gint32 newValue,
+                                           MessageHelper invocation);
+
+
     std::vector<std::string>  TestPropReadByteStringArray_get();
     std::vector<std::string>  TestPropReadObjectPathArray_get();
     std::vector<std::string>  TestPropReadStringArray_get();
@@ -118,6 +122,8 @@ public:
     gint16 TestPropReadWriteInt16_get();
     guchar TestPropReadWriteChar_get();
     bool TestPropReadWriteBoolean_get();
+    gint32 TestPropInternalReadPropertyChange_get();
+    gint32 TestPropInternalReadWritePropertyChange_get();
 
 
 bool TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value);
@@ -168,6 +174,8 @@ bool TestPropReadUInt16_setHandler(guint16 value) {return true;}
 bool TestPropReadChar_setHandler(guchar value) {return true;}
 bool TestPropReadInt16_setHandler(gint16 value) {return true;}
 bool TestPropReadBoolean_setHandler(bool value) {return true;}
+bool TestPropInternalReadPropertyChange_setHandler(gint32 value);
+bool TestPropInternalReadWritePropertyChange_setHandler(gint32 value);
 
 private:
 std::vector<std::string> m_PropReadByteStringArrayValue;
@@ -218,4 +226,6 @@ guint16 m_PropReadWriteUInt16Value;
 gint16 m_PropReadWriteInt16Value;
 guchar m_PropReadWriteCharValue;
 bool m_PropReadWriteBooleanValue;
+gint32 m_TestPropInternalReadPropertyChangeValue;
+gint32 m_TestPropInternalReadWritePropertyChangeValue;
 };

@@ -118,6 +118,10 @@
         <arg type="b"   name="out_Param16" direction="out"></arg>
     </method>
 
+    <method name="TestTriggerInternalPropertyChange">
+        <arg type="i" name="NewPropertyValue"></arg>
+    </method>
+
     <!-- Signals -->
 
     <signal name="TestSignalByteStringArray">
@@ -222,22 +226,23 @@
 
     <!-- Properties -->
 
-    <property name="TestPropReadByteStringArray" type="aay" access="read" />
-    <property name="TestPropReadObjectPathArray" type="ao"  access="read" />
-    <property name="TestPropReadStringArray"     type="as"  access="read" />
-    <property name="TestPropReadByteString"      type="ay"  access="read" />
-    <property name="TestPropReadSignature"       type="g"   access="read" />
-    <property name="TestPropReadObjectPath"      type="o"   access="read" />
-    <property name="TestPropReadString"          type="s"   access="read" />
-    <property name="TestPropReadDouble"          type="d"   access="read" />
-    <property name="TestPropReadUInt64"          type="t"   access="read" />
-    <property name="TestPropReadInt64"           type="x"   access="read" />
-    <property name="TestPropReadUInt"            type="u"   access="read" />
-    <property name="TestPropReadInt"             type="i"   access="read" />
-    <property name="TestPropReadUInt16"          type="q"   access="read" />
-    <property name="TestPropReadInt16"           type="n"   access="read" />
-    <property name="TestPropReadChar"            type="y"   access="read" />
-    <property name="TestPropReadBoolean"         type="b"   access="read" />
+    <property name="TestPropReadByteStringArray"        type="aay" access="read" />
+    <property name="TestPropReadObjectPathArray"        type="ao"  access="read" />
+    <property name="TestPropReadStringArray"            type="as"  access="read" />
+    <property name="TestPropReadByteString"             type="ay"  access="read" />
+    <property name="TestPropReadSignature"              type="g"   access="read" />
+    <property name="TestPropReadObjectPath"             type="o"   access="read" />
+    <property name="TestPropReadString"                 type="s"   access="read" />
+    <property name="TestPropReadDouble"                 type="d"   access="read" />
+    <property name="TestPropReadUInt64"                 type="t"   access="read" />
+    <property name="TestPropReadInt64"                  type="x"   access="read" />
+    <property name="TestPropReadUInt"                   type="u"   access="read" />
+    <property name="TestPropReadInt"                    type="i"   access="read" />
+    <property name="TestPropReadUInt16"                 type="q"   access="read" />
+    <property name="TestPropReadInt16"                  type="n"   access="read" />
+    <property name="TestPropReadChar"                   type="y"   access="read" />
+    <property name="TestPropReadBoolean"                type="b"   access="read" />
+    <property name="TestPropInternalReadPropertyChange" type="i"   access="read" />
 
     <property name="TestPropWriteByteStringArray" type="aay" access="write" />
     <property name="TestPropWriteObjectPathArray" type="ao"  access="write" />
@@ -256,21 +261,23 @@
     <property name="TestPropWriteChar"            type="y"   access="write" />
     <property name="TestPropWriteBoolean"         type="b"   access="write" />
 
-    <property name="TestPropReadWriteByteStringArray" type="aay" access="readwrite" />
-    <property name="TestPropReadWriteObjectPathArray" type="ao"  access="readwrite" />
-    <property name="TestPropReadWriteStringArray"     type="as"  access="readwrite" />
-    <property name="TestPropReadWriteByteString"      type="ay"  access="readwrite" />
-    <property name="TestPropReadWriteSignature"       type="g"   access="readwrite" />
-    <property name="TestPropReadWriteObjectPath"      type="o"   access="readwrite" />
-    <property name="TestPropReadWriteString"          type="s"   access="readwrite" />
-    <property name="TestPropReadWriteDouble"          type="d"   access="readwrite" />
-    <property name="TestPropReadWriteUInt64"          type="t"   access="readwrite" />
-    <property name="TestPropReadWriteInt64"           type="x"   access="readwrite" />
-    <property name="TestPropReadWriteUInt"            type="u"   access="readwrite" />
-    <property name="TestPropReadWriteInt"             type="i"   access="readwrite" />
-    <property name="TestPropReadWriteUInt16"          type="q"   access="readwrite" />
-    <property name="TestPropReadWriteInt16"           type="n"   access="readwrite" />
-    <property name="TestPropReadWriteChar"            type="y"   access="readwrite" />
-    <property name="TestPropReadWriteBoolean"         type="b"   access="readwrite" />
+    <property name="TestPropReadWriteByteStringArray"           type="aay" access="readwrite" />
+    <property name="TestPropReadWriteObjectPathArray"           type="ao"  access="readwrite" />
+    <property name="TestPropReadWriteStringArray"               type="as"  access="readwrite" />
+    <property name="TestPropReadWriteByteString"                type="ay"  access="readwrite" />
+    <property name="TestPropReadWriteSignature"                 type="g"   access="readwrite" />
+    <property name="TestPropReadWriteObjectPath"                type="o"   access="readwrite" />
+    <property name="TestPropReadWriteString"                    type="s"   access="readwrite" />
+    <property name="TestPropReadWriteDouble"                    type="d"   access="readwrite" />
+    <property name="TestPropReadWriteUInt64"                    type="t"   access="readwrite" />
+    <property name="TestPropReadWriteInt64"                     type="x"   access="readwrite" />
+    <property name="TestPropReadWriteUInt"                      type="u"   access="readwrite" />
+    <property name="TestPropReadWriteInt"                       type="i"   access="readwrite" />
+    <property name="TestPropReadWriteUInt16"                    type="q"   access="readwrite" />
+    <property name="TestPropReadWriteInt16"                     type="n"   access="readwrite" />
+    <property name="TestPropReadWriteChar"                      type="y"   access="readwrite" />
+    <property name="TestPropReadWriteBoolean"                   type="b"   access="readwrite" />
+    <property name="TestPropInternalReadWritePropertyChange"    type="i"   access="readwrite" />
+
   </interface>
 </node>

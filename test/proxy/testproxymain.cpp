@@ -148,6 +148,14 @@ void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
 //    printStatus ("Boolean", res == expected);
 }
 
+void on_test_trigger_internal_property_change_finished (const Glib::RefPtr<Gio::AsyncResult> result,
+                                                        const int expected) {
+    proxy->TestTriggerInternalPropertyChange_finish(result);
+
+    printStatus ("Internal property (read)", proxy->TestPropInternalReadPropertyChange_get() == expected);
+    printStatus ("Internal property (write/read)", proxy->TestPropInternalReadWritePropertyChange_get() == expected);
+}
+
 void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result,
                                     const std::string &expected) {
     proxy->TestPropReadWriteString_set_finish(result);
@@ -410,6 +418,9 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 //                   booleanValue,
 //                   sigc::ptr_fun(&on_test_all_finished));
 //
+
+    /* Test setting internal properties using a function */
+    proxy->TestTriggerInternalPropertyChange(42, sigc::bind(sigc::ptr_fun(&on_test_trigger_internal_property_change_finished), 42));
 
     std::vector<std::string> PropReadByteStringArrayValue;
     PropReadByteStringArrayValue.push_back("Value1");
