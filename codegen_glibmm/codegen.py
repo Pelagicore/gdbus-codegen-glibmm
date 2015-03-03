@@ -110,6 +110,7 @@ class CodeGenerator:
         generate a complete class declaration, which is implemented in the
         corresponding cpp file
         """
+        self.emit_h_p("#pragma once")
         self.emit_h_p("#include <string>")
         self.emit_h_p("#include <glibmm.h>")
         self.emit_h_p("#include <giomm.h>")
@@ -376,6 +377,7 @@ class CodeGenerator:
         the header file for the stub.
         """
         self.emit_h_s(dedent('''
+        #pragma once
         #include <string>
         #include <glibmm.h>
         #include <giomm.h>
@@ -713,6 +715,7 @@ class CodeGenerator:
 
     def create_common(self):
         self.emit_h_common(dedent("""
+        #pragma once
         #include <iostream>
         #include "glibmm.h"
         #include "giomm.h"
