@@ -1,4 +1,5 @@
 #include "many-types_proxy.h"
+#include "another-service_proxy.h"
 #include "tools.h"
 #include <iostream>
 #include <iomanip>

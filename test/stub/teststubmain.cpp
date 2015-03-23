@@ -63,13 +63,13 @@ TestImpl::TestImpl() {
 
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<std::vector<std::string> >(Param1);
 }
 
 void TestImpl::TestObjectPathArray (
         std::vector<std::string>  Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
 
     std::vector<Glib::VariantBase> list;
     GVariantBuilder builder;
@@ -84,85 +84,85 @@ void TestImpl::TestObjectPathArray (
 
 void TestImpl::TestStringArray (
         std::vector<std::string>  Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<std::vector<Glib::ustring> >(Param1);
 }
 
 void TestImpl::TestByteString (
         std::string Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<std::string>(Param1);
 }
 
 void TestImpl::TestSignature (
         std::string Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<Glib::VariantBase>(Glib::wrap(g_variant_new_signature(Param1.c_str())));
 }
 
 void TestImpl::TestObjectPath (
         std::string Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<Glib::VariantBase>(Glib::wrap(g_variant_new_object_path(Param1.c_str())));
 }
 
 void TestImpl::TestString (
         std::string Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<Glib::ustring>(Param1);
 }
 
 void TestImpl::TestDouble (
         double Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<double>(Param1);
 }
 
 void TestImpl::TestUInt64 (
         guint64 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<guint64>(Param1);
 }
 
 void TestImpl::TestInt64 (
         gint64 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<gint64>(Param1);
 }
 
 void TestImpl::TestUInt (
         guint32 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<guint>(Param1);
 }
 
 void TestImpl::TestInt (
         gint32 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<gint>(Param1);
 }
 
 void TestImpl::TestUInt16 (
         guint16 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<guint16>(Param1);
 }
 
 void TestImpl::TestInt16 (
         gint16 Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<gint16>(Param1);
 }
 
 void TestImpl::TestChar (
         guchar Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<guchar>(Param1);
 }
 
 void TestImpl::TestBoolean (
         bool Param1,
-        MessageHelper invocation) {
+        TestMessageHelper invocation) {
     invocation.ret<bool>(Param1);
 }
 
@@ -183,10 +183,10 @@ void TestImpl::TestAll (
         gint16 in_Param14,
         guchar in_Param15,
         bool in_Param16,
-        MessageHelper invocation) {}
+        TestMessageHelper invocation) {}
 
 void TestImpl::TestTriggerInternalPropertyChange(gint32 newValue,
-                                                 MessageHelper invocation) {
+                                                 TestMessageHelper invocation) {
     TestPropInternalReadPropertyChange_set (newValue);
     TestPropInternalReadWritePropertyChange_set (newValue);
     invocation.ret();
