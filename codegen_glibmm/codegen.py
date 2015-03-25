@@ -211,11 +211,11 @@ class CodeGenerator:
             if (len(m.in_args) > 1):
                 self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
                 for a in m.in_args:
-                    self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name)+ "")
+                    self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
                     self.emit_cpp_p("  params.push_back (%s_param);" % a.name)
             elif (len (m.in_args) == 1):
                 for a in m.in_args:
-                    self.emit_cpp_p("  " + a.cpptype_send("params", a.name)+ "")
+                    self.emit_cpp_p("  " + a.cpptype_send("params", a.name, i.cpp_class_name)+ "")
 
             if (len(m.in_args) > 0):
                 self.emit_cpp_p("  base = Glib::VariantContainerBase::create_tuple (params);")
@@ -241,7 +241,7 @@ class CodeGenerator:
 
             for x in range (0, len(m.out_args)):
                 a = m.out_args[x]
-                self.emit_cpp_p("  " + a.cppvalue_get (a.name + "_variant", "out_" + a.name, str(x)))
+                self.emit_cpp_p("  " + a.cppvalue_get (a.name + "_variant", "out_" + a.name, str(x), i.cpp_class_name))
                 self.emit_cpp_p("")
             self.emit_cpp_p("}")
             self.emit_cpp_p("")
@@ -257,9 +257,17 @@ class CodeGenerator:
                             m_proxy->get_cached_property(b, "{p.name}");
                         }} else {{
                             g_print ("Todo: lookup value\\n");
-                        }}
-                        return {p.cpptype_get_cast}(b.get());
+                        }}''').format(**locals()))
+                    cpptype_cast = p.cpptype_get_cast
+                    # Prepend the class name if this is the generic "Common" class
+                    if cpptype_cast.startswith("Common"):
+                        cpptype_cast = i.cpp_class_name + cpptype_cast
+                    self.emit_cpp_p(dedent('''
+                        return {cpptype_cast}(b.get());
                     }}''').format(**locals()))
+                cpptype_to_dbus = p.cpptype_to_dbus
+                if cpptype_to_dbus.startswith("Common"):
+                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 if p.writable:
                     self.emit_cpp_p(dedent('''
 
@@ -267,7 +275,7 @@ class CodeGenerator:
                         std::vector<Glib::VariantBase> paramsVec;
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{i.name}"));
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{p.name}"));
-                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}(value))));
+                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}(value))));
                         Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
                         m_proxy->call("org.freedesktop.DBus.Properties.Set",
                                         cb,
@@ -315,7 +323,11 @@ class CodeGenerator:
                 self.emit_cpp_p("        parameters.get_child(base_%s, %d);" % (a.name, ai))
                 self.emit_cpp_p("        %s p_%s;" % (a.cpptype_get, a.name))
                 self.emit_cpp_p("        p_%s = base_%s.get();" % (a.name, a.name))
-                paramsList.append("%s(p_%s)" % (a.cpptype_get_cast, a.name))
+                cpptype_cast = a.cpptype_get_cast
+                # Prepend the class name if this is the generic "Common" class
+                if cpptype_cast.startswith("Common"):
+                    cpptype_cast = i.cpp_class_name + cpptype_cast
+                paramsList.append("%s(p_%s)" % (cpptype_cast, a.name))
 
             paramsList = ', '.join(paramsList)
             self.emit_cpp_p('''        {s.name}_signal.emit({paramsList});'''.format(**locals()))
@@ -407,7 +419,7 @@ class CodeGenerator:
                 for a in m.in_args:
                     self.emit_h_s("    %s %s," % (a.cpptype_in, a.name))
 
-                self.emit_h_s("    const MessageHelper msg) = 0;")
+                self.emit_h_s("    const {i.cpp_class_name}MessageHelper msg) = 0;".format(**locals()))
 
             # Generate getters and setters for all properties
             for p in i.properties:
@@ -553,8 +565,12 @@ class CodeGenerator:
                 self.emit_cpp_s("")
             self.emit_cpp_s("        %s(" % m.name)
             for a in m.in_args:
-                self.emit_cpp_s("    %s(p_%s)," % (a.cpptype_get_cast, a.name))
-            self.emit_cpp_s("            MessageHelper(invocation));")
+                cpptype_cast = a.cpptype_get_cast
+                # Prepend the class name if this is the generic "Common" class
+                if cpptype_cast.startswith("Common"):
+                    cpptype_cast = i.cpp_class_name + cpptype_cast
+                self.emit_cpp_s("    %s(p_%s)," % (cpptype_cast, a.name))
+            self.emit_cpp_s("            {i.cpp_class_name}MessageHelper(invocation));".format(**locals()))
             self.emit_cpp_s("    }")
         self.emit_cpp_s("    }")
 
@@ -572,9 +588,13 @@ class CodeGenerator:
 
         for p in i.properties:
             if p.readable:
+                cpptype_to_dbus = p.cpptype_to_dbus
+                # Prepend the class name if this is the generic "Common" class
+                if cpptype_to_dbus.startswith("Common"):
+                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
+                        property = Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}({p.name}_get()));
                     }}
                 ''').format(**locals()))
 
@@ -597,8 +617,13 @@ class CodeGenerator:
                 if (property_name.compare("{p.name}") == 0) {{
                     try {{
                         Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
-                        {p.cpptype_out} val;
-                        val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
+                        {p.cpptype_out} val;''').format(**locals()))
+            cpptype_cast = p.cpptype_get_cast
+            # Prepend the class name if this is the generic "Common" class
+            if cpptype_cast.startswith("Common"):
+                cpptype_cast = i.cpp_class_name + cpptype_cast
+            self.emit_cpp_s(dedent('''
+                        val = {cpptype_cast}(castValue.get());''').format(**locals()))
             self.emit_cpp_s('''        {p.name}_set(val);'''.format(**locals()))
             self.emit_cpp_s(dedent('''
                     }} catch (std::bad_cast e) {{
@@ -633,8 +658,12 @@ class CodeGenerator:
             std::vector<Glib::VariantBase> paramsList;''').format(**locals()))
 
             for a in s.args:
+                cpptype_to_dbus = a.cpptype_to_dbus
+                # Prepend the class name if this is the generic "Common" class
+                if cpptype_to_dbus.startswith("Common"):
+                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
-                paramsList.push_back(Glib::Variant<{a.cpptype_get} >::create({a.cpptype_to_dbus}({a.name})));;
+                paramsList.push_back(Glib::Variant<{a.cpptype_get} >::create({cpptype_to_dbus}({a.name})));;
                 ''').format(**locals()))
 
             self.emit_cpp_s(dedent('''      m_connection->emit_signal(
@@ -676,10 +705,14 @@ class CodeGenerator:
 
     def define_types_property_setters_stub(self, i):
         for p in i.properties:
+            cpptype_to_dbus = p.cpptype_to_dbus
+            # Prepend the class name if this is the generic "Common" class
+            if cpptype_to_dbus.startswith("Common"):
+                cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
             self.emit_cpp_s(dedent('''
             bool {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value) {{
                 if ({p.name}_setHandler(value)) {{
-                    Glib::Variant<{p.cpptype_get} > value_get = Glib::Variant<{p.cpptype_get} >::create({p.cpptype_to_dbus}({p.name}_get()));
+                    Glib::Variant<{p.cpptype_get} > value_get = Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}({p.name}_get()));
                     emitSignal("{p.name}", value_get);
                     return true;
                 }}
@@ -713,76 +746,84 @@ class CodeGenerator:
                 return true;
             }}''').format(**locals()))
 
-    def create_common(self):
+    def create_common_intro(self):
         self.emit_h_common(dedent("""
         #pragma once
         #include <iostream>
         #include "glibmm.h"
         #include "giomm.h"
-        class Common {
+        """))
+
+    def create_common_classes(self, i):
+        self.emit_h_common(dedent("""
+        class {i.cpp_class_name}Common {{
             public:
                 template<typename T>
-                static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {
-                    for (uint i = 0; i < wrapped.get_n_children (); i++) {
+                static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
+                    for (uint i = 0; i < wrapped.get_n_children (); i++) {{
                         Glib::Variant<T> item;
                         wrapped.get_child(item, i);
                         list.push_back(item.get());
-                    }
-                }
+                    }}
+                }}
 
-                static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {
+                static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
                     std::vector<Glib::ustring> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {
+                    for (uint i = 0; i < strv.size(); i++) {{
                         newStrv.push_back(strv[i]);
-                    }
+                    }}
 
                     return newStrv;
-                }
+                }}
 
-                static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {
+                static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
                     std::vector<std::string> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {
+                    for (uint i = 0; i < strv.size(); i++) {{
                         newStrv.push_back(strv[i]);
-                    }
+                    }}
 
                     return newStrv;
-                }
-        };
-        class MessageHelper {
+                }}
+        }};
+        class {i.cpp_class_name}MessageHelper {{
         public:
-            MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
-                m_message(msg) {}
+            {i.cpp_class_name}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
+                m_message(msg) {{}}
 
-            const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
+            const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {{
                 return m_message;
-            }
-        """))
+            }}
+        """).format(**locals()))
 
         args = {}
-        for i in self.ifaces:
-            for m in i.methods:
-                argstring = ""
-                argvals = []
-                for a in m.out_args:
-                    argstring += a.cpptype_out
-                    argvals.append(a)
-                args[argstring] = argvals
+        for m in i.methods:
+            argstring = ""
+            argvals = []
+            for a in m.out_args:
+                argstring += a.cpptype_out
+                argvals.append(a)
+            args[argstring] = argvals
+
 
         for a in args:
             a = args[a]
             templateVars = []
             params = []
-            for i in range(len(a)):
-                templateVars.append("typename T%d" % i)
-                params.append(a[i].cpptype_out + " p%s" % i)
+            for index in range(len(a)):
+                templateVars.append("typename T%d" % index)
+                params.append(a[index].cpptype_out + " p%s" % index)
             if (len(templateVars) > 0):
                 self.emit_h_common("template <"+','.join(templateVars)+">")
             self.emit_h_common("void ret (" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
 
-            for i in range(len(a)):
-                self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[i].cpptype_get+" >::create("+a[i].cpptype_to_dbus+"(p{i})));".format(**locals()))
+            for index in range(len(a)):
+                cpptype_to_dbus = a[index].cpptype_to_dbus
+                # Prepend the class name if this is the generic "Common" class
+                if cpptype_to_dbus.startswith("Common"):
+                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
+                self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].cpptype_get+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
 
             self.emit_h_common(dedent("""
                 m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
@@ -821,4 +862,6 @@ class CodeGenerator:
             self.define_types_emit_stub(i)
 
         # Common
-        self.create_common()
+        self.create_common_intro()
+        for i in self.ifaces:
+            self.create_common_classes(i)

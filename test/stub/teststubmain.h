@@ -6,52 +6,52 @@ public:
 
     void TestByteStringArray (
             std::vector<std::string>  Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestObjectPathArray (
             std::vector<std::string>  Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestStringArray (
             std::vector<std::string>  Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestByteString (
             std::string Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestSignature (
             std::string Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestObjectPath (
             std::string Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestString (
             std::string Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestDouble (
             double Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestUInt64 (
             guint64 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestInt64 (
             gint64 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestUInt (
             guint32 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestInt (
             gint32 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestUInt16 (
             guint16 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestInt16 (
             gint16 Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestChar (
             guchar Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestBoolean (
             bool Param1,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestAll (
             std::vector<std::string>  in_Param1,
             std::vector<std::string>  in_Param2,
@@ -69,9 +69,9 @@ public:
             gint16 in_Param14,
             guchar in_Param15,
             bool in_Param16,
-            MessageHelper invocation);
+            TestMessageHelper invocation);
     void TestTriggerInternalPropertyChange(gint32 newValue,
-                                           MessageHelper invocation);
+                                           TestMessageHelper invocation);
 
 
     std::vector<std::string>  TestPropReadByteStringArray_get();
