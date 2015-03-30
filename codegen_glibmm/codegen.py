@@ -746,7 +746,7 @@ class CodeGenerator:
                 return true;
             }}''').format(**locals()))
 
-    def create_common_intro(self):
+    def generate_common_intro(self):
         self.emit_h_common(dedent("""
         #pragma once
         #include <iostream>
@@ -754,7 +754,7 @@ class CodeGenerator:
         #include "giomm.h"
         """))
 
-    def create_common_classes(self, i):
+    def generate_common_classes(self, i):
         self.emit_h_common(dedent("""
         class {i.cpp_class_name}Common {{
             public:
@@ -862,6 +862,6 @@ class CodeGenerator:
             self.define_types_emit_stub(i)
 
         # Common
-        self.create_common_intro()
+        self.generate_common_intro()
         for i in self.ifaces:
-            self.create_common_classes(i)
+            self.generate_common_classes(i)
