@@ -132,20 +132,25 @@ class CodeGenerator:
 
                 static Glib::RefPtr<{i.cpp_class_name}> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);''').format(**locals()))
 
+            self.emit_h_p("")
+
             # Generate all method calls for this interface
             for m in i.methods:
                 # Async call method
                 self.emit_h_p("    void %s (" % m.name)
                 for a in m.in_args:
-                    self.emit_h_p("      %s %s," % (a.cpptype_in, a.name))
-                self.emit_h_p("      const Gio::SlotAsyncReady &slot);\n")
+                    self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
+                self.emit_h_p("        const Gio::SlotAsyncReady &slot);")
+
                 self.emit_h_p("")
 
                 # _finish method
                 self.emit_h_p("    void %s_finish (" % m.name)
                 for a in m.out_args:
-                    self.emit_h_p("      %s& %s," % (a.cpptype_out, a.name))
-                self.emit_h_p("      const Glib::RefPtr<Gio::AsyncResult>& res);")
+                    self.emit_h_p("        %s& %s," % (a.cpptype_out, a.name))
+                self.emit_h_p("        const Glib::RefPtr<Gio::AsyncResult>& res);")
+
+                self.emit_h_p("")
 
             # Generate all properties for this interface
             for p in i.properties:
@@ -170,8 +175,6 @@ class CodeGenerator:
                     params.append(a.cpptype_out)
                 params = ", ".join(params)
                 self.emit_h_p(dedent('''sigc::signal<void, {params} > {s.name}_signal;''').format(**locals()))
-
-            self.emit_h_p("")
 
             # Reference handling (needed for creating Glib::RefPtr, signal handler and private constructor
             self.emit_h_p(dedent('''
@@ -200,48 +203,48 @@ class CodeGenerator:
         # Generate method implementation for all methods in Interface
         for m in i.methods:
             # async begin
-            self.emit_cpp_p('void %s::%s (' % (i.cpp_namespace_name, m.camel_name))
+            self.emit_cpp_p('void %s::%s(' % (i.cpp_namespace_name, m.camel_name))
             for a in m.in_args:
-                self.emit_cpp_p('    %s arg_%s,'%(a.cpptype_in, a.name))
-            self.emit_cpp_p( '    const Gio::SlotAsyncReady &callback)'
-                         '{')
-
-            self.emit_cpp_p("  Glib::VariantContainerBase base;");
+                self.emit_cpp_p('        %s arg_%s,'%(a.cpptype_in, a.name))
+            self.emit_cpp_p('        const Gio::SlotAsyncReady &callback)')
+            self.emit_cpp_p('{')
+            self.emit_cpp_p("    Glib::VariantContainerBase base;");
 
             if (len(m.in_args) > 1):
                 self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
                 for a in m.in_args:
                     self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
-                    self.emit_cpp_p("  params.push_back (%s_param);" % a.name)
+                    self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
             elif (len (m.in_args) == 1):
                 for a in m.in_args:
-                    self.emit_cpp_p("  " + a.cpptype_send("params", a.name, i.cpp_class_name)+ "")
+                    self.emit_cpp_p("    " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
 
             if (len(m.in_args) > 0):
-                self.emit_cpp_p("  base = Glib::VariantContainerBase::create_tuple (params);")
+                self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
 
-            self.emit_cpp_p('  m_proxy->call (')
-            self.emit_cpp_p('    "%s",'%(m.name))
-
-            self.emit_cpp_p('    callback,')
-            self.emit_cpp_p('    base);')
+            self.emit_cpp_p('    m_proxy->call(')
+            self.emit_cpp_p('        "%s",'%(m.name))
+            self.emit_cpp_p('        callback,')
+            self.emit_cpp_p('        base);')
             self.emit_cpp_p('}'
                          '')
 
+            self.emit_h_p("")
+
             # Generate _finish function for above method call
-            self.emit_cpp_p('void %s::%s_finish (' %(i.cpp_namespace_name, m.camel_name))
+            self.emit_cpp_p('void %s::%s_finish(' %(i.cpp_namespace_name, m.camel_name))
             for a in m.out_args:
-                self.emit_cpp_p('     %s& out_%s,'%(a.cpptype_out, a.name))
+                self.emit_cpp_p('        %s& out_%s,'%(a.cpptype_out, a.name))
             self.emit_cpp_p(dedent('''
-            const Glib::RefPtr<Gio::AsyncResult>& result)
+                    const Glib::RefPtr<Gio::AsyncResult>& result)
             {{
-              Glib::VariantContainerBase wrapped;
-              wrapped = m_proxy->call_finish(result);
+                Glib::VariantContainerBase wrapped;
+                wrapped = m_proxy->call_finish(result);
             ''').format(**locals()))
 
-            for x in range (0, len(m.out_args)):
+            for x in range(0, len(m.out_args)):
                 a = m.out_args[x]
-                self.emit_cpp_p("  " + a.cppvalue_get (a.name + "_variant", "out_" + a.name, str(x), i.cpp_class_name))
+                self.emit_cpp_p("    " + a.cppvalue_get(a.name + "_variant", "out_" + a.name, str(x), i.cpp_class_name))
                 self.emit_cpp_p("")
             self.emit_cpp_p("}")
             self.emit_cpp_p("")
@@ -318,7 +321,7 @@ class CodeGenerator:
             # Generate marshalling code, converting GVariants to std:: types
             for ai in range(len(s.args)):
                 a = s.args[ai]
-                self.emit_cpp_p("        if (parameters.get_n_children() != "+str(len(s.args))+") { return; }")
+                self.emit_cpp_p("        if (parameters.get_n_children() != " + str(len(s.args)) + ") { return; }")
                 self.emit_cpp_p("        Glib::Variant<%s > base_%s;" % (a.cpptype_get, a.name))
                 self.emit_cpp_p("        parameters.get_child(base_%s, %d);" % (a.name, ai))
                 self.emit_cpp_p("        %s p_%s;" % (a.cpptype_get, a.name))
@@ -551,25 +554,35 @@ class CodeGenerator:
                            const Glib::ustring& /* interface_name */,
                            const Glib::ustring& method_name,
                            const Glib::VariantContainerBase& parameters,
-                           const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation) {{
+                           const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation)
+        {{
         ''').format(**locals()))
         for m in i.methods:
             #TODO: Make more thorough checks here. Method name is not enough.
             self.emit_cpp_s("    if (method_name.compare(\"%s\") == 0) {" % m.name)
             for ai in range(len(m.in_args)):
                 a = m.in_args[ai]
-                self.emit_cpp_s("        Glib::Variant<%s > base_%s;" % (a.cpptype_get, a.name))
-                self.emit_cpp_s("        parameters.get_child(base_%s, %d);" % (a.name, ai))
-                self.emit_cpp_s("        %s p_%s;" % (a.cpptype_get, a.name))
-                self.emit_cpp_s("        p_%s = base_%s.get();" % (a.name, a.name))
-                self.emit_cpp_s("")
+                if a.signature == "v":
+                    # Variants are deconstructed differently than the other types
+                    self.emit_cpp_s("        Glib::VariantContainerBase containerBase = parameters;")
+                    self.emit_cpp_s("        GVariant *output%s;" % (ai))
+                    self.emit_cpp_s('        g_variant_get_child(containerBase.gobj(), %s, "v", &output%s);' % (ai, ai))
+                    self.emit_cpp_s("        Glib::VariantBase p_%s;" % (a.name))
+                    self.emit_cpp_s("        p_%s = Glib::VariantBase(output%s);" % (a.name, ai))
+                    self.emit_cpp_s("")
+                else:
+                    self.emit_cpp_s("        Glib::Variant<%s > base_%s;" % (a.cpptype_get, a.name))
+                    self.emit_cpp_s("        parameters.get_child(base_%s, %d);" % (a.name, ai))
+                    self.emit_cpp_s("        %s p_%s;" % (a.cpptype_get, a.name))
+                    self.emit_cpp_s("        p_%s = base_%s.get();" % (a.name, a.name))
+                    self.emit_cpp_s("")
             self.emit_cpp_s("        %s(" % m.name)
             for a in m.in_args:
                 cpptype_cast = a.cpptype_get_cast
                 # Prepend the class name if this is the generic "Common" class
                 if cpptype_cast.startswith("Common"):
                     cpptype_cast = i.cpp_class_name + cpptype_cast
-                self.emit_cpp_s("    %s(p_%s)," % (cpptype_cast, a.name))
+                self.emit_cpp_s("            %s(p_%s)," % (cpptype_cast, a.name))
             self.emit_cpp_s("            {i.cpp_class_name}MessageHelper(invocation));".format(**locals()))
             self.emit_cpp_s("    }")
         self.emit_cpp_s("    }")
@@ -814,7 +827,7 @@ class CodeGenerator:
                 params.append(a[index].cpptype_out + " p%s" % index)
             if (len(templateVars) > 0):
                 self.emit_h_common("template <"+','.join(templateVars)+">")
-            self.emit_h_common("void ret (" + ', '.join(params) +")")
+            self.emit_h_common("void ret(" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
 
@@ -823,7 +836,10 @@ class CodeGenerator:
                 # Prepend the class name if this is the generic "Common" class
                 if cpptype_to_dbus.startswith("Common"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
-                self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].cpptype_get+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
+                if a[index].signature == "v":
+                    self.emit_h_common("    vlist.push_back(p{index});".format(**locals()))
+                else:
+                    self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].cpptype_get+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
 
             self.emit_h_common(dedent("""
                 m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));

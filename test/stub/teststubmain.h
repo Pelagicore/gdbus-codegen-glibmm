@@ -4,6 +4,9 @@ class TestImpl : public org::gdbus::codegen::glibmm::Test {
 public:
     TestImpl();
 
+    void TestVariant (
+            Glib::VariantBase Param1,
+            TestMessageHelper invocation);
     void TestByteStringArray (
             std::vector<std::string>  Param1,
             TestMessageHelper invocation);

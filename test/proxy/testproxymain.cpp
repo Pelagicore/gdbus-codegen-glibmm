@@ -14,6 +14,33 @@ void printStatus (std::string message, bool isOK) {
     }
 }
 
+void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::VariantBase expectedBase) {
+    Glib::VariantBase base;
+    proxy->TestVariant_finish(base, result);
+
+    // The proxy code has extracted the variant which should be a string so we can cast it now
+    std::string value;
+    try {
+        Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(base);
+        value = res.get();
+    } catch (std::bad_cast e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    // The convoluted way we pass the variant means we will have to extract the child in this
+    // particular way in order to keep the correct type of variant
+    GVariant *output;
+    g_variant_get_child(expectedBase.gobj(), 0, "v", &output);
+
+    // Construct a variant base of the variant again so it can be cast in the normal way
+    expectedBase = Glib::VariantBase(output);
+
+    Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(expectedBase);
+    std::string expectedValue = res.get();
+
+    printStatus("Variant", value == expectedValue);
+}
+
 void on_test_byte_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
     std::vector<std::string> res;
     proxy->TestByteStringArray_finish(res, result);
@@ -328,6 +355,9 @@ void on_test_signal_boolean_cb(const bool s) {
 
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
+    Glib::Variant<Glib::Variant<Glib::ustring> > variantValue;
+    variantValue = Glib::Variant<Glib::Variant<Glib::ustring> >::create(Glib::Variant<Glib::ustring>::create("string-as-variant"));
+
     std::vector<std::string> inputStrVec;
     inputStrVec.push_back(__FUNCTION__);
 
@@ -351,6 +381,9 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Proxy */ 
     proxy = org::gdbus::codegen::glibmm::Test::createForBusFinish(result);
+
+    /* Variant */
+    proxy->TestVariant(variantValue, sigc::bind(sigc::ptr_fun(&on_test_variant_finished), variantValue));
 
     /* Byte string array */
     proxy->TestByteStringArray(inputStrVec, sigc::bind(sigc::ptr_fun(&on_test_byte_string_array_finished), inputStrVec));

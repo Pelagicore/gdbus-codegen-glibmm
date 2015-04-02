@@ -2,6 +2,11 @@
                       "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.gdbus.codegen.glibmm.Test">
+    <method name="TestVariant">
+       <arg type="v" name="Param1" direction="in"></arg>
+       <arg type="v" name="Param2" direction="out"></arg>
+    </method>
+
     <method name="TestByteStringArray">
         <arg type="aay" name="Param1" direction="in"></arg>
         <arg type="aay" name="Param2" direction="out"></arg>

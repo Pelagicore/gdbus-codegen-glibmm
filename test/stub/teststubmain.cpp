@@ -61,6 +61,24 @@ TestImpl::TestImpl() {
     m_PropReadWriteBooleanValue= true;
 }
 
+void TestImpl::TestVariant(Glib::VariantBase Param1, TestMessageHelper invocation)
+{
+    std::cout << Param1.get_type_string() << std::endl;
+
+    std::string value;
+    try {
+        Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(Param1);
+        value = res.get();
+    } catch (std::bad_cast e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    Glib::Variant<Glib::Variant<Glib::ustring> > variantValue;
+    variantValue = Glib::Variant<Glib::Variant<Glib::ustring> >::create(Glib::Variant<Glib::ustring>::create(value));
+
+    invocation.ret<Glib::VariantBase>(variantValue);
+}
+
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
         TestMessageHelper invocation) {
