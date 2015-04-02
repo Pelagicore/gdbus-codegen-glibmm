@@ -63,8 +63,6 @@ TestImpl::TestImpl() {
 
 void TestImpl::TestVariant(Glib::VariantBase Param1, TestMessageHelper invocation)
 {
-    std::cout << Param1.get_type_string() << std::endl;
-
     std::string value;
     try {
         Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(Param1);
