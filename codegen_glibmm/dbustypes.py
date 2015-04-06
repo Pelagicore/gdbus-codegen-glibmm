@@ -82,7 +82,7 @@ class Arg:
         self.signature = signature
         self.annotations = []
 
-    def post_process(self, interface_prefix, cns, cns_upper, cns_lower, arg_number):
+    def post_process(self, arg_number):
         if self.name == None:
             self.name = 'unnamed_arg%d'%arg_number
 
@@ -141,11 +141,11 @@ class Method:
 
         arg_count = 0
         for a in self.in_args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
         for a in self.out_args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
 class Signal:
@@ -162,7 +162,7 @@ class Signal:
 
         arg_count = 0
         for a in self.args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
 class Property:
@@ -203,7 +203,7 @@ class Property:
 
         # recalculate arg
         self.arg.annotations = self.annotations
-        self.arg.post_process(interface_prefix, cns, cns_upper, cns_lower, 0)
+        self.arg.post_process(0)
 
 class Interface:
     def __init__(self, name):
