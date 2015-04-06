@@ -229,7 +229,7 @@ class CodeGenerator:
             self.emit_cpp_p('}'
                          '')
 
-            self.emit_h_p("")
+            self.emit_cpp_p("")
 
             # Generate _finish function for above method call
             self.emit_cpp_p('void %s::%s_finish(' %(i.cpp_namespace_name, m.camel_name))
