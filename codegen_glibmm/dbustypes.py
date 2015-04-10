@@ -65,8 +65,10 @@ class Common:
             return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
         elif sig == 'aay':
             return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
+        elif sig == 'v':
+            return ('Glib::VariantBase', 'Glib::VariantBase', '', '', '')
         else:
-            return (None, None)
+            return (None, None, None, None, None)
 
 class Annotation:
     def __init__(self, key, value):
@@ -80,35 +82,39 @@ class Arg:
         self.signature = signature
         self.annotations = []
 
-    def post_process(self, interface_prefix, cns, cns_upper, cns_lower, arg_number):
+    def post_process(self, arg_number):
         if self.name == None:
             self.name = 'unnamed_arg%d'%arg_number
 
 
         (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = Common.cppSignatureForDbusSignature(self.signature)
 
-        self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<"+self.cpptype_get+"> "+name+" = Glib::Variant<"+self.cpptype_get+">::create (arg_"+param+");"
-        self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n  wrapped.get_child("+varname+","+idx+");\n  "+outvar+" = "+varname+".get();"
+        self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<"+self.cpptype_get+"> "+name+" = Glib::Variant<"+self.cpptype_get+">::create(arg_"+param+");"
+        self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n    wrapped.get_child("+varname+","+idx+");\n    "+outvar+" = "+varname+".get();"
 
         if self.signature == 'as':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create (" + cpp_class_name + "Common::stdStringVecToGlibStringVec (arg_" + param + "));"
+            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create(" + cpp_class_name + "Common::stdStringVecToGlibStringVec(arg_" + param + "));"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "  wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "  " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
+                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
+                                 "    " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
         elif self.signature == 'ao':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector< std::string > >::create_from_object_paths (arg_"+param+");"
+            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_"+param+");"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "  wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "  " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
+                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
+                                 "    " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
         elif self.signature == 'aay':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector<std::string> >::create (arg_"+param+");"
+            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector<std::string> >::create(arg_"+param+");"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "  wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "  " + cpp_class_name + "Common::unwrapList("+outvar+", "+varname+");"
+                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
+                                 "    " + cpp_class_name + "Common::unwrapList("+outvar+", "+varname+");"
         elif self.signature == 'g':
             self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantStringBase "+name+";\n Glib::VariantStringBase::create_signature("+name+", arg_"+param+".c_str());"
         elif self.signature == 'o':
             self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantStringBase "+name+";\n Glib::VariantStringBase::create_object_path("+name+", arg_"+param+".c_str());"
+        elif self.signature == 'v':
+            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantBase params = arg_" + param + ";"
+            self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: 'GVariant *output;\n' +\
+                                '    g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n\n' + "    " + outvar + ' = Glib::VariantBase(output);'
 
         if (self.cpptype_in, self.cpptype_out) == (None, None):
             print "Unknown signature: " + self.signature
@@ -135,11 +141,11 @@ class Method:
 
         arg_count = 0
         for a in self.in_args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
         for a in self.out_args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
 class Signal:
@@ -156,7 +162,7 @@ class Signal:
 
         arg_count = 0
         for a in self.args:
-            a.post_process(interface_prefix, cns, cns_upper, cns_lower, arg_count)
+            a.post_process(arg_count)
             arg_count += 1
 
 class Property:
@@ -197,7 +203,7 @@ class Property:
 
         # recalculate arg
         self.arg.annotations = self.annotations
-        self.arg.post_process(interface_prefix, cns, cns_upper, cns_lower, 0)
+        self.arg.post_process(0)
 
 class Interface:
     def __init__(self, name):
