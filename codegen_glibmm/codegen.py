@@ -136,11 +136,67 @@ class CodeGenerator:
 
             # Generate all method calls for this interface
             for m in i.methods:
-                # Async call method
-                self.emit_h_p("    void %s (" % m.name)
+                # Flag method as templated if there is a variant arg
+                templated = False
                 for a in m.in_args:
-                    self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
-                self.emit_h_p("        const Gio::SlotAsyncReady &slot);")
+                    if "v" in a.signature:
+                        templated = True
+
+                if templated is True:
+                    # Template methods needs to be implemented in the header
+
+                    # Begin method signature
+                    self.emit_h_p("    template <typename T>")
+                    self.emit_h_p("    void %s(" % m.name)
+                    for a in m.in_args:
+                        # Variants needs special attention
+                        if "v" in a.signature:
+                            self.emit_h_p("        T %s," % (a.name))
+                        else:
+                            self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
+                    self.emit_h_p("        const Gio::SlotAsyncReady &callback)")
+                    self.emit_h_p("    {")
+                    # End method signature
+
+                     #TODO: Seems like the handling of one param could be made the same as for more than one params?
+
+                    #Begin method implementation
+                    self.emit_h_p("        Glib::VariantContainerBase base;");
+                    if (len(m.in_args) > 1):
+                        self.emit_h_p("        std::vector<Glib::VariantBase> params;")
+                        for a in m.in_args:
+                            if "v" in a.signature:
+                                self.emit_h_p("        Glib::Variant<Glib::Variant<T> > %s_variantValue;" % (a.name))
+                                self.emit_h_p("        %s_variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s_param));" % (a.name, a.name))
+                                self.emit_h_p("        params.push_back(%s_variantValue);" % (a.name))
+                            else:
+                                self.emit_h_p("        " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name) + "")
+                                self.emit_h_p("        params.push_back(%s_param);" % (a.name))
+                    elif (len(m.in_args) == 1):
+                        for a in m.in_args:
+                            if "v" in a.signature:
+                                self.emit_h_p("        Glib::Variant<Glib::Variant<T> > variantValue;")
+                                self.emit_h_p("        variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s));" % (a.name))
+                                self.emit_h_p("        Glib::VariantBase params = variantValue;")
+                            else:
+                                self.emit_h_p("        " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
+                    if (len(m.in_args) > 0):
+                        self.emit_h_p("        base = Glib::VariantContainerBase::create_tuple(params);")
+
+                    self.emit_h_p(dedent('''
+                            m_proxy->call(
+                                "{m.name}",
+                                callback,
+                                base);
+                        }}''').format(**locals()))
+                    # End method implementation
+
+                else:
+                    # Async call method, the non template code just have their method definitions in the header
+                    self.emit_h_p("    void %s (" % m.name)
+                    for a in m.in_args:
+                        self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
+                    self.emit_h_p("        const Gio::SlotAsyncReady &slot);")
 
                 self.emit_h_p("")
 
@@ -202,36 +258,44 @@ class CodeGenerator:
         """
         # Generate method implementation for all methods in Interface
         for m in i.methods:
-            # async begin
-            self.emit_cpp_p('void %s::%s(' % (i.cpp_namespace_name, m.camel_name))
+            # Flag method as templated if there is a variant arg
+            templated = False
             for a in m.in_args:
-                self.emit_cpp_p('        %s arg_%s,'%(a.cpptype_in, a.name))
-            self.emit_cpp_p('        const Gio::SlotAsyncReady &callback)')
-            self.emit_cpp_p('{')
-            self.emit_cpp_p("    Glib::VariantContainerBase base;");
+                if "v" in a.signature:
+                    templated = True
 
-            if (len(m.in_args) > 1):
-                self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
+            # Only generate code if this is a non-templated method
+            if templated is False:
+                # async begin
+                self.emit_cpp_p('void %s::%s(' % (i.cpp_namespace_name, m.camel_name))
                 for a in m.in_args:
-                    self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
-                    self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
-            elif (len (m.in_args) == 1):
-                for a in m.in_args:
-                    self.emit_cpp_p("    " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
+                    self.emit_cpp_p('        %s arg_%s,'%(a.cpptype_in, a.name))
+                self.emit_cpp_p('        const Gio::SlotAsyncReady &callback)')
+                self.emit_cpp_p('{')
+                self.emit_cpp_p("    Glib::VariantContainerBase base;");
 
-            if (len(m.in_args) > 0):
-                self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
+                if (len(m.in_args) > 1):
+                    self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
+                    for a in m.in_args:
+                        self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
+                        self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
+                elif (len (m.in_args) == 1):
+                    for a in m.in_args:
+                        self.emit_cpp_p("    " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
 
-            self.emit_cpp_p(dedent('''
-                m_proxy->call(
-                    "{m.name}",
-                    callback,
-                    base);
-            }}''').format(**locals()))
+                if (len(m.in_args) > 0):
+                    self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
 
-            self.emit_cpp_p("")
+                self.emit_cpp_p(dedent('''
+                    m_proxy->call(
+                        "{m.name}",
+                        callback,
+                        base);
+                }}''').format(**locals()))
 
-            # Generate _finish function for above method call
+                self.emit_cpp_p("")
+
+            # Generate _finish function for above method call, we want this for templated methods as well
             self.emit_cpp_p('void %s::%s_finish(' %(i.cpp_namespace_name, m.camel_name))
             for a in m.out_args:
                 self.emit_cpp_p('        %s& out_%s,'%(a.cpptype_out, a.name))
