@@ -14,7 +14,7 @@ void printStatus (std::string message, bool isOK) {
     }
 }
 
-void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::VariantBase expectedBase) {
+void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::ustring expectedBase) {
     Glib::VariantBase base;
     proxy->TestVariant_finish(base, result);
 
@@ -27,16 +27,7 @@ void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib:
         std::cout << e.what() << std::endl;
     }
 
-    // The convoluted way we pass the variant means we will have to extract the child in this
-    // particular way in order to keep the correct type of variant
-    GVariant *output;
-    g_variant_get_child(expectedBase.gobj(), 0, "v", &output);
-
-    // Construct a variant base of the variant again so it can be cast in the normal way
-    expectedBase = Glib::VariantBase(output);
-
-    Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(expectedBase);
-    std::string expectedValue = res.get();
+    std::string expectedValue = expectedBase;
 
     printStatus("Variant", value == expectedValue);
 }
@@ -355,8 +346,7 @@ void on_test_signal_boolean_cb(const bool s) {
 
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
-    Glib::Variant<Glib::Variant<Glib::ustring> > variantValue;
-    variantValue = Glib::Variant<Glib::Variant<Glib::ustring> >::create(Glib::Variant<Glib::ustring>::create("string-as-variant"));
+    Glib::ustring variantValue = "string-as-variant";
 
     std::vector<std::string> inputStrVec;
     inputStrVec.push_back(__FUNCTION__);
