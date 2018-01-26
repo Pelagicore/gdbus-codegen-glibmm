@@ -599,7 +599,7 @@ class CodeGenerator:
                     g_warning(std::string(ex.what()).c_str());
                     g_warning("\\n");
             }}
-            connectionId = Gio::DBus::own_name(Gio::DBus::BUS_TYPE_SESSION,
+            connectionId = Gio::DBus::own_name(busType,
                                                name,
                                                sigc::mem_fun(this, &{i.cpp_class_name}::on_bus_acquired),
                                                sigc::mem_fun(this, &{i.cpp_class_name}::on_name_acquired),
