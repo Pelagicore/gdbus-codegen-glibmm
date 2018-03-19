@@ -61,10 +61,16 @@ def codegen_main():
                             help='The namespace to use for generated C++ code')
     arg_parser.add_option('', '--generate-cpp-code', metavar='OUTFILES',
                           help='Generate C++ code in OUTFILES.[cpp|h]')
-    (opts, args) = arg_parser.parse_args();
+    (opts, args) = arg_parser.parse_args()
+
 
     all_ifaces = []
     node_xmls = []
+
+    if not args:
+        arg_parser.print_help()
+        sys.exit(1)
+
     for fname in args:
         f = open(fname, 'rb')
         xml_data = f.read()
