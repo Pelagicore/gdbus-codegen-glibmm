@@ -487,7 +487,7 @@ class CodeGenerator:
                 for a in m.in_args:
                     self.emit_h_s("    %s %s," % (a.cpptype_in, a.name))
 
-                self.emit_h_s("    const {i.cpp_class_name}MessageHelper msg) = 0;".format(**locals()))
+                self.emit_h_s("    {i.cpp_class_name}MessageHelper msg) = 0;".format(**locals()))
 
             # Generate getters and setters for all properties
             for p in i.properties:
@@ -595,7 +595,7 @@ class CodeGenerator:
                     introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
             }} catch(const Glib::Error& ex) {{
                     g_warning("Unable to create introspection data: ");
-                    g_warning(std::string(ex.what()).c_str());
+                    g_warning("%s", ex.what().c_str());
                     g_warning("\\n");
             }}
             connectionId = Gio::DBus::own_name(busType,
@@ -885,13 +885,9 @@ class CodeGenerator:
 
         for a in args:
             a = args[a]
-            templateVars = []
             params = []
             for index in range(len(a)):
-                templateVars.append("typename T%d" % index)
                 params.append(a[index].cpptype_out + " p%s" % index)
-            if (len(templateVars) > 0):
-                self.emit_h_common("template <"+','.join(templateVars)+">")
             self.emit_h_common("void ret(" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
