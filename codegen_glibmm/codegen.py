@@ -871,6 +871,10 @@ class CodeGenerator:
             const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {{
                 return m_message;
             }}
+
+            void ret(Glib::Error error) {{
+                m_message->return_error(error);
+            }}
         """).format(**locals()))
 
         args = {}
