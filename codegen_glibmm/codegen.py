@@ -441,11 +441,11 @@ class CodeGenerator:
 
             # This will encode the XML introspection data as raw bytes. This is
             # to avoid any formatting issues when embedding the introspection
-            # data in the stub header file.
-            self.emit_h_s ("const char interfaceXml%d[] = R\"XML_DELIMITER(" % i, False)
+            # data in the stub file.
+            self.emit_cpp_s ("static const char interfaceXml%d[] = R\"XML_DELIMITER(" % i, False)
             for char in node_xml:
-                self.emit_h_s (char, False)
-            self.emit_h_s (")XML_DELIMITER\";")
+                self.emit_cpp_s (char, False)
+            self.emit_cpp_s (")XML_DELIMITER\";")
 
     def generate_stub_intro(self):
         """ Generate introduction for stub cpp file """
