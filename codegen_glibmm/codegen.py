@@ -875,6 +875,10 @@ class CodeGenerator:
             void ret(Glib::Error error) {{
                 m_message->return_error(error);
             }}
+
+            void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {{
+                m_message->return_error(domain, code, message);
+            }}
         """).format(**locals()))
 
         args = {}
