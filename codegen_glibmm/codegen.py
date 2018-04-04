@@ -834,6 +834,7 @@ class CodeGenerator:
 
     def generate_common_classes(self, i):
         self.emit_h_common(dedent("""
+        namespace {{
         class {i.cpp_class_name}Common {{
             public:
                 template<typename T>
@@ -863,6 +864,7 @@ class CodeGenerator:
                     return newStrv;
                 }}
         }};
+        }} // namespace
         class {i.cpp_class_name}MessageHelper {{
         public:
             {i.cpp_class_name}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
