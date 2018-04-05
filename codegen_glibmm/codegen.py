@@ -864,7 +864,7 @@ class CodeGenerator:
                     return newStrv;
                 }}
         }};
-        }} // namespace
+
         class {i.cpp_class_name}MessageHelper {{
         public:
             {i.cpp_class_name}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
@@ -921,6 +921,7 @@ class CodeGenerator:
         private:
             Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
         };
+        } // namespace
         """))
 
 
