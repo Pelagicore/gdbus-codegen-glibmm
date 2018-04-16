@@ -469,13 +469,16 @@ class CodeGenerator:
             for ns in i.cpp_namespace_name.split("::")[:-1]:
                 self.emit_h_s ("namespace %s {" % ns)
 
-            self.emit_h_s("class %s {" % i.cpp_class_name)
+            self.emit_h_s(dedent('''
+            class {i.cpp_class_name} {{
+            public:
+                {i.cpp_class_name}();
+                virtual ~{i.cpp_class_name}();
 
-            self.emit_h_s("public:")
-            self.emit_h_s("%s ();" %i.cpp_class_name)
-            self.emit_h_s("void connect (Gio::DBus::BusType, std::string);")
-            for  p in i.properties:
-                self.emit_h_s("bool {p.name}_set({p.cpptype_in} value);".format(**locals()))
+                void connect(Gio::DBus::BusType, std::string);
+            ''').format(**locals()))
+            for p in i.properties:
+                self.emit_h_s("    bool {p.name}_set({p.cpptype_in} value);".format(**locals()))
 
             self.emit_h_s("protected:")
 
@@ -587,6 +590,11 @@ class CodeGenerator:
         # files specified.
         self.emit_cpp_s(dedent('''
         }}
+
+        {i.cpp_namespace_name}::~{i.cpp_class_name}()
+        {{
+        }}
+
         void {i.cpp_namespace_name}::connect (
             Gio::DBus::BusType busType,
             std::string name)
