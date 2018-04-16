@@ -481,7 +481,8 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     printStatus("Property (read): TestPropReadWriteByteStringArray", proxy->TestPropReadWriteByteStringArray_get() == PropReadWriteByteStringArrayValue);
 
     std::vector<std::string> PropReadWriteObjectPathArrayValue;
-    PropReadWriteObjectPathArrayValue.push_back("Value23");
+    PropReadWriteObjectPathArrayValue.push_back("/object/path");
+
     printStatus("Property (read): TestPropReadWriteObjectPathArray", proxy->TestPropReadWriteObjectPathArray_get() == PropReadWriteObjectPathArrayValue);
 
     std::vector<std::string> PropReadWriteStringArrayValue;

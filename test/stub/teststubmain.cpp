@@ -44,7 +44,7 @@ TestImpl::TestImpl() {
     m_PropWriteBooleanValue = false;
     m_PropReadWriteByteStringArrayValue.push_back("Value21");
     m_PropReadWriteByteStringArrayValue.push_back("Value22");
-    m_PropReadWriteObjectPathArrayValue.push_back("Value23");
+    m_PropReadWriteObjectPathArrayValue.push_back("/object/path");
     m_PropReadWriteStringArrayValue.push_back("Value24");
     m_PropReadWriteByteStringValue = "Value25";
     m_PropReadWriteSignatureValue = "Value26";
