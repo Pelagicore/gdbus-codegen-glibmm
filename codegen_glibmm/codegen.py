@@ -328,14 +328,14 @@ class CodeGenerator:
                             g_print ("Todo: lookup value\\n");
                         }}''').format(**locals()))
                     cpptype_cast = p.cpptype_get_cast
-                    # Prepend the class name if this is the generic "Common" class
-                    if cpptype_cast.startswith("Common"):
+                    # Prepend the class name if this is the generic "TypeWrap" class
+                    if cpptype_cast.startswith("TypeWrap"):
                         cpptype_cast = i.cpp_class_name + cpptype_cast
                     self.emit_cpp_p(dedent('''
                         return {cpptype_cast}(b.get());
                     }}''').format(**locals()))
                 cpptype_to_dbus = p.cpptype_to_dbus
-                if cpptype_to_dbus.startswith("Common"):
+                if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 if p.writable:
                     self.emit_cpp_p(dedent('''
@@ -393,8 +393,8 @@ class CodeGenerator:
                 self.emit_cpp_p("        %s p_%s;" % (a.cpptype_get, a.name))
                 self.emit_cpp_p("        p_%s = base_%s.get();" % (a.name, a.name))
                 cpptype_cast = a.cpptype_get_cast
-                # Prepend the class name if this is the generic "Common" class
-                if cpptype_cast.startswith("Common"):
+                # Prepend the class name if this is the generic "TypeWrap" class
+                if cpptype_cast.startswith("TypeWrap"):
                     cpptype_cast = i.cpp_class_name + cpptype_cast
                 paramsList.append("%s(p_%s)" % (cpptype_cast, a.name))
 
@@ -681,8 +681,8 @@ class CodeGenerator:
             self.emit_cpp_s("        %s(" % m.name)
             for a in m.in_args:
                 cpptype_cast = a.cpptype_get_cast
-                # Prepend the class name if this is the generic "Common" class
-                if cpptype_cast.startswith("Common"):
+                # Prepend the class name if this is the generic "TypeWrap" class
+                if cpptype_cast.startswith("TypeWrap"):
                     cpptype_cast = i.cpp_class_name + cpptype_cast
                 self.emit_cpp_s("            %s(p_%s)," % (cpptype_cast, a.name))
             self.emit_cpp_s("            {i.cpp_class_name}MessageHelper(invocation));".format(**locals()))
@@ -704,8 +704,8 @@ class CodeGenerator:
         for p in i.properties:
             if p.readable:
                 cpptype_to_dbus = p.cpptype_to_dbus
-                # Prepend the class name if this is the generic "Common" class
-                if cpptype_to_dbus.startswith("Common"):
+                # Prepend the class name if this is the generic "TypeWrap" class
+                if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
@@ -734,8 +734,8 @@ class CodeGenerator:
                         Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
                         {p.cpptype_out} val;''').format(**locals()))
             cpptype_cast = p.cpptype_get_cast
-            # Prepend the class name if this is the generic "Common" class
-            if cpptype_cast.startswith("Common"):
+            # Prepend the class name if this is the generic "TypeWrap" class
+            if cpptype_cast.startswith("TypeWrap"):
                 cpptype_cast = i.cpp_class_name + cpptype_cast
             self.emit_cpp_s(dedent('''
                         val = {cpptype_cast}(castValue.get());''').format(**locals()))
@@ -774,8 +774,8 @@ class CodeGenerator:
 
             for a in s.args:
                 cpptype_to_dbus = a.cpptype_to_dbus
-                # Prepend the class name if this is the generic "Common" class
-                if cpptype_to_dbus.startswith("Common"):
+                # Prepend the class name if this is the generic "TypeWrap" class
+                if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
                 paramsList.push_back(Glib::Variant<{a.cpptype_get} >::create({cpptype_to_dbus}({a.name})));;
@@ -810,8 +810,8 @@ class CodeGenerator:
     def define_types_property_setters_stub(self, i):
         for p in i.properties:
             cpptype_to_dbus = p.cpptype_to_dbus
-            # Prepend the class name if this is the generic "Common" class
-            if cpptype_to_dbus.startswith("Common"):
+            # Prepend the class name if this is the generic "TypeWrap" class
+            if cpptype_to_dbus.startswith("TypeWrap"):
                 cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
             self.emit_cpp_s(dedent('''
             bool {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value) {{
@@ -860,8 +860,7 @@ class CodeGenerator:
 
     def generate_common_classes(self, i):
         self.emit_h_common(dedent("""
-        namespace {{
-        class {i.cpp_class_name}Common {{
+        class {i.cpp_class_name}TypeWrap {{
             public:
                 template<typename T>
                 static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
@@ -930,8 +929,8 @@ class CodeGenerator:
 
             for index in range(len(a)):
                 cpptype_to_dbus = a[index].cpptype_to_dbus
-                # Prepend the class name if this is the generic "Common" class
-                if cpptype_to_dbus.startswith("Common"):
+                # Prepend the class name if this is the generic "TypeWrap" class
+                if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 if a[index].signature == "v":
                     self.emit_h_common("    vlist.push_back(p{index});".format(**locals()))
@@ -947,7 +946,6 @@ class CodeGenerator:
         private:
             Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
         };
-        } // namespace
         """))
 
 

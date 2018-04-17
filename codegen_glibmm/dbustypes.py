@@ -22,7 +22,7 @@
 
 from . import utils
 
-class Common:
+class TypeWrap:
     @staticmethod
     def cppSignatureForDbusSignature(sig):
         """
@@ -60,7 +60,7 @@ class Common:
         elif sig == 'ay':
             return ('std::string', 'std::string', 'std::string', "", "")
         elif sig == 'as':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<Glib::ustring>', "Common::glibStringVecToStdStringVec", "Common::stdStringVecToGlibStringVec")
+            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<Glib::ustring>', "TypeWrap::glibStringVecToStdStringVec", "TypeWrap::stdStringVecToGlibStringVec")
         elif sig == 'ao':
             return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
         elif sig == 'aay':
@@ -87,26 +87,26 @@ class Arg:
             self.name = 'unnamed_arg%d'%arg_number
 
 
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = Common.cppSignatureForDbusSignature(self.signature)
+        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = TypeWrap.cppSignatureForDbusSignature(self.signature)
 
         self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<"+self.cpptype_get+"> "+name+" = Glib::Variant<"+self.cpptype_get+">::create(arg_"+param+");"
         self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n    wrapped.get_child("+varname+","+idx+");\n    "+outvar+" = "+varname+".get();"
 
         if self.signature == 'as':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create(" + cpp_class_name + "Common::stdStringVecToGlibStringVec(arg_" + param + "));"
+            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create(" + cpp_class_name + "TypeWrap::stdStringVecToGlibStringVec(arg_" + param + "));"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
                                  "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
+                                 "    " + cpp_class_name + "TypeWrap::unwrapList(".format(**locals())+outvar+", "+varname+");"
         elif self.signature == 'ao':
             self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_"+param+");"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
                                  "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "Common::unwrapList(".format(**locals())+outvar+", "+varname+");"
+                                 "    " + cpp_class_name + "TypeWrap::unwrapList(".format(**locals())+outvar+", "+varname+");"
         elif self.signature == 'aay':
             self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector<std::string> >::create(arg_"+param+");"
             self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
                                  "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "Common::unwrapList("+outvar+", "+varname+");"
+                                 "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");"
         elif self.signature == 'g':
             self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantStringBase "+name+";\n Glib::VariantStringBase::create_signature("+name+", arg_"+param+".c_str());"
         elif self.signature == 'o':
@@ -184,7 +184,7 @@ class Property:
         else:
             raise RuntimeError('Invalid access type %s'%self.access)
 
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = Common.cppSignatureForDbusSignature(signature)
+        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = TypeWrap.cppSignatureForDbusSignature(signature)
 
         if (self.cpptype_in, self.cpptype_out) == (None, None):
             print "Unknown signature: " + self.signature
