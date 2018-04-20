@@ -22,108 +22,227 @@
 
 from . import utils
 
-class TypeWrap:
-    @staticmethod
-    def cppSignatureForDbusSignature(sig):
-        """
-        The returned tuple has the following values, in order:
-            - Type for "in"-parameter to generated function
-            - Type for "out" parameter to generated function
-            - Type for use with D-Bus function
-            - function for casting D-Bus type to out-type
-            - function for casting out-type to D-Bus type
-        """
-        if sig == 'b':
-            return ('bool', 'bool', 'bool', "", "")
-        elif sig == 'y':
-            return ('guchar', 'guchar', 'guchar', "", "")
-        elif sig == 'n':
-            return ('gint16', 'gint16', 'gint16', "", "")
-        elif sig == 'q':
-            return ('guint16', 'guint16', 'guint16', "", "")
-        elif sig == 'i':
-            return ('gint32', 'gint32', 'gint32', "", "")
-        elif sig == 'u':
-            return ('guint32', 'guint32', 'guint32', "", "")
-        elif sig == 'x':
-            return ('gint64', 'gint64', 'gint64', "", "")
-        elif sig == 't':
-            return ('guint64', 'guint64', 'guint64', "", "")
-        elif sig == 'd':
-            return ('double', 'double', 'double', "", "")
-        elif sig == 's':
-            return ('std::string', 'std::string', 'Glib::ustring', "Glib::ustring", "")
-        elif sig == 'o':
-            return ('std::string', 'std::string', 'Glib::ustring', "", "")
-        elif sig == 'g':
-            return ('std::string', 'std::string', 'Glib::ustring', "", "")
-        elif sig == 'ay':
-            return ('std::string', 'std::string', 'std::string', "", "")
-        elif sig == 'as':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<Glib::ustring>', "TypeWrap::glibStringVecToStdStringVec", "TypeWrap::stdStringVecToGlibStringVec")
-        elif sig == 'ao':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
-        elif sig == 'aay':
-            return ('std::vector<std::string> ', 'std::vector<std::string>', 'std::vector<std::string>', "", "")
-        elif sig == 'v':
-            return ('Glib::VariantBase', 'Glib::VariantBase', '', '', '')
-        else:
-            return (None, None, None, None, None)
-
 class Annotation:
     def __init__(self, key, value):
         self.key = key
         self.value = value
         self.annotations = []
 
+class Type:
+    def __init__(self, signature, cpptype_in = '', cpptype_out = ''):
+        self.signature = signature
+        # Used when:
+        # - passing value from client to proxy methods
+        # - passing value from client to proxy property setters
+        # - in stub property setters, called after getting the value from
+        #   D-Bus and before invoking the property handler
+        # - as input parameter for the stub property handlers
+        self.cpptype_in = cpptype_in
+        # Used when:
+        # - the client receives return parameters from the _finish() method;
+        #   an extra '&' is added to the type
+        # - getting a value of a property from the proxy
+        # - emitting sigc::signals in the proxy
+        # - returning value from a property getter in the stub virtual method
+        # - emitting signals in the stub
+        # - passing values to the property setter in the stub
+        # - returning values from the stub methods via the helper
+        self.cpptype_out = cpptype_out
+        # Used when:
+        # - declaring Variant templates in:
+        #   * the proxy property getter
+        #   * proxy property setter
+        #   * proxy signal receiving code
+        #   * stub method handler receiving code
+        #   * stub property handler sending code
+        #   * stub property handler receiving code
+        #   * stub signal emission
+        #   * stub helper method to return values from method invocations
+        self.cpptype_get = cpptype_in
+        # Used when converting from cpptype_get:
+        # - to return value in proxy property getters
+        # - when emitting signals in the proxy class
+        # - in the stub method handlers, to pass params to the virtual
+        #   implementation
+        # - in stub property setters, to pass params to the virtual
+        #   implementation
+        self.cpptype_get_cast = ''
+        # Used to cast cpptype_in to cpptype_get when creating variants
+        self.cpptype_to_dbus = ''
+
+    def cpptype_send(self, name, param, cpp_class_name):
+        """ Used to create a Variant to be sent over D-Bus """
+        t = self.cpptype_get
+        return ("Glib::Variant<"+self.cpptype_get+"> "+name+
+            " = Glib::Variant<"+self.cpptype_get+">::create(arg_"+param+");")
+
+    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+        """ Used to extract a cpptype_out out of a Variant """
+        return ("Glib::Variant<"+self.cpptype_in+"> "+varname+
+            ";\n    wrapped.get_child("+varname+","+idx+");\n    "+
+            outvar+" = "+varname+".get();")
+
+
+class BasicType(Type):
+    def __init__(self, signature, cpptype):
+        Type.__init__(self, signature[0], cpptype, cpptype)
+
+
+class StringType(Type):
+    def __init__(self, signature):
+        signature = 'ay' if signature.startswith('ay') else signature[0]
+        Type.__init__(self, signature, 'std::string', 'std::string')
+        if self.signature in ('s', 'g', 'o'):
+            self.cpptype_get = 'Glib::ustring'
+            if self.signature == 's':
+                self.cpptype_get_cast = 'Glib::ustring'
+
+    def cpptype_send(self, name, param, cpp_class_name):
+        print(' self Signature: %s' % (self.signature,))
+        if self.signature == 's' or self.signature == 'ay':
+            return Type.cpptype_send(self, name, param, cpp_class_name)
+        elif self.signature == 'g':
+            method = 'create_signature'
+        elif self.signature == 'o':
+            method = 'create_object_path'
+        return ("Glib::VariantStringBase " + name + ";\n" +
+            " Glib::VariantStringBase::" + method + "(" + name +
+            ", arg_" + param + ".c_str());")
+
+
+class VariantType(Type):
+    def __init__(self):
+        Type.__init__(self, 'v', 'Glib::VariantBase', 'Glib::VariantBase')
+
+    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+        return 'GVariant *output;\n' +\
+                                '    g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n\n' + "    " + outvar + ' = Glib::VariantBase(output);'
+
+
+class ArrayType(Type):
+    def __init__(self, signature):
+        assert signature[0] == 'a'
+        self.element = get_type(signature[1:])
+        Type.__init__(self, signature[0] + self.element.signature)
+        self.cpptype_get = 'std::vector<' + self.element.cpptype_get + '>'
+        self.cpptype_in = self.cpptype_get
+        self.cpptype_out = self.cpptype_in
+        if self.signature == 'as':
+            self.cpptype_get = 'std::vector<Glib::ustring>'
+            self.cpptype_in = 'std::vector<std::string>'
+            self.cpptype_get_cast = "TypeWrap::glibStringVecToStdStringVec"
+            self.cpptype_to_dbus = "TypeWrap::stdStringVecToGlibStringVec"
+            self.cpptype_out = 'std::vector<std::string>'
+        elif self.signature == 'ao':
+            self.cpptype_get = 'std::vector<std::string>'
+            self.cpptype_in = 'std::vector<std::string>'
+            self.cpptype_out = 'std::vector<std::string>'
+
+    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+        if self.signature == 'as':
+            return ("Glib::VariantContainerBase "+varname+";\n" +
+                    "    wrapped.get_child("+varname+", "+idx+");\n" +
+                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+        elif self.signature == 'ao':
+            return ("Glib::VariantContainerBase "+varname+";\n" +
+                    "    wrapped.get_child("+varname+", "+idx+");\n" +
+                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+        elif self.signature == 'aay':
+            return ("Glib::VariantContainerBase "+varname+";\n" +
+                    "    wrapped.get_child("+varname+", "+idx+");\n" +
+                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+        else:
+            return Type.cppvalue_get(self, varname, outvar, idx, cpp_class_name)
+
+    def cpptype_send(self, name, param, cpp_class_name):
+        if self.signature == 'as':
+            return ("Glib::Variant<std::vector<Glib::ustring> > " + name +
+                    " = Glib::Variant<std::vector<Glib::ustring> >::create(" +
+                    cpp_class_name +
+                    "TypeWrap::stdStringVecToGlibStringVec(arg_" + param +
+                    "));")
+        elif self.signature == 'ao':
+            return ("Glib::Variant<std::vector<std::string> > " + name +
+                    " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_" +
+                    param + ");")
+        else:
+            return Type.cpptype_send(self, name, param, cpp_class_name)
+
+class StructType(Type):
+    def __init__(self, signature):
+        assert signature[0] == '('
+        self.elements = []
+        remaining_signature = signature[1:]
+        signature = '('
+        while remaining_signature[0] != ')':
+            e = get_type(remaining_signature)
+            self.elements.append(e)
+            signature.append(e.signature)
+            remaining_signature = remaining_signature[len(e.signature):]
+        signature.append(')')
+        Type.__init__(self, signature)
+
+
+class DictType(Type):
+    def __init__(self, signature):
+        assert signature.startswith('a{')
+        remaining_signature = signature[2:]
+        self.key = get_type(remaining_signature)
+        assert isinstance(self.key, BasicType)
+        remaining_signature = remaining_signature[len(self.key.signature):]
+        self.value = get_type(remaining_signature)
+        assert self.value is not None
+        remaining_signature = remaining_signature[len(self.value.signature):]
+        assert remaining_signature[0] == '}'
+        signature = 'a{' + self.key.signature + self.value.signature + '}'
+        Type.__init__(self, signature)
+
+
+def get_type(signature):
+    basic_types = {
+        'b': 'bool',
+        'y': 'guchar',
+        'n': 'gint16',
+        'q': 'guint16',
+        'i': 'gint32',
+        'u': 'guint32',
+        'x': 'gint64',
+        't': 'guint64',
+        'd': 'double',
+    }
+    t = None
+    if signature[0] in basic_types:
+        t = BasicType(signature, basic_types[signature[0]])
+    elif signature[0] in ('s', 'o', 'g'):
+        t = StringType(signature)
+    elif signature[0] == 'v':
+        t = VariantType()
+    elif signature[0] == '(':
+        t = StructType(signature)
+    elif signature[0] == 'a':
+        if signature[1] == '{':
+            t = DictType(signature)
+        elif signature[1] == 'y':
+            t = StringType(signature)
+        else:
+            t = ArrayType(signature)
+    return t
+
+
 class Arg:
     def __init__(self, name, signature):
         self.name = name
-        self.signature = signature
+        self.type = get_type(signature)
+        assert self.type is not None
         self.annotations = []
+
+    def __getattr__(self, name):
+        return getattr(self.type, name)
 
     def post_process(self, arg_number):
         if self.name == None:
             self.name = 'unnamed_arg%d'%arg_number
 
-
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = TypeWrap.cppSignatureForDbusSignature(self.signature)
-
-        self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<"+self.cpptype_get+"> "+name+" = Glib::Variant<"+self.cpptype_get+">::create(arg_"+param+");"
-        self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::Variant<"+self.cpptype_in+"> "+varname+";\n    wrapped.get_child("+varname+","+idx+");\n    "+outvar+" = "+varname+".get();"
-
-        if self.signature == 'as':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<Glib::ustring> > "+name+" = Glib::Variant<std::vector<Glib::ustring> >::create(" + cpp_class_name + "TypeWrap::stdStringVecToGlibStringVec(arg_" + param + "));"
-            self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "TypeWrap::unwrapList(".format(**locals())+outvar+", "+varname+");"
-        elif self.signature == 'ao':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_"+param+");"
-            self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "TypeWrap::unwrapList(".format(**locals())+outvar+", "+varname+");"
-        elif self.signature == 'aay':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::Variant<std::vector<std::string> > "+name+" = Glib::Variant<std::vector<std::string> >::create(arg_"+param+");"
-            self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: "Glib::VariantContainerBase "+varname+";\n" +\
-                                 "    wrapped.get_child("+varname+", "+idx+");\n" +\
-                                 "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");"
-        elif self.signature == 'g':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantStringBase "+name+";\n Glib::VariantStringBase::create_signature("+name+", arg_"+param+".c_str());"
-        elif self.signature == 'o':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantStringBase "+name+";\n Glib::VariantStringBase::create_object_path("+name+", arg_"+param+".c_str());"
-        elif self.signature == 'v':
-            self.cpptype_send = lambda name, param, cpp_class_name: "Glib::VariantBase params = arg_" + param + ";"
-            self.cppvalue_get = lambda varname, outvar, idx, cpp_class_name: 'GVariant *output;\n' +\
-                                '    g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n\n' + "    " + outvar + ' = Glib::VariantBase(output);'
-
-        if (self.cpptype_in, self.cpptype_out) == (None, None):
-            print "Unknown signature: " + self.signature
-
-            # default to GVariant
-            self.cpptype_in  = 'Glib::VariantBase'
-            self.cpptype_out  = 'Glib::VariantBase'
-            self.cpptype_send = lambda name, param: "Glib::VariantBase "+name+" = arg_"+param+";"
-            self.cppvalue_get = lambda varname, outvar, idx: "Glib::VariantBase "+varname+";\n  wrapped.get_child("+varname+","+idx+");\n  "+outvar+" = "+varname+";"
 
 class Method:
     def __init__(self, name):
@@ -184,14 +303,8 @@ class Property:
         else:
             raise RuntimeError('Invalid access type %s'%self.access)
 
-        (self.cpptype_in, self.cpptype_out, self.cpptype_get, self.cpptype_get_cast, self.cpptype_to_dbus) = TypeWrap.cppSignatureForDbusSignature(signature)
-
-        if (self.cpptype_in, self.cpptype_out) == (None, None):
-            print "Unknown signature: " + self.signature
-
-            # default to GVariant
-            self.cpptype_in  = 'const Glib::VariantBase &'
-            self.cpptype_out  = 'Glib::VariantBase'
+    def __getattr__(self, name):
+        return getattr(self.arg, name)
 
     def post_process(self, interface_prefix, cns, cns_upper, cns_lower):
         name = self.name
