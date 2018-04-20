@@ -20,13 +20,17 @@
 # Author: David Zeuthen   <davidz@redhat.com>
 #  (2014) Jonatan Palsson <jonatan.palsson@pelagicore.com>
 
-import sys
+import sys, os
+
+from jinja2 import Environment, FileSystemLoader
 
 from textwrap import dedent
 
 from . import config
 from . import utils
 from . import dbustypes
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -849,108 +853,20 @@ class CodeGenerator:
                 return true;
             }}''').format(**locals()))
 
-    def generate_common_intro(self):
-        self.emit_h_common(dedent("""
-        #pragma once
-        #include <iostream>
-        #include <map>
-        #include <tuple>
-        #include "glibmm.h"
-        #include "giomm.h"
-        """))
+    def generate_common(self, interfaces):
+        h = self.j2_env.get_template('common.h.templ').render(
+                interfaces=interfaces)
+        self.emit_h_common(h)
 
-    def generate_common_classes(self, i):
-        self.emit_h_common(dedent("""
-        class {i.cpp_class_name}TypeWrap {{
-            public:
-                template<typename T>
-                static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
-                    for (uint i = 0; i < wrapped.get_n_children (); i++) {{
-                        Glib::Variant<T> item;
-                        wrapped.get_child(item, i);
-                        list.push_back(item.get());
-                    }}
-                }}
-
-                static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
-                    std::vector<Glib::ustring> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
-
-                    return newStrv;
-                }}
-
-                static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
-                    std::vector<std::string> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
-
-                    return newStrv;
-                }}
-        }};
-
-        class {i.cpp_class_name}MessageHelper {{
-        public:
-            {i.cpp_class_name}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
-                m_message(msg) {{}}
-
-            const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {{
-                return m_message;
-            }}
-
-            void ret(Glib::Error error) {{
-                m_message->return_error(error);
-            }}
-
-            void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {{
-                m_message->return_error(domain, code, message);
-            }}
-        """).format(**locals()))
-
-        args = {}
-        for m in i.methods:
-            argstring = ""
-            argvals = []
-            for a in m.out_args:
-                argstring += a.cpptype_out
-                argvals.append(a)
-            args[argstring] = argvals
-
-
-        for a in args:
-            a = args[a]
-            params = []
-            for index in range(len(a)):
-                params.append(a[index].cpptype_out + " p%s" % index)
-            self.emit_h_common("void ret(" + ', '.join(params) +")")
-            self.emit_h_common("{")
-            self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
-
-            for index in range(len(a)):
-                cpptype_to_dbus = a[index].cpptype_to_dbus
-                # Prepend the class name if this is the generic "TypeWrap" class
-                if cpptype_to_dbus.startswith("TypeWrap"):
-                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
-                if a[index].templated:
-                    self.emit_h_common("    vlist.push_back(p{index});".format(**locals()))
-                else:
-                    self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].variant_type+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
-
-            self.emit_h_common(dedent("""
-                m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
-            }
-            """))
-
-        self.emit_h_common(dedent("""
-        private:
-            Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
-        };
-        """))
-
+    def initialize_jinja(self):
+        self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR + "/templates/"),
+                                  trim_blocks=True,
+                                  lstrip_blocks=True)
 
     def generate(self):
+        # Jinja initialization
+        self.initialize_jinja()
+
         # Proxy
         self.generate_intro_proxy()
         self.declare_types_proxy()
@@ -975,6 +891,4 @@ class CodeGenerator:
             self.define_types_emit_stub(i)
 
         # Common
-        self.generate_common_intro()
-        for i in self.ifaces:
-            self.generate_common_classes(i)
+        self.generate_common(self.ifaces)

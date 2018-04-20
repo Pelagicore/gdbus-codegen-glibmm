@@ -5,7 +5,8 @@
 #include "glibmm.h"
 #include "giomm.h"
 
-class TestTypeWrap {
+{% for interface in interfaces %}
+class {{ interface.cpp_class_name }}TypeWrap {
     public:
         template<typename T>
         static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {
@@ -35,9 +36,9 @@ class TestTypeWrap {
         }
 };
 
-class TestMessageHelper {
+class {{interface.cpp_class_name}}MessageHelper {
 public:
-    TestMessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
+    {{interface.cpp_class_name}}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg) :
         m_message(msg) {}
 
     const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
@@ -51,16 +52,33 @@ public:
     void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {
         m_message->return_error(domain, code, message);
     }
+{% for return_types in interface.unique_return_types() %}
 
-void ret(std::string p0, std::map<Glib::ustring,Glib::VariantBase> p1)
+void ret(
+{%- for type in return_types -%}
+    {{- type.cpptype_out }} p{{ loop.index0 -}}
+    {{- ", " if not loop.last -}}
+{%- endfor -%}
+)
 {
     std::vector<Glib::VariantBase> vlist;
-    vlist.push_back(Glib::Variant<Glib::ustring >::create((p0)));
-    vlist.push_back(Glib::Variant<std::map<Glib::ustring,Glib::VariantBase> >::create((p1)));
+{% for type in return_types %}
+    {% if type.signature == "v" %}
+    vlist.push_back(p{{ loop.index0 }});
+    {% else %}
+    vlist.push_back(Glib::Variant<{{ type.variant_type }} >::create(
+        {%- if type.cpptype_to_dbus.startswith("TypeWrap") -%}
+            {{- interface.cpp_class_name -}}
+        {%- endif -%}
+    {{- type.cpptype_to_dbus -}}(p{{loop.index0}})));
+    {% endif %}
+{% endfor %}
 
     m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
 }
+{% endfor %}
 
+{% endfor %}
 
 private:
     Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;

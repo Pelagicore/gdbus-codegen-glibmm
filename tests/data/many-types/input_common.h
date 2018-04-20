@@ -1,11 +1,9 @@
-
 #pragma once
 #include <iostream>
 #include <map>
 #include <tuple>
 #include "glibmm.h"
 #include "giomm.h"
-
 
 class TestTypeWrap {
     public:
