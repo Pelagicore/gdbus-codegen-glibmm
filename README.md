@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Pelagicore/gdbus-codegen-glibmm.svg?branch=master)](https://travis-ci.org/Pelagicore/gdbus-codegen-glibmm)
+
 This is a code generator for generating D-Bus stubs and proxies from XML
 introspection files. The generated stubs and proxies are implemented using
 glibmm and giomm.
