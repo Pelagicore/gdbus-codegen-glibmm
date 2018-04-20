@@ -5,9 +5,9 @@ before_install:
     - docker pull ubuntu:18.04
     - docker run --name travis-ci -v $TRAVIS_BUILD_DIR:/home/gdbus-codegen-glibmm -td ubuntu:18.04 /bin/bash
     - docker exec -ti travis-ci bash -c "apt-get -qq update"
-    - docker exec -ti travis-ci bash -c "apt-get install -y cmake dbus-test-runner diffutils libglibmm-2.4-dev python3-pytest python-setuptools"
+    - docker exec -ti travis-ci bash -c "apt-get install -y cmake dbus-test-runner diffutils libglibmm-2.4-dev python3-pytest python3-setuptools python3-jinja2"
 install:
-    - docker exec -ti travis-ci bash -c "cd /home/gdbus-codegen-glibmm && python2.7 ./setup.py install"
+    - docker exec -ti travis-ci bash -c "cd /home/gdbus-codegen-glibmm && python3 ./setup.py install"
 script:
     - docker exec travis-ci bash -c "cd /home/gdbus-codegen-glibmm/tests/ && pytest-3"
     - docker exec travis-ci bash -c "cd /home/gdbus-codegen-glibmm/tests/integration && dbus-test-runner -t ./runtests.sh"
