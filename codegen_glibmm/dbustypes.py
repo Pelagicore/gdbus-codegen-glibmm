@@ -87,7 +87,7 @@ class Type:
 
     def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
         """ Used to extract a cpptype_out out of a Variant """
-        return ("Glib::Variant<"+self.cpptype_in+"> "+varname+
+        return ("Glib::Variant<"+self.variant_type+"> "+varname+
             ";\n    wrapped.get_child("+varname+","+idx+");\n    "+
             outvar+" = "+varname+".get();")
 
