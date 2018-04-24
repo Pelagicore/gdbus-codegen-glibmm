@@ -61,9 +61,9 @@ class Type:
         #   * stub property handler receiving code
         #   * stub signal emission
         #   * stub helper method to return values from method invocations
-        self.cpptype_get = cpptype_in
+        self.variant_type = cpptype_in
 
-        # Used when converting from cpptype_get:
+        # Used when converting from variant_type:
         # - to return value in proxy property getters
         # - when emitting signals in the proxy class
         # - in the stub method handlers, to pass params to the virtual
@@ -72,7 +72,7 @@ class Type:
         #   implementation
         self.cpptype_get_cast = ''
 
-        # Used to cast cpptype_in to cpptype_get when creating variants
+        # Used to cast cpptype_in to variant_type when creating variants
         self.cpptype_to_dbus = ''
 
     def __getattr__(self, name):
@@ -81,9 +81,9 @@ class Type:
 
     def cppvalue_send(self, name, param, cpp_class_name):
         """ Used to create a Variant to be sent over D-Bus """
-        t = self.cpptype_get
-        return ("Glib::Variant<"+self.cpptype_get+"> "+name+
-            " = Glib::Variant<"+self.cpptype_get+">::create(arg_"+param+");")
+        t = self.variant_type
+        return ("Glib::Variant<"+self.variant_type+"> "+name+
+            " = Glib::Variant<"+self.variant_type+">::create(arg_"+param+");")
 
     def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
         """ Used to extract a cpptype_out out of a Variant """
@@ -102,7 +102,7 @@ class StringType(Type):
         signature = 'ay' if signature.startswith('ay') else signature[0]
         Type.__init__(self, signature, 'std::string')
         if self.signature in ('s', 'g', 'o'):
-            self.cpptype_get = 'Glib::ustring'
+            self.variant_type = 'Glib::ustring'
             if self.signature == 's':
                 self.cpptype_get_cast = 'Glib::ustring'
 
@@ -133,15 +133,15 @@ class ArrayType(Type):
         assert signature[0] == 'a'
         self.element = get_type(signature[1:])
         Type.__init__(self, signature[0] + self.element.signature)
-        self.cpptype_get = 'std::vector<' + self.element.cpptype_get + '>'
-        self.cpptype_in = self.cpptype_get
+        self.variant_type = 'std::vector<' + self.element.variant_type + '>'
+        self.cpptype_in = self.variant_type
         if self.signature == 'as':
-            self.cpptype_get = 'std::vector<Glib::ustring>'
+            self.variant_type = 'std::vector<Glib::ustring>'
             self.cpptype_in = 'std::vector<std::string>'
             self.cpptype_get_cast = "TypeWrap::glibStringVecToStdStringVec"
             self.cpptype_to_dbus = "TypeWrap::stdStringVecToGlibStringVec"
         elif self.signature == 'ao':
-            self.cpptype_get = 'std::vector<std::string>'
+            self.variant_type = 'std::vector<std::string>'
             self.cpptype_in = 'std::vector<std::string>'
 
     def cppvalue_get(self, varname, outvar, idx, cpp_class_name):

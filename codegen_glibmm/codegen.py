@@ -321,7 +321,7 @@ class CodeGenerator:
                     self.emit_cpp_p(dedent('''
                     {p.cpptype_out} {i.cpp_namespace_name}::{p.name}_get() {{
                         std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
-                        Glib::Variant<{p.cpptype_get} > b;
+                        Glib::Variant<{p.variant_type} > b;
                         if (std::find(props.begin(), props.end(), "{p.name}") != props.end()) {{
                             m_proxy->get_cached_property(b, "{p.name}");
                         }} else {{
@@ -344,7 +344,7 @@ class CodeGenerator:
                         std::vector<Glib::VariantBase> paramsVec;
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{i.name}"));
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{p.name}"));
-                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}(value))));
+                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}(value))));
                         Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
                         m_proxy->call("org.freedesktop.DBus.Properties.Set",
                                         cb,
@@ -388,9 +388,9 @@ class CodeGenerator:
             for ai in range(len(s.args)):
                 a = s.args[ai]
                 self.emit_cpp_p("        if (parameters.get_n_children() != " + str(len(s.args)) + ") { return; }")
-                self.emit_cpp_p("        Glib::Variant<%s > base_%s;" % (a.cpptype_get, a.name))
+                self.emit_cpp_p("        Glib::Variant<%s > base_%s;" % (a.variant_type, a.name))
                 self.emit_cpp_p("        parameters.get_child(base_%s, %d);" % (a.name, ai))
-                self.emit_cpp_p("        %s p_%s;" % (a.cpptype_get, a.name))
+                self.emit_cpp_p("        %s p_%s;" % (a.variant_type, a.name))
                 self.emit_cpp_p("        p_%s = base_%s.get();" % (a.name, a.name))
                 cpptype_cast = a.cpptype_get_cast
                 # Prepend the class name if this is the generic "TypeWrap" class
@@ -673,9 +673,9 @@ class CodeGenerator:
                     self.emit_cpp_s("        p_%s = Glib::VariantBase(output%s);" % (a.name, ai))
                     self.emit_cpp_s("")
                 else:
-                    self.emit_cpp_s("        Glib::Variant<%s > base_%s;" % (a.cpptype_get, a.name))
+                    self.emit_cpp_s("        Glib::Variant<%s > base_%s;" % (a.variant_type, a.name))
                     self.emit_cpp_s("        parameters.get_child(base_%s, %d);" % (a.name, ai))
-                    self.emit_cpp_s("        %s p_%s;" % (a.cpptype_get, a.name))
+                    self.emit_cpp_s("        %s p_%s;" % (a.variant_type, a.name))
                     self.emit_cpp_s("        p_%s = base_%s.get();" % (a.name, a.name))
                     self.emit_cpp_s("")
             self.emit_cpp_s("        %s(" % m.name)
@@ -709,7 +709,7 @@ class CodeGenerator:
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}({p.name}_get()));
+                        property = Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}({p.name}_get()));
                     }}
                 ''').format(**locals()))
 
@@ -731,7 +731,7 @@ class CodeGenerator:
             self.emit_cpp_s(dedent('''
                 if (property_name.compare("{p.name}") == 0) {{
                     try {{
-                        Glib::Variant<{p.cpptype_get} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.cpptype_get} > >(value);
+                        Glib::Variant<{p.variant_type} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.variant_type} > >(value);
                         {p.cpptype_out} val;''').format(**locals()))
             cpptype_cast = p.cpptype_get_cast
             # Prepend the class name if this is the generic "TypeWrap" class
@@ -778,7 +778,7 @@ class CodeGenerator:
                 if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
-                paramsList.push_back(Glib::Variant<{a.cpptype_get} >::create({cpptype_to_dbus}({a.name})));;
+                paramsList.push_back(Glib::Variant<{a.variant_type} >::create({cpptype_to_dbus}({a.name})));;
                 ''').format(**locals()))
 
             self.emit_cpp_s(dedent('''      m_connection->emit_signal(
@@ -816,7 +816,7 @@ class CodeGenerator:
             self.emit_cpp_s(dedent('''
             bool {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value) {{
                 if ({p.name}_setHandler(value)) {{
-                    Glib::Variant<{p.cpptype_get} > value_get = Glib::Variant<{p.cpptype_get} >::create({cpptype_to_dbus}({p.name}_get()));
+                    Glib::Variant<{p.variant_type} > value_get = Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}({p.name}_get()));
                     emitSignal("{p.name}", value_get);
                     return true;
                 }}
@@ -935,7 +935,7 @@ class CodeGenerator:
                 if a[index].signature == "v":
                     self.emit_h_common("    vlist.push_back(p{index});".format(**locals()))
                 else:
-                    self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].cpptype_get+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
+                    self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].variant_type+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))
 
             self.emit_h_common(dedent("""
                 m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
