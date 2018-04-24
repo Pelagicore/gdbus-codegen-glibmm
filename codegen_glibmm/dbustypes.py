@@ -79,7 +79,7 @@ class Type:
         if name == 'cpptype_out':
             return self.cpptype_in
 
-    def cpptype_send(self, name, param, cpp_class_name):
+    def cppvalue_send(self, name, param, cpp_class_name):
         """ Used to create a Variant to be sent over D-Bus """
         t = self.cpptype_get
         return ("Glib::Variant<"+self.cpptype_get+"> "+name+
@@ -106,10 +106,10 @@ class StringType(Type):
             if self.signature == 's':
                 self.cpptype_get_cast = 'Glib::ustring'
 
-    def cpptype_send(self, name, param, cpp_class_name):
+    def cppvalue_send(self, name, param, cpp_class_name):
         print(' self Signature: %s' % (self.signature,))
         if self.signature == 's' or self.signature == 'ay':
-            return Type.cpptype_send(self, name, param, cpp_class_name)
+            return Type.cppvalue_send(self, name, param, cpp_class_name)
         elif self.signature == 'g':
             method = 'create_signature'
         elif self.signature == 'o':
@@ -160,7 +160,7 @@ class ArrayType(Type):
         else:
             return Type.cppvalue_get(self, varname, outvar, idx, cpp_class_name)
 
-    def cpptype_send(self, name, param, cpp_class_name):
+    def cppvalue_send(self, name, param, cpp_class_name):
         if self.signature == 'as':
             return ("Glib::Variant<std::vector<Glib::ustring> > " + name +
                     " = Glib::Variant<std::vector<Glib::ustring> >::create(" +
@@ -172,7 +172,7 @@ class ArrayType(Type):
                     " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_" +
                     param + ");")
         else:
-            return Type.cpptype_send(self, name, param, cpp_class_name)
+            return Type.cppvalue_send(self, name, param, cpp_class_name)
 
 class StructType(Type):
     def __init__(self, signature):

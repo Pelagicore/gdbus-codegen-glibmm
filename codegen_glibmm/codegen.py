@@ -170,7 +170,7 @@ class CodeGenerator:
                                 self.emit_h_p("        %s_variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s_param));" % (a.name, a.name))
                                 self.emit_h_p("        params.push_back(%s_variantValue);" % (a.name))
                             else:
-                                self.emit_h_p("        " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name) + "")
+                                self.emit_h_p("        " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name) + "")
                                 self.emit_h_p("        params.push_back(%s_param);" % (a.name))
                     elif (len(m.in_args) == 1):
                         for a in m.in_args:
@@ -179,7 +179,7 @@ class CodeGenerator:
                                 self.emit_h_p("        variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s));" % (a.name))
                                 self.emit_h_p("        Glib::VariantBase params = variantValue;")
                             else:
-                                self.emit_h_p("        " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
+                                self.emit_h_p("        " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
                     if (len(m.in_args) > 0):
                         self.emit_h_p("        base = Glib::VariantContainerBase::create_tuple(params);")
 
@@ -277,11 +277,11 @@ class CodeGenerator:
                 if (len(m.in_args) > 1):
                     self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
                     for a in m.in_args:
-                        self.emit_cpp_p("  " + a.cpptype_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
+                        self.emit_cpp_p("  " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
                         self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
                 elif (len (m.in_args) == 1):
                     for a in m.in_args:
-                        self.emit_cpp_p("    " + a.cpptype_send("params", a.name, i.cpp_class_name) + "")
+                        self.emit_cpp_p("    " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
 
                 if (len(m.in_args) > 0):
                     self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
