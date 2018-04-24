@@ -308,9 +308,8 @@ class CodeGenerator:
 
             for arg_index in range(0, len(m.out_args)):
                 a = m.out_args[arg_index]
-                varname = a.name + "_variant"
                 outvar = "out_" + a.name
-                self.emit_cpp_p("    " + a.cppvalue_get(varname, outvar, str(arg_index), i.cpp_class_name))
+                self.emit_cpp_p("    " + a.cppvalue_get(outvar, str(arg_index), i.cpp_class_name))
                 self.emit_cpp_p("")
             self.emit_cpp_p("}")
             self.emit_cpp_p("")

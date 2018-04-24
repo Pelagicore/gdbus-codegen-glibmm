@@ -86,8 +86,9 @@ class Type:
         return ("Glib::Variant<"+self.variant_type+"> "+name+
             " = Glib::Variant<"+self.variant_type+">::create(arg_"+param+");")
 
-    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+    def cppvalue_get(self, outvar, idx, cpp_class_name):
         """ Used to extract a cpptype_out out of a Variant """
+        varname = outvar + '_v'
         return ("Glib::Variant<"+self.variant_type+"> "+varname+
             ";\n    wrapped.get_child("+varname+","+idx+");\n    "+
             outvar+" = "+varname+".get();")
@@ -125,7 +126,7 @@ class VariantType(Type):
     def __init__(self):
         Type.__init__(self, 'v', 'Glib::VariantBase')
 
-    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+    def cppvalue_get(self, outvar, idx, cpp_class_name):
         return 'GVariant *output;\n' +\
                                 '    g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n\n' + "    " + outvar + ' = Glib::VariantBase(output);'
 
@@ -146,7 +147,8 @@ class ArrayType(Type):
             self.variant_type = 'std::vector<std::string>'
             self.cpptype = 'std::vector<std::string>'
 
-    def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
+    def cppvalue_get(self, outvar, idx, cpp_class_name):
+        varname = outvar + '_v'
         if self.signature == 'as':
             return ("Glib::VariantContainerBase "+varname+";\n" +
                     "    wrapped.get_child("+varname+", "+idx+");\n" +
@@ -160,7 +162,7 @@ class ArrayType(Type):
                     "    wrapped.get_child("+varname+", "+idx+");\n" +
                     "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
         else:
-            return Type.cppvalue_get(self, varname, outvar, idx, cpp_class_name)
+            return Type.cppvalue_get(self, outvar, idx, cpp_class_name)
 
     def cppvalue_send(self, name, param, cpp_class_name):
         if self.signature == 'as':
