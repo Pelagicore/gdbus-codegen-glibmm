@@ -29,8 +29,9 @@ class Annotation:
         self.annotations = []
 
 class Type:
-    def __init__(self, signature, cpptype_in = '', cpptype_out = ''):
+    def __init__(self, signature, cpptype_in = ''):
         self.signature = signature
+
         # Used when:
         # - passing value from client to proxy methods
         # - passing value from client to proxy property setters
@@ -38,6 +39,7 @@ class Type:
         #   D-Bus and before invoking the property handler
         # - as input parameter for the stub property handlers
         self.cpptype_in = cpptype_in
+
         # Used when:
         # - the client receives return parameters from the _finish() method;
         #   an extra '&' is added to the type
@@ -47,7 +49,8 @@ class Type:
         # - emitting signals in the stub
         # - passing values to the property setter in the stub
         # - returning values from the stub methods via the helper
-        self.cpptype_out = cpptype_out
+        #self.cpptype_out = cpptype_out
+
         # Used when:
         # - declaring Variant templates in:
         #   * the proxy property getter
@@ -59,6 +62,7 @@ class Type:
         #   * stub signal emission
         #   * stub helper method to return values from method invocations
         self.cpptype_get = cpptype_in
+
         # Used when converting from cpptype_get:
         # - to return value in proxy property getters
         # - when emitting signals in the proxy class
@@ -67,8 +71,13 @@ class Type:
         # - in stub property setters, to pass params to the virtual
         #   implementation
         self.cpptype_get_cast = ''
+
         # Used to cast cpptype_in to cpptype_get when creating variants
         self.cpptype_to_dbus = ''
+
+    def __getattr__(self, name):
+        if name == 'cpptype_out':
+            return self.cpptype_in
 
     def cpptype_send(self, name, param, cpp_class_name):
         """ Used to create a Variant to be sent over D-Bus """
@@ -85,13 +94,13 @@ class Type:
 
 class BasicType(Type):
     def __init__(self, signature, cpptype):
-        Type.__init__(self, signature[0], cpptype, cpptype)
+        Type.__init__(self, signature[0], cpptype)
 
 
 class StringType(Type):
     def __init__(self, signature):
         signature = 'ay' if signature.startswith('ay') else signature[0]
-        Type.__init__(self, signature, 'std::string', 'std::string')
+        Type.__init__(self, signature, 'std::string')
         if self.signature in ('s', 'g', 'o'):
             self.cpptype_get = 'Glib::ustring'
             if self.signature == 's':
@@ -112,7 +121,7 @@ class StringType(Type):
 
 class VariantType(Type):
     def __init__(self):
-        Type.__init__(self, 'v', 'Glib::VariantBase', 'Glib::VariantBase')
+        Type.__init__(self, 'v', 'Glib::VariantBase')
 
     def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
         return 'GVariant *output;\n' +\
@@ -126,17 +135,14 @@ class ArrayType(Type):
         Type.__init__(self, signature[0] + self.element.signature)
         self.cpptype_get = 'std::vector<' + self.element.cpptype_get + '>'
         self.cpptype_in = self.cpptype_get
-        self.cpptype_out = self.cpptype_in
         if self.signature == 'as':
             self.cpptype_get = 'std::vector<Glib::ustring>'
             self.cpptype_in = 'std::vector<std::string>'
             self.cpptype_get_cast = "TypeWrap::glibStringVecToStdStringVec"
             self.cpptype_to_dbus = "TypeWrap::stdStringVecToGlibStringVec"
-            self.cpptype_out = 'std::vector<std::string>'
         elif self.signature == 'ao':
             self.cpptype_get = 'std::vector<std::string>'
             self.cpptype_in = 'std::vector<std::string>'
-            self.cpptype_out = 'std::vector<std::string>'
 
     def cppvalue_get(self, varname, outvar, idx, cpp_class_name):
         if self.signature == 'as':
