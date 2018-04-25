@@ -202,7 +202,7 @@ class DictType(Type):
         assert signature.startswith('a{')
         remaining_signature = signature[2:]
         self.key = get_type(remaining_signature)
-        assert isinstance(self.key, BasicType)
+        assert (isinstance(self.key, BasicType) or isinstance(self.key, StringType))
         remaining_signature = remaining_signature[len(self.key.signature):]
         self.value = get_type(remaining_signature)
         assert self.value is not None
@@ -210,6 +210,9 @@ class DictType(Type):
         assert remaining_signature[0] == '}'
         signature = 'a{' + self.key.signature + self.value.signature + '}'
         Type.__init__(self, signature)
+        self.variant_type = 'std::map<%s,%s>' % (self.key.variant_type,
+                self.value.variant_type)
+        self.cpptype = self.variant_type
 
 
 def get_type(signature):

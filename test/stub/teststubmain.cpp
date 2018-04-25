@@ -61,6 +61,24 @@ TestImpl::TestImpl() {
     m_PropReadWriteBooleanValue= true;
 }
 
+void TestImpl::TestStringVariantDict(std::map<Glib::ustring,Glib::VariantBase> Param1,
+                                     TestMessageHelper invocation)
+{
+    invocation.ret(Param1);
+}
+
+void TestImpl::TestStringStringDict(std::map<Glib::ustring,Glib::ustring> Param1,
+                                    TestMessageHelper invocation)
+{
+    invocation.ret(Param1);
+}
+
+void TestImpl::TestUintIntDict(std::map<guint32,gint32> Param1,
+                               TestMessageHelper invocation)
+{
+    invocation.ret(Param1);
+}
+
 void TestImpl::TestVariant(Glib::VariantBase Param1, TestMessageHelper invocation)
 {
     std::string value;

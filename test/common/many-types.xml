@@ -2,6 +2,21 @@
                       "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.gdbus.codegen.glibmm.Test">
+    <method name="TestStringVariantDict">
+      <arg type="a{sv}" name="Param1" direction="in"></arg>
+      <arg type="a{sv}" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestStringStringDict">
+      <arg type="a{ss}" name="Param1" direction="in"></arg>
+      <arg type="a{ss}" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestUintIntDict">
+      <arg type="a{ui}" name="Param1" direction="in"></arg>
+      <arg type="a{ui}" name="Param2" direction="out"></arg>
+    </method>
+
     <method name="TestVariant">
        <arg type="v" name="Param1" direction="in"></arg>
        <arg type="v" name="Param2" direction="out"></arg>

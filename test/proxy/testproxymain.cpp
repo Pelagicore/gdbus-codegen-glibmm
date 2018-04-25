@@ -14,6 +14,43 @@ void printStatus (std::string message, bool isOK) {
     }
 }
 
+void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                          const std::map<Glib::ustring,Glib::VariantBase> expectedMap) {
+    std::map<Glib::ustring,Glib::VariantBase> res;
+    proxy->TestStringVariantDict_finish(res, result);
+
+    /* The following comparison will be possible only with glibmm 2.58, due to
+     *   https://bugzilla.gnome.org/show_bug.cgi?id=789330
+     * Until that, we separately compare keys and values.
+     */
+    // printStatus("StringVariantDict", res == expectedMap);
+
+    bool ok = (res.size() == expectedMap.size());
+    for (const auto p: expectedMap) {
+        if (!p.second.equal(res[p.first])) {
+            ok = false;
+            break;
+        }
+    }
+    printStatus("StringVariantDict", ok);
+}
+
+void on_test_string_string_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                         const std::map<Glib::ustring,Glib::ustring> expectedMap) {
+    std::map<Glib::ustring,Glib::ustring> res;
+    proxy->TestStringStringDict_finish(res, result);
+
+    printStatus("StringStringDict", res == expectedMap);
+}
+
+void on_test_uint_int_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    const std::map<guint32,gint32> expectedMap) {
+    std::map<guint32,gint32> res;
+    proxy->TestUintIntDict_finish(res, result);
+
+    printStatus("UintIntDict", res == expectedMap);
+}
+
 void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::ustring expectedBase) {
     Glib::VariantBase base;
     proxy->TestVariant_finish(base, result);
@@ -346,6 +383,20 @@ void on_test_signal_boolean_cb(const bool s) {
 
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
+    std::map<Glib::ustring, Glib::VariantBase> variantMapValue {
+        { "string value", Glib::Variant<Glib::ustring>::create("Yes indeed") },
+        { "int value", Glib::Variant<int>::create(14) },
+    };
+    std::map<Glib::ustring, Glib::ustring> stringMapValue {
+        { "name", "John" },
+        { "surname", "O' Johns" },
+        { "city", "Somewhere" },
+    };
+    std::map<guint32, gint32> intMapValue {
+        { 27, 624390 },
+        { 12, -384 },
+        { 0, 1 },
+    };
     Glib::ustring variantValue = "string-as-variant";
 
     std::vector<std::string> inputStrVec;
@@ -371,6 +422,15 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Proxy */ 
     proxy = org::gdbus::codegen::glibmm::Test::createForBusFinish(result);
+
+    /* Dictionary string -> variant */
+    proxy->TestStringVariantDict(variantMapValue, sigc::bind(sigc::ptr_fun(&on_test_string_variant_dict_finished), variantMapValue));
+
+    /* Dictionary string -> string */
+    proxy->TestStringStringDict(stringMapValue, sigc::bind(sigc::ptr_fun(&on_test_string_string_dict_finished), stringMapValue));
+
+    /* Dictionary uint -> int */
+    proxy->TestUintIntDict(intMapValue, sigc::bind(sigc::ptr_fun(&on_test_uint_int_dict_finished), intMapValue));
 
     /* Variant */
     proxy->TestVariant(variantValue, sigc::bind(sigc::ptr_fun(&on_test_variant_finished), variantValue));
