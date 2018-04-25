@@ -87,6 +87,13 @@ void on_test_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result,
     printStatus ("String array", res == expected);
 }
 
+void on_test_struct_array_finished (const Glib::RefPtr<Gio::AsyncResult> result,
+                                    std::vector<std::tuple<guint32,Glib::ustring,gint32>> expected) {
+    std::vector<std::tuple<guint32,Glib::ustring,gint32>> res;
+    proxy->TestStructArray_finish(res, result);
+    printStatus ("Struct array", res == expected);
+}
+
 void on_test_byte_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
     std::string res;
     proxy->TestByteString_finish(res, result);
@@ -406,6 +413,11 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     inputObjPathVec.push_back("/org/gdbus/codegen/glibmm/Test");
     inputObjPathVec.push_back("/org/gdbus/codegen/glibmm/Test");
 
+    std::vector<std::tuple<guint32,Glib::ustring,gint32>> structArray {
+        { 2, "hello world", -3 },
+        { 1, "", 2 },
+    };
+
     std::string bytestring = "Hello world!";
     std::string signatureValue = "b";
     std::string objectPath = "/foo";
@@ -443,6 +455,9 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* String array */
     proxy->TestStringArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished), inputObjPathVec));
+
+    /* Struct array */
+    proxy->TestStructArray(structArray, sigc::bind(sigc::ptr_fun(&on_test_struct_array_finished), structArray));
 
     /* Byte string */
     proxy->TestByteString(bytestring, sigc::bind(sigc::ptr_fun(&on_test_byte_string_finished), bytestring));

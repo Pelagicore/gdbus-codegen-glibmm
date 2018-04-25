@@ -191,10 +191,13 @@ class StructType(Type):
         while remaining_signature[0] != ')':
             e = get_type(remaining_signature)
             self.elements.append(e)
-            signature.append(e.signature)
+            signature += e.signature
             remaining_signature = remaining_signature[len(e.signature):]
-        signature.append(')')
+        signature += ')'
         Type.__init__(self, signature)
+        type_string = ','.join([t.variant_type for t in self.elements])
+        self.variant_type = 'std::tuple<' + type_string + '>'
+        self.cpptype = self.variant_type
 
 
 class DictType(Type):

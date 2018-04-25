@@ -42,6 +42,11 @@
         <arg type="ay" name="Param2" direction="out"></arg>
     </method>
 
+    <method name="TestStructArray">
+      <arg type="a(usi)" name="Param1" direction="in"></arg>
+      <arg type="a(usi)" name="Param2" direction="out"></arg>
+    </method>
+
     <method name="TestSignature">
         <arg type="g" name="Param1" direction="in"></arg>
         <arg type="g" name="Param2" direction="out"></arg>
