@@ -853,6 +853,7 @@ class CodeGenerator:
         self.emit_h_common(dedent("""
         #pragma once
         #include <iostream>
+        #include <map>
         #include "glibmm.h"
         #include "giomm.h"
         """))

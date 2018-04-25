@@ -7,6 +7,15 @@ public:
     void TestVariant (
             Glib::VariantBase Param1,
             TestMessageHelper invocation);
+    void TestStringVariantDict(
+            std::map<Glib::ustring,Glib::VariantBase> Param1,
+            TestMessageHelper invocation) override;
+    void TestStringStringDict(
+            std::map<Glib::ustring,Glib::ustring> Param1,
+            TestMessageHelper invocation) override;
+    void TestUintIntDict(
+            std::map<guint32,gint32> Param1,
+            TestMessageHelper invocation) override;
     void TestByteStringArray (
             std::vector<std::string>  Param1,
             TestMessageHelper invocation);
