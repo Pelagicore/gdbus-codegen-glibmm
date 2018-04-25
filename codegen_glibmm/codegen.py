@@ -139,7 +139,7 @@ class CodeGenerator:
                 # Flag method as templated if there is a variant arg
                 templated = False
                 for a in m.in_args:
-                    if "v" in a.signature:
+                    if a.templated:
                         templated = True
 
                 if templated is True:
@@ -150,7 +150,7 @@ class CodeGenerator:
                     self.emit_h_p("    void %s(" % m.name)
                     for a in m.in_args:
                         # Variants needs special attention
-                        if "v" in a.signature:
+                        if a.templated:
                             self.emit_h_p("        T %s," % (a.name))
                         else:
                             self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
@@ -165,7 +165,7 @@ class CodeGenerator:
                     if (len(m.in_args) > 1):
                         self.emit_h_p("        std::vector<Glib::VariantBase> params;")
                         for a in m.in_args:
-                            if "v" in a.signature:
+                            if a.templated:
                                 self.emit_h_p("        Glib::Variant<Glib::Variant<T> > %s_variantValue;" % (a.name))
                                 self.emit_h_p("        %s_variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s_param));" % (a.name, a.name))
                                 self.emit_h_p("        params.push_back(%s_variantValue);" % (a.name))
@@ -174,7 +174,7 @@ class CodeGenerator:
                                 self.emit_h_p("        params.push_back(%s_param);" % (a.name))
                     elif (len(m.in_args) == 1):
                         for a in m.in_args:
-                            if "v" in a.signature:
+                            if a.templated:
                                 self.emit_h_p("        Glib::Variant<Glib::Variant<T> > variantValue;")
                                 self.emit_h_p("        variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s));" % (a.name))
                                 self.emit_h_p("        Glib::VariantBase params = variantValue;")
@@ -261,7 +261,7 @@ class CodeGenerator:
             # Flag method as templated if there is a variant arg
             templated = False
             for a in m.in_args:
-                if "v" in a.signature:
+                if a.templated:
                     templated = True
 
             # Only generate code if this is a non-templated method
@@ -663,7 +663,7 @@ class CodeGenerator:
             self.emit_cpp_s("    if (method_name.compare(\"%s\") == 0) {" % m.name)
             for ai in range(len(m.in_args)):
                 a = m.in_args[ai]
-                if a.signature == "v":
+                if a.templated:
                     # Variants are deconstructed differently than the other types
                     self.emit_cpp_s("        Glib::VariantContainerBase containerBase = parameters;")
                     self.emit_cpp_s("        GVariant *output%s;" % (ai))
@@ -931,7 +931,7 @@ class CodeGenerator:
                 # Prepend the class name if this is the generic "TypeWrap" class
                 if cpptype_to_dbus.startswith("TypeWrap"):
                     cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
-                if a[index].signature == "v":
+                if a[index].templated:
                     self.emit_h_common("    vlist.push_back(p{index});".format(**locals()))
                 else:
                     self.emit_h_common("    vlist.push_back(Glib::Variant<"+a[index].variant_type+" >::create(" + cpptype_to_dbus + "(p{index})));".format(**locals()))

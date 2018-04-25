@@ -76,6 +76,9 @@ class Type:
         # Used to cast cpptype_in to variant_type when creating variants
         self.cpptype_to_dbus = ''
 
+        # Tells whether this type must be handled as a template
+        self.templated = False
+
     def __getattr__(self, name):
         if name in ('cpptype_in', 'cpptype_out'):
             return self.cpptype
@@ -125,6 +128,7 @@ class StringType(Type):
 class VariantType(Type):
     def __init__(self):
         Type.__init__(self, 'v', 'Glib::VariantBase')
+        self.templated = True
 
     def cppvalue_get(self, outvar, idx, cpp_class_name):
         return 'GVariant *output;\n' +\
