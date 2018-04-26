@@ -14,6 +14,18 @@ void printStatus (std::string message, bool isOK) {
     }
 }
 
+bool maps_are_equal(const std::map<Glib::ustring,Glib::VariantBase> &a,
+                    const std::map<Glib::ustring,Glib::VariantBase> &b) {
+    bool equal = (a.size() == b.size());
+    for (const auto p: b) {
+        if (!p.second.equal(a.at(p.first))) {
+            equal = false;
+            break;
+        }
+    }
+    return equal;
+}
+
 void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
                                           const std::map<Glib::ustring,Glib::VariantBase> expectedMap) {
     std::map<Glib::ustring,Glib::VariantBase> res;
@@ -25,14 +37,7 @@ void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> r
      */
     // printStatus("StringVariantDict", res == expectedMap);
 
-    bool ok = (res.size() == expectedMap.size());
-    for (const auto p: expectedMap) {
-        if (!p.second.equal(res[p.first])) {
-            ok = false;
-            break;
-        }
-    }
-    printStatus("StringVariantDict", ok);
+    printStatus("StringVariantDict", maps_are_equal(res, expectedMap));
 }
 
 void on_test_string_string_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
@@ -92,6 +97,35 @@ void on_test_struct_array_finished (const Glib::RefPtr<Gio::AsyncResult> result,
     std::vector<std::tuple<guint32,Glib::ustring,gint32>> res;
     proxy->TestStructArray_finish(res, result);
     printStatus ("Struct array", res == expected);
+}
+
+void on_test_dict_struct_array_finished (const Glib::RefPtr<Gio::AsyncResult> result,
+                                         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> expected) {
+    std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> res;
+    proxy->TestDictStructArray_finish(res, result);
+
+    /* The following comparison will be possible only with glibmm 2.58, due to
+     *   https://bugzilla.gnome.org/show_bug.cgi?id=789330
+     * Until that, we separately compare keys and values.
+     */
+    //printStatus ("Dict Struct array a(sa{sv})", res == expected);
+
+    bool ok = (res.size() == expected.size());
+    if (ok) {
+        for (int i = 0; i < res.size(); i++) {
+            const auto v = res[i];
+            const auto v_expected = expected[i];
+            if (std::get<0>(v) != std::get<0>(v_expected)) {
+                ok = false;
+                break;
+            }
+            if (!maps_are_equal(std::get<1>(v), std::get<1>(v_expected))) {
+                ok = false;
+                break;
+            }
+        }
+    }
+    printStatus ("Dict Struct array a(sa{sv})", ok);
 }
 
 void on_test_byte_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
@@ -418,6 +452,14 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
         { 1, "", 2 },
     };
 
+    std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> dictStructArray {
+        { "hello world", variantMapValue },
+        { "other", {
+                { "key1", Glib::Variant<int>::create(-5) },
+            }
+        },
+    };
+
     std::string bytestring = "Hello world!";
     std::string signatureValue = "b";
     std::string objectPath = "/foo";
@@ -458,6 +500,9 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Struct array */
     proxy->TestStructArray(structArray, sigc::bind(sigc::ptr_fun(&on_test_struct_array_finished), structArray));
+
+    /* Dict Struct array */
+    proxy->TestDictStructArray(dictStructArray, sigc::bind(sigc::ptr_fun(&on_test_dict_struct_array_finished), dictStructArray));
 
     /* Byte string */
     proxy->TestByteString(bytestring, sigc::bind(sigc::ptr_fun(&on_test_byte_string_finished), bytestring));

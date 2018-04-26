@@ -28,6 +28,9 @@ public:
     void TestStructArray (
             std::vector<std::tuple<guint32,Glib::ustring,gint32>> Param1,
             TestMessageHelper invocation);
+    void TestDictStructArray (
+            std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
+            TestMessageHelper invocation);
     void TestByteString (
             std::string Param1,
             TestMessageHelper invocation);

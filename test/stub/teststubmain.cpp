@@ -128,6 +128,12 @@ void TestImpl::TestStructArray (
     invocation.ret(Param1);
 }
 
+void TestImpl::TestDictStructArray (
+        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
+        TestMessageHelper invocation) {
+    invocation.ret(Param1);
+}
+
 void TestImpl::TestByteString (
         std::string Param1,
         TestMessageHelper invocation) {
