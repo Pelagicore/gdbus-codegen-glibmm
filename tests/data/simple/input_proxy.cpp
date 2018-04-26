@@ -27,7 +27,7 @@ void org::gdbus::codegen::glibmm::Test::TestCall(
 }
 
 void org::gdbus::codegen::glibmm::Test::TestCall_finish(
-    std::string &out_Param3,
+    Glib::ustring &out_Param3,
     std::map<Glib::ustring,Glib::VariantBase> &out_Param4,
     const Glib::RefPtr<Gio::AsyncResult> &result)
 {
@@ -43,7 +43,7 @@ void org::gdbus::codegen::glibmm::Test::TestCall_finish(
     out_Param4 = out_Param4_v.get();
 }
 
-std::vector<std::string> org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_get()
+std::vector<Glib::ustring> org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_get()
 {
     std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
@@ -53,7 +53,7 @@ std::vector<std::string> org::gdbus::codegen::glibmm::Test::TestPropReadStringAr
         g_print("Todo: lookup value\n");
     }
 
-    return TestTypeWrap::glibStringVecToStdStringVec(b.get());
+    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring& sender_name,
@@ -62,9 +62,9 @@ void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring& sende
 {
     if (signal_name == "TestSignalObjectPathArray") {
         if (parameters.get_n_children() != 1) return;
-        Glib::Variant<std::vector<std::string>> base_Param1;
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::string> p_Param1;
+        std::vector<Glib::DBusObjectPathString> p_Param1;
         p_Param1 = base_Param1.get();
 
         TestSignalObjectPathArray_signal.emit((p_Param1));

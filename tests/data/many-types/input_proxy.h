@@ -71,19 +71,19 @@ public:
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestObjectPathArray(
-        std::vector<std::string> Param1,
+        std::vector<Glib::DBusObjectPathString> Param1,
         const Gio::SlotAsyncReady &slot);
 
     void TestObjectPathArray_finish (
-        std::vector<std::string> &Param2,
+        std::vector<Glib::DBusObjectPathString> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestStringArray(
-        std::vector<std::string> Param1,
+        std::vector<Glib::ustring> Param1,
         const Gio::SlotAsyncReady &slot);
 
     void TestStringArray_finish (
-        std::vector<std::string> &Param2,
+        std::vector<Glib::ustring> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestByteString(
@@ -119,27 +119,27 @@ public:
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestSignature(
-        std::string Param1,
+        Glib::DBusSignatureString Param1,
         const Gio::SlotAsyncReady &slot);
 
     void TestSignature_finish (
-        std::string &Param2,
+        Glib::DBusSignatureString &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestObjectPath(
-        std::string Param1,
+        Glib::DBusObjectPathString Param1,
         const Gio::SlotAsyncReady &slot);
 
     void TestObjectPath_finish (
-        std::string &Param2,
+        Glib::DBusObjectPathString &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestString(
-        std::string Param1,
+        Glib::ustring Param1,
         const Gio::SlotAsyncReady &slot);
 
     void TestString_finish (
-        std::string &Param2,
+        Glib::ustring &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     void TestDouble(
@@ -216,12 +216,12 @@ public:
 
     void TestAll(
         std::vector<std::string> in_Param1,
-        std::vector<std::string> in_Param2,
-        std::vector<std::string> in_Param3,
+        std::vector<Glib::DBusObjectPathString> in_Param2,
+        std::vector<Glib::ustring> in_Param3,
         std::string in_Param4,
-        std::string in_Param5,
-        std::string in_Param6,
-        std::string in_Param7,
+        Glib::DBusSignatureString in_Param5,
+        Glib::DBusObjectPathString in_Param6,
+        Glib::ustring in_Param7,
         double in_Param8,
         guint64 in_Param9,
         gint64 in_Param10,
@@ -235,12 +235,12 @@ public:
 
     void TestAll_finish (
         std::vector<std::string> &out_Param1,
-        std::vector<std::string> &out_Param2,
-        std::vector<std::string> &out_Param3,
+        std::vector<Glib::DBusObjectPathString> &out_Param2,
+        std::vector<Glib::ustring> &out_Param3,
         std::string &out_Param4,
-        std::string &out_Param5,
-        std::string &out_Param6,
-        std::string &out_Param7,
+        Glib::DBusSignatureString &out_Param5,
+        Glib::DBusObjectPathString &out_Param6,
+        Glib::ustring &out_Param7,
         double &out_Param8,
         guint64 &out_Param9,
         gint64 &out_Param10,
@@ -261,17 +261,17 @@ public:
 
     std::vector<std::string> TestPropReadByteStringArray_get();
 
-    std::vector<std::string> TestPropReadObjectPathArray_get();
+    std::vector<Glib::DBusObjectPathString> TestPropReadObjectPathArray_get();
 
-    std::vector<std::string> TestPropReadStringArray_get();
+    std::vector<Glib::ustring> TestPropReadStringArray_get();
 
     std::string TestPropReadByteString_get();
 
-    std::string TestPropReadSignature_get();
+    Glib::DBusSignatureString TestPropReadSignature_get();
 
-    std::string TestPropReadObjectPath_get();
+    Glib::DBusObjectPathString TestPropReadObjectPath_get();
 
-    std::string TestPropReadString_get();
+    Glib::ustring TestPropReadString_get();
 
     double TestPropReadDouble_get();
 
@@ -296,22 +296,22 @@ public:
     void TestPropWriteByteStringArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
     void TestPropWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    void TestPropWriteObjectPathArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
+    void TestPropWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString>, const Gio::SlotAsyncReady &);
     void TestPropWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    void TestPropWriteStringArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
+    void TestPropWriteStringArray_set(std::vector<Glib::ustring>, const Gio::SlotAsyncReady &);
     void TestPropWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
     void TestPropWriteByteString_set(std::string, const Gio::SlotAsyncReady &);
     void TestPropWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    void TestPropWriteSignature_set(std::string, const Gio::SlotAsyncReady &);
+    void TestPropWriteSignature_set(Glib::DBusSignatureString, const Gio::SlotAsyncReady &);
     void TestPropWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    void TestPropWriteObjectPath_set(std::string, const Gio::SlotAsyncReady &);
+    void TestPropWriteObjectPath_set(Glib::DBusObjectPathString, const Gio::SlotAsyncReady &);
     void TestPropWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    void TestPropWriteString_set(std::string, const Gio::SlotAsyncReady &);
+    void TestPropWriteString_set(Glib::ustring, const Gio::SlotAsyncReady &);
     void TestPropWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
     void TestPropWriteDouble_set(double, const Gio::SlotAsyncReady &);
@@ -345,28 +345,28 @@ public:
     void TestPropReadWriteByteStringArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
     void TestPropReadWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    std::vector<std::string> TestPropReadWriteObjectPathArray_get();
-    void TestPropReadWriteObjectPathArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
+    std::vector<Glib::DBusObjectPathString> TestPropReadWriteObjectPathArray_get();
+    void TestPropReadWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString>, const Gio::SlotAsyncReady &);
     void TestPropReadWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    std::vector<std::string> TestPropReadWriteStringArray_get();
-    void TestPropReadWriteStringArray_set(std::vector<std::string>, const Gio::SlotAsyncReady &);
+    std::vector<Glib::ustring> TestPropReadWriteStringArray_get();
+    void TestPropReadWriteStringArray_set(std::vector<Glib::ustring>, const Gio::SlotAsyncReady &);
     void TestPropReadWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
     std::string TestPropReadWriteByteString_get();
     void TestPropReadWriteByteString_set(std::string, const Gio::SlotAsyncReady &);
     void TestPropReadWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    std::string TestPropReadWriteSignature_get();
-    void TestPropReadWriteSignature_set(std::string, const Gio::SlotAsyncReady &);
+    Glib::DBusSignatureString TestPropReadWriteSignature_get();
+    void TestPropReadWriteSignature_set(Glib::DBusSignatureString, const Gio::SlotAsyncReady &);
     void TestPropReadWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    std::string TestPropReadWriteObjectPath_get();
-    void TestPropReadWriteObjectPath_set(std::string, const Gio::SlotAsyncReady &);
+    Glib::DBusObjectPathString TestPropReadWriteObjectPath_get();
+    void TestPropReadWriteObjectPath_set(Glib::DBusObjectPathString, const Gio::SlotAsyncReady &);
     void TestPropReadWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
-    std::string TestPropReadWriteString_get();
-    void TestPropReadWriteString_set(std::string, const Gio::SlotAsyncReady &);
+    Glib::ustring TestPropReadWriteString_get();
+    void TestPropReadWriteString_set(Glib::ustring, const Gio::SlotAsyncReady &);
     void TestPropReadWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
     double TestPropReadWriteDouble_get();
@@ -410,12 +410,12 @@ public:
     void TestPropInternalReadWritePropertyChange_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
 
     sigc::signal<void, std::vector<std::string> > TestSignalByteStringArray_signal;
-    sigc::signal<void, std::vector<std::string> > TestSignalObjectPathArray_signal;
-    sigc::signal<void, std::vector<std::string> > TestSignalStringArray_signal;
+    sigc::signal<void, std::vector<Glib::DBusObjectPathString> > TestSignalObjectPathArray_signal;
+    sigc::signal<void, std::vector<Glib::ustring> > TestSignalStringArray_signal;
     sigc::signal<void, std::string > TestSignalByteString_signal;
-    sigc::signal<void, std::string > TestSignalSignature_signal;
-    sigc::signal<void, std::string > TestSignalObjectPath_signal;
-    sigc::signal<void, std::string > TestSignalString_signal;
+    sigc::signal<void, Glib::DBusSignatureString > TestSignalSignature_signal;
+    sigc::signal<void, Glib::DBusObjectPathString > TestSignalObjectPath_signal;
+    sigc::signal<void, Glib::ustring > TestSignalString_signal;
     sigc::signal<void, double > TestSignalDouble_signal;
     sigc::signal<void, guint64 > TestSignalUInt64_signal;
     sigc::signal<void, gint64 > TestSignalInt64_signal;

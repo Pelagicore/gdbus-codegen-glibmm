@@ -453,9 +453,9 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     }
 
     if (method_name.compare("TestObjectPathArray") == 0) {
-        Glib::Variant<std::vector<std::string>> base_Param1;
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::string> p_Param1 = base_Param1.get();
+        std::vector<Glib::DBusObjectPathString> p_Param1 = base_Param1.get();
 
         TestObjectPathArray(
             (p_Param1),
@@ -468,7 +468,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         std::vector<Glib::ustring> p_Param1 = base_Param1.get();
 
         TestStringArray(
-            TestTypeWrap::glibStringVecToStdStringVec(p_Param1),
+            (p_Param1),
             TestMessageHelper(invocation));
     }
 
@@ -513,9 +513,9 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     }
 
     if (method_name.compare("TestSignature") == 0) {
-        Glib::Variant<Glib::ustring> base_Param1;
+        Glib::Variant<Glib::DBusSignatureString> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1 = base_Param1.get();
+        Glib::DBusSignatureString p_Param1 = base_Param1.get();
 
         TestSignature(
             (p_Param1),
@@ -523,9 +523,9 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     }
 
     if (method_name.compare("TestObjectPath") == 0) {
-        Glib::Variant<Glib::ustring> base_Param1;
+        Glib::Variant<Glib::DBusObjectPathString> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1 = base_Param1.get();
+        Glib::DBusObjectPathString p_Param1 = base_Param1.get();
 
         TestObjectPath(
             (p_Param1),
@@ -538,7 +538,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         Glib::ustring p_Param1 = base_Param1.get();
 
         TestString(
-            Glib::ustring(p_Param1),
+            (p_Param1),
             TestMessageHelper(invocation));
     }
 
@@ -637,9 +637,9 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_in_Param1, 0);
         std::vector<std::string> p_in_Param1 = base_in_Param1.get();
 
-        Glib::Variant<std::vector<std::string>> base_in_Param2;
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_in_Param2;
         parameters.get_child(base_in_Param2, 1);
-        std::vector<std::string> p_in_Param2 = base_in_Param2.get();
+        std::vector<Glib::DBusObjectPathString> p_in_Param2 = base_in_Param2.get();
 
         Glib::Variant<std::vector<Glib::ustring>> base_in_Param3;
         parameters.get_child(base_in_Param3, 2);
@@ -649,13 +649,13 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_in_Param4, 3);
         std::string p_in_Param4 = base_in_Param4.get();
 
-        Glib::Variant<Glib::ustring> base_in_Param5;
+        Glib::Variant<Glib::DBusSignatureString> base_in_Param5;
         parameters.get_child(base_in_Param5, 4);
-        Glib::ustring p_in_Param5 = base_in_Param5.get();
+        Glib::DBusSignatureString p_in_Param5 = base_in_Param5.get();
 
-        Glib::Variant<Glib::ustring> base_in_Param6;
+        Glib::Variant<Glib::DBusObjectPathString> base_in_Param6;
         parameters.get_child(base_in_Param6, 5);
-        Glib::ustring p_in_Param6 = base_in_Param6.get();
+        Glib::DBusObjectPathString p_in_Param6 = base_in_Param6.get();
 
         Glib::Variant<Glib::ustring> base_in_Param7;
         parameters.get_child(base_in_Param7, 6);
@@ -700,11 +700,11 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         TestAll(
             (p_in_Param1),
             (p_in_Param2),
-            TestTypeWrap::glibStringVecToStdStringVec(p_in_Param3),
+            (p_in_Param3),
             (p_in_Param4),
             (p_in_Param5),
             (p_in_Param6),
-            Glib::ustring(p_in_Param7),
+            (p_in_Param7),
             (p_in_Param8),
             (p_in_Param9),
             (p_in_Param10),
@@ -742,11 +742,11 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     }
 
     if (property_name.compare("TestPropReadObjectPathArray") == 0) {
-        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadObjectPathArray_get()));
+        property = Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadObjectPathArray_get()));
     }
 
     if (property_name.compare("TestPropReadStringArray") == 0) {
-        property = Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+        property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadByteString") == 0) {
@@ -754,11 +754,11 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     }
 
     if (property_name.compare("TestPropReadSignature") == 0) {
-        property = Glib::Variant<Glib::ustring>::create((TestPropReadSignature_get()));
+        property = Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadSignature_get()));
     }
 
     if (property_name.compare("TestPropReadObjectPath") == 0) {
-        property = Glib::Variant<Glib::ustring>::create((TestPropReadObjectPath_get()));
+        property = Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadObjectPath_get()));
     }
 
     if (property_name.compare("TestPropReadString") == 0) {
@@ -810,11 +810,11 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     }
 
     if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
-        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteObjectPathArray_get()));
+        property = Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadWriteObjectPathArray_get()));
     }
 
     if (property_name.compare("TestPropReadWriteStringArray") == 0) {
-        property = Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
+        property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadWriteStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadWriteByteString") == 0) {
@@ -822,11 +822,11 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     }
 
     if (property_name.compare("TestPropReadWriteSignature") == 0) {
-        property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteSignature_get()));
+        property = Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadWriteSignature_get()));
     }
 
     if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
-        property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteObjectPath_get()));
+        property = Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadWriteObjectPath_get()));
     }
 
     if (property_name.compare("TestPropReadWriteString") == 0) {
@@ -897,9 +897,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadObjectPathArray") == 0) {
         try {
-            Glib::Variant<std::vector<std::string>> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
-            std::vector<std::string> val =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::DBusObjectPathString>>>(value);
+            std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropReadObjectPathArray_set(val);
         } catch (std::bad_cast e) {
@@ -911,8 +911,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
-            std::vector<std::string> val =
-                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            std::vector<Glib::ustring> val =
+                (castValue.get());
             TestPropReadStringArray_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropReadStringArray");
@@ -933,9 +933,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadSignature") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusSignatureString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusSignatureString>>(value);
+            Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropReadSignature_set(val);
         } catch (std::bad_cast e) {
@@ -945,9 +945,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadObjectPath") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusObjectPathString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusObjectPathString>>(value);
+            Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropReadObjectPath_set(val);
         } catch (std::bad_cast e) {
@@ -959,8 +959,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<Glib::ustring> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
-                Glib::ustring(castValue.get());
+            Glib::ustring val =
+                (castValue.get());
             TestPropReadString_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropReadString");
@@ -1101,9 +1101,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropWriteObjectPathArray") == 0) {
         try {
-            Glib::Variant<std::vector<std::string>> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
-            std::vector<std::string> val =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::DBusObjectPathString>>>(value);
+            std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropWriteObjectPathArray_set(val);
         } catch (std::bad_cast e) {
@@ -1115,8 +1115,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
-            std::vector<std::string> val =
-                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            std::vector<Glib::ustring> val =
+                (castValue.get());
             TestPropWriteStringArray_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropWriteStringArray");
@@ -1137,9 +1137,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropWriteSignature") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusSignatureString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusSignatureString>>(value);
+            Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropWriteSignature_set(val);
         } catch (std::bad_cast e) {
@@ -1149,9 +1149,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropWriteObjectPath") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusObjectPathString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusObjectPathString>>(value);
+            Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropWriteObjectPath_set(val);
         } catch (std::bad_cast e) {
@@ -1163,8 +1163,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<Glib::ustring> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
-                Glib::ustring(castValue.get());
+            Glib::ustring val =
+                (castValue.get());
             TestPropWriteString_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropWriteString");
@@ -1293,9 +1293,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
         try {
-            Glib::Variant<std::vector<std::string>> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
-            std::vector<std::string> val =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::DBusObjectPathString>>>(value);
+            std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropReadWriteObjectPathArray_set(val);
         } catch (std::bad_cast e) {
@@ -1307,8 +1307,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
-            std::vector<std::string> val =
-                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            std::vector<Glib::ustring> val =
+                (castValue.get());
             TestPropReadWriteStringArray_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropReadWriteStringArray");
@@ -1329,9 +1329,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadWriteSignature") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusSignatureString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusSignatureString>>(value);
+            Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropReadWriteSignature_set(val);
         } catch (std::bad_cast e) {
@@ -1341,9 +1341,9 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
 
     if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
         try {
-            Glib::Variant<Glib::ustring> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
+            Glib::Variant<Glib::DBusObjectPathString> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusObjectPathString>>(value);
+            Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropReadWriteObjectPath_set(val);
         } catch (std::bad_cast e) {
@@ -1355,8 +1355,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<Glib::ustring> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
-            std::string val =
-                Glib::ustring(castValue.get());
+            Glib::ustring val =
+                (castValue.get());
             TestPropReadWriteString_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropReadWriteString");
@@ -1500,11 +1500,11 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::v
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<std::string> Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
-    paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
+    paramsList.push_back(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((Param1)));;
 
     m_connection->emit_signal(
         "/org/gdbus/codegen/glibmm/Test",
@@ -1514,11 +1514,11 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::v
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vector<std::string> Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vector<Glib::ustring> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
-    paramsList.push_back(Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(Param1)));;
+    paramsList.push_back(Glib::Variant<std::vector<Glib::ustring>>::create((Param1)));;
 
     m_connection->emit_signal(
         "/org/gdbus/codegen/glibmm/Test",
@@ -1542,11 +1542,11 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(std::string Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(Glib::DBusSignatureString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
-    paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
+    paramsList.push_back(Glib::Variant<Glib::DBusSignatureString>::create((Param1)));;
 
     m_connection->emit_signal(
         "/org/gdbus/codegen/glibmm/Test",
@@ -1556,11 +1556,11 @@ void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(std::string 
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(std::string Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(Glib::DBusObjectPathString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
-    paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
+    paramsList.push_back(Glib::Variant<Glib::DBusObjectPathString>::create((Param1)));;
 
     m_connection->emit_signal(
         "/org/gdbus/codegen/glibmm/Test",
@@ -1570,7 +1570,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(std::string
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(std::string Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(Glib::ustring Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1743,11 +1743,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(std::vec
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value)
 {
     if (TestPropReadObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string>> value_get =
-            Glib::Variant<std::vector<std::string>>::create((TestPropReadObjectPathArray_get()));
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadObjectPathArray_get()));
         emitSignal("TestPropReadObjectPathArray", value_get);
         return true;
     }
@@ -1755,11 +1755,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vec
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<Glib::ustring> value)
 {
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
-            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+            Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
         emitSignal("TestPropReadStringArray", value_get);
         return true;
     }
@@ -1779,11 +1779,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(Glib::DBusSignatureString value)
 {
     if (TestPropReadSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropReadSignature_get()));
+        Glib::Variant<Glib::DBusSignatureString> value_get =
+            Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadSignature_get()));
         emitSignal("TestPropReadSignature", value_get);
         return true;
     }
@@ -1791,11 +1791,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(std::string va
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(Glib::DBusObjectPathString value)
 {
     if (TestPropReadObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropReadObjectPath_get()));
+        Glib::Variant<Glib::DBusObjectPathString> value_get =
+            Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadObjectPath_get()));
         emitSignal("TestPropReadObjectPath", value_get);
         return true;
     }
@@ -1803,7 +1803,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(Glib::ustring value)
 {
     if (TestPropReadString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
@@ -1947,11 +1947,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(std::ve
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value)
 {
     if (TestPropWriteObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string>> value_get =
-            Glib::Variant<std::vector<std::string>>::create((TestPropWriteObjectPathArray_get()));
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropWriteObjectPathArray_get()));
         emitSignal("TestPropWriteObjectPathArray", value_get);
         return true;
     }
@@ -1959,11 +1959,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::ve
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(std::vector<Glib::ustring> value)
 {
     if (TestPropWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
-            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropWriteStringArray_get()));
+            Glib::Variant<std::vector<Glib::ustring>>::create((TestPropWriteStringArray_get()));
         emitSignal("TestPropWriteStringArray", value_get);
         return true;
     }
@@ -1983,11 +1983,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(std::string 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(Glib::DBusSignatureString value)
 {
     if (TestPropWriteSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropWriteSignature_get()));
+        Glib::Variant<Glib::DBusSignatureString> value_get =
+            Glib::Variant<Glib::DBusSignatureString>::create((TestPropWriteSignature_get()));
         emitSignal("TestPropWriteSignature", value_get);
         return true;
     }
@@ -1995,11 +1995,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(Glib::DBusObjectPathString value)
 {
     if (TestPropWriteObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropWriteObjectPath_get()));
+        Glib::Variant<Glib::DBusObjectPathString> value_get =
+            Glib::Variant<Glib::DBusObjectPathString>::create((TestPropWriteObjectPath_get()));
         emitSignal("TestPropWriteObjectPath", value_get);
         return true;
     }
@@ -2007,7 +2007,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(std::string 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(Glib::ustring value)
 {
     if (TestPropWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
@@ -2139,11 +2139,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(std
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value)
 {
     if (TestPropReadWriteObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string>> value_get =
-            Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteObjectPathArray_get()));
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadWriteObjectPathArray_get()));
         emitSignal("TestPropReadWriteObjectPathArray", value_get);
         return true;
     }
@@ -2151,11 +2151,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::vector<Glib::ustring> value)
 {
     if (TestPropReadWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
-            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
+            Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadWriteStringArray_get()));
         emitSignal("TestPropReadWriteStringArray", value_get);
         return true;
     }
@@ -2175,11 +2175,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(std::str
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(Glib::DBusSignatureString value)
 {
     if (TestPropReadWriteSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropReadWriteSignature_get()));
+        Glib::Variant<Glib::DBusSignatureString> value_get =
+            Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadWriteSignature_get()));
         emitSignal("TestPropReadWriteSignature", value_get);
         return true;
     }
@@ -2187,11 +2187,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::stri
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(Glib::DBusObjectPathString value)
 {
     if (TestPropReadWriteObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring> value_get =
-            Glib::Variant<Glib::ustring>::create((TestPropReadWriteObjectPath_get()));
+        Glib::Variant<Glib::DBusObjectPathString> value_get =
+            Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadWriteObjectPath_get()));
         emitSignal("TestPropReadWriteObjectPath", value_get);
         return true;
     }
@@ -2199,7 +2199,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::str
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(std::string value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(Glib::ustring value)
 {
     if (TestPropReadWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =

@@ -88,8 +88,26 @@ public:
 
     void ret(std::vector<std::string> p0) {
         std::vector<Glib::VariantBase> vlist;
-        Glib::Variant<std::vector<Glib::ustring> > var0 =
-            Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(p0));
+        Glib::Variant<std::vector<std::string>> var0 =
+            Glib::Variant<std::vector<std::string>>::create(p0);
+        vlist.push_back(var0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(std::vector<Glib::DBusObjectPathString> p0) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> var0 =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create(p0);
+        vlist.push_back(var0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(std::vector<Glib::ustring> p0) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::Variant<std::vector<Glib::ustring>> var0 =
+            Glib::Variant<std::vector<Glib::ustring>>::create(p0);
         vlist.push_back(var0);
 
         m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
@@ -97,8 +115,8 @@ public:
 
     void ret(std::string p0) {
         std::vector<Glib::VariantBase> vlist;
-        Glib::Variant<Glib::ustring> var0 =
-            Glib::Variant<Glib::ustring>::create(p0);
+        Glib::Variant<std::string> var0 =
+            Glib::Variant<std::string>::create(p0);
         vlist.push_back(var0);
 
         m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
@@ -126,6 +144,33 @@ public:
         std::vector<Glib::VariantBase> vlist;
         Glib::Variant<std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>>> var0 =
             Glib::Variant<std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>>>::create(p0);
+        vlist.push_back(var0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(Glib::DBusSignatureString p0) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::VariantStringBase var0;
+        Glib::VariantStringBase::create_signature(var0, p0.c_str());
+        vlist.push_back(var0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(Glib::DBusObjectPathString p0) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::VariantStringBase var0;
+        Glib::VariantStringBase::create_object_path(var0, p0.c_str());
+        vlist.push_back(var0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(Glib::ustring p0) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::Variant<Glib::ustring> var0 =
+            Glib::Variant<Glib::ustring>::create(p0);
         vlist.push_back(var0);
 
         m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
@@ -212,16 +257,16 @@ public:
         m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
     }
 
-    void ret(std::vector<std::string> p0, std::vector<std::string> p1, std::vector<std::string> p2, std::string p3, std::string p4, std::string p5, std::string p6, double p7, guint64 p8, gint64 p9, guint32 p10, gint32 p11, guint16 p12, gint16 p13, guchar p14, bool p15) {
+    void ret(std::vector<std::string> p0, std::vector<Glib::DBusObjectPathString> p1, std::vector<Glib::ustring> p2, std::string p3, Glib::DBusSignatureString p4, Glib::DBusObjectPathString p5, Glib::ustring p6, double p7, guint64 p8, gint64 p9, guint32 p10, gint32 p11, guint16 p12, gint16 p13, guchar p14, bool p15) {
         std::vector<Glib::VariantBase> vlist;
         Glib::Variant<std::vector<std::string>> var0 =
             Glib::Variant<std::vector<std::string>>::create(p0);
         vlist.push_back(var0);
-        Glib::Variant<std::vector<std::string> > var1 =
-            Glib::Variant<std::vector< std::string > >::create_from_object_paths(p1);
+        Glib::Variant<std::vector<Glib::DBusObjectPathString>> var1 =
+            Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create(p1);
         vlist.push_back(var1);
-        Glib::Variant<std::vector<Glib::ustring> > var2 =
-            Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(p2));
+        Glib::Variant<std::vector<Glib::ustring>> var2 =
+            Glib::Variant<std::vector<Glib::ustring>>::create(p2);
         vlist.push_back(var2);
         Glib::Variant<std::string> var3 =
             Glib::Variant<std::string>::create(p3);
