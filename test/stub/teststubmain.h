@@ -20,10 +20,10 @@ public:
             std::vector<std::string>  Param1,
             TestMessageHelper invocation);
     void TestObjectPathArray (
-            std::vector<std::string>  Param1,
+            std::vector<Glib::DBusObjectPathString>  Param1,
             TestMessageHelper invocation);
     void TestStringArray (
-            std::vector<std::string>  Param1,
+            std::vector<Glib::ustring>  Param1,
             TestMessageHelper invocation);
     void TestStruct(
             std::tuple<Glib::ustring,Glib::ustring> Param1,
@@ -38,13 +38,13 @@ public:
             std::string Param1,
             TestMessageHelper invocation);
     void TestSignature (
-            std::string Param1,
+            Glib::DBusSignatureString Param1,
             TestMessageHelper invocation);
     void TestObjectPath (
-            std::string Param1,
+            Glib::DBusObjectPathString Param1,
             TestMessageHelper invocation);
     void TestString (
-            std::string Param1,
+            Glib::ustring Param1,
             TestMessageHelper invocation);
     void TestDouble (
             double Param1,
@@ -75,12 +75,12 @@ public:
             TestMessageHelper invocation);
     void TestAll (
             std::vector<std::string>  in_Param1,
-            std::vector<std::string>  in_Param2,
-            std::vector<std::string>  in_Param3,
+            std::vector<Glib::DBusObjectPathString>  in_Param2,
+            std::vector<Glib::ustring>  in_Param3,
             std::string in_Param4,
-            std::string in_Param5,
-            std::string in_Param6,
-            std::string in_Param7,
+            Glib::DBusSignatureString in_Param5,
+            Glib::DBusObjectPathString in_Param6,
+            Glib::ustring in_Param7,
             double in_Param8,
             guint64 in_Param9,
             gint64 in_Param10,
@@ -96,12 +96,12 @@ public:
 
 
     std::vector<std::string>  TestPropReadByteStringArray_get();
-    std::vector<std::string>  TestPropReadObjectPathArray_get();
-    std::vector<std::string>  TestPropReadStringArray_get();
+    std::vector<Glib::DBusObjectPathString> TestPropReadObjectPathArray_get();
+    std::vector<Glib::ustring> TestPropReadStringArray_get();
     std::string TestPropReadByteString_get();
-    std::string TestPropReadSignature_get();
-    std::string TestPropReadObjectPath_get();
-    std::string TestPropReadString_get();
+    Glib::DBusSignatureString TestPropReadSignature_get();
+    Glib::DBusObjectPathString TestPropReadObjectPath_get();
+    Glib::ustring TestPropReadString_get();
     double TestPropReadDouble_get();
     guint64 TestPropReadUInt64_get();
     gint64 TestPropReadInt64_get();
@@ -112,12 +112,12 @@ public:
     guchar TestPropReadChar_get();
     bool TestPropReadBoolean_get();
     std::vector<std::string>  TestPropWriteByteStringArray_get();
-    std::vector<std::string>  TestPropWriteObjectPathArray_get();
-    std::vector<std::string>  TestPropWriteStringArray_get();
+    std::vector<Glib::DBusObjectPathString>  TestPropWriteObjectPathArray_get();
+    std::vector<Glib::ustring>  TestPropWriteStringArray_get();
     std::string TestPropWriteByteString_get();
-    std::string TestPropWriteSignature_get();
-    std::string TestPropWriteObjectPath_get();
-    std::string TestPropWriteString_get();
+    Glib::DBusSignatureString TestPropWriteSignature_get();
+    Glib::DBusObjectPathString TestPropWriteObjectPath_get();
+    Glib::ustring TestPropWriteString_get();
     double TestPropWriteDouble_get();
     guint64 TestPropWriteUInt64_get();
     gint64 TestPropWriteInt64_get();
@@ -128,12 +128,12 @@ public:
     guchar TestPropWriteChar_get();
     bool TestPropWriteBoolean_get();
     std::vector<std::string>  TestPropReadWriteByteStringArray_get();
-    std::vector<std::string>  TestPropReadWriteObjectPathArray_get();
-    std::vector<std::string>  TestPropReadWriteStringArray_get();
+    std::vector<Glib::DBusObjectPathString>  TestPropReadWriteObjectPathArray_get();
+    std::vector<Glib::ustring>  TestPropReadWriteStringArray_get();
     std::string TestPropReadWriteByteString_get();
-    std::string TestPropReadWriteSignature_get();
-    std::string TestPropReadWriteObjectPath_get();
-    std::string TestPropReadWriteString_get();
+    Glib::DBusSignatureString TestPropReadWriteSignature_get();
+    Glib::DBusObjectPathString TestPropReadWriteObjectPath_get();
+    Glib::ustring TestPropReadWriteString_get();
     double TestPropReadWriteDouble_get();
     guint64 TestPropReadWriteUInt64_get();
     gint64 TestPropReadWriteInt64_get();
@@ -148,12 +148,12 @@ public:
 
 
 bool TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value);
-bool TestPropWriteObjectPathArray_setHandler(std::vector<std::string>  value);
-bool TestPropWriteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value);
+bool TestPropWriteStringArray_setHandler(std::vector<Glib::ustring>  value);
 bool TestPropWriteByteString_setHandler(std::string value);
-bool TestPropWriteSignature_setHandler(std::string value);
-bool TestPropWriteObjectPath_setHandler(std::string value);
-bool TestPropWriteString_setHandler(std::string value);
+bool TestPropWriteSignature_setHandler(Glib::DBusSignatureString value);
+bool TestPropWriteObjectPath_setHandler(Glib::DBusObjectPathString value);
+bool TestPropWriteString_setHandler(Glib::ustring value);
 bool TestPropWriteDouble_setHandler(double value);
 bool TestPropWriteUInt64_setHandler(guint64 value);
 bool TestPropWriteInt64_setHandler(gint64 value);
@@ -164,12 +164,12 @@ bool TestPropWriteInt16_setHandler(gint16 value);
 bool TestPropWriteChar_setHandler(guchar value);
 bool TestPropWriteBoolean_setHandler(bool value);
 bool TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value);
-bool TestPropReadWriteObjectPathArray_setHandler(std::vector<std::string>  value);
-bool TestPropReadWriteStringArray_setHandler(std::vector<std::string>  value);
+bool TestPropReadWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value);
+bool TestPropReadWriteStringArray_setHandler(std::vector<Glib::ustring>  value);
 bool TestPropReadWriteByteString_setHandler(std::string value);
-bool TestPropReadWriteSignature_setHandler(std::string value);
-bool TestPropReadWriteObjectPath_setHandler(std::string value);
-bool TestPropReadWriteString_setHandler(std::string value);
+bool TestPropReadWriteSignature_setHandler(Glib::DBusSignatureString value);
+bool TestPropReadWriteObjectPath_setHandler(Glib::DBusObjectPathString value);
+bool TestPropReadWriteString_setHandler(Glib::ustring value);
 bool TestPropReadWriteDouble_setHandler(double value);
 bool TestPropReadWriteUInt64_setHandler(guint64 value);
 bool TestPropReadWriteInt64_setHandler(gint64 value);
@@ -180,12 +180,12 @@ bool TestPropReadWriteInt16_setHandler(gint16 value);
 bool TestPropReadWriteChar_setHandler(guchar value);
 bool TestPropReadWriteBoolean_setHandler(bool value);
 bool TestPropReadByteStringArray_setHandler(std::vector<std::string>  value) {return true;}
-bool TestPropReadObjectPath_setHandler(std::string value) {return true;}
+bool TestPropReadObjectPath_setHandler(Glib::DBusObjectPathString value) {return true;}
 bool TestPropReadByteString_setHandler(std::string) {return true;}
-bool TestPropReadSignature_setHandler(std::string) {return true;}
-bool TestPropReadString_setHandler(std::string) {return true;}
-bool TestPropReadObjectPathArray_setHandler(std::vector<std::string>  value) {return true;}
-bool TestPropReadStringArray_setHandler(std::vector<std::string>  value) {return true;}
+bool TestPropReadSignature_setHandler(Glib::DBusSignatureString) {return true;}
+bool TestPropReadString_setHandler(Glib::ustring) {return true;}
+bool TestPropReadObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {return true;}
+bool TestPropReadStringArray_setHandler(std::vector<Glib::ustring>  value) {return true;}
 bool TestPropReadDouble_setHandler(double value) {return true;}
 bool TestPropReadUInt64_setHandler(guint64 value) {return true;}
 bool TestPropReadInt64_setHandler(gint64 value) {return true;}
@@ -200,8 +200,8 @@ bool TestPropInternalReadWritePropertyChange_setHandler(gint32 value);
 
 private:
 std::vector<std::string> m_PropReadByteStringArrayValue;
-std::vector<std::string> m_PropReadObjectPathArrayValue;
-std::vector<std::string> m_PropReadStringArrayValue;
+std::vector<Glib::DBusObjectPathString> m_PropReadObjectPathArrayValue;
+std::vector<Glib::ustring> m_PropReadStringArrayValue;
 std::string m_PropReadByteStringValue;
 std::string m_PropReadSignatureValue;
 std::string m_PropReadObjectPathValue;
@@ -216,8 +216,8 @@ gint16 m_PropReadInt16Value;
 guchar m_PropReadCharValue;
 bool m_PropReadBooleanValue;
 std::vector<std::string> m_PropWriteByteStringArrayValue;
-std::vector<std::string> m_PropWriteObjectPathArratValue;
-std::vector<std::string> m_PropWriteStringArrayValue;
+std::vector<Glib::DBusObjectPathString> m_PropWriteObjectPathArratValue;
+std::vector<Glib::ustring> m_PropWriteStringArrayValue;
 std::string m_PropWriteByteStringValue;
 std::string m_PropWriteSignatureValue;
 std::string m_PropWriteObjectPathValue;
@@ -232,8 +232,8 @@ gint16 m_PropWriteInt16Value;
 guchar m_PropWriteCharValue;
 bool m_PropWriteBooleanValue;
 std::vector<std::string> m_PropReadWriteByteStringArrayValue;
-std::vector<std::string> m_PropReadWriteObjectPathArrayValue;
-std::vector<std::string> m_PropReadWriteStringArrayValue;
+std::vector<Glib::DBusObjectPathString> m_PropReadWriteObjectPathArrayValue;
+std::vector<Glib::ustring> m_PropReadWriteStringArrayValue;
 std::string m_PropReadWriteByteStringValue;
 std::string m_PropReadWriteSignatureValue;
 std::string m_PropReadWriteObjectPathValue;

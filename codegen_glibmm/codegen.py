@@ -914,7 +914,7 @@ class CodeGenerator:
             argstring = ""
             argvals = []
             for a in m.out_args:
-                argstring += a.cpptype_out
+                argstring += a.cpptype_in
                 argvals.append(a)
             args[argstring] = argvals
 
@@ -923,7 +923,7 @@ class CodeGenerator:
             a = args[a]
             params = []
             for index in range(len(a)):
-                params.append(a[index].cpptype_out + " p%s" % index)
+                params.append(a[index].cpptype_in + " p%s" % index)
             self.emit_h_common("void ret(" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
