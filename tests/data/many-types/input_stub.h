@@ -21,12 +21,12 @@ public:
     void connect(Gio::DBus::BusType, std::string);
 
     bool TestPropReadByteStringArray_set(std::vector<std::string> value);
-    bool TestPropReadObjectPathArray_set(std::vector<std::string> value);
-    bool TestPropReadStringArray_set(std::vector<std::string> value);
+    bool TestPropReadObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value);
+    bool TestPropReadStringArray_set(std::vector<Glib::ustring> value);
     bool TestPropReadByteString_set(std::string value);
-    bool TestPropReadSignature_set(std::string value);
-    bool TestPropReadObjectPath_set(std::string value);
-    bool TestPropReadString_set(std::string value);
+    bool TestPropReadSignature_set(Glib::DBusSignatureString value);
+    bool TestPropReadObjectPath_set(Glib::DBusObjectPathString value);
+    bool TestPropReadString_set(Glib::ustring value);
     bool TestPropReadDouble_set(double value);
     bool TestPropReadUInt64_set(guint64 value);
     bool TestPropReadInt64_set(gint64 value);
@@ -38,12 +38,12 @@ public:
     bool TestPropReadBoolean_set(bool value);
     bool TestPropInternalReadPropertyChange_set(gint32 value);
     bool TestPropWriteByteStringArray_set(std::vector<std::string> value);
-    bool TestPropWriteObjectPathArray_set(std::vector<std::string> value);
-    bool TestPropWriteStringArray_set(std::vector<std::string> value);
+    bool TestPropWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value);
+    bool TestPropWriteStringArray_set(std::vector<Glib::ustring> value);
     bool TestPropWriteByteString_set(std::string value);
-    bool TestPropWriteSignature_set(std::string value);
-    bool TestPropWriteObjectPath_set(std::string value);
-    bool TestPropWriteString_set(std::string value);
+    bool TestPropWriteSignature_set(Glib::DBusSignatureString value);
+    bool TestPropWriteObjectPath_set(Glib::DBusObjectPathString value);
+    bool TestPropWriteString_set(Glib::ustring value);
     bool TestPropWriteDouble_set(double value);
     bool TestPropWriteUInt64_set(guint64 value);
     bool TestPropWriteInt64_set(gint64 value);
@@ -54,12 +54,12 @@ public:
     bool TestPropWriteChar_set(guchar value);
     bool TestPropWriteBoolean_set(bool value);
     bool TestPropReadWriteByteStringArray_set(std::vector<std::string> value);
-    bool TestPropReadWriteObjectPathArray_set(std::vector<std::string> value);
-    bool TestPropReadWriteStringArray_set(std::vector<std::string> value);
+    bool TestPropReadWriteObjectPathArray_set(std::vector<Glib::DBusObjectPathString> value);
+    bool TestPropReadWriteStringArray_set(std::vector<Glib::ustring> value);
     bool TestPropReadWriteByteString_set(std::string value);
-    bool TestPropReadWriteSignature_set(std::string value);
-    bool TestPropReadWriteObjectPath_set(std::string value);
-    bool TestPropReadWriteString_set(std::string value);
+    bool TestPropReadWriteSignature_set(Glib::DBusSignatureString value);
+    bool TestPropReadWriteObjectPath_set(Glib::DBusObjectPathString value);
+    bool TestPropReadWriteString_set(Glib::ustring value);
     bool TestPropReadWriteDouble_set(double value);
     bool TestPropReadWriteUInt64_set(guint64 value);
     bool TestPropReadWriteInt64_set(gint64 value);
@@ -88,10 +88,10 @@ protected:
         std::vector<std::string> Param1,
         TestMessageHelper msg) = 0;
     virtual void TestObjectPathArray(
-        std::vector<std::string> Param1,
+        std::vector<Glib::DBusObjectPathString> Param1,
         TestMessageHelper msg) = 0;
     virtual void TestStringArray(
-        std::vector<std::string> Param1,
+        std::vector<Glib::ustring> Param1,
         TestMessageHelper msg) = 0;
     virtual void TestByteString(
         std::string Param1,
@@ -106,13 +106,13 @@ protected:
         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
         TestMessageHelper msg) = 0;
     virtual void TestSignature(
-        std::string Param1,
+        Glib::DBusSignatureString Param1,
         TestMessageHelper msg) = 0;
     virtual void TestObjectPath(
-        std::string Param1,
+        Glib::DBusObjectPathString Param1,
         TestMessageHelper msg) = 0;
     virtual void TestString(
-        std::string Param1,
+        Glib::ustring Param1,
         TestMessageHelper msg) = 0;
     virtual void TestDouble(
         double Param1,
@@ -143,12 +143,12 @@ protected:
         TestMessageHelper msg) = 0;
     virtual void TestAll(
         std::vector<std::string> in_Param1,
-        std::vector<std::string> in_Param2,
-        std::vector<std::string> in_Param3,
+        std::vector<Glib::DBusObjectPathString> in_Param2,
+        std::vector<Glib::ustring> in_Param3,
         std::string in_Param4,
-        std::string in_Param5,
-        std::string in_Param6,
-        std::string in_Param7,
+        Glib::DBusSignatureString in_Param5,
+        Glib::DBusObjectPathString in_Param6,
+        Glib::ustring in_Param7,
         double in_Param8,
         guint64 in_Param9,
         gint64 in_Param10,
@@ -176,16 +176,16 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadObjectPathArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropReadObjectPathArray_get() = 0;
+    virtual bool TestPropReadObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString> value) = 0;
+    virtual std::vector<Glib::DBusObjectPathString> TestPropReadObjectPathArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadStringArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropReadStringArray_get() = 0;
+    virtual bool TestPropReadStringArray_setHandler(std::vector<Glib::ustring> value) = 0;
+    virtual std::vector<Glib::ustring> TestPropReadStringArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -200,24 +200,24 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadSignature_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadSignature_get() = 0;
+    virtual bool TestPropReadSignature_setHandler(Glib::DBusSignatureString value) = 0;
+    virtual Glib::DBusSignatureString TestPropReadSignature_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadObjectPath_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadObjectPath_get() = 0;
+    virtual bool TestPropReadObjectPath_setHandler(Glib::DBusObjectPathString value) = 0;
+    virtual Glib::DBusObjectPathString TestPropReadObjectPath_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadString_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadString_get() = 0;
+    virtual bool TestPropReadString_setHandler(Glib::ustring value) = 0;
+    virtual Glib::ustring TestPropReadString_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -312,16 +312,16 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropWriteObjectPathArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropWriteObjectPathArray_get() = 0;
+    virtual bool TestPropWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString> value) = 0;
+    virtual std::vector<Glib::DBusObjectPathString> TestPropWriteObjectPathArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropWriteStringArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropWriteStringArray_get() = 0;
+    virtual bool TestPropWriteStringArray_setHandler(std::vector<Glib::ustring> value) = 0;
+    virtual std::vector<Glib::ustring> TestPropWriteStringArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -336,24 +336,24 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropWriteSignature_setHandler(std::string value) = 0;
-    virtual std::string TestPropWriteSignature_get() = 0;
+    virtual bool TestPropWriteSignature_setHandler(Glib::DBusSignatureString value) = 0;
+    virtual Glib::DBusSignatureString TestPropWriteSignature_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropWriteObjectPath_setHandler(std::string value) = 0;
-    virtual std::string TestPropWriteObjectPath_get() = 0;
+    virtual bool TestPropWriteObjectPath_setHandler(Glib::DBusObjectPathString value) = 0;
+    virtual Glib::DBusObjectPathString TestPropWriteObjectPath_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropWriteString_setHandler(std::string value) = 0;
-    virtual std::string TestPropWriteString_get() = 0;
+    virtual bool TestPropWriteString_setHandler(Glib::ustring value) = 0;
+    virtual Glib::ustring TestPropWriteString_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -440,16 +440,16 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadWriteObjectPathArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropReadWriteObjectPathArray_get() = 0;
+    virtual bool TestPropReadWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString> value) = 0;
+    virtual std::vector<Glib::DBusObjectPathString> TestPropReadWriteObjectPathArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadWriteStringArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropReadWriteStringArray_get() = 0;
+    virtual bool TestPropReadWriteStringArray_setHandler(std::vector<Glib::ustring> value) = 0;
+    virtual std::vector<Glib::ustring> TestPropReadWriteStringArray_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -464,24 +464,24 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadWriteSignature_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadWriteSignature_get() = 0;
+    virtual bool TestPropReadWriteSignature_setHandler(Glib::DBusSignatureString value) = 0;
+    virtual Glib::DBusSignatureString TestPropReadWriteSignature_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadWriteObjectPath_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadWriteObjectPath_get() = 0;
+    virtual bool TestPropReadWriteObjectPath_setHandler(Glib::DBusObjectPathString value) = 0;
+    virtual Glib::DBusObjectPathString TestPropReadWriteObjectPath_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadWriteString_setHandler(std::string value) = 0;
-    virtual std::string TestPropReadWriteString_get() = 0;
+    virtual bool TestPropReadWriteString_setHandler(Glib::ustring value) = 0;
+    virtual Glib::ustring TestPropReadWriteString_get() = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -566,23 +566,23 @@ protected:
     void TestSignalByteStringArray_emitter(std::vector<std::string>);
     sigc::signal<void, std::vector<std::string>> TestSignalByteStringArray_signal;
 
-    void TestSignalObjectPathArray_emitter(std::vector<std::string>);
-    sigc::signal<void, std::vector<std::string>> TestSignalObjectPathArray_signal;
+    void TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString>);
+    sigc::signal<void, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_signal;
 
-    void TestSignalStringArray_emitter(std::vector<std::string>);
-    sigc::signal<void, std::vector<std::string>> TestSignalStringArray_signal;
+    void TestSignalStringArray_emitter(std::vector<Glib::ustring>);
+    sigc::signal<void, std::vector<Glib::ustring>> TestSignalStringArray_signal;
 
     void TestSignalByteString_emitter(std::string);
     sigc::signal<void, std::string> TestSignalByteString_signal;
 
-    void TestSignalSignature_emitter(std::string);
-    sigc::signal<void, std::string> TestSignalSignature_signal;
+    void TestSignalSignature_emitter(Glib::DBusSignatureString);
+    sigc::signal<void, Glib::DBusSignatureString> TestSignalSignature_signal;
 
-    void TestSignalObjectPath_emitter(std::string);
-    sigc::signal<void, std::string> TestSignalObjectPath_signal;
+    void TestSignalObjectPath_emitter(Glib::DBusObjectPathString);
+    sigc::signal<void, Glib::DBusObjectPathString> TestSignalObjectPath_signal;
 
-    void TestSignalString_emitter(std::string);
-    sigc::signal<void, std::string> TestSignalString_signal;
+    void TestSignalString_emitter(Glib::ustring);
+    sigc::signal<void, Glib::ustring> TestSignalString_signal;
 
     void TestSignalDouble_emitter(double);
     sigc::signal<void, double> TestSignalDouble_signal;

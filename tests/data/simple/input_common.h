@@ -52,7 +52,7 @@ public:
         m_message->return_error(domain, code, message);
     }
 
-    void ret(std::string p0, std::map<Glib::ustring,Glib::VariantBase> p1) {
+    void ret(Glib::ustring p0, std::map<Glib::ustring,Glib::VariantBase> p1) {
         std::vector<Glib::VariantBase> vlist;
         Glib::Variant<Glib::ustring> var0 =
             Glib::Variant<Glib::ustring>::create(p0);

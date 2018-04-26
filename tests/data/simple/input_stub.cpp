@@ -111,7 +111,7 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     const Glib::ustring &property_name)
 {
     if (property_name.compare("TestPropReadStringArray") == 0) {
-        property = Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+        property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
     }
 
 }
@@ -128,8 +128,8 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
         try {
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
-            std::vector<std::string> val =
-                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            std::vector<Glib::ustring> val =
+                (castValue.get());
             TestPropReadStringArray_set(val);
         } catch (std::bad_cast e) {
             g_warning ("Bad cast when casting TestPropReadStringArray");
@@ -139,11 +139,11 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
     return true;
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<std::string> Param1)
+void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
-    paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
+    paramsList.push_back(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((Param1)));;
 
     m_connection->emit_signal(
         "/org/gdbus/codegen/glibmm/Test",
@@ -174,11 +174,11 @@ void org::gdbus::codegen::glibmm::Test::on_name_lost(
 {
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<std::string> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<Glib::ustring> value)
 {
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
-            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+            Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
         emitSignal("TestPropReadStringArray", value_get);
         return true;
     }

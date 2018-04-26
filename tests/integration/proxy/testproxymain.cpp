@@ -100,14 +100,16 @@ void on_test_byte_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> re
     printStatus ("Byte string array", res == expected);
 }
 
-void on_test_object_path_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
-    std::vector<std::string> res;
+void on_test_object_path_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        std::vector<Glib::DBusObjectPathString> expected) {
+    std::vector<Glib::DBusObjectPathString> res;
     proxy->TestObjectPathArray_finish(res, result);
     printStatus ("Object path array", res == expected);
 }
 
-void on_test_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
-    std::vector<std::string> res;
+void on_test_string_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                   std::vector<Glib::ustring> expected) {
+    std::vector<Glib::ustring> res;
     proxy->TestStringArray_finish(res, result);
     printStatus ("String array", res == expected);
 }
@@ -161,20 +163,23 @@ void on_test_byte_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, 
     printStatus ("Byte string", res == expected);
 }
 
-void on_test_signature_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
-    std::string res;
+void on_test_signature_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                Glib::DBusSignatureString expected) {
+    Glib::DBusSignatureString res;
     proxy->TestSignature_finish(res, result);
     printStatus ("Signature", res == expected);
 }
 
-void on_test_object_path_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
-    std::string res;
+void on_test_object_path_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  Glib::DBusObjectPathString expected) {
+    Glib::DBusObjectPathString res;
     proxy->TestObjectPath_finish(res, result);
     printStatus ("Object path", res == expected);
 }
 
-void on_test_string_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::string expected) {
-    std::string res;
+void on_test_string_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                             Glib::ustring expected) {
+    Glib::ustring res;
     proxy->TestString_finish(res, result);
     printStatus ("String", res == expected);
 }
@@ -235,12 +240,12 @@ void on_test_boolean_finished (const Glib::RefPtr<Gio::AsyncResult> result, bool
 
 void on_test_all_finished (const Glib::RefPtr<Gio::AsyncResult> result) {
     std::vector<std::string> resByteStringArray;
-    std::vector<std::string> resObjectPathArray;
-    std::vector<std::string> resStringArray;
+    std::vector<Glib::DBusObjectPathString> resObjectPathArray;
+    std::vector<Glib::ustring> resStringArray;
     std::string resBytestring;
-    std::string resSignature;
-    std::string resObjectPath;
-    std::string resString;
+    Glib::DBusSignatureString resSignature;
+    Glib::DBusObjectPathString resObjectPath;
+    Glib::ustring resString;
     double resDouble;
     guint64 resUint64;
     gint64 resInt64;
@@ -295,16 +300,16 @@ void on_test_prop_read_write_byte_string_array(const Glib::RefPtr<Gio::AsyncResu
 }
 
 void on_test_prop_read_write_object_path_array(const Glib::RefPtr<Gio::AsyncResult> result,
-                                               const std::vector<std::string> &expected) {
+                                               const std::vector<Glib::DBusObjectPathString> &expected) {
     proxy->TestPropReadWriteObjectPathArray_set_finish(result);
-    std::vector<std::string> actual = proxy->TestPropReadWriteObjectPathArray_get();
+    std::vector<Glib::DBusObjectPathString> actual = proxy->TestPropReadWriteObjectPathArray_get();
     printStatus("Property (write/read): TestPropReadWriteObjectPathArray", actual == expected);
 }
 
 void on_test_prop_read_write_string_array(const Glib::RefPtr<Gio::AsyncResult> result,
-                                          const std::vector<std::string> &expected) {
+                                          const std::vector<Glib::ustring> &expected) {
     proxy->TestPropReadWriteStringArray_set_finish(result);
-    std::vector<std::string> actual = proxy->TestPropReadWriteStringArray_get();
+    std::vector<Glib::ustring> actual = proxy->TestPropReadWriteStringArray_get();
     printStatus("Property (write/read): TestPropReadWriteStringArray", actual == expected);
 }
 
@@ -316,9 +321,9 @@ void on_test_prop_read_write_byte_string(const Glib::RefPtr<Gio::AsyncResult> re
 }
 
 void on_test_prop_read_write_signature(const Glib::RefPtr<Gio::AsyncResult> result,
-                                       const std::string &expected) {
+                                       const Glib::DBusSignatureString &expected) {
     proxy->TestPropReadWriteSignature_set_finish(result);
-    std::string actual = proxy->TestPropReadWriteSignature_get();
+    Glib::DBusSignatureString actual = proxy->TestPropReadWriteSignature_get();
     printStatus("Property (write/read): TestPropReadWriteSignature", actual == expected);
 }
 
@@ -389,11 +394,11 @@ void on_test_signal_byte_string_array_cb(const std::vector<std::string> s) {
     printStatus("Signal TestSignalByteStringArray", true);
 }
 
-void on_test_signal_object_path_array_cb(const std::vector<std::string> s) {
+void on_test_signal_object_path_array_cb(const std::vector<Glib::DBusObjectPathString> s) {
     printStatus("Signal TestSignalObjectPathArray", true);
 }
 
-void on_test_signal_string_array_cb(const std::vector<std::string> s) {
+void on_test_signal_string_array_cb(const std::vector<Glib::ustring> s) {
     printStatus("Signal TestSignalStringArray", true);
 }
 
@@ -401,11 +406,11 @@ void on_test_signal_byte_string_cb(const std::string s) {
     printStatus("Signal TestSignalByteString", true);
 }
 
-void on_test_signal_signature_cb(const std::string s) {
+void on_test_signal_signature_cb(const Glib::DBusSignatureString s) {
     printStatus("Signal TestSignalSignature", true);
 }
 
-void on_test_signal_object_path_cb(const std::string s) {
+void on_test_signal_object_path_cb(const Glib::DBusObjectPathString s) {
     printStatus("Signal TestSignalObjectPath", true);
 }
 
@@ -470,7 +475,7 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     std::vector<std::string> inputStrVec;
     inputStrVec.push_back(__FUNCTION__);
 
-    std::vector<std::string> inputObjPathVec;
+    std::vector<Glib::DBusObjectPathString> inputObjPathVec;
     inputObjPathVec.push_back("/org/gdbus/codegen/glibmm/Test");
     inputObjPathVec.push_back("/org/gdbus/codegen/glibmm/Test");
 
@@ -489,6 +494,10 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
                 { "key1", Glib::Variant<int>::create(-5) },
             }
         },
+    };
+
+    std::vector<Glib::ustring> stringArray {
+        "First string", "", "After the empty one",
     };
 
     std::string bytestring = "Hello world!";
@@ -527,11 +536,11 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Byte string array */
     proxy->TestByteStringArray(inputStrVec, sigc::bind(sigc::ptr_fun(&on_test_byte_string_array_finished), inputStrVec));
 
-//    /* Object path array */
-//    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished), inputObjPathVec));
+    /* Object path array */
+    proxy->TestObjectPathArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_object_path_array_finished), inputObjPathVec));
 
     /* String array */
-    proxy->TestStringArray(inputObjPathVec, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished), inputObjPathVec));
+    proxy->TestStringArray(stringArray, sigc::bind(sigc::ptr_fun(&on_test_string_array_finished), stringArray));
 
     /* Struct */
     proxy->TestStruct(structure, sigc::bind(sigc::ptr_fun(&on_test_struct_finished), structure));
@@ -609,19 +618,19 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     PropReadByteStringArrayValue.push_back("Value2");
     printStatus("Property (read): TestPropReadByteStringArray", proxy->TestPropReadByteStringArray_get() == PropReadByteStringArrayValue);
 
-    std::vector<std::string> PropReadObjectPathArrayValue;
-    PropReadObjectPathArrayValue.push_back("Value3");
-    PropReadObjectPathArrayValue.push_back("Value4");
+    std::vector<Glib::DBusObjectPathString> PropReadObjectPathArrayValue;
+    PropReadObjectPathArrayValue.push_back("/Value3");
+    PropReadObjectPathArrayValue.push_back("/Value4");
     printStatus("Property (read): TestPropReadObjectPathArrayValue", proxy->TestPropReadObjectPathArray_get() == PropReadObjectPathArrayValue);
 
-    std::vector<std::string> PropReadStringArrayValue;
+    std::vector<Glib::ustring> PropReadStringArrayValue;
     PropReadStringArrayValue.push_back("Value5");
     PropReadStringArrayValue.push_back("Value6");
     printStatus("Property (read): TestPropReadStringArray", proxy->TestPropReadStringArray_get() == PropReadStringArrayValue);
 
     printStatus("Property (read): TestPropReadByteString", proxy->TestPropReadByteString_get() == "Value7");
-    printStatus("Property (read): TestPropReadSignature", proxy->TestPropReadSignature_get() == "Value8");
-    printStatus("Property (read): TestPropReadObjectPath", proxy->TestPropReadObjectPath_get() == "Value9");
+    printStatus("Property (read): TestPropReadSignature", proxy->TestPropReadSignature_get() == "sa{sv}a(bi)");
+    printStatus("Property (read): TestPropReadObjectPath", proxy->TestPropReadObjectPath_get() == "/Value9");
     printStatus("Property (read): TestPropReadString", proxy->TestPropReadString_get() == "Value10");
     printStatus("Property (read): TestPropReadDouble", proxy->TestPropReadDouble_get() == 1337);
     printStatus("Property (read): TestPropReadUInt64", proxy->TestPropReadUInt64_get() == 1338);
@@ -638,18 +647,18 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     PropReadWriteByteStringArrayValue.push_back("Value22");
     printStatus("Property (read): TestPropReadWriteByteStringArray", proxy->TestPropReadWriteByteStringArray_get() == PropReadWriteByteStringArrayValue);
 
-    std::vector<std::string> PropReadWriteObjectPathArrayValue;
+    std::vector<Glib::DBusObjectPathString> PropReadWriteObjectPathArrayValue;
     PropReadWriteObjectPathArrayValue.push_back("/object/path");
 
     printStatus("Property (read): TestPropReadWriteObjectPathArray", proxy->TestPropReadWriteObjectPathArray_get() == PropReadWriteObjectPathArrayValue);
 
-    std::vector<std::string> PropReadWriteStringArrayValue;
+    std::vector<Glib::ustring> PropReadWriteStringArrayValue;
     PropReadWriteStringArrayValue.push_back("Value24");
     printStatus("Property (read): TestPropReadWriteStringArrayValue", proxy->TestPropReadWriteStringArray_get() == PropReadWriteStringArrayValue);
 
     printStatus("Property (read): TestPropReadWriteByteString", proxy->TestPropReadWriteByteString_get() == "Value25");
-    printStatus("Property (read): TestPropReadWriteSignature", proxy->TestPropReadWriteSignature_get() == "Value26");
-    printStatus("Property (read): TestPropReadWriteObjectPath", proxy->TestPropReadWriteObjectPath_get() == "Value27");
+    printStatus("Property (read): TestPropReadWriteSignature", proxy->TestPropReadWriteSignature_get() == "bada(ss)");
+    printStatus("Property (read): TestPropReadWriteObjectPath", proxy->TestPropReadWriteObjectPath_get() == "/Value27");
     printStatus("Property (read): TestPropReadWriteString", proxy->TestPropReadWriteString_get() == "Value28");
     printStatus("Property (read): TestPropReadWriteDouble", proxy->TestPropReadWriteDouble_get() == 1351);
     printStatus("Property (read): TestPropReadWriteUInt64", proxy->TestPropReadWriteUInt64_get() == 1352);
@@ -669,14 +678,14 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
         sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_byte_string_array),
                    PropReadWriteByteStringArrayValue2));
 
-    std::vector<std::string> PropReadWriteObjectPathArrayValue2;
+    std::vector<Glib::DBusObjectPathString> PropReadWriteObjectPathArrayValue2;
     PropReadWriteObjectPathArrayValue2.push_back("/object/path");
     proxy->TestPropReadWriteObjectPathArray_set(
         PropReadWriteObjectPathArrayValue2,
         sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_object_path_array),
                    PropReadWriteObjectPathArrayValue2));
 
-    std::vector<std::string> PropReadWriteStringArrayValue2;
+    std::vector<Glib::ustring> PropReadWriteStringArrayValue2;
     PropReadWriteStringArrayValue2.push_back("Stringarray");
     proxy->TestPropReadWriteStringArray_set(
         PropReadWriteStringArrayValue2,

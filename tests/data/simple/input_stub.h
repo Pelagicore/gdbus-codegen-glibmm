@@ -20,7 +20,7 @@ public:
     // deprecated:
     void connect(Gio::DBus::BusType, std::string);
 
-    bool TestPropReadStringArray_set(std::vector<std::string> value);
+    bool TestPropReadStringArray_set(std::vector<Glib::ustring> value);
 
 protected:
     virtual void TestCall(
@@ -33,11 +33,11 @@ protected:
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
-    virtual bool TestPropReadStringArray_setHandler(std::vector<std::string> value) = 0;
-    virtual std::vector<std::string> TestPropReadStringArray_get() = 0;
+    virtual bool TestPropReadStringArray_setHandler(std::vector<Glib::ustring> value) = 0;
+    virtual std::vector<Glib::ustring> TestPropReadStringArray_get() = 0;
 
-    void TestSignalObjectPathArray_emitter(std::vector<std::string>);
-    sigc::signal<void, std::vector<std::string>> TestSignalObjectPathArray_signal;
+    void TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString>);
+    sigc::signal<void, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_signal;
 
     void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                          const Glib::ustring &name);

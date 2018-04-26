@@ -6,13 +6,13 @@
 TestImpl::TestImpl() {
     m_PropReadByteStringArrayValue.push_back("Value1");
     m_PropReadByteStringArrayValue.push_back("Value2");
-    m_PropReadObjectPathArrayValue.push_back("Value3");
-    m_PropReadObjectPathArrayValue.push_back("Value4");
+    m_PropReadObjectPathArrayValue.push_back("/Value3");
+    m_PropReadObjectPathArrayValue.push_back("/Value4");
     m_PropReadStringArrayValue.push_back("Value5");
     m_PropReadStringArrayValue.push_back("Value6");
     m_PropReadByteStringValue = "Value7";
-    m_PropReadSignatureValue = "Value8";
-    m_PropReadObjectPathValue = "Value9";
+    m_PropReadSignatureValue = "sa{sv}a(bi)";
+    m_PropReadObjectPathValue = "/Value9";
     m_PropReadStringValue = "Value10";
     m_PropReadDoubleValue = 1337;
     m_PropReadUInt64Value = 1338;
@@ -25,13 +25,13 @@ TestImpl::TestImpl() {
     m_PropReadBooleanValue = true;
     m_PropWriteByteStringArrayValue.push_back("Value11");
     m_PropWriteByteStringArrayValue.push_back("Value12");
-    m_PropWriteObjectPathArratValue.push_back("Value13");
-    m_PropWriteObjectPathArratValue.push_back("Value14");
-    m_PropWriteObjectPathArratValue.push_back("Value15");
+    m_PropWriteObjectPathArratValue.push_back("/Value13");
+    m_PropWriteObjectPathArratValue.push_back("/Value14");
+    m_PropWriteObjectPathArratValue.push_back("/Value15");
     m_PropWriteStringArrayValue.push_back("Value16");
     m_PropWriteByteStringValue = "Value17";
     m_PropWriteSignatureValue = "Value18";
-    m_PropWriteObjectPathValue = "Value19";
+    m_PropWriteObjectPathValue = "/Value19";
     m_PropWriteStringValue = "Value20";
     m_PropWriteDoubleValue = 1344;
     m_PropWriteUInt64Value = 1345;
@@ -47,8 +47,8 @@ TestImpl::TestImpl() {
     m_PropReadWriteObjectPathArrayValue.push_back("/object/path");
     m_PropReadWriteStringArrayValue.push_back("Value24");
     m_PropReadWriteByteStringValue = "Value25";
-    m_PropReadWriteSignatureValue = "Value26";
-    m_PropReadWriteObjectPathValue = "Value27";
+    m_PropReadWriteSignatureValue = "bada(ss)";
+    m_PropReadWriteObjectPathValue = "/Value27";
     m_PropReadWriteStringValue = "Value28";
     m_PropReadWriteDoubleValue = 1351;
     m_PropReadWriteUInt64Value = 1352;
@@ -108,22 +108,13 @@ void TestImpl::TestByteStringArray (
 }
 
 void TestImpl::TestObjectPathArray (
-        std::vector<std::string>  Param1,
+        std::vector<Glib::DBusObjectPathString>  Param1,
         TestMessageHelper invocation) {
-
-    std::vector<Glib::VariantBase> list;
-    GVariantBuilder builder;
-    g_variant_builder_init (&builder, G_VARIANT_TYPE("ao"));
-    for (int i = 0; i < Param1.size(); i++) {
-        g_variant_builder_add (&builder, "o", Param1[i].c_str());
-    }
-    Glib::VariantBase ret = Glib::wrap(g_variant_builder_end (&builder));
-
-    invocation.ret(ret);
+    invocation.ret(Param1);
 }
 
 void TestImpl::TestStringArray (
-        std::vector<std::string>  Param1,
+        std::vector<Glib::ustring>  Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
@@ -153,19 +144,19 @@ void TestImpl::TestByteString (
 }
 
 void TestImpl::TestSignature (
-        std::string Param1,
+        Glib::DBusSignatureString Param1,
         TestMessageHelper invocation) {
-    invocation.ret(Glib::wrap(g_variant_new_signature(Param1.c_str())));
+    invocation.ret(Param1);
 }
 
 void TestImpl::TestObjectPath (
-        std::string Param1,
+        Glib::DBusObjectPathString Param1,
         TestMessageHelper invocation) {
-    invocation.ret(Glib::wrap(g_variant_new_object_path(Param1.c_str())));
+    invocation.ret(Param1);
 }
 
 void TestImpl::TestString (
-        std::string Param1,
+        Glib::ustring Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
@@ -226,12 +217,12 @@ void TestImpl::TestBoolean (
 
 void TestImpl::TestAll (
         std::vector<std::string>  in_Param1,
-        std::vector<std::string>  in_Param2,
-        std::vector<std::string>  in_Param3,
+        std::vector<Glib::DBusObjectPathString>  in_Param2,
+        std::vector<Glib::ustring>  in_Param3,
         std::string in_Param4,
-        std::string in_Param5,
-        std::string in_Param6,
-        std::string in_Param7,
+        Glib::DBusSignatureString in_Param5,
+        Glib::DBusObjectPathString in_Param6,
+        Glib::ustring in_Param7,
         double in_Param8,
         guint64 in_Param9,
         gint64 in_Param10,
@@ -251,12 +242,12 @@ void TestImpl::TestTriggerInternalPropertyChange(gint32 newValue,
 }
 
 std::vector<std::string>  TestImpl::TestPropReadByteStringArray_get() {return m_PropReadByteStringArrayValue;}
-std::vector<std::string>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
-std::vector<std::string>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}
+std::vector<Glib::DBusObjectPathString>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
+std::vector<Glib::ustring>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}
 std::string TestImpl::TestPropReadByteString_get() {return m_PropReadByteStringValue;}
-std::string TestImpl::TestPropReadSignature_get() {return m_PropReadSignatureValue;}
-std::string TestImpl::TestPropReadObjectPath_get() {return m_PropReadObjectPathValue;}
-std::string TestImpl::TestPropReadString_get() {return m_PropReadStringValue;}
+Glib::DBusSignatureString TestImpl::TestPropReadSignature_get() {return m_PropReadSignatureValue;}
+Glib::DBusObjectPathString TestImpl::TestPropReadObjectPath_get() {return m_PropReadObjectPathValue;}
+Glib::ustring TestImpl::TestPropReadString_get() {return m_PropReadStringValue;}
 double TestImpl::TestPropReadDouble_get() {return m_PropReadDoubleValue;}
 guint64 TestImpl::TestPropReadUInt64_get() {return m_PropReadUInt64Value;}
 gint64 TestImpl::TestPropReadInt64_get() {return m_PropReadInt64Value;}
@@ -267,12 +258,12 @@ gint16 TestImpl::TestPropReadInt16_get() {return m_PropReadInt16Value;}
 guchar TestImpl::TestPropReadChar_get() {return m_PropReadCharValue;}
 bool TestImpl::TestPropReadBoolean_get() {return m_PropReadBooleanValue;}
 std::vector<std::string>  TestImpl::TestPropWriteByteStringArray_get() {return m_PropWriteByteStringArrayValue;}
-std::vector<std::string>  TestImpl::TestPropWriteObjectPathArray_get() {return m_PropWriteObjectPathArratValue;}
-std::vector<std::string>  TestImpl::TestPropWriteStringArray_get() {return m_PropWriteStringArrayValue;}
+std::vector<Glib::DBusObjectPathString>  TestImpl::TestPropWriteObjectPathArray_get() {return m_PropWriteObjectPathArratValue;}
+std::vector<Glib::ustring>  TestImpl::TestPropWriteStringArray_get() {return m_PropWriteStringArrayValue;}
 std::string TestImpl::TestPropWriteByteString_get() {return m_PropWriteByteStringValue;}
-std::string TestImpl::TestPropWriteSignature_get() {return m_PropWriteSignatureValue;}
-std::string TestImpl::TestPropWriteObjectPath_get() {return m_PropWriteObjectPathValue;}
-std::string TestImpl::TestPropWriteString_get() {return m_PropWriteStringValue;}
+Glib::DBusSignatureString TestImpl::TestPropWriteSignature_get() {return m_PropWriteSignatureValue;}
+Glib::DBusObjectPathString TestImpl::TestPropWriteObjectPath_get() {return m_PropWriteObjectPathValue;}
+Glib::ustring TestImpl::TestPropWriteString_get() {return m_PropWriteStringValue;}
 double TestImpl::TestPropWriteDouble_get() {return m_PropWriteDoubleValue;}
 guint64 TestImpl::TestPropWriteUInt64_get() {return m_PropWriteUInt64Value;}
 gint64 TestImpl::TestPropWriteInt64_get() {return m_PropWriteInt64Value;}
@@ -283,12 +274,12 @@ gint16 TestImpl::TestPropWriteInt16_get() {return m_PropWriteInt16Value;}
 guchar TestImpl::TestPropWriteChar_get() {return m_PropWriteCharValue;}
 bool TestImpl::TestPropWriteBoolean_get() {return m_PropWriteBooleanValue;}
 std::vector<std::string>  TestImpl::TestPropReadWriteByteStringArray_get() {return m_PropReadWriteByteStringArrayValue;}
-std::vector<std::string>  TestImpl::TestPropReadWriteObjectPathArray_get() {return m_PropReadWriteObjectPathArrayValue;}
-std::vector<std::string>  TestImpl::TestPropReadWriteStringArray_get() {return m_PropReadWriteStringArrayValue;}
+std::vector<Glib::DBusObjectPathString> TestImpl::TestPropReadWriteObjectPathArray_get() {return m_PropReadWriteObjectPathArrayValue;}
+std::vector<Glib::ustring> TestImpl::TestPropReadWriteStringArray_get() {return m_PropReadWriteStringArrayValue;}
 std::string TestImpl::TestPropReadWriteByteString_get() {return m_PropReadWriteByteStringValue;}
-std::string TestImpl::TestPropReadWriteSignature_get() {return m_PropReadWriteSignatureValue;}
-std::string TestImpl::TestPropReadWriteObjectPath_get() {return m_PropReadWriteObjectPathValue;}
-std::string TestImpl::TestPropReadWriteString_get() {return m_PropReadWriteStringValue;}
+Glib::DBusSignatureString TestImpl::TestPropReadWriteSignature_get() {return m_PropReadWriteSignatureValue;}
+Glib::DBusObjectPathString TestImpl::TestPropReadWriteObjectPath_get() {return m_PropReadWriteObjectPathValue;}
+Glib::ustring TestImpl::TestPropReadWriteString_get() {return m_PropReadWriteStringValue;}
 double TestImpl::TestPropReadWriteDouble_get() {return m_PropReadWriteDoubleValue;}
 guint64 TestImpl::TestPropReadWriteUInt64_get() {return m_PropReadWriteUInt64Value;}
 gint64 TestImpl::TestPropReadWriteInt64_get() {return m_PropReadWriteInt64Value;}
@@ -305,22 +296,22 @@ gint32 TestImpl::TestPropInternalReadWritePropertyChange_get() {return m_TestPro
 bool TestImpl::TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPathArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {
     return false;
 }
-bool TestImpl::TestPropWriteStringArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteStringArray_setHandler(std::vector<Glib::ustring>  value) {
     return false;
 }
 bool TestImpl::TestPropWriteByteString_setHandler(std::string value) {
     return false;
 }
-bool TestImpl::TestPropWriteSignature_setHandler(std::string value) {
+bool TestImpl::TestPropWriteSignature_setHandler(Glib::DBusSignatureString value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPath_setHandler(std::string value) {
+bool TestImpl::TestPropWriteObjectPath_setHandler(Glib::DBusObjectPathString value) {
     return false;
 }
-bool TestImpl::TestPropWriteString_setHandler(std::string value) {
+bool TestImpl::TestPropWriteString_setHandler(Glib::ustring value) {
     return false;
 }
 bool TestImpl::TestPropWriteDouble_setHandler(double value) {
@@ -357,12 +348,12 @@ bool TestImpl::TestPropReadWriteByteStringArray_setHandler(std::vector<std::stri
     TestSignalByteStringArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPathArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {
     m_PropReadWriteObjectPathArrayValue = value;
     TestSignalObjectPathArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteStringArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteStringArray_setHandler(std::vector<Glib::ustring>  value) {
     m_PropReadWriteStringArrayValue = value;
     TestSignalStringArray_signal.emit(value);
     return true;
@@ -372,17 +363,17 @@ bool TestImpl::TestPropReadWriteByteString_setHandler(std::string value) {
     TestSignalByteString_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteSignature_setHandler(std::string value) {
+bool TestImpl::TestPropReadWriteSignature_setHandler(Glib::DBusSignatureString value) {
     m_PropReadWriteSignatureValue = value;
     TestSignalSignature_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPath_setHandler(std::string value) {
+bool TestImpl::TestPropReadWriteObjectPath_setHandler(Glib::DBusObjectPathString value) {
     m_PropReadWriteObjectPathValue = value;
     TestSignalObjectPath_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteString_setHandler(std::string value) {
+bool TestImpl::TestPropReadWriteString_setHandler(Glib::ustring value) {
     m_PropReadWriteStringValue = value;
     TestSignalString_signal.emit(value);
     return true;

@@ -26,13 +26,13 @@ public:
         const Gio::SlotAsyncReady &slot);
 
     void TestCall_finish (
-        std::string &Param3,
+        Glib::ustring &Param3,
         std::map<Glib::ustring,Glib::VariantBase> &Param4,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
-    std::vector<std::string> TestPropReadStringArray_get();
+    std::vector<Glib::ustring> TestPropReadStringArray_get();
 
-    sigc::signal<void, std::vector<std::string> > TestSignalObjectPathArray_signal;
+    sigc::signal<void, std::vector<Glib::DBusObjectPathString> > TestSignalObjectPathArray_signal;
 
     void reference() {}
     void unreference() {}
