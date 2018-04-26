@@ -142,7 +142,7 @@ class CodeGenerator:
                     if a.templated:
                         templated = True
 
-                if templated is True:
+                if templated:
                     # Template methods needs to be implemented in the header
 
                     # Begin method signature
