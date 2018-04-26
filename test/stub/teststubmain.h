@@ -25,6 +25,9 @@ public:
     void TestStringArray (
             std::vector<std::string>  Param1,
             TestMessageHelper invocation);
+    void TestStruct(
+            std::tuple<Glib::ustring,Glib::ustring> Param1,
+            TestMessageHelper invocation);
     void TestStructArray (
             std::vector<std::tuple<guint32,Glib::ustring,gint32>> Param1,
             TestMessageHelper invocation);
