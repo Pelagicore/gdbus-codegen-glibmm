@@ -22,7 +22,7 @@ public:
 
     void TestCall(
         gint32 Param1,
-        std::map<Glib::ustring,Glib::VariantBase> Param2,
+        const std::map<Glib::ustring,Glib::VariantBase> & Param2,
         const Gio::SlotAsyncReady &slot);
 
     void TestCall_finish (

@@ -5,85 +5,85 @@ public:
     TestImpl();
 
     void TestVariant (
-            Glib::VariantBase Param1,
-            TestMessageHelper invocation);
+            const Glib::VariantBase &Param1,
+            TestMessageHelper invocation) override;
     void TestVariant2(std::string Param1,
-                      Glib::VariantBase Param2,
+                      const Glib::VariantBase &Param2,
                       TestMessageHelper invocation) override;
     void TestStringVariantDict(
-            std::map<Glib::ustring,Glib::VariantBase> Param1,
+            const std::map<Glib::ustring,Glib::VariantBase> &Param1,
             TestMessageHelper invocation) override;
     void TestStringStringDict(
-            std::map<Glib::ustring,Glib::ustring> Param1,
+            const std::map<Glib::ustring,Glib::ustring> &Param1,
             TestMessageHelper invocation) override;
     void TestUintIntDict(
-            std::map<guint32,gint32> Param1,
+            const std::map<guint32,gint32> &Param1,
             TestMessageHelper invocation) override;
     void TestByteStringArray (
-            std::vector<std::string>  Param1,
-            TestMessageHelper invocation);
+            const std::vector<std::string> &Param1,
+            TestMessageHelper invocation) override;
     void TestObjectPathArray (
-            std::vector<Glib::DBusObjectPathString>  Param1,
-            TestMessageHelper invocation);
+            const std::vector<Glib::DBusObjectPathString> &Param1,
+            TestMessageHelper invocation) override;
     void TestStringArray (
-            std::vector<Glib::ustring>  Param1,
-            TestMessageHelper invocation);
+            const std::vector<Glib::ustring> &Param1,
+            TestMessageHelper invocation) override;
     void TestStruct(
-            std::tuple<Glib::ustring,Glib::ustring> Param1,
-            TestMessageHelper invocation);
+            const std::tuple<Glib::ustring,Glib::ustring> &Param1,
+            TestMessageHelper invocation) override;
     void TestStructArray (
-            std::vector<std::tuple<guint32,Glib::ustring,gint32>> Param1,
-            TestMessageHelper invocation);
+            const std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param1,
+            TestMessageHelper invocation) override;
     void TestDictStructArray (
-            std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
-            TestMessageHelper invocation);
+            const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param1,
+            TestMessageHelper invocation) override;
     void TestByteString (
-            std::string Param1,
-            TestMessageHelper invocation);
+            const std::string &Param1,
+            TestMessageHelper invocation) override;
     void TestSignature (
-            Glib::DBusSignatureString Param1,
-            TestMessageHelper invocation);
+            const Glib::DBusSignatureString &Param1,
+            TestMessageHelper invocation) override;
     void TestObjectPath (
-            Glib::DBusObjectPathString Param1,
-            TestMessageHelper invocation);
+            const Glib::DBusObjectPathString &Param1,
+            TestMessageHelper invocation) override;
     void TestString (
-            Glib::ustring Param1,
-            TestMessageHelper invocation);
+            const Glib::ustring &Param1,
+            TestMessageHelper invocation) override;
     void TestDouble (
             double Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestUInt64 (
             guint64 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestInt64 (
             gint64 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestUInt (
             guint32 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestInt (
             gint32 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestUInt16 (
             guint16 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestInt16 (
             gint16 Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestChar (
             guchar Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestBoolean (
             bool Param1,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestAll (
-            std::vector<std::string>  in_Param1,
-            std::vector<Glib::DBusObjectPathString>  in_Param2,
-            std::vector<Glib::ustring>  in_Param3,
-            std::string in_Param4,
-            Glib::DBusSignatureString in_Param5,
-            Glib::DBusObjectPathString in_Param6,
-            Glib::ustring in_Param7,
+            const std::vector<std::string> &in_Param1,
+            const std::vector<Glib::DBusObjectPathString> &in_Param2,
+            const std::vector<Glib::ustring> &in_Param3,
+            const std::string &in_Param4,
+            const Glib::DBusSignatureString &in_Param5,
+            const Glib::DBusObjectPathString &in_Param6,
+            const Glib::ustring &in_Param7,
             double in_Param8,
             guint64 in_Param9,
             gint64 in_Param10,
@@ -93,7 +93,7 @@ public:
             gint16 in_Param14,
             guchar in_Param15,
             bool in_Param16,
-            TestMessageHelper invocation);
+            TestMessageHelper invocation) override;
     void TestTriggerInternalPropertyChange(gint32 newValue,
                                            TestMessageHelper invocation);
 
@@ -150,13 +150,13 @@ public:
     gint32 TestPropInternalReadWritePropertyChange_get();
 
 
-bool TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value);
-bool TestPropWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value);
-bool TestPropWriteStringArray_setHandler(std::vector<Glib::ustring>  value);
-bool TestPropWriteByteString_setHandler(std::string value);
-bool TestPropWriteSignature_setHandler(Glib::DBusSignatureString value);
-bool TestPropWriteObjectPath_setHandler(Glib::DBusObjectPathString value);
-bool TestPropWriteString_setHandler(Glib::ustring value);
+bool TestPropWriteByteStringArray_setHandler(const std::vector<std::string> &value);
+bool TestPropWriteObjectPathArray_setHandler(const std::vector<Glib::DBusObjectPathString> &value);
+bool TestPropWriteStringArray_setHandler(const std::vector<Glib::ustring> &value);
+bool TestPropWriteByteString_setHandler(const std::string &value);
+bool TestPropWriteSignature_setHandler(const Glib::DBusSignatureString &value);
+bool TestPropWriteObjectPath_setHandler(const Glib::DBusObjectPathString &value);
+bool TestPropWriteString_setHandler(const Glib::ustring &value);
 bool TestPropWriteDouble_setHandler(double value);
 bool TestPropWriteUInt64_setHandler(guint64 value);
 bool TestPropWriteInt64_setHandler(gint64 value);
@@ -166,13 +166,13 @@ bool TestPropWriteUInt16_setHandler(guint16 value);
 bool TestPropWriteInt16_setHandler(gint16 value);
 bool TestPropWriteChar_setHandler(guchar value);
 bool TestPropWriteBoolean_setHandler(bool value);
-bool TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value);
-bool TestPropReadWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value);
-bool TestPropReadWriteStringArray_setHandler(std::vector<Glib::ustring>  value);
-bool TestPropReadWriteByteString_setHandler(std::string value);
-bool TestPropReadWriteSignature_setHandler(Glib::DBusSignatureString value);
-bool TestPropReadWriteObjectPath_setHandler(Glib::DBusObjectPathString value);
-bool TestPropReadWriteString_setHandler(Glib::ustring value);
+bool TestPropReadWriteByteStringArray_setHandler(const std::vector<std::string> &value);
+bool TestPropReadWriteObjectPathArray_setHandler(const std::vector<Glib::DBusObjectPathString> &value);
+bool TestPropReadWriteStringArray_setHandler(const std::vector<Glib::ustring> &value);
+bool TestPropReadWriteByteString_setHandler(const std::string &value);
+bool TestPropReadWriteSignature_setHandler(const Glib::DBusSignatureString &value);
+bool TestPropReadWriteObjectPath_setHandler(const Glib::DBusObjectPathString &value);
+bool TestPropReadWriteString_setHandler(const Glib::ustring &value);
 bool TestPropReadWriteDouble_setHandler(double value);
 bool TestPropReadWriteUInt64_setHandler(guint64 value);
 bool TestPropReadWriteInt64_setHandler(gint64 value);
@@ -182,13 +182,13 @@ bool TestPropReadWriteUInt16_setHandler(guint16 value);
 bool TestPropReadWriteInt16_setHandler(gint16 value);
 bool TestPropReadWriteChar_setHandler(guchar value);
 bool TestPropReadWriteBoolean_setHandler(bool value);
-bool TestPropReadByteStringArray_setHandler(std::vector<std::string>  value) {return true;}
-bool TestPropReadObjectPath_setHandler(Glib::DBusObjectPathString value) {return true;}
-bool TestPropReadByteString_setHandler(std::string) {return true;}
-bool TestPropReadSignature_setHandler(Glib::DBusSignatureString) {return true;}
-bool TestPropReadString_setHandler(Glib::ustring) {return true;}
-bool TestPropReadObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {return true;}
-bool TestPropReadStringArray_setHandler(std::vector<Glib::ustring>  value) {return true;}
+bool TestPropReadByteStringArray_setHandler(const std::vector<std::string> &value) {return true;}
+bool TestPropReadObjectPath_setHandler(const Glib::DBusObjectPathString &value) {return true;}
+bool TestPropReadByteString_setHandler(const std::string &){return true;}
+bool TestPropReadSignature_setHandler(const Glib::DBusSignatureString &){return true;}
+bool TestPropReadString_setHandler(const Glib::ustring &){return true;}
+bool TestPropReadObjectPathArray_setHandler(const std::vector<Glib::DBusObjectPathString> &value) {return true;}
+bool TestPropReadStringArray_setHandler(const std::vector<Glib::ustring> &value) {return true;}
 bool TestPropReadDouble_setHandler(double value) {return true;}
 bool TestPropReadUInt64_setHandler(guint64 value) {return true;}
 bool TestPropReadInt64_setHandler(gint64 value) {return true;}

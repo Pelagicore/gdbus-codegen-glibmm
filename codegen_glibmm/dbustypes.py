@@ -80,7 +80,9 @@ class Type:
         self.templated = False
 
     def __getattr__(self, name):
-        if name in ('cpptype_in', 'cpptype_out'):
+        if name == 'cpptype_in':
+            return 'const ' + self.cpptype + ' &'
+        elif name == 'cpptype_out':
             return self.cpptype
 
     def cppvalue_send(self, name, param, cpp_class_name):

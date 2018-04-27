@@ -8,7 +8,7 @@
 
 void org::gdbus::codegen::glibmm::Test::TestCall(
     gint32 arg_Param1,
-    std::map<Glib::ustring,Glib::VariantBase> arg_Param2,
+    const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
     const Gio::SlotAsyncReady &callback)
 {
     Glib::VariantContainerBase base;
