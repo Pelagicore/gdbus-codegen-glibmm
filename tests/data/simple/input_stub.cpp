@@ -174,7 +174,7 @@ void org::gdbus::codegen::glibmm::Test::on_name_lost(
 {
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<Glib::ustring> value)
+bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
 {
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =

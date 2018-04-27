@@ -61,25 +61,25 @@ TestImpl::TestImpl() {
     m_PropReadWriteBooleanValue= true;
 }
 
-void TestImpl::TestStringVariantDict(std::map<Glib::ustring,Glib::VariantBase> Param1,
+void TestImpl::TestStringVariantDict(const std::map<Glib::ustring,Glib::VariantBase> &Param1,
                                      TestMessageHelper invocation)
 {
     invocation.ret(Param1);
 }
 
-void TestImpl::TestStringStringDict(std::map<Glib::ustring,Glib::ustring> Param1,
+void TestImpl::TestStringStringDict(const std::map<Glib::ustring,Glib::ustring> &Param1,
                                     TestMessageHelper invocation)
 {
     invocation.ret(Param1);
 }
 
-void TestImpl::TestUintIntDict(std::map<guint32,gint32> Param1,
+void TestImpl::TestUintIntDict(const std::map<guint32,gint32> &Param1,
                                TestMessageHelper invocation)
 {
     invocation.ret(Param1);
 }
 
-void TestImpl::TestVariant(Glib::VariantBase Param1, TestMessageHelper invocation)
+void TestImpl::TestVariant(const Glib::VariantBase &Param1, TestMessageHelper invocation)
 {
     std::string value;
     try {
@@ -102,61 +102,61 @@ void TestImpl::TestVariant2(std::string Param1, Glib::VariantBase Param2,
 }
 
 void TestImpl::TestByteStringArray (
-        std::vector<std::string>  Param1,
+        const std::vector<std::string> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestObjectPathArray (
-        std::vector<Glib::DBusObjectPathString>  Param1,
+        const std::vector<Glib::DBusObjectPathString> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStringArray (
-        std::vector<Glib::ustring>  Param1,
+        const std::vector<Glib::ustring> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStruct(
-        std::tuple<Glib::ustring,Glib::ustring> Param1,
+        const std::tuple<Glib::ustring,Glib::ustring> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStructArray (
-        std::vector<std::tuple<guint32,Glib::ustring,gint32>> Param1,
+        const std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestDictStructArray (
-        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
+        const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestByteString (
-        std::string Param1,
+        const std::string &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestSignature (
-        Glib::DBusSignatureString Param1,
+        const Glib::DBusSignatureString &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestObjectPath (
-        Glib::DBusObjectPathString Param1,
+        const Glib::DBusObjectPathString &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestString (
-        Glib::ustring Param1,
+        const Glib::ustring &Param1,
         TestMessageHelper invocation) {
     invocation.ret(Param1);
 }
@@ -216,13 +216,13 @@ void TestImpl::TestBoolean (
 }
 
 void TestImpl::TestAll (
-        std::vector<std::string>  in_Param1,
-        std::vector<Glib::DBusObjectPathString>  in_Param2,
-        std::vector<Glib::ustring>  in_Param3,
-        std::string in_Param4,
-        Glib::DBusSignatureString in_Param5,
-        Glib::DBusObjectPathString in_Param6,
-        Glib::ustring in_Param7,
+        const std::vector<std::string> &in_Param1,
+        const std::vector<Glib::DBusObjectPathString> &in_Param2,
+        const std::vector<Glib::ustring> &in_Param3,
+        const std::string &in_Param4,
+        const Glib::DBusSignatureString &in_Param5,
+        const Glib::DBusObjectPathString &in_Param6,
+        const Glib::ustring &in_Param7,
         double in_Param8,
         guint64 in_Param9,
         gint64 in_Param10,
@@ -293,25 +293,25 @@ gint32 TestImpl::TestPropInternalReadPropertyChange_get() {return m_TestPropInte
 gint32 TestImpl::TestPropInternalReadWritePropertyChange_get() {return m_TestPropInternalReadWritePropertyChangeValue;}
 
 /* These are not used, so we just return a dummy value here */
-bool TestImpl::TestPropWriteByteStringArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropWriteByteStringArray_setHandler(const std::vector<std::string> &value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {
+bool TestImpl::TestPropWriteObjectPathArray_setHandler(const std::vector<Glib::DBusObjectPathString> &value) {
     return false;
 }
-bool TestImpl::TestPropWriteStringArray_setHandler(std::vector<Glib::ustring>  value) {
+bool TestImpl::TestPropWriteStringArray_setHandler(const std::vector<Glib::ustring> &value) {
     return false;
 }
-bool TestImpl::TestPropWriteByteString_setHandler(std::string value) {
+bool TestImpl::TestPropWriteByteString_setHandler(const std::string &value) {
     return false;
 }
-bool TestImpl::TestPropWriteSignature_setHandler(Glib::DBusSignatureString value) {
+bool TestImpl::TestPropWriteSignature_setHandler(const Glib::DBusSignatureString &value) {
     return false;
 }
-bool TestImpl::TestPropWriteObjectPath_setHandler(Glib::DBusObjectPathString value) {
+bool TestImpl::TestPropWriteObjectPath_setHandler(const Glib::DBusObjectPathString &value) {
     return false;
 }
-bool TestImpl::TestPropWriteString_setHandler(Glib::ustring value) {
+bool TestImpl::TestPropWriteString_setHandler(const Glib::ustring &value) {
     return false;
 }
 bool TestImpl::TestPropWriteDouble_setHandler(double value) {
@@ -343,37 +343,37 @@ bool TestImpl::TestPropWriteBoolean_setHandler(bool value) {
 }
 /* End return dummy value warning */
 
-bool TestImpl::TestPropReadWriteByteStringArray_setHandler(std::vector<std::string>  value) {
+bool TestImpl::TestPropReadWriteByteStringArray_setHandler(const std::vector<std::string> &value) {
     m_PropReadWriteByteStringArrayValue = value;
     TestSignalByteStringArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPathArray_setHandler(std::vector<Glib::DBusObjectPathString>  value) {
+bool TestImpl::TestPropReadWriteObjectPathArray_setHandler(const std::vector<Glib::DBusObjectPathString> &value) {
     m_PropReadWriteObjectPathArrayValue = value;
     TestSignalObjectPathArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteStringArray_setHandler(std::vector<Glib::ustring>  value) {
+bool TestImpl::TestPropReadWriteStringArray_setHandler(const std::vector<Glib::ustring> &value) {
     m_PropReadWriteStringArrayValue = value;
     TestSignalStringArray_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteByteString_setHandler(std::string value) {
+bool TestImpl::TestPropReadWriteByteString_setHandler(const std::string &value) {
     m_PropReadWriteByteStringValue = value;
     TestSignalByteString_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteSignature_setHandler(Glib::DBusSignatureString value) {
+bool TestImpl::TestPropReadWriteSignature_setHandler(const Glib::DBusSignatureString &value) {
     m_PropReadWriteSignatureValue = value;
     TestSignalSignature_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteObjectPath_setHandler(Glib::DBusObjectPathString value) {
+bool TestImpl::TestPropReadWriteObjectPath_setHandler(const Glib::DBusObjectPathString &value) {
     m_PropReadWriteObjectPathValue = value;
     TestSignalObjectPath_signal.emit(value);
     return true;
 }
-bool TestImpl::TestPropReadWriteString_setHandler(Glib::ustring value) {
+bool TestImpl::TestPropReadWriteString_setHandler(const Glib::ustring &value) {
     m_PropReadWriteStringValue = value;
     TestSignalString_signal.emit(value);
     return true;
