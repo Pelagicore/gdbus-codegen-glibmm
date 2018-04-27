@@ -862,33 +862,33 @@ class CodeGenerator:
     def generate_common_classes(self, i):
         self.emit_h_common(dedent("""
         class {i.cpp_class_name}TypeWrap {{
-            public:
-                template<typename T>
-                static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
-                    for (uint i = 0; i < wrapped.get_n_children (); i++) {{
-                        Glib::Variant<T> item;
-                        wrapped.get_child(item, i);
-                        list.push_back(item.get());
-                    }}
+        public:
+            template<typename T>
+            static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
+                for (uint i = 0; i < wrapped.get_n_children (); i++) {{
+                    Glib::Variant<T> item;
+                    wrapped.get_child(item, i);
+                    list.push_back(item.get());
+                }}
+            }}
+
+            static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
+                std::vector<Glib::ustring> newStrv;
+                for (uint i = 0; i < strv.size(); i++) {{
+                    newStrv.push_back(strv[i]);
                 }}
 
-                static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
-                    std::vector<Glib::ustring> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
+                return newStrv;
+            }}
 
-                    return newStrv;
+            static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
+                std::vector<std::string> newStrv;
+                for (uint i = 0; i < strv.size(); i++) {{
+                    newStrv.push_back(strv[i]);
                 }}
 
-                static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
-                    std::vector<std::string> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
-
-                    return newStrv;
-                }}
+                return newStrv;
+            }}
         }};
 
         class {i.cpp_class_name}MessageHelper {{
