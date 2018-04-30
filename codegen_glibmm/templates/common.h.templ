@@ -34,6 +34,31 @@ public:
 
         return newStrv;
     }
+{% for method in interface.methods if not method is templated %}
+{% if method.in_args|length > 0 %}
+
+    static Glib::VariantContainerBase {{ method.camel_name }}_pack(
+        {%- set comma = joiner(',') -%}
+        {%- for arg in method.in_args -%}
+        {{ comma() }}
+        {{ arg.cpptype_in }} arg_{{ arg.name }}
+        {%- endfor -%}) {
+        Glib::VariantContainerBase base;
+        {% if method.in_args|length > 1 %}
+        std::vector<Glib::VariantBase> params;
+        {% for arg in method.in_args %}
+
+        {{ arg.cppvalue_send(arg.name + "_param", "arg_" + arg.name, interface.cpp_class_name) | indent(2) }}
+        params.push_back({{ arg.name }}_param);
+        {% endfor %}
+        {% else %}
+        {% set arg = method.in_args[0] %}
+        {{ arg.cppvalue_send("params", "arg_" + arg.name, interface.cpp_class_name) | indent(2) }}
+        {% endif %}
+        return Glib::VariantContainerBase::create_tuple(params);
+    }
+{% endif %}
+{% endfor %}
 };
 
 class {{interface.cpp_class_name}}MessageHelper {

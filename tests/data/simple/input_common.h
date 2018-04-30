@@ -33,6 +33,22 @@ public:
 
         return newStrv;
     }
+
+    static Glib::VariantContainerBase TestCall_pack(
+        gint32 arg_Param1,
+        const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2) {
+        Glib::VariantContainerBase base;
+        std::vector<Glib::VariantBase> params;
+
+        Glib::Variant<gint32> Param1_param =
+            Glib::Variant<gint32>::create(arg_Param1);
+        params.push_back(Param1_param);
+
+        Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> Param2_param =
+            Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>>::create(arg_Param2);
+        params.push_back(Param2_param);
+        return Glib::VariantContainerBase::create_tuple(params);
+    }
 };
 
 class TestMessageHelper {
