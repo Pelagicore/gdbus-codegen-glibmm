@@ -274,17 +274,12 @@ class CodeGenerator:
                 self.emit_cpp_p('{')
                 self.emit_cpp_p("    Glib::VariantContainerBase base;");
 
-                if (len(m.in_args) > 1):
-                    self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
-                    for a in m.in_args:
-                        self.emit_cpp_p("  " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
-                        self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
-                elif (len (m.in_args) == 1):
-                    for a in m.in_args:
-                        self.emit_cpp_p("    " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
-
                 if (len(m.in_args) > 0):
-                    self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
+                    self.emit_cpp_p("    base = %sTypeWrap::%s_pack(" % (i.cpp_class_name, m.camel_name))
+                    args = []
+                    for a in m.in_args:
+                        args.append('        arg_%s' % a.name)
+                    self.emit_cpp_p('        %s);' % (",\n".join(args)))
 
                 self.emit_cpp_p(dedent('''
                     m_proxy->call(
@@ -889,6 +884,38 @@ class CodeGenerator:
 
                 return newStrv;
             }}
+        """).format(**locals()))
+
+        for m in i.methods:
+            # For the time being, exclude all templated methods
+            templated = False
+            for a in m.in_args:
+                if a.templated:
+                    templated = True
+            if templated:
+                continue
+            if not m.in_args:
+                continue
+
+            self.emit_h_common("    static Glib::VariantContainerBase %s_pack(" % m.camel_name)
+            args = []
+            for a in m.in_args:
+                args.append("        %s arg_%s" % (a.cpptype_in, a.name))
+            self.emit_h_common(",\n".join(args) + ") {")
+
+            if (len(m.in_args) > 1):
+                self.emit_h_common("        std::vector<Glib::VariantBase> params;")
+                for a in m.in_args:
+                    self.emit_h_common("        " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
+                    self.emit_h_common("        params.push_back(%s_param);" % a.name)
+            elif (len (m.in_args) == 1):
+                for a in m.in_args:
+                    self.emit_h_common("        " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
+
+            self.emit_h_common("        return Glib::VariantContainerBase::create_tuple(params);")
+            self.emit_h_common("    }\n")
+
+        self.emit_h_common(dedent("""
         }};
 
         class {i.cpp_class_name}MessageHelper {{
