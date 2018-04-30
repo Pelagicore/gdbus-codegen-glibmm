@@ -17,18 +17,12 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
 {
     Glib::VariantContainerBase base;
     {% if method.in_args|length > 0 %}
-    {% if method.in_args|length > 1 %}
-    std::vector<Glib::VariantBase> params;
-    {% for arg in method.in_args %}
-
-    {{ arg.cppvalue_send(arg.name + "_param", "arg_" + arg.name, interface.cpp_class_name) | indent(1) }}
-    params.push_back({{ arg.name }}_param);
-    {% endfor %}
-    {% else %}
-    {% set arg = method.in_args[0] %}
-    {{ arg.cppvalue_send("params", "arg_" + arg.name, interface.cpp_class_name) | indent(1) }}
-    {% endif %}
-    base = Glib::VariantContainerBase::create_tuple(params);
+    base = {{ interface.cpp_class_name }}TypeWrap::{{ method.camel_name }}_pack(
+    {%- set comma = joiner(',') -%}
+    {%- for arg in method.in_args -%}
+        {{ comma() }}
+        arg_{{ arg.name }}
+    {%- endfor -%});
     {% endif %}
 
     m_proxy->call("{{ method.name }}", callback, base);

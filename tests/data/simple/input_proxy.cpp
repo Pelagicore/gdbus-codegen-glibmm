@@ -12,16 +12,9 @@ void org::gdbus::codegen::glibmm::Test::TestCall(
     const Gio::SlotAsyncReady &callback)
 {
     Glib::VariantContainerBase base;
-    std::vector<Glib::VariantBase> params;
-
-    Glib::Variant<gint32> Param1_param =
-        Glib::Variant<gint32>::create(arg_Param1);
-    params.push_back(Param1_param);
-
-    Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> Param2_param =
-        Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>>::create(arg_Param2);
-    params.push_back(Param2_param);
-    base = Glib::VariantContainerBase::create_tuple(params);
+    base = TestTypeWrap::TestCall_pack(
+        arg_Param1,
+        arg_Param2);
 
     m_proxy->call("TestCall", callback, base);
 }
