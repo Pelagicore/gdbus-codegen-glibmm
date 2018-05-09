@@ -224,7 +224,7 @@ class CodeGenerator:
                 # warning is issued if this is exceeded, and no signal handler uis
                 # generated.
                 if (len(s.args) > SIGNAL_MAX_PARAM):
-                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    print("WARNING: signal %s has too many parameters, skipping" % s.name)
                     continue
                 params = []
                 for a in s.args:
@@ -375,7 +375,7 @@ class CodeGenerator:
             # warning is issued if this is exceeded, and no signal handler uis
             # generated.
             if (len(s.args) > SIGNAL_MAX_PARAM):
-                print "WARNING: signal %s has too many parameters, skipping" % s.name
+                print("WARNING: signal %s has too many parameters, skipping" % s.name)
                 continue
 
             self.emit_cpp_p(dedent('''
@@ -443,7 +443,7 @@ class CodeGenerator:
             # data in the stub file.
             self.emit_cpp_s ("static const char interfaceXml%d[] = R\"XML_DELIMITER(" % i, False)
             for char in node_xml:
-                self.emit_cpp_s (char, False)
+                self.emit_cpp_s (chr(char), False)
             self.emit_cpp_s (")XML_DELIMITER\";")
 
     def generate_stub_intro(self):
@@ -509,7 +509,7 @@ class CodeGenerator:
             # Generate all signals
             for s in i.signals:
                 if (len(s.args) > SIGNAL_MAX_PARAM):
-                    print "WARNING: signal %s has too many parameters, skipping" % s.name
+                    print("WARNING: signal %s has too many parameters, skipping" % s.name)
                     continue
                 args = []
 
@@ -581,7 +581,7 @@ class CodeGenerator:
             # warning is issued if this is exceeded, and no signal handler uis
             # generated.
             if (len(s.args) > SIGNAL_MAX_PARAM):
-                print "WARNING: signal %s has too many parameters, skipping" % s.name
+                print("WARNING: signal %s has too many parameters, skipping" % s.name)
                 continue
             self.emit_cpp_s("    {s.name}_signal.connect(sigc::mem_fun(this, &{i.cpp_class_name}::{s.name}_emitter));".format(**locals()))
         #TODO: This code will only fetch introspection data for interfaces
@@ -760,7 +760,7 @@ class CodeGenerator:
             # warning is issued if this is exceeded, and no signal handler uis
             # generated.
             if (len(s.args) > SIGNAL_MAX_PARAM):
-                print "WARNING: signal %s has too many parameters, skipping" % s.name
+                print("WARNING: signal %s has too many parameters, skipping" % s.name)
                 continue
             args = []
 
