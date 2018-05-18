@@ -80,7 +80,9 @@ class Type:
         self.templated = False
 
     def __getattr__(self, name):
-        if name in ('cpptype_in', 'cpptype_out'):
+        if name == 'cpptype_in':
+            return 'const ' + self.cpptype + ' &'
+        elif name == 'cpptype_out':
             return self.cpptype
 
     def cppvalue_send(self, name, param, cpp_class_name):
@@ -105,15 +107,20 @@ class BasicType(Type):
 
 class StringType(Type):
     def __init__(self, signature):
-        signature = 'ay' if signature.startswith('ay') else signature[0]
-        Type.__init__(self, signature, 'std::string')
-        if self.signature in ('s', 'g', 'o'):
-            self.variant_type = 'Glib::ustring'
-            if self.signature == 's':
-                self.cpptype_get_cast = 'Glib::ustring'
+        if signature.startswith('ay'):
+            signature = 'ay'
+            cpptype = 'std::string'
+        else:
+            signature = signature[0]
+            if signature == 's':
+                cpptype = 'Glib::ustring'
+            elif signature == 'g':
+                cpptype = 'Glib::DBusSignatureString'
+            elif signature == 'o':
+                cpptype = 'Glib::DBusObjectPathString'
+        Type.__init__(self, signature, cpptype)
 
     def cppvalue_send(self, name, param, cpp_class_name):
-        print(' self Signature: %s' % (self.signature,))
         if self.signature == 's' or self.signature == 'ay':
             return Type.cppvalue_send(self, name, param, cpp_class_name)
         elif self.signature == 'g':
@@ -142,45 +149,6 @@ class ArrayType(Type):
         Type.__init__(self, signature[0] + self.element.signature)
         self.variant_type = 'std::vector<' + self.element.variant_type + '>'
         self.cpptype = self.variant_type
-        if self.signature == 'as':
-            self.variant_type = 'std::vector<Glib::ustring>'
-            self.cpptype = 'std::vector<std::string>'
-            self.cpptype_get_cast = "TypeWrap::glibStringVecToStdStringVec"
-            self.cpptype_to_dbus = "TypeWrap::stdStringVecToGlibStringVec"
-        elif self.signature == 'ao':
-            self.variant_type = 'std::vector<std::string>'
-            self.cpptype = 'std::vector<std::string>'
-
-    def cppvalue_get(self, outvar, idx, cpp_class_name):
-        varname = outvar + '_v'
-        if self.signature == 'as':
-            return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
-        elif self.signature == 'ao':
-            return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
-        elif self.signature == 'aay':
-            return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
-        else:
-            return Type.cppvalue_get(self, outvar, idx, cpp_class_name)
-
-    def cppvalue_send(self, name, param, cpp_class_name):
-        if self.signature == 'as':
-            return ("Glib::Variant<std::vector<Glib::ustring> > " + name +
-                    " = Glib::Variant<std::vector<Glib::ustring> >::create(" +
-                    cpp_class_name +
-                    "TypeWrap::stdStringVecToGlibStringVec(arg_" + param +
-                    "));")
-        elif self.signature == 'ao':
-            return ("Glib::Variant<std::vector<std::string> > " + name +
-                    " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_" +
-                    param + ");")
-        else:
-            return Type.cppvalue_send(self, name, param, cpp_class_name)
 
 class StructType(Type):
     def __init__(self, signature):

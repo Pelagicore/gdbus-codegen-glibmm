@@ -274,17 +274,12 @@ class CodeGenerator:
                 self.emit_cpp_p('{')
                 self.emit_cpp_p("    Glib::VariantContainerBase base;");
 
-                if (len(m.in_args) > 1):
-                    self.emit_cpp_p("std::vector<Glib::VariantBase> params;")
-                    for a in m.in_args:
-                        self.emit_cpp_p("  " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
-                        self.emit_cpp_p("  params.push_back(%s_param);" % a.name)
-                elif (len (m.in_args) == 1):
-                    for a in m.in_args:
-                        self.emit_cpp_p("    " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
-
                 if (len(m.in_args) > 0):
-                    self.emit_cpp_p("    base = Glib::VariantContainerBase::create_tuple(params);")
+                    self.emit_cpp_p("    base = %sTypeWrap::%s_pack(" % (i.cpp_class_name, m.camel_name))
+                    args = []
+                    for a in m.in_args:
+                        args.append('        arg_%s' % a.name)
+                    self.emit_cpp_p('        %s);' % (",\n".join(args)))
 
                 self.emit_cpp_p(dedent('''
                     m_proxy->call(
@@ -862,33 +857,65 @@ class CodeGenerator:
     def generate_common_classes(self, i):
         self.emit_h_common(dedent("""
         class {i.cpp_class_name}TypeWrap {{
-            public:
-                template<typename T>
-                static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
-                    for (uint i = 0; i < wrapped.get_n_children (); i++) {{
-                        Glib::Variant<T> item;
-                        wrapped.get_child(item, i);
-                        list.push_back(item.get());
-                    }}
+        public:
+            template<typename T>
+            static void unwrapList(std::vector<T> &list, const Glib::VariantContainerBase &wrapped) {{
+                for (uint i = 0; i < wrapped.get_n_children (); i++) {{
+                    Glib::Variant<T> item;
+                    wrapped.get_child(item, i);
+                    list.push_back(item.get());
+                }}
+            }}
+
+            static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
+                std::vector<Glib::ustring> newStrv;
+                for (uint i = 0; i < strv.size(); i++) {{
+                    newStrv.push_back(strv[i]);
                 }}
 
-                static std::vector<Glib::ustring> stdStringVecToGlibStringVec(const std::vector<std::string> &strv) {{
-                    std::vector<Glib::ustring> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
+                return newStrv;
+            }}
 
-                    return newStrv;
+            static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
+                std::vector<std::string> newStrv;
+                for (uint i = 0; i < strv.size(); i++) {{
+                    newStrv.push_back(strv[i]);
                 }}
 
-                static std::vector<std::string> glibStringVecToStdStringVec(const std::vector<Glib::ustring> &strv) {{
-                    std::vector<std::string> newStrv;
-                    for (uint i = 0; i < strv.size(); i++) {{
-                        newStrv.push_back(strv[i]);
-                    }}
+                return newStrv;
+            }}
+        """).format(**locals()))
 
-                    return newStrv;
-                }}
+        for m in i.methods:
+            # For the time being, exclude all templated methods
+            templated = False
+            for a in m.in_args:
+                if a.templated:
+                    templated = True
+            if templated:
+                continue
+            if not m.in_args:
+                continue
+
+            self.emit_h_common("    static Glib::VariantContainerBase %s_pack(" % m.camel_name)
+            args = []
+            for a in m.in_args:
+                args.append("        %s arg_%s" % (a.cpptype_in, a.name))
+            self.emit_h_common(",\n".join(args) + ") {")
+
+            if (len(m.in_args) > 1):
+                self.emit_h_common("        std::vector<Glib::VariantBase> params;")
+                for a in m.in_args:
+                    self.emit_h_common("        " + a.cppvalue_send(a.name + "_param", a.name, i.cpp_class_name)+ "")
+                    self.emit_h_common("        params.push_back(%s_param);" % a.name)
+            elif (len (m.in_args) == 1):
+                for a in m.in_args:
+                    self.emit_h_common("        " + a.cppvalue_send("params", a.name, i.cpp_class_name) + "")
+
+            self.emit_h_common("        return Glib::VariantContainerBase::create_tuple(params);")
+            self.emit_h_common("    }\n")
+
+        self.emit_h_common(dedent("""
         }};
 
         class {i.cpp_class_name}MessageHelper {{
@@ -914,7 +941,7 @@ class CodeGenerator:
             argstring = ""
             argvals = []
             for a in m.out_args:
-                argstring += a.cpptype_out
+                argstring += a.cpptype_in
                 argvals.append(a)
             args[argstring] = argvals
 
@@ -923,7 +950,7 @@ class CodeGenerator:
             a = args[a]
             params = []
             for index in range(len(a)):
-                params.append(a[index].cpptype_out + " p%s" % index)
+                params.append(a[index].cpptype_in + " p%s" % index)
             self.emit_h_common("void ret(" + ', '.join(params) +")")
             self.emit_h_common("{")
             self.emit_h_common("    std::vector<Glib::VariantBase> vlist;")
