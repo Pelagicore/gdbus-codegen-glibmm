@@ -1,0 +1,318 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+                      "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.gdbus.codegen.glibmm.Test">
+    <method name="TestStringVariantDict">
+      <arg type="a{sv}" name="Param1" direction="in"></arg>
+      <arg type="a{sv}" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestStringStringDict">
+      <arg type="a{ss}" name="Param1" direction="in"></arg>
+      <arg type="a{ss}" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestUintIntDict">
+      <arg type="a{ui}" name="Param1" direction="in"></arg>
+      <arg type="a{ui}" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestVariant">
+       <arg type="v" name="Param1" direction="in"></arg>
+       <arg type="v" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestByteStringArray">
+        <arg type="aay" name="Param1" direction="in"></arg>
+        <arg type="aay" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestObjectPathArray">
+        <arg type="ao" name="Param1" direction="in"></arg>
+        <arg type="ao" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestStringArray">
+        <arg type="as" name="Param1" direction="in"></arg>
+        <arg type="as" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestByteString">
+        <arg type="ay" name="Param1" direction="in"></arg>
+        <arg type="ay" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestStruct">
+      <arg type="(ss)" name="Param1" direction="in"></arg>
+      <arg type="(ss)" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestStructArray">
+      <arg type="a(usi)" name="Param1" direction="in"></arg>
+      <arg type="a(usi)" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestDictStructArray">
+      <arg type="a(sa{sv})" name="Param1" direction="in"></arg>
+      <arg type="a(sa{sv})" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestSignature">
+        <arg type="g" name="Param1" direction="in"></arg>
+        <arg type="g" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestObjectPath">
+        <arg type="o" name="Param1" direction="in"></arg>
+        <arg type="o" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestString">
+        <arg type="s" name="Param1" direction="in"></arg>
+        <arg type="s" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestDouble">
+        <arg type="d" name="Param1" direction="in"></arg>
+        <arg type="d" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestUInt64">
+        <arg type="t" name="Param1" direction="in"></arg>
+        <arg type="t" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestInt64">
+        <arg type="x" name="Param1" direction="in"></arg>
+        <arg type="x" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestUInt">
+        <arg type="u" name="Param1" direction="in"></arg>
+        <arg type="u" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestInt">
+        <arg type="i" name="Param1" direction="in"></arg>
+        <arg type="i" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestUInt16">
+        <arg type="q" name="Param1" direction="in"></arg>
+        <arg type="q" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestInt16">
+        <arg type="n" name="Param1" direction="in"></arg>
+        <arg type="n" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestChar">
+        <arg type="y" name="Param1" direction="in"></arg>
+        <arg type="y" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestBoolean">
+        <arg type="b" name="Param1" direction="in"></arg>
+        <arg type="b" name="Param2" direction="out"></arg>
+    </method>
+
+    <method name="TestAll">
+        <arg type="aay" name="in_Param1"  direction="in"></arg>
+        <arg type="ao"  name="in_Param2"  direction="in"></arg>
+        <arg type="as"  name="in_Param3"  direction="in"></arg>
+        <arg type="ay"  name="in_Param4"  direction="in"></arg>
+        <arg type="g"   name="in_Param5"  direction="in"></arg>
+        <arg type="o"   name="in_Param6"  direction="in"></arg>
+        <arg type="s"   name="in_Param7"  direction="in"></arg>
+        <arg type="d"   name="in_Param8"  direction="in"></arg>
+        <arg type="t"   name="in_Param9"  direction="in"></arg>
+        <arg type="x"   name="in_Param10" direction="in"></arg>
+        <arg type="u"   name="in_Param11" direction="in"></arg>
+        <arg type="i"   name="in_Param12" direction="in"></arg>
+        <arg type="q"   name="in_Param13" direction="in"></arg>
+        <arg type="n"   name="in_Param14" direction="in"></arg>
+        <arg type="y"   name="in_Param15" direction="in"></arg>
+        <arg type="b"   name="in_Param16" direction="in"></arg>
+
+        <arg type="aay" name="out_Param1"  direction="out"></arg>
+        <arg type="ao"  name="out_Param2"  direction="out"></arg>
+        <arg type="as"  name="out_Param3"  direction="out"></arg>
+        <arg type="ay"  name="out_Param4"  direction="out"></arg>
+        <arg type="g"   name="out_Param5"  direction="out"></arg>
+        <arg type="o"   name="out_Param6"  direction="out"></arg>
+        <arg type="s"   name="out_Param7"  direction="out"></arg>
+        <arg type="d"   name="out_Param8"  direction="out"></arg>
+        <arg type="t"   name="out_Param9"  direction="out"></arg>
+        <arg type="x"   name="out_Param10" direction="out"></arg>
+        <arg type="u"   name="out_Param11" direction="out"></arg>
+        <arg type="i"   name="out_Param12" direction="out"></arg>
+        <arg type="q"   name="out_Param13" direction="out"></arg>
+        <arg type="n"   name="out_Param14" direction="out"></arg>
+        <arg type="y"   name="out_Param15" direction="out"></arg>
+        <arg type="b"   name="out_Param16" direction="out"></arg>
+    </method>
+
+    <method name="TestTriggerInternalPropertyChange">
+        <arg type="i" name="NewPropertyValue"></arg>
+    </method>
+
+    <!-- Signals -->
+
+    <signal name="TestSignalByteStringArray">
+        <arg type="aay" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalObjectPathArray">
+        <arg type="ao" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalStringArray">
+        <arg type="as" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalByteString">
+        <arg type="ay" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalSignature">
+        <arg type="g" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalObjectPath">
+        <arg type="o" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalString">
+        <arg type="s" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalDouble">
+        <arg type="d" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalUInt64">
+        <arg type="t" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalInt64">
+        <arg type="x" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalUInt">
+        <arg type="u" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalInt">
+        <arg type="i" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalUInt16">
+        <arg type="q" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalInt16">
+        <arg type="n" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalChar">
+        <arg type="y" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalBoolean">
+        <arg type="b" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSignalAll">
+        <arg type="aay" name="in_Param1"></arg>
+        <arg type="ao"  name="in_Param2"></arg>
+        <arg type="as"  name="in_Param3"></arg>
+        <arg type="ay"  name="in_Param4"></arg>
+        <arg type="g"   name="in_Param5"></arg>
+        <arg type="o"   name="in_Param6"></arg>
+        <arg type="s"   name="in_Param7"></arg>
+        <arg type="d"   name="in_Param8"></arg>
+        <arg type="t"   name="in_Param9"></arg>
+        <arg type="x"   name="in_Param10"></arg>
+        <arg type="u"   name="in_Param11"></arg>
+        <arg type="i"   name="in_Param12"></arg>
+        <arg type="q"   name="in_Param13"></arg>
+        <arg type="n"   name="in_Param14"></arg>
+        <arg type="y"   name="in_Param15"></arg>
+        <arg type="b"   name="in_Param16"></arg>
+
+        <arg type="aay" name="out_Param1"></arg>
+        <arg type="ao"  name="out_Param2"></arg>
+        <arg type="as"  name="out_Param3"></arg>
+        <arg type="ay"  name="out_Param4"></arg>
+        <arg type="g"   name="out_Param5"></arg>
+        <arg type="o"   name="out_Param6"></arg>
+        <arg type="s"   name="out_Param7"></arg>
+        <arg type="d"   name="out_Param8"></arg>
+        <arg type="t"   name="out_Param9"></arg>
+        <arg type="x"   name="out_Param10"></arg>
+        <arg type="u"   name="out_Param11"></arg>
+        <arg type="i"   name="out_Param12"></arg>
+        <arg type="q"   name="out_Param13"></arg>
+        <arg type="n"   name="out_Param14"></arg>
+        <arg type="y"   name="out_Param15"></arg>
+        <arg type="b"   name="out_Param16"></arg>
+    </signal>
+
+    <!-- Properties -->
+
+    <property name="TestPropReadByteStringArray"        type="aay" access="read" />
+    <property name="TestPropReadObjectPathArray"        type="ao"  access="read" />
+    <property name="TestPropReadStringArray"            type="as"  access="read" />
+    <property name="TestPropReadByteString"             type="ay"  access="read" />
+    <property name="TestPropReadSignature"              type="g"   access="read" />
+    <property name="TestPropReadObjectPath"             type="o"   access="read" />
+    <property name="TestPropReadString"                 type="s"   access="read" />
+    <property name="TestPropReadDouble"                 type="d"   access="read" />
+    <property name="TestPropReadUInt64"                 type="t"   access="read" />
+    <property name="TestPropReadInt64"                  type="x"   access="read" />
+    <property name="TestPropReadUInt"                   type="u"   access="read" />
+    <property name="TestPropReadInt"                    type="i"   access="read" />
+    <property name="TestPropReadUInt16"                 type="q"   access="read" />
+    <property name="TestPropReadInt16"                  type="n"   access="read" />
+    <property name="TestPropReadChar"                   type="y"   access="read" />
+    <property name="TestPropReadBoolean"                type="b"   access="read" />
+    <property name="TestPropInternalReadPropertyChange" type="i"   access="read" />
+
+    <property name="TestPropWriteByteStringArray" type="aay" access="write" />
+    <property name="TestPropWriteObjectPathArray" type="ao"  access="write" />
+    <property name="TestPropWriteStringArray"     type="as"  access="write" />
+    <property name="TestPropWriteByteString"      type="ay"  access="write" />
+    <property name="TestPropWriteSignature"       type="g"   access="write" />
+    <property name="TestPropWriteObjectPath"      type="o"   access="write" />
+    <property name="TestPropWriteString"          type="s"   access="write" />
+    <property name="TestPropWriteDouble"          type="d"   access="write" />
+    <property name="TestPropWriteUInt64"          type="t"   access="write" />
+    <property name="TestPropWriteInt64"           type="x"   access="write" />
+    <property name="TestPropWriteUInt"            type="u"   access="write" />
+    <property name="TestPropWriteInt"             type="i"   access="write" />
+    <property name="TestPropWriteUInt16"          type="q"   access="write" />
+    <property name="TestPropWriteInt16"           type="n"   access="write" />
+    <property name="TestPropWriteChar"            type="y"   access="write" />
+    <property name="TestPropWriteBoolean"         type="b"   access="write" />
+
+    <property name="TestPropReadWriteByteStringArray"           type="aay" access="readwrite" />
+    <property name="TestPropReadWriteObjectPathArray"           type="ao"  access="readwrite" />
+    <property name="TestPropReadWriteStringArray"               type="as"  access="readwrite" />
+    <property name="TestPropReadWriteByteString"                type="ay"  access="readwrite" />
+    <property name="TestPropReadWriteSignature"                 type="g"   access="readwrite" />
+    <property name="TestPropReadWriteObjectPath"                type="o"   access="readwrite" />
+    <property name="TestPropReadWriteString"                    type="s"   access="readwrite" />
+    <property name="TestPropReadWriteDouble"                    type="d"   access="readwrite" />
+    <property name="TestPropReadWriteUInt64"                    type="t"   access="readwrite" />
+    <property name="TestPropReadWriteInt64"                     type="x"   access="readwrite" />
+    <property name="TestPropReadWriteUInt"                      type="u"   access="readwrite" />
+    <property name="TestPropReadWriteInt"                       type="i"   access="readwrite" />
+    <property name="TestPropReadWriteUInt16"                    type="q"   access="readwrite" />
+    <property name="TestPropReadWriteInt16"                     type="n"   access="readwrite" />
+    <property name="TestPropReadWriteChar"                      type="y"   access="readwrite" />
+    <property name="TestPropReadWriteBoolean"                   type="b"   access="readwrite" />
+    <property name="TestPropInternalReadWritePropertyChange"    type="i"   access="readwrite" />
+
+  </interface>
+</node>
