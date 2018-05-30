@@ -28,6 +28,7 @@ from . import utils
 from . import dbustypes
 from . import parser
 from . import codegen
+from . import version
 
 def find_arg(arg_list, arg_name):
     for a in arg_list:
@@ -54,7 +55,7 @@ def find_prop(iface, prop):
     return None
 
 def codegen_main():
-    arg_parser = optparse.OptionParser('%prog [options]')
+    arg_parser = optparse.OptionParser('%prog [options]', version=version)
     arg_parser.add_option('', '--interface-prefix', metavar='PREFIX', default='',
                             help='String to strip from D-Bus interface names for code and docs')
     arg_parser.add_option('', '--cpp-namespace', metavar='NAMESPACE', default='',
