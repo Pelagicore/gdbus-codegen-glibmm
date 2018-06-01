@@ -1,1 +1,2 @@
 include codegen_glibmm/templates/*.templ
+include cmake_files/*.cmake
