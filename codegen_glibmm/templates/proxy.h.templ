@@ -1,0 +1,105 @@
+#pragma once
+#include <string>
+#include <glibmm.h>
+#include <giomm.h>
+#include "{{ common_h_name }}"
+
+{% for interface in interfaces %}
+{% set namespaces = interface.cpp_namespace_name.split("::")[:-1] %}
+{% for namespace in namespaces %}
+namespace {{ namespace }} {
+{% endfor %}
+
+class {{ interface.cpp_class_name }} : public Glib::ObjectBase {
+public:
+    static void createForBus (Gio::DBus::BusType busType,
+                              Gio::DBus::ProxyFlags proxyFlags,
+                              const std::string &name,
+                              const std::string &objectPath,
+                              const Gio::SlotAsyncReady &slot);
+
+    static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
+
+{% for method in interface.methods %}
+    {% if method is templated %}
+    template <typename T>
+    {% endif %}
+    void {{ method.name }} (
+    {% for arg in method.in_args %}
+        {% if arg.templated %}
+        T {{ arg.name }},
+        {% else %}
+        {{ arg.cpptype_in }} {{ arg.name }},
+        {% endif %}
+    {%- endfor -%}
+    {% if method is templated %}
+        const Gio::SlotAsyncReady &callback)
+    {
+        Glib::VariantContainerBase base;
+        {% if method.in_args|length > 0 %}
+        {% if method.in_args|length > 1 %}
+        std::vector<Glib::VariantBase> params;
+        {% for arg in method.in_args %}
+        {% if arg.templated %}
+        Glib::Variant<Glib::Variant<T> > {{ arg.name }}_variantValue;
+        {{ arg.name }}_variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create({{ arg.name }}_param));
+        params.push_back({{ arg.name }}_variantValue);
+        {% else %}
+        {{ arg.cppvalue_send(arg.name + "_param", arg.name, interface.cpp_class_name) }}
+        params.push_back({{ arg.name }}_param);
+        {% endif %}
+        {%- endfor -%}
+        {% else %}
+        Glib::Variant<Glib::Variant<T> > variantValue;
+        variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create({{ method.in_args[0].name }}));
+        Glib::VariantBase params = variantValue;
+        {% endif %}
+        base = Glib::VariantContainerBase::create_tuple(params);
+        {% endif %}
+
+    m_proxy->call(
+        "{{ method.name }}",
+        callback,
+        base);
+}
+    {% else %}
+        const Gio::SlotAsyncReady &slot);
+    {% endif %}
+
+    void {{ method.name }}_finish (
+        {% for arg in method.out_args %}
+        {{ arg.cpptype_out }}& {{ arg.name }},
+        {% endfor %}
+        const Glib::RefPtr<Gio::AsyncResult>& res);
+
+{% endfor %}
+{% for prop in interface.properties %}
+    {% if prop.readable %}
+     {{ prop.cpptype_out }} {{ prop.name }}_get();
+    {% endif %}
+    {% if prop.writable %}
+     void {{ prop.name }}_set({{ prop.cpptype_in }}, const Gio::SlotAsyncReady &);
+     void {{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&);
+    {% endif %}
+{% endfor %}
+{% for signal in interface.signals %}
+{% if signal is supported_by_sigc %}
+sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }} > {{ signal.name }}_signal;
+{% endif %}
+{% endfor %}
+
+    void reference() {}
+    void unreference() {}
+    void handle_signal (const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters);
+
+    private:
+    {{ interface.cpp_class_name }} (Glib::RefPtr<Gio::DBus::Proxy> proxy) : Glib::ObjectBase() {
+        this->m_proxy = proxy;
+        this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_signal));
+    }
+    Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
+};{% for namespace in namespaces|reverse %}
+
+}// {{ namespace }}
+{%- endfor -%}
+{% endfor %}
