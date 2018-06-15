@@ -330,16 +330,9 @@ class CodeGenerator:
                         }} else {{
                             g_print ("Todo: lookup value\\n");
                         }}''').format(**locals()))
-                    cpptype_cast = p.cpptype_get_cast
-                    # Prepend the class name if this is the generic "TypeWrap" class
-                    if cpptype_cast.startswith("TypeWrap"):
-                        cpptype_cast = i.cpp_class_name + cpptype_cast
                     self.emit_cpp_p(dedent('''
-                        return {cpptype_cast}(b.get());
+                        return {p.cpptype_get_cast}(b.get());
                     }}''').format(**locals()))
-                cpptype_to_dbus = p.cpptype_to_dbus
-                if cpptype_to_dbus.startswith("TypeWrap"):
-                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 if p.writable:
                     self.emit_cpp_p(dedent('''
 
@@ -347,7 +340,7 @@ class CodeGenerator:
                         std::vector<Glib::VariantBase> paramsVec;
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{i.name}"));
                         paramsVec.push_back (Glib::Variant<Glib::ustring>::create("{p.name}"));
-                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}(value))));
+                        paramsVec.push_back (Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{p.variant_type} >::create({p.cpptype_to_dbus}(value))));
                         Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
                         m_proxy->call("org.freedesktop.DBus.Properties.Set",
                                         cb,
@@ -395,11 +388,7 @@ class CodeGenerator:
                 self.emit_cpp_p("        parameters.get_child(base_%s, %d);" % (a.name, ai))
                 self.emit_cpp_p("        %s p_%s;" % (a.variant_type, a.name))
                 self.emit_cpp_p("        p_%s = base_%s.get();" % (a.name, a.name))
-                cpptype_cast = a.cpptype_get_cast
-                # Prepend the class name if this is the generic "TypeWrap" class
-                if cpptype_cast.startswith("TypeWrap"):
-                    cpptype_cast = i.cpp_class_name + cpptype_cast
-                paramsList.append("%s(p_%s)" % (cpptype_cast, a.name))
+                paramsList.append("%s(p_%s)" % (a.cpptype_get_cast, a.name))
 
             paramsList = ', '.join(paramsList)
             self.emit_cpp_p('''        {s.name}_signal.emit({paramsList});'''.format(**locals()))
@@ -683,11 +672,7 @@ class CodeGenerator:
                     self.emit_cpp_s("")
             self.emit_cpp_s("        %s(" % m.name)
             for a in m.in_args:
-                cpptype_cast = a.cpptype_get_cast
-                # Prepend the class name if this is the generic "TypeWrap" class
-                if cpptype_cast.startswith("TypeWrap"):
-                    cpptype_cast = i.cpp_class_name + cpptype_cast
-                self.emit_cpp_s("            %s(p_%s)," % (cpptype_cast, a.name))
+                self.emit_cpp_s("            %s(p_%s)," % (a.cpptype_get_cast, a.name))
             self.emit_cpp_s("            {i.cpp_class_name}MessageHelper(invocation));".format(**locals()))
             self.emit_cpp_s("    }")
         self.emit_cpp_s("    }")
@@ -706,13 +691,9 @@ class CodeGenerator:
 
         for p in i.properties:
             if p.readable:
-                cpptype_to_dbus = p.cpptype_to_dbus
-                # Prepend the class name if this is the generic "TypeWrap" class
-                if cpptype_to_dbus.startswith("TypeWrap"):
-                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
                     if (property_name.compare("{p.name}") == 0) {{
-                        property = Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}({p.name}_get()));
+                        property = Glib::Variant<{p.variant_type} >::create({p.cpptype_to_dbus}({p.name}_get()));
                     }}
                 ''').format(**locals()))
 
@@ -736,12 +717,8 @@ class CodeGenerator:
                     try {{
                         Glib::Variant<{p.variant_type} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{p.variant_type} > >(value);
                         {p.cpptype_out} val;''').format(**locals()))
-            cpptype_cast = p.cpptype_get_cast
-            # Prepend the class name if this is the generic "TypeWrap" class
-            if cpptype_cast.startswith("TypeWrap"):
-                cpptype_cast = i.cpp_class_name + cpptype_cast
             self.emit_cpp_s(dedent('''
-                        val = {cpptype_cast}(castValue.get());''').format(**locals()))
+                        val = {p.cpptype_get_cast}(castValue.get());''').format(**locals()))
             self.emit_cpp_s('''        {p.name}_set(val);'''.format(**locals()))
             self.emit_cpp_s(dedent('''
                     }} catch (std::bad_cast e) {{
@@ -776,12 +753,8 @@ class CodeGenerator:
             std::vector<Glib::VariantBase> paramsList;''').format(**locals()))
 
             for a in s.args:
-                cpptype_to_dbus = a.cpptype_to_dbus
-                # Prepend the class name if this is the generic "TypeWrap" class
-                if cpptype_to_dbus.startswith("TypeWrap"):
-                    cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
                 self.emit_cpp_s(dedent('''
-                paramsList.push_back(Glib::Variant<{a.variant_type} >::create({cpptype_to_dbus}({a.name})));;
+                paramsList.push_back(Glib::Variant<{a.variant_type} >::create({a.cpptype_to_dbus}({a.name})));;
                 ''').format(**locals()))
 
             self.emit_cpp_s(dedent('''      m_connection->emit_signal(
@@ -812,14 +785,10 @@ class CodeGenerator:
 
     def define_types_property_setters_stub(self, i):
         for p in i.properties:
-            cpptype_to_dbus = p.cpptype_to_dbus
-            # Prepend the class name if this is the generic "TypeWrap" class
-            if cpptype_to_dbus.startswith("TypeWrap"):
-                cpptype_to_dbus = i.cpp_class_name + cpptype_to_dbus
             self.emit_cpp_s(dedent('''
             bool {i.cpp_namespace_name}::{p.name}_set({p.cpptype_in} value) {{
                 if ({p.name}_setHandler(value)) {{
-                    Glib::Variant<{p.variant_type} > value_get = Glib::Variant<{p.variant_type} >::create({cpptype_to_dbus}({p.name}_get()));
+                    Glib::Variant<{p.variant_type} > value_get = Glib::Variant<{p.variant_type} >::create({p.cpptype_to_dbus}({p.name}_get()));
                     emitSignal("{p.name}", value_get);
                     return true;
                 }}
