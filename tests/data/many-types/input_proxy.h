@@ -44,7 +44,7 @@ public:
         const Glib::RefPtr<Gio::AsyncResult>& res);
 
     template <typename T>
-    void TestVariant(
+    void TestVariant (
         T Param1,
         const Gio::SlotAsyncReady &callback)
     {

@@ -109,150 +109,15 @@ class CodeGenerator:
 
         self.emit_cpp_p('#include "%s"' %(self.proxy_h.name))
 
-    def declare_types_proxy(self):
+    def generate_proxy_header(self):
         """ Generate types and classes required by the proxy. This will
         generate a complete class declaration, which is implemented in the
         corresponding cpp file
         """
-        self.emit_h_p("#pragma once")
-        self.emit_h_p("#include <string>")
-        self.emit_h_p("#include <glibmm.h>")
-        self.emit_h_p("#include <giomm.h>")
-        self.emit_h_p("#include \""+self.common_h.name+"\"")
-        self.emit_h_p("")
-
-        # Generate one class per interface
-        for i in self.ifaces:
-            for ns in i.cpp_namespace_name.split("::")[:-1]:
-                self.emit_h_p ("namespace %s {" % ns)
-            self.emit_h_p(dedent('''
-            class {i.cpp_class_name} : public Glib::ObjectBase {{
-            public:
-                static void createForBus (Gio::DBus::BusType busType,
-                                          Gio::DBus::ProxyFlags proxyFlags,
-                                          const std::string &name,
-                                          const std::string &objectPath,
-                                          const Gio::SlotAsyncReady &slot);
-
-                static Glib::RefPtr<{i.cpp_class_name}> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);''').format(**locals()))
-
-            self.emit_h_p("")
-
-            # Generate all method calls for this interface
-            for m in i.methods:
-                # Flag method as templated if there is a variant arg
-                templated = False
-                for a in m.in_args:
-                    if a.templated:
-                        templated = True
-
-                if templated:
-                    # Template methods needs to be implemented in the header
-
-                    # Begin method signature
-                    self.emit_h_p("    template <typename T>")
-                    self.emit_h_p("    void %s(" % m.name)
-                    for a in m.in_args:
-                        # Variants needs special attention
-                        if a.templated:
-                            self.emit_h_p("        T %s," % (a.name))
-                        else:
-                            self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
-                    self.emit_h_p("        const Gio::SlotAsyncReady &callback)")
-                    self.emit_h_p("    {")
-                    # End method signature
-
-                     #TODO: Seems like the handling of one param could be made the same as for more than one params?
-
-                    #Begin method implementation
-                    self.emit_h_p("        Glib::VariantContainerBase base;");
-                    if (len(m.in_args) > 1):
-                        self.emit_h_p("        std::vector<Glib::VariantBase> params;")
-                        for a in m.in_args:
-                            if a.templated:
-                                self.emit_h_p("        Glib::Variant<Glib::Variant<T> > %s_variantValue;" % (a.name))
-                                self.emit_h_p("        %s_variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s_param));" % (a.name, a.name))
-                                self.emit_h_p("        params.push_back(%s_variantValue);" % (a.name))
-                            else:
-                                self.emit_h_p("        " + a.cppvalue_send(a.name + "_param", 'arg_' + a.name, i.cpp_class_name) + "")
-                                self.emit_h_p("        params.push_back(%s_param);" % (a.name))
-                    elif (len(m.in_args) == 1):
-                        for a in m.in_args:
-                            if a.templated:
-                                self.emit_h_p("        Glib::Variant<Glib::Variant<T> > variantValue;")
-                                self.emit_h_p("        variantValue = Glib::Variant<Glib::Variant<T> >::create(Glib::Variant<T>::create(%s));" % (a.name))
-                                self.emit_h_p("        Glib::VariantBase params = variantValue;")
-                            else:
-                                self.emit_h_p("        " + a.cppvalue_send("params", 'arg_' + a.name, i.cpp_class_name) + "")
-                    if (len(m.in_args) > 0):
-                        self.emit_h_p("        base = Glib::VariantContainerBase::create_tuple(params);")
-
-                    self.emit_h_p(dedent('''
-                            m_proxy->call(
-                                "{m.name}",
-                                callback,
-                                base);
-                        }}''').format(**locals()))
-                    # End method implementation
-
-                else:
-                    # Async call method, the non template code just have their method definitions in the header
-                    self.emit_h_p("    void %s (" % m.name)
-                    for a in m.in_args:
-                        self.emit_h_p("        %s %s," % (a.cpptype_in, a.name))
-                    self.emit_h_p("        const Gio::SlotAsyncReady &slot);")
-
-                self.emit_h_p("")
-
-                # _finish method
-                self.emit_h_p("    void %s_finish (" % m.name)
-                for a in m.out_args:
-                    self.emit_h_p("        %s& %s," % (a.cpptype_out, a.name))
-                self.emit_h_p("        const Glib::RefPtr<Gio::AsyncResult>& res);")
-
-                self.emit_h_p("")
-
-            # Generate all properties for this interface
-            for p in i.properties:
-                if p.readable:
-                    self.emit_h_p("     {p.cpptype_out} {p.name}_get();".format(**locals()))
-                if p.writable:
-                    self.emit_h_p("     void {p.name}_set({p.cpptype_in}, const Gio::SlotAsyncReady &);".format(**locals()))
-                    self.emit_h_p("     void {p.name}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&);".format(**locals()))
-
-
-            # Generate all signals for this interface
-            for s in i.signals:
-                # Sigc does not allow an infinite number of parameters for signals.
-                # The maximum number of signals is specified in SIGNAL_MAX_PARAM. A
-                # warning is issued if this is exceeded, and no signal handler uis
-                # generated.
-                if (len(s.args) > SIGNAL_MAX_PARAM):
-                    print("WARNING: signal %s has too many parameters, skipping" % s.name)
-                    continue
-                params = []
-                for a in s.args:
-                    params.append(a.cpptype_out)
-                params = ", ".join(params)
-                self.emit_h_p(dedent('''sigc::signal<void, {params} > {s.name}_signal;''').format(**locals()))
-
-            # Reference handling (needed for creating Glib::RefPtr, signal handler and private constructor
-            self.emit_h_p(dedent('''
-                void reference() {{}}
-                void unreference() {{}}
-                void handle_signal (const Glib::ustring& sender_name, const Glib::ustring& signal_name, const Glib::VariantContainerBase& parameters);
-
-                private:
-                {i.cpp_class_name} (Glib::RefPtr<Gio::DBus::Proxy> proxy) : Glib::ObjectBase() {{
-                    this->m_proxy = proxy;
-                    this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{i.cpp_class_name}::handle_signal));
-                }}
-                Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
-            }};''').format(**locals()))
-
-            # Close namespaces, in reversed order
-            for ns in reversed(i.cpp_namespace_name.split("::")[:-1]):
-                self.emit_h_p("}// %s" % ns)
+        h = self.j2_env.get_template('proxy.h.templ').render(
+                interfaces=self.ifaces,
+                common_h_name=self.common_h.name)
+        self.emit_h_p(h)
 
     def generate_method_calls_proxy(self, i):
         """ Generate implementation code for method invocations in the proxy
@@ -831,6 +696,16 @@ class CodeGenerator:
         self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR + "/templates/"),
                                   trim_blocks=True,
                                   lstrip_blocks=True)
+        def is_templated(method):
+            for a in method.in_args:
+                if a.templated:
+                    return True
+            return False
+        self.j2_env.tests['templated'] = is_templated
+
+        def is_supported_by_sigc(signal):
+            return len(signal.args) <= SIGNAL_MAX_PARAM
+        self.j2_env.tests['supported_by_sigc'] = is_supported_by_sigc
 
     def generate(self):
         # Jinja initialization
@@ -838,7 +713,7 @@ class CodeGenerator:
 
         # Proxy
         self.generate_intro_proxy()
-        self.declare_types_proxy()
+        self.generate_proxy_header()
         for i in self.ifaces:
             self.generate_method_calls_proxy(i)
             self.generate_property_handlers_proxy(i)
