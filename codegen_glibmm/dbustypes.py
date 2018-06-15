@@ -257,9 +257,14 @@ class Arg:
         self.annotations = []
 
     def __getattr__(self, name):
-        return getattr(self.type, name)
+        value = getattr(self.type, name)
+        if name in ('cpptype_get_cast', 'cpptype_to_dbus'):
+            if value.startswith('TypeWrap'):
+                value = self.class_name + value
+        return value
 
-    def post_process(self, arg_number):
+    def post_process(self, class_name, arg_number):
+        self.class_name = class_name
         if self.name == None:
             self.name = 'unnamed_arg%d'%arg_number
 
@@ -271,7 +276,7 @@ class Method:
         self.out_args = []
         self.annotations = []
 
-    def post_process(self, interface_prefix, cns, cns_upper, cns_lower):
+    def post_process(self, class_name, cns, cns_upper, cns_lower):
         name = self.name
         self.camel_name = name
 
@@ -280,11 +285,11 @@ class Method:
 
         arg_count = 0
         for a in self.in_args:
-            a.post_process(arg_count)
+            a.post_process(class_name, arg_count)
             arg_count += 1
 
         for a in self.out_args:
-            a.post_process(arg_count)
+            a.post_process(class_name, arg_count)
             arg_count += 1
 
 class Signal:
@@ -293,7 +298,7 @@ class Signal:
         self.args = []
         self.annotations = []
 
-    def post_process(self, interface_prefix, cns, cns_upper, cns_lower, containing_iface):
+    def post_process(self, class_name, cns, cns_upper, cns_lower, containing_iface):
         name = self.name
         self.name_lower = utils.camel_case_to_uscore(name).lower().replace('-', '_')
         self.name_hyphen = self.name_lower.replace('_', '-')
@@ -301,7 +306,7 @@ class Signal:
 
         arg_count = 0
         for a in self.args:
-            a.post_process(arg_count)
+            a.post_process(class_name, arg_count)
             arg_count += 1
 
 class Property:
@@ -326,7 +331,7 @@ class Property:
     def __getattr__(self, name):
         return getattr(self.arg, name)
 
-    def post_process(self, interface_prefix, cns, cns_upper, cns_lower):
+    def post_process(self, class_name, cns, cns_upper, cns_lower):
         name = self.name
         self.name_lower = utils.camel_case_to_uscore(name).lower().replace('-', '_')
         self.name_hyphen = self.name_lower.replace('_', '-')
@@ -336,7 +341,7 @@ class Property:
 
         # recalculate arg
         self.arg.annotations = self.annotations
-        self.arg.post_process(0)
+        self.arg.post_process(class_name, 0)
 
 class Interface:
     def __init__(self, name):
@@ -397,10 +402,10 @@ class Interface:
         self.name_hyphen = self.name_upper.lower().replace('_', '-')
 
         for m in self.methods:
-            m.post_process(interface_prefix, cns, cns_upper, cns_lower)
+            m.post_process(self.cpp_class_name, cns, cns_upper, cns_lower)
 
         for s in self.signals:
-            s.post_process(interface_prefix, cns, cns_upper, cns_lower, self)
+            s.post_process(self.cpp_class_name, cns, cns_upper, cns_lower, self)
 
         for p in self.properties:
-            p.post_process(interface_prefix, cns, cns_upper, cns_lower)
+            p.post_process(self.cpp_class_name, cns, cns_upper, cns_lower)
