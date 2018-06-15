@@ -1302,7 +1302,6 @@ std::vector<std::string> org::gdbus::codegen::glibmm::Test::TestPropReadWriteByt
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(std::vector<std::string> value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1330,7 +1329,6 @@ std::vector<std::string> org::gdbus::codegen::glibmm::Test::TestPropReadWriteObj
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std::vector<std::string> value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1360,7 +1358,6 @@ std::vector<std::string> org::gdbus::codegen::glibmm::Test::TestPropReadWriteStr
     return TestTypeWrap::glibStringVecToStdStringVec(b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::vector<std::string> value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1388,7 +1385,6 @@ std::string org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_get()
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(std::string value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1418,7 +1414,6 @@ std::string org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_get() 
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::string value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1446,7 +1441,6 @@ std::string org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_get()
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::string value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1476,7 +1470,6 @@ std::string org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_get() {
     return Glib::ustring(b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(std::string value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1504,7 +1497,6 @@ double org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_get() {
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1534,7 +1526,6 @@ guint64 org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_get() {
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1562,7 +1553,6 @@ gint64 org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_get() {
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1592,7 +1582,6 @@ guint32 org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_get() {
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1620,7 +1609,6 @@ gint32 org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_get() {
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1650,7 +1638,6 @@ guint16 org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_get() {
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1678,7 +1665,6 @@ gint16 org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_get() {
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
@@ -1708,7 +1694,6 @@ guchar org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_get() {
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1737,7 +1722,6 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_get() {
     return (b.get());
 }
 
-
 void org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back (Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
@@ -1765,7 +1749,6 @@ gint32 org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChang
 
     return (b.get());
 }
-
 
 void org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_set(gint32 value, const Gio::SlotAsyncReady &cb) {
     std::vector<Glib::VariantBase> paramsVec;
