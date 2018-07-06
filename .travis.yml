@@ -9,7 +9,7 @@ before_install:
 install:
     - docker exec -ti travis-ci bash -c "cd /home/gdbus-codegen-glibmm && python3 ./setup.py install"
 script:
-    - docker exec travis-ci bash -c "cd /home/gdbus-codegen-glibmm/tests/ && pytest-3"
+    - docker exec travis-ci bash -c "cd /home/gdbus-codegen-glibmm/tests/ && pytest-3 -vv"
     - docker exec travis-ci bash -c "cd /home/gdbus-codegen-glibmm/tests/integration && dbus-test-runner -t ./runtests.sh"
 after_script:
     - docker stop travis-ci
