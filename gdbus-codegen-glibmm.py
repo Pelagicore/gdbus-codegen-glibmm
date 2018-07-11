@@ -3,6 +3,7 @@
 # GDBus - GLib D-Bus Library
 #
 # Copyright (C) 2008-2011 Red Hat, Inc.
+# Copyright (C) 2018 Luxoft Sweden AB
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,7 +19,7 @@
 # Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
 #
 # Author: David Zeuthen <davidz@redhat.com>
-
+# For additional authors please see AUTHORS file.
 
 import os
 import sys
