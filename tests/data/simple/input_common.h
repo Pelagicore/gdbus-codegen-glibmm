@@ -55,8 +55,10 @@ public:
 void ret(std::string p0, std::map<Glib::ustring,Glib::VariantBase> p1)
 {
     std::vector<Glib::VariantBase> vlist;
-    vlist.push_back(Glib::Variant<Glib::ustring >::create((p0)));
-    vlist.push_back(Glib::Variant<std::map<Glib::ustring,Glib::VariantBase> >::create((p1)));
+    Glib::Variant<Glib::ustring> var0 = Glib::Variant<Glib::ustring>::create(p0);
+    vlist.push_back(var0);
+    Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> var1 = Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>>::create(p1);
+    vlist.push_back(var1);
 
     m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
 }
