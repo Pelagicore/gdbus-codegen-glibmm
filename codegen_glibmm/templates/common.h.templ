@@ -66,11 +66,9 @@ void ret(
     {% if type.signature == "v" %}
     vlist.push_back(p{{ loop.index0 }});
     {% else %}
-    vlist.push_back(Glib::Variant<{{ type.variant_type }} >::create(
-        {%- if type.cpptype_to_dbus.startswith("TypeWrap") -%}
-            {{- interface.cpp_class_name -}}
-        {%- endif -%}
-    {{- type.cpptype_to_dbus -}}(p{{loop.index0}})));
+    {% set index = loop.index0|string %}
+    {{ type.cppvalue_send('var' + index, 'p' + index, interface.cpp_class_name) }}
+    vlist.push_back(var{{ loop.index0 }});
     {% endif %}
 {% endfor %}
 
