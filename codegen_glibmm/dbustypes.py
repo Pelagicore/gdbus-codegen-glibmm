@@ -87,7 +87,7 @@ class Type:
         """ Used to create a Variant to be sent over D-Bus """
         t = self.variant_type
         return ("Glib::Variant<"+self.variant_type+"> "+name+
-            " = Glib::Variant<"+self.variant_type+">::create(arg_"+param+");")
+            " = Glib::Variant<"+self.variant_type+">::create("+param+");")
 
     def cppvalue_get(self, outvar, idx, cpp_class_name):
         """ Used to extract a cpptype_out out of a Variant """
@@ -122,7 +122,7 @@ class StringType(Type):
             method = 'create_object_path'
         return ("Glib::VariantStringBase " + name + ";\n" +
             " Glib::VariantStringBase::" + method + "(" + name +
-            ", arg_" + param + ".c_str());")
+            ", " + param + ".c_str());")
 
 
 class VariantType(Type):
@@ -173,11 +173,11 @@ class ArrayType(Type):
             return ("Glib::Variant<std::vector<Glib::ustring> > " + name +
                     " = Glib::Variant<std::vector<Glib::ustring> >::create(" +
                     cpp_class_name +
-                    "TypeWrap::stdStringVecToGlibStringVec(arg_" + param +
+                    "TypeWrap::stdStringVecToGlibStringVec(" + param +
                     "));")
         elif self.signature == 'ao':
             return ("Glib::Variant<std::vector<std::string> > " + name +
-                    " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(arg_" +
+                    " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(" +
                     param + ");")
         else:
             return Type.cppvalue_send(self, name, param, cpp_class_name)
