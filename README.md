@@ -180,10 +180,12 @@ generator.
 
 ## License and copyright
 This README file is Copyright &copy; 2018 Luxoft Sweden AB
+
 SPDX-License-Identifier: CC-BY-SA-4.0
+
 [!License: CC BY-SA 4.0](https://img.shields.io/badge/LICENSE-CC--BY--SA--4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 The python code is 
-Copyright &copy; 2008-2011 Red Hat, Inc.
-Copyright &copy; 2018 Luxoft Sweden AB
+- Copyright &copy; 2008-2011 Red Hat, Inc.
+- Copyright &copy; 2018 Luxoft Sweden AB
 Source code licensed under the LGPL 2.1 (please see source code headers for more.)
