@@ -3,17 +3,18 @@
 #include <string>
 #include <glibmm.h>
 #include <giomm.h>
-#include "OUTPUT_DIR/input_common.h"
+#include "{{ common_h_name }}"
 
-namespace org {
-namespace gdbus {
-namespace codegen {
-namespace glibmm {
+{% for interface in interfaces %}
+{% set namespaces = interface.cpp_namespace_name.split("::")[:-1] %}
+{% for namespace in namespaces %}
+namespace {{ namespace }} {
+{% endfor %}
 
-class Test {
+class {{ interface.cpp_class_name }} {
 public:
-    Test();
-    virtual ~Test();
+    {{ interface.cpp_class_name }}();
+    virtual ~{{ interface.cpp_class_name }}();
 
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
@@ -21,23 +22,34 @@ public:
     // deprecated:
     void connect(Gio::DBus::BusType, std::string);
 
-    bool TestPropReadStringArray_set(std::vector<std::string> value);
+{% for prop in interface.properties %}
+    bool {{ prop.name }}_set({{ prop.cpptype_in }} value);
+{% endfor %}
 protected:
-virtual void TestCall (
-    gint32 Param1,
-    std::map<Glib::ustring,Glib::VariantBase> Param2,
-    TestMessageHelper msg) = 0;
-virtual std::vector<std::string> TestPropReadStringArray_get() = 0;
+{% for method in interface.methods %}
+virtual void {{ method.name }} (
+    {% for arg in method.in_args %}
+    {{ arg.cpptype_in }} {{ arg.name }},
+    {% endfor %}
+    {{ interface.cpp_class_name }}MessageHelper msg) = 0;
+{% endfor %}
+{% for prop in interface.properties %}
+virtual {{ prop.cpptype_out }} {{ prop.name }}_get() = 0;
 
 /* Handle the setting of a property
     * This method will be called as a result of a call to <PropName>_set
     * and should implement the actual setting of the property value.
     * Should return true on sucess and false otherwise.
     */
-virtual bool TestPropReadStringArray_setHandler(std::vector<std::string> value) = 0;
+virtual bool {{ prop.name }}_setHandler({{ prop.cpptype_in }} value) = 0;
+{% endfor %}
+{% for signal in interface.signals %}
+{% if signal is supported_by_sigc %}
 
-void TestSignalObjectPathArray_emitter(std::vector<std::string>);
-sigc::signal<void, std::vector<std::string> > TestSignalObjectPathArray_signal;
+void {{ signal.name }}_emitter({{ signal.args|map(attribute='cpptype_out')|join(', ') }});
+sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }} > {{ signal.name }}_signal;
+{% endif %}
+{% endfor %}
 
 void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
                      const Glib::ustring& /* name */);
@@ -79,8 +91,9 @@ Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
 Glib::RefPtr<Gio::DBus::Connection> m_connection;
 std::string m_objectPath;
 std::string m_interfaceName;
-};
-}// glibmm
-}// codegen
-}// gdbus
-}// org
+};{% for namespace in namespaces|reverse %}
+
+}// {{ namespace }}
+{%- endfor -%}
+{% endfor %}
+
