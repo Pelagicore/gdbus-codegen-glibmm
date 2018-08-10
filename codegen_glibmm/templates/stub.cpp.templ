@@ -1,16 +1,19 @@
 {% for node_xml in node_xmls %}
 static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml | to_utf8 }})XML_DELIMITER";
 {% endfor %}
+
 #include "{{ stub_h_name }}"
 
 {% for interface in interfaces %}
 {% set object_path = "/" + interface.name | replace('.', '/') %}
-{{ interface.cpp_namespace_name }}::{{ interface.cpp_class_name }} () : connectionId(0), registeredId(0), m_interfaceName("{{ interface.name }}") {
-
+{{ interface.cpp_namespace_name }}::{{ interface.cpp_class_name }}():
+    connectionId(0),
+    registeredId(0),
+    m_interfaceName("{{ interface.name }}")
+{
 {% for signal in interface.signals if signal is supported_by_sigc %}
     {{ signal.name }}_signal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::{{ signal.name }}_emitter));
 {% endfor %}
-
 }
 
 {{ interface.cpp_namespace_name }}::~{{ interface.cpp_class_name }}()
@@ -23,14 +26,14 @@ guint {{ interface.cpp_namespace_name }}::register_object(
 {
     if (!m_objectPath.empty() && m_objectPath != object_path) {
         g_warning("Cannot register the same object twice!");
-
         return 0;
     }
+
     try {
-            introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
+        introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
     } catch(const Glib::Error& ex) {
-            g_warning("Unable to create introspection data: ");
-            g_warning("%s\n", ex.what().c_str());
+        g_warning("Unable to create introspection data: ");
+        g_warning("%s\n", ex.what().c_str());
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
@@ -44,33 +47,32 @@ guint {{ interface.cpp_namespace_name }}::register_object(
             *interface_vtable);
         m_connection = connection;
         m_objectPath = object_path;
-    }
-    catch(const Glib::Error &ex) {
+    } catch(const Glib::Error &ex) {
         g_warning("Registration of object failed");
     }
     return id;
 }
 
-void {{ interface.cpp_namespace_name }}::connect (
+void {{ interface.cpp_namespace_name }}::connect(
     Gio::DBus::BusType busType,
     std::string name)
 {
-    connectionId = Gio::DBus::own_name(busType,
-                                       name,
-                                       sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_bus_acquired),
-                                       sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_acquired),
-                                       sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_lost));
+    connectionId = Gio::DBus::own_name(
+        busType, name,
+        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_bus_acquired),
+        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_acquired),
+        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_lost));
 }
 
-void {{ interface.cpp_namespace_name}}::on_method_call(const Glib::RefPtr<Gio::DBus::Connection>& /* connection */,
-                   const Glib::ustring& /* sender */,
-                   const Glib::ustring& /* object_path */,
-                   const Glib::ustring& /* interface_name */,
-                   const Glib::ustring& method_name,
-                   const Glib::VariantContainerBase& parameters,
-                   const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation)
+void {{ interface.cpp_namespace_name}}::on_method_call(
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* sender */,
+    const Glib::ustring &/* object_path */,
+    const Glib::ustring &/* interface_name */,
+    const Glib::ustring &method_name,
+    const Glib::VariantContainerBase &parameters,
+    const Glib::RefPtr<Gio::DBus::MethodInvocation> &invocation)
 {
-
 {% for method in interface.methods %}
     if (method_name.compare("{{ method.name }}") == 0) {
     {% for arg in method.in_args %}
@@ -78,13 +80,12 @@ void {{ interface.cpp_namespace_name}}::on_method_call(const Glib::RefPtr<Gio::D
         Glib::VariantContainerBase containerBase = parameters;
         GVariant *output{{ loop.index0 }};
         g_variant_get_child(containerBase.gobj(), {{ loop.index0 }}, "v", &output{{ loop.index0 }});
-        Glib::VariantBase p_{{ arg.name }};
-        p_{{ arg.name }} = Glib::VariantBase(output{{ loop.index0 }});
+        Glib::VariantBase p_{{ arg.name }} =
+            Glib::VariantBase(output{{ loop.index0 }});
         {% else %}
-        Glib::Variant<{{ arg.variant_type }} > base_{{ arg.name }};
+        Glib::Variant<{{ arg.variant_type }}> base_{{ arg.name }};
         parameters.get_child(base_{{ arg.name }}, {{ loop.index0 }});
-        {{ arg.variant_type }} p_{{ arg.name }};
-        p_{{ arg.name }} = base_{{ arg.name }}.get();
+        {{ arg.variant_type }} p_{{ arg.name }} = base_{{ arg.name }}.get();
         {% endif %}
 
     {% endfor %}
@@ -94,50 +95,48 @@ void {{ interface.cpp_namespace_name}}::on_method_call(const Glib::RefPtr<Gio::D
     {% endfor %}
             {{ interface.cpp_class_name }}MessageHelper(invocation));
     }
+
 {% endfor %}
-    }
-
-void {{ interface.cpp_namespace_name }}::on_interface_get_property(Glib::VariantBase& property,
-                                       const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                                       const Glib::ustring& sender,
-                                       const Glib::ustring& object_path,
-                                       const Glib::ustring& interface_name,
-                                       const Glib::ustring& property_name) {
-
-{% for prop in interface.properties if prop.readable %}
-
-if (property_name.compare("{{ prop.name }}") == 0) {
-    property = Glib::Variant<{{ prop.variant_type }} >::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
 }
+
+void {{ interface.cpp_namespace_name }}::on_interface_get_property(
+    Glib::VariantBase &property,
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &sender,
+    const Glib::ustring &object_path,
+    const Glib::ustring &interface_name,
+    const Glib::ustring &property_name)
+{
+{% for prop in interface.properties if prop.readable %}
+    if (property_name.compare("{{ prop.name }}") == 0) {
+        property = Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
+    }
 
 {% endfor %}
 }
 
 bool {{ interface.cpp_namespace_name }}::on_interface_set_property(
-       const Glib::RefPtr<Gio::DBus::Connection>& connection,
-       const Glib::ustring& sender,
-       const Glib::ustring& object_path,
-       const Glib::ustring& interface_name,
-       const Glib::ustring& property_name,
-       const Glib::VariantBase& value) {
-
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &sender,
+    const Glib::ustring &object_path,
+    const Glib::ustring &interface_name,
+    const Glib::ustring &property_name,
+    const Glib::VariantBase &value)
+{
 {% for prop in interface.properties  %}
-
-if (property_name.compare("{{ prop.name }}") == 0) {
-    try {
-        Glib::Variant<{{ prop.variant_type }} > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<{{ prop.variant_type }} > >(value);
-        {{ prop.cpptype_out }} val;
-
-val = {{ prop.cpptype_get_cast }}(castValue.get());
-        {{ prop.name }}_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting {{ prop.name }}");
+    if (property_name.compare("{{ prop.name }}") == 0) {
+        try {
+            Glib::Variant<{{ prop.variant_type }}> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<{{ prop.variant_type }}>>(value);
+            {{ prop.cpptype_out }} val =
+                {{ prop.cpptype_get_cast }}(castValue.get());
+            {{ prop.name }}_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting {{ prop.name }}");
+        }
     }
-}
 
 {% endfor %}
-
     return true;
 }
 
@@ -146,41 +145,50 @@ void {{ interface.cpp_namespace_name }}::{{ signal.name }}_emitter(
 {%- set comma = joiner() -%}
 {%- for arg in signal.args -%}
 {{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
-{%- endfor -%}) {
-            std::vector<Glib::VariantBase> paramsList;
+{%- endfor -%})
+{
+    std::vector<Glib::VariantBase> paramsList;
 
 {% for arg in signal.args %}
-paramsList.push_back(Glib::Variant<{{ arg.variant_type }} >::create({{ arg.cpptype_to_dbus }}({{ arg.name }})));;
+    paramsList.push_back(Glib::Variant<{{ arg.variant_type }}>::create({{ arg.cpptype_to_dbus }}({{ arg.name }})));;
 {% endfor %}
 
-m_connection->emit_signal(
-              "{{ object_path }}",
-              "{{ signal.iface_name }}",
-              "{{ signal.name }}",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-{% endfor %}
+    m_connection->emit_signal(
+        "{{ object_path }}",
+        "{{ signal.iface_name }}",
+        "{{ signal.name }}",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-void {{ interface.cpp_namespace_name }}::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                         const Glib::ustring& /* name */) {
+{% endfor %}
+void {{ interface.cpp_namespace_name }}::on_bus_acquired(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &/* name */)
+{
     registeredId = register_object(connection,
                                    "{{ object_path }}");
     m_connection = connection;
-
-    return;
 }
-void {{ interface.cpp_namespace_name }}::on_name_acquired(const Glib::RefPtr<Gio::DBus::Connection>& /* connection */,
-                      const Glib::ustring& /* name */) {}
 
-void {{ interface.cpp_namespace_name }}::on_name_lost(const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                  const Glib::ustring& /* name */) {}
+void {{ interface.cpp_namespace_name }}::on_name_acquired(
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* name */)
+{
+}
 
+void {{ interface.cpp_namespace_name }}::on_name_lost(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &/* name */)
+{
+}
 {% for prop in interface.properties %}
 
-bool {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in }} value) {
+bool {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
+{
     if ({{ prop.name }}_setHandler(value)) {
-        Glib::Variant<{{ prop.variant_type }} > value_get = Glib::Variant<{{ prop.variant_type }} >::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
+        Glib::Variant<{{ prop.variant_type }}> value_get =
+            Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
         emitSignal("{{ prop.name }}", value_get);
         return true;
     }
@@ -189,19 +197,25 @@ bool {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in 
 }
 {% endfor %}
 
-bool {{ interface.cpp_namespace_name }}::emitSignal(const std::string& propName, Glib::VariantBase& value) {
+bool {{ interface.cpp_namespace_name }}::emitSignal(
+    const std::string &propName,
+    Glib::VariantBase &value)
+{
     std::map<Glib::ustring, Glib::VariantBase> changedProps;
     std::vector<Glib::ustring> changedPropsNoValue;
 
     changedProps[propName] = value;
 
-    Glib::Variant<std::map<Glib::ustring,  Glib::VariantBase> > changedPropsVar = Glib::Variant<std::map <Glib::ustring, Glib::VariantBase> >::create (changedProps);
-    Glib::Variant<std::vector<Glib::ustring> > changedPropsNoValueVar = Glib::Variant<std::vector<Glib::ustring> >::create(changedPropsNoValue);
+    Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>> changedPropsVar =
+        Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>>::create(changedProps);
+    Glib::Variant<std::vector<Glib::ustring>> changedPropsNoValueVar =
+        Glib::Variant<std::vector<Glib::ustring>>::create(changedPropsNoValue);
     std::vector<Glib::VariantBase> ps;
     ps.push_back(Glib::Variant<Glib::ustring>::create(m_interfaceName));
     ps.push_back(changedPropsVar);
     ps.push_back(changedPropsNoValueVar);
-    Glib::VariantContainerBase propertiesChangedVariant = Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(ps);
+    Glib::VariantContainerBase propertiesChangedVariant =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(ps);
 
     m_connection->emit_signal(
         m_objectPath,
