@@ -161,6 +161,10 @@ class CodeGenerator:
             return value.decode('utf-8')
         self.j2_env.filters['to_utf8'] = to_utf8
 
+        def indent(value, levels):
+            return value.replace('\n', '\n' + '    ' * levels)
+        self.j2_env.filters['indent'] = indent
+
     def generate(self):
         # Jinja initialization
         self.initialize_jinja()

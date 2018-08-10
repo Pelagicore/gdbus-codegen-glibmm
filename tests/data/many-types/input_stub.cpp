@@ -317,10 +317,14 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
   </interface>
 </node>
 )XML_DELIMITER";
+
 #include "OUTPUT_DIR/input_stub.h"
 
-org::gdbus::codegen::glibmm::Test::Test () : connectionId(0), registeredId(0), m_interfaceName("org.gdbus.codegen.glibmm.Test") {
-
+org::gdbus::codegen::glibmm::Test::Test():
+    connectionId(0),
+    registeredId(0),
+    m_interfaceName("org.gdbus.codegen.glibmm.Test")
+{
     TestSignalByteStringArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalByteStringArray_emitter));
     TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalObjectPathArray_emitter));
     TestSignalStringArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalStringArray_emitter));
@@ -337,7 +341,6 @@ org::gdbus::codegen::glibmm::Test::Test () : connectionId(0), registeredId(0), m
     TestSignalInt16_signal.connect(sigc::mem_fun(this, &Test::TestSignalInt16_emitter));
     TestSignalChar_signal.connect(sigc::mem_fun(this, &Test::TestSignalChar_emitter));
     TestSignalBoolean_signal.connect(sigc::mem_fun(this, &Test::TestSignalBoolean_emitter));
-
 }
 
 org::gdbus::codegen::glibmm::Test::~Test()
@@ -350,14 +353,14 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
 {
     if (!m_objectPath.empty() && m_objectPath != object_path) {
         g_warning("Cannot register the same object twice!");
-
         return 0;
     }
+
     try {
-            introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
+        introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
     } catch(const Glib::Error& ex) {
-            g_warning("Unable to create introspection data: ");
-            g_warning("%s\n", ex.what().c_str());
+        g_warning("Unable to create introspection data: ");
+        g_warning("%s\n", ex.what().c_str());
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
@@ -371,344 +374,328 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
             *interface_vtable);
         m_connection = connection;
         m_objectPath = object_path;
-    }
-    catch(const Glib::Error &ex) {
+    } catch(const Glib::Error &ex) {
         g_warning("Registration of object failed");
     }
     return id;
 }
 
-void org::gdbus::codegen::glibmm::Test::connect (
+void org::gdbus::codegen::glibmm::Test::connect(
     Gio::DBus::BusType busType,
     std::string name)
 {
-    connectionId = Gio::DBus::own_name(busType,
-                                       name,
-                                       sigc::mem_fun(this, &Test::on_bus_acquired),
-                                       sigc::mem_fun(this, &Test::on_name_acquired),
-                                       sigc::mem_fun(this, &Test::on_name_lost));
+    connectionId = Gio::DBus::own_name(
+        busType, name,
+        sigc::mem_fun(this, &Test::on_bus_acquired),
+        sigc::mem_fun(this, &Test::on_name_acquired),
+        sigc::mem_fun(this, &Test::on_name_lost));
 }
 
-void org::gdbus::codegen::glibmm::Test::on_method_call(const Glib::RefPtr<Gio::DBus::Connection>& /* connection */,
-                   const Glib::ustring& /* sender */,
-                   const Glib::ustring& /* object_path */,
-                   const Glib::ustring& /* interface_name */,
-                   const Glib::ustring& method_name,
-                   const Glib::VariantContainerBase& parameters,
-                   const Glib::RefPtr<Gio::DBus::MethodInvocation>& invocation)
+void org::gdbus::codegen::glibmm::Test::on_method_call(
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* sender */,
+    const Glib::ustring &/* object_path */,
+    const Glib::ustring &/* interface_name */,
+    const Glib::ustring &method_name,
+    const Glib::VariantContainerBase &parameters,
+    const Glib::RefPtr<Gio::DBus::MethodInvocation> &invocation)
 {
-
     if (method_name.compare("TestStringVariantDict") == 0) {
-        Glib::Variant<std::map<Glib::ustring,Glib::VariantBase> > base_Param1;
+        Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<Glib::ustring,Glib::VariantBase> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::map<Glib::ustring,Glib::VariantBase> p_Param1 = base_Param1.get();
 
         TestStringVariantDict(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestStringStringDict") == 0) {
-        Glib::Variant<std::map<Glib::ustring,Glib::ustring> > base_Param1;
+        Glib::Variant<std::map<Glib::ustring,Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<Glib::ustring,Glib::ustring> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::map<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
 
         TestStringStringDict(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestUintIntDict") == 0) {
-        Glib::Variant<std::map<guint32,gint32> > base_Param1;
+        Glib::Variant<std::map<guint32,gint32>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<guint32,gint32> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::map<guint32,gint32> p_Param1 = base_Param1.get();
 
         TestUintIntDict(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestVariant") == 0) {
         Glib::VariantContainerBase containerBase = parameters;
         GVariant *output0;
         g_variant_get_child(containerBase.gobj(), 0, "v", &output0);
-        Glib::VariantBase p_Param1;
-        p_Param1 = Glib::VariantBase(output0);
+        Glib::VariantBase p_Param1 =
+            Glib::VariantBase(output0);
 
         TestVariant(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestByteStringArray") == 0) {
-        Glib::Variant<std::vector<std::string> > base_Param1;
+        Glib::Variant<std::vector<std::string>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::string> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::vector<std::string> p_Param1 = base_Param1.get();
 
         TestByteStringArray(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestObjectPathArray") == 0) {
-        Glib::Variant<std::vector<std::string> > base_Param1;
+        Glib::Variant<std::vector<std::string>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::string> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::vector<std::string> p_Param1 = base_Param1.get();
 
         TestObjectPathArray(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestStringArray") == 0) {
-        Glib::Variant<std::vector<Glib::ustring> > base_Param1;
+        Glib::Variant<std::vector<Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<Glib::ustring> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::vector<Glib::ustring> p_Param1 = base_Param1.get();
 
         TestStringArray(
             TestTypeWrap::glibStringVecToStdStringVec(p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestByteString") == 0) {
-        Glib::Variant<std::string > base_Param1;
+        Glib::Variant<std::string> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::string p_Param1;
-        p_Param1 = base_Param1.get();
+        std::string p_Param1 = base_Param1.get();
 
         TestByteString(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestStruct") == 0) {
-        Glib::Variant<std::tuple<Glib::ustring,Glib::ustring> > base_Param1;
+        Glib::Variant<std::tuple<Glib::ustring,Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::tuple<Glib::ustring,Glib::ustring> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::tuple<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
 
         TestStruct(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestStructArray") == 0) {
-        Glib::Variant<std::vector<std::tuple<guint32,Glib::ustring,gint32>> > base_Param1;
+        Glib::Variant<std::vector<std::tuple<guint32,Glib::ustring,gint32>>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::tuple<guint32,Glib::ustring,gint32>> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::vector<std::tuple<guint32,Glib::ustring,gint32>> p_Param1 = base_Param1.get();
 
         TestStructArray(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestDictStructArray") == 0) {
-        Glib::Variant<std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> > base_Param1;
+        Glib::Variant<std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> p_Param1;
-        p_Param1 = base_Param1.get();
+        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> p_Param1 = base_Param1.get();
 
         TestDictStructArray(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestSignature") == 0) {
-        Glib::Variant<Glib::ustring > base_Param1;
+        Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1;
-        p_Param1 = base_Param1.get();
+        Glib::ustring p_Param1 = base_Param1.get();
 
         TestSignature(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestObjectPath") == 0) {
-        Glib::Variant<Glib::ustring > base_Param1;
+        Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1;
-        p_Param1 = base_Param1.get();
+        Glib::ustring p_Param1 = base_Param1.get();
 
         TestObjectPath(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestString") == 0) {
-        Glib::Variant<Glib::ustring > base_Param1;
+        Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1;
-        p_Param1 = base_Param1.get();
+        Glib::ustring p_Param1 = base_Param1.get();
 
         TestString(
             Glib::ustring(p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestDouble") == 0) {
-        Glib::Variant<double > base_Param1;
+        Glib::Variant<double> base_Param1;
         parameters.get_child(base_Param1, 0);
-        double p_Param1;
-        p_Param1 = base_Param1.get();
+        double p_Param1 = base_Param1.get();
 
         TestDouble(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestUInt64") == 0) {
-        Glib::Variant<guint64 > base_Param1;
+        Glib::Variant<guint64> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint64 p_Param1;
-        p_Param1 = base_Param1.get();
+        guint64 p_Param1 = base_Param1.get();
 
         TestUInt64(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestInt64") == 0) {
-        Glib::Variant<gint64 > base_Param1;
+        Glib::Variant<gint64> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint64 p_Param1;
-        p_Param1 = base_Param1.get();
+        gint64 p_Param1 = base_Param1.get();
 
         TestInt64(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestUInt") == 0) {
-        Glib::Variant<guint32 > base_Param1;
+        Glib::Variant<guint32> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint32 p_Param1;
-        p_Param1 = base_Param1.get();
+        guint32 p_Param1 = base_Param1.get();
 
         TestUInt(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestInt") == 0) {
-        Glib::Variant<gint32 > base_Param1;
+        Glib::Variant<gint32> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint32 p_Param1;
-        p_Param1 = base_Param1.get();
+        gint32 p_Param1 = base_Param1.get();
 
         TestInt(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestUInt16") == 0) {
-        Glib::Variant<guint16 > base_Param1;
+        Glib::Variant<guint16> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint16 p_Param1;
-        p_Param1 = base_Param1.get();
+        guint16 p_Param1 = base_Param1.get();
 
         TestUInt16(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestInt16") == 0) {
-        Glib::Variant<gint16 > base_Param1;
+        Glib::Variant<gint16> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint16 p_Param1;
-        p_Param1 = base_Param1.get();
+        gint16 p_Param1 = base_Param1.get();
 
         TestInt16(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestChar") == 0) {
-        Glib::Variant<guchar > base_Param1;
+        Glib::Variant<guchar> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guchar p_Param1;
-        p_Param1 = base_Param1.get();
+        guchar p_Param1 = base_Param1.get();
 
         TestChar(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestBoolean") == 0) {
-        Glib::Variant<bool > base_Param1;
+        Glib::Variant<bool> base_Param1;
         parameters.get_child(base_Param1, 0);
-        bool p_Param1;
-        p_Param1 = base_Param1.get();
+        bool p_Param1 = base_Param1.get();
 
         TestBoolean(
             (p_Param1),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestAll") == 0) {
-        Glib::Variant<std::vector<std::string> > base_in_Param1;
+        Glib::Variant<std::vector<std::string>> base_in_Param1;
         parameters.get_child(base_in_Param1, 0);
-        std::vector<std::string> p_in_Param1;
-        p_in_Param1 = base_in_Param1.get();
+        std::vector<std::string> p_in_Param1 = base_in_Param1.get();
 
-        Glib::Variant<std::vector<std::string> > base_in_Param2;
+        Glib::Variant<std::vector<std::string>> base_in_Param2;
         parameters.get_child(base_in_Param2, 1);
-        std::vector<std::string> p_in_Param2;
-        p_in_Param2 = base_in_Param2.get();
+        std::vector<std::string> p_in_Param2 = base_in_Param2.get();
 
-        Glib::Variant<std::vector<Glib::ustring> > base_in_Param3;
+        Glib::Variant<std::vector<Glib::ustring>> base_in_Param3;
         parameters.get_child(base_in_Param3, 2);
-        std::vector<Glib::ustring> p_in_Param3;
-        p_in_Param3 = base_in_Param3.get();
+        std::vector<Glib::ustring> p_in_Param3 = base_in_Param3.get();
 
-        Glib::Variant<std::string > base_in_Param4;
+        Glib::Variant<std::string> base_in_Param4;
         parameters.get_child(base_in_Param4, 3);
-        std::string p_in_Param4;
-        p_in_Param4 = base_in_Param4.get();
+        std::string p_in_Param4 = base_in_Param4.get();
 
-        Glib::Variant<Glib::ustring > base_in_Param5;
+        Glib::Variant<Glib::ustring> base_in_Param5;
         parameters.get_child(base_in_Param5, 4);
-        Glib::ustring p_in_Param5;
-        p_in_Param5 = base_in_Param5.get();
+        Glib::ustring p_in_Param5 = base_in_Param5.get();
 
-        Glib::Variant<Glib::ustring > base_in_Param6;
+        Glib::Variant<Glib::ustring> base_in_Param6;
         parameters.get_child(base_in_Param6, 5);
-        Glib::ustring p_in_Param6;
-        p_in_Param6 = base_in_Param6.get();
+        Glib::ustring p_in_Param6 = base_in_Param6.get();
 
-        Glib::Variant<Glib::ustring > base_in_Param7;
+        Glib::Variant<Glib::ustring> base_in_Param7;
         parameters.get_child(base_in_Param7, 6);
-        Glib::ustring p_in_Param7;
-        p_in_Param7 = base_in_Param7.get();
+        Glib::ustring p_in_Param7 = base_in_Param7.get();
 
-        Glib::Variant<double > base_in_Param8;
+        Glib::Variant<double> base_in_Param8;
         parameters.get_child(base_in_Param8, 7);
-        double p_in_Param8;
-        p_in_Param8 = base_in_Param8.get();
+        double p_in_Param8 = base_in_Param8.get();
 
-        Glib::Variant<guint64 > base_in_Param9;
+        Glib::Variant<guint64> base_in_Param9;
         parameters.get_child(base_in_Param9, 8);
-        guint64 p_in_Param9;
-        p_in_Param9 = base_in_Param9.get();
+        guint64 p_in_Param9 = base_in_Param9.get();
 
-        Glib::Variant<gint64 > base_in_Param10;
+        Glib::Variant<gint64> base_in_Param10;
         parameters.get_child(base_in_Param10, 9);
-        gint64 p_in_Param10;
-        p_in_Param10 = base_in_Param10.get();
+        gint64 p_in_Param10 = base_in_Param10.get();
 
-        Glib::Variant<guint32 > base_in_Param11;
+        Glib::Variant<guint32> base_in_Param11;
         parameters.get_child(base_in_Param11, 10);
-        guint32 p_in_Param11;
-        p_in_Param11 = base_in_Param11.get();
+        guint32 p_in_Param11 = base_in_Param11.get();
 
-        Glib::Variant<gint32 > base_in_Param12;
+        Glib::Variant<gint32> base_in_Param12;
         parameters.get_child(base_in_Param12, 11);
-        gint32 p_in_Param12;
-        p_in_Param12 = base_in_Param12.get();
+        gint32 p_in_Param12 = base_in_Param12.get();
 
-        Glib::Variant<guint16 > base_in_Param13;
+        Glib::Variant<guint16> base_in_Param13;
         parameters.get_child(base_in_Param13, 12);
-        guint16 p_in_Param13;
-        p_in_Param13 = base_in_Param13.get();
+        guint16 p_in_Param13 = base_in_Param13.get();
 
-        Glib::Variant<gint16 > base_in_Param14;
+        Glib::Variant<gint16> base_in_Param14;
         parameters.get_child(base_in_Param14, 13);
-        gint16 p_in_Param14;
-        p_in_Param14 = base_in_Param14.get();
+        gint16 p_in_Param14 = base_in_Param14.get();
 
-        Glib::Variant<guchar > base_in_Param15;
+        Glib::Variant<guchar> base_in_Param15;
         parameters.get_child(base_in_Param15, 14);
-        guchar p_in_Param15;
-        p_in_Param15 = base_in_Param15.get();
+        guchar p_in_Param15 = base_in_Param15.get();
 
-        Glib::Variant<bool > base_in_Param16;
+        Glib::Variant<bool> base_in_Param16;
         parameters.get_child(base_in_Param16, 15);
-        bool p_in_Param16;
-        p_in_Param16 = base_in_Param16.get();
+        bool p_in_Param16 = base_in_Param16.get();
 
         TestAll(
             (p_in_Param1),
@@ -729,1120 +716,1026 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(const Glib::RefPtr<Gio::D
             (p_in_Param16),
             TestMessageHelper(invocation));
     }
+
     if (method_name.compare("TestTriggerInternalPropertyChange") == 0) {
-        Glib::Variant<gint32 > base_NewPropertyValue;
+        Glib::Variant<gint32> base_NewPropertyValue;
         parameters.get_child(base_NewPropertyValue, 0);
-        gint32 p_NewPropertyValue;
-        p_NewPropertyValue = base_NewPropertyValue.get();
+        gint32 p_NewPropertyValue = base_NewPropertyValue.get();
 
         TestTriggerInternalPropertyChange(
             (p_NewPropertyValue),
             TestMessageHelper(invocation));
     }
+
+}
+
+void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
+    Glib::VariantBase &property,
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &sender,
+    const Glib::ustring &object_path,
+    const Glib::ustring &interface_name,
+    const Glib::ustring &property_name)
+{
+    if (property_name.compare("TestPropReadByteStringArray") == 0) {
+        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadByteStringArray_get()));
     }
 
-void org::gdbus::codegen::glibmm::Test::on_interface_get_property(Glib::VariantBase& property,
-                                       const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                                       const Glib::ustring& sender,
-                                       const Glib::ustring& object_path,
-                                       const Glib::ustring& interface_name,
-                                       const Glib::ustring& property_name) {
-
-
-if (property_name.compare("TestPropReadByteStringArray") == 0) {
-    property = Glib::Variant<std::vector<std::string> >::create((TestPropReadByteStringArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadObjectPathArray") == 0) {
-    property = Glib::Variant<std::vector<std::string> >::create((TestPropReadObjectPathArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadStringArray") == 0) {
-    property = Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadByteString") == 0) {
-    property = Glib::Variant<std::string >::create((TestPropReadByteString_get()));
-}
-
-
-if (property_name.compare("TestPropReadSignature") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadSignature_get()));
-}
-
-
-if (property_name.compare("TestPropReadObjectPath") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadObjectPath_get()));
-}
-
-
-if (property_name.compare("TestPropReadString") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadString_get()));
-}
-
-
-if (property_name.compare("TestPropReadDouble") == 0) {
-    property = Glib::Variant<double >::create((TestPropReadDouble_get()));
-}
-
-
-if (property_name.compare("TestPropReadUInt64") == 0) {
-    property = Glib::Variant<guint64 >::create((TestPropReadUInt64_get()));
-}
-
-
-if (property_name.compare("TestPropReadInt64") == 0) {
-    property = Glib::Variant<gint64 >::create((TestPropReadInt64_get()));
-}
-
-
-if (property_name.compare("TestPropReadUInt") == 0) {
-    property = Glib::Variant<guint32 >::create((TestPropReadUInt_get()));
-}
-
-
-if (property_name.compare("TestPropReadInt") == 0) {
-    property = Glib::Variant<gint32 >::create((TestPropReadInt_get()));
-}
-
-
-if (property_name.compare("TestPropReadUInt16") == 0) {
-    property = Glib::Variant<guint16 >::create((TestPropReadUInt16_get()));
-}
-
-
-if (property_name.compare("TestPropReadInt16") == 0) {
-    property = Glib::Variant<gint16 >::create((TestPropReadInt16_get()));
-}
-
-
-if (property_name.compare("TestPropReadChar") == 0) {
-    property = Glib::Variant<guchar >::create((TestPropReadChar_get()));
-}
-
-
-if (property_name.compare("TestPropReadBoolean") == 0) {
-    property = Glib::Variant<bool >::create((TestPropReadBoolean_get()));
-}
-
-
-if (property_name.compare("TestPropInternalReadPropertyChange") == 0) {
-    property = Glib::Variant<gint32 >::create((TestPropInternalReadPropertyChange_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteByteStringArray") == 0) {
-    property = Glib::Variant<std::vector<std::string> >::create((TestPropReadWriteByteStringArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
-    property = Glib::Variant<std::vector<std::string> >::create((TestPropReadWriteObjectPathArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteStringArray") == 0) {
-    property = Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteByteString") == 0) {
-    property = Glib::Variant<std::string >::create((TestPropReadWriteByteString_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteSignature") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadWriteSignature_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadWriteObjectPath_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteString") == 0) {
-    property = Glib::Variant<Glib::ustring >::create((TestPropReadWriteString_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteDouble") == 0) {
-    property = Glib::Variant<double >::create((TestPropReadWriteDouble_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteUInt64") == 0) {
-    property = Glib::Variant<guint64 >::create((TestPropReadWriteUInt64_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteInt64") == 0) {
-    property = Glib::Variant<gint64 >::create((TestPropReadWriteInt64_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteUInt") == 0) {
-    property = Glib::Variant<guint32 >::create((TestPropReadWriteUInt_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteInt") == 0) {
-    property = Glib::Variant<gint32 >::create((TestPropReadWriteInt_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteUInt16") == 0) {
-    property = Glib::Variant<guint16 >::create((TestPropReadWriteUInt16_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteInt16") == 0) {
-    property = Glib::Variant<gint16 >::create((TestPropReadWriteInt16_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteChar") == 0) {
-    property = Glib::Variant<guchar >::create((TestPropReadWriteChar_get()));
-}
-
-
-if (property_name.compare("TestPropReadWriteBoolean") == 0) {
-    property = Glib::Variant<bool >::create((TestPropReadWriteBoolean_get()));
-}
-
-
-if (property_name.compare("TestPropInternalReadWritePropertyChange") == 0) {
-    property = Glib::Variant<gint32 >::create((TestPropInternalReadWritePropertyChange_get()));
-}
+    if (property_name.compare("TestPropReadObjectPathArray") == 0) {
+        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadObjectPathArray_get()));
+    }
+
+    if (property_name.compare("TestPropReadStringArray") == 0) {
+        property = Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+    }
+
+    if (property_name.compare("TestPropReadByteString") == 0) {
+        property = Glib::Variant<std::string>::create((TestPropReadByteString_get()));
+    }
+
+    if (property_name.compare("TestPropReadSignature") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadSignature_get()));
+    }
+
+    if (property_name.compare("TestPropReadObjectPath") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadObjectPath_get()));
+    }
+
+    if (property_name.compare("TestPropReadString") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadString_get()));
+    }
+
+    if (property_name.compare("TestPropReadDouble") == 0) {
+        property = Glib::Variant<double>::create((TestPropReadDouble_get()));
+    }
+
+    if (property_name.compare("TestPropReadUInt64") == 0) {
+        property = Glib::Variant<guint64>::create((TestPropReadUInt64_get()));
+    }
+
+    if (property_name.compare("TestPropReadInt64") == 0) {
+        property = Glib::Variant<gint64>::create((TestPropReadInt64_get()));
+    }
+
+    if (property_name.compare("TestPropReadUInt") == 0) {
+        property = Glib::Variant<guint32>::create((TestPropReadUInt_get()));
+    }
+
+    if (property_name.compare("TestPropReadInt") == 0) {
+        property = Glib::Variant<gint32>::create((TestPropReadInt_get()));
+    }
+
+    if (property_name.compare("TestPropReadUInt16") == 0) {
+        property = Glib::Variant<guint16>::create((TestPropReadUInt16_get()));
+    }
+
+    if (property_name.compare("TestPropReadInt16") == 0) {
+        property = Glib::Variant<gint16>::create((TestPropReadInt16_get()));
+    }
+
+    if (property_name.compare("TestPropReadChar") == 0) {
+        property = Glib::Variant<guchar>::create((TestPropReadChar_get()));
+    }
+
+    if (property_name.compare("TestPropReadBoolean") == 0) {
+        property = Glib::Variant<bool>::create((TestPropReadBoolean_get()));
+    }
+
+    if (property_name.compare("TestPropInternalReadPropertyChange") == 0) {
+        property = Glib::Variant<gint32>::create((TestPropInternalReadPropertyChange_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteByteStringArray") == 0) {
+        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteByteStringArray_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
+        property = Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteObjectPathArray_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteStringArray") == 0) {
+        property = Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteByteString") == 0) {
+        property = Glib::Variant<std::string>::create((TestPropReadWriteByteString_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteSignature") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteSignature_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteObjectPath_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteString") == 0) {
+        property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteString_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteDouble") == 0) {
+        property = Glib::Variant<double>::create((TestPropReadWriteDouble_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteUInt64") == 0) {
+        property = Glib::Variant<guint64>::create((TestPropReadWriteUInt64_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteInt64") == 0) {
+        property = Glib::Variant<gint64>::create((TestPropReadWriteInt64_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteUInt") == 0) {
+        property = Glib::Variant<guint32>::create((TestPropReadWriteUInt_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteInt") == 0) {
+        property = Glib::Variant<gint32>::create((TestPropReadWriteInt_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteUInt16") == 0) {
+        property = Glib::Variant<guint16>::create((TestPropReadWriteUInt16_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteInt16") == 0) {
+        property = Glib::Variant<gint16>::create((TestPropReadWriteInt16_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteChar") == 0) {
+        property = Glib::Variant<guchar>::create((TestPropReadWriteChar_get()));
+    }
+
+    if (property_name.compare("TestPropReadWriteBoolean") == 0) {
+        property = Glib::Variant<bool>::create((TestPropReadWriteBoolean_get()));
+    }
+
+    if (property_name.compare("TestPropInternalReadWritePropertyChange") == 0) {
+        property = Glib::Variant<gint32>::create((TestPropInternalReadWritePropertyChange_get()));
+    }
 
 }
 
 bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
-       const Glib::RefPtr<Gio::DBus::Connection>& connection,
-       const Glib::ustring& sender,
-       const Glib::ustring& object_path,
-       const Glib::ustring& interface_name,
-       const Glib::ustring& property_name,
-       const Glib::VariantBase& value) {
-
-
-if (property_name.compare("TestPropReadByteStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropReadByteStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadByteStringArray");
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &sender,
+    const Glib::ustring &object_path,
+    const Glib::ustring &interface_name,
+    const Glib::ustring &property_name,
+    const Glib::VariantBase &value)
+{
+    if (property_name.compare("TestPropReadByteStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropReadByteStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadByteStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadObjectPathArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropReadObjectPathArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadObjectPathArray");
+    if (property_name.compare("TestPropReadObjectPathArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropReadObjectPathArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadObjectPathArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<Glib::ustring> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring> > >(value);
-        std::vector<std::string> val;
-
-val = TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
-        TestPropReadStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadStringArray");
+    if (property_name.compare("TestPropReadStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<Glib::ustring>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
+            std::vector<std::string> val =
+                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            TestPropReadStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadByteString") == 0) {
-    try {
-        Glib::Variant<std::string > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::string > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadByteString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadByteString");
+    if (property_name.compare("TestPropReadByteString") == 0) {
+        try {
+            Glib::Variant<std::string> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::string>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadByteString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadByteString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadSignature") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadSignature_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadSignature");
+    if (property_name.compare("TestPropReadSignature") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadSignature_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadSignature");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadObjectPath") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadObjectPath_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadObjectPath");
+    if (property_name.compare("TestPropReadObjectPath") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadObjectPath_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadObjectPath");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadString") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = Glib::ustring(castValue.get());
-        TestPropReadString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadString");
+    if (property_name.compare("TestPropReadString") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                Glib::ustring(castValue.get());
+            TestPropReadString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadDouble") == 0) {
-    try {
-        Glib::Variant<double > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<double > >(value);
-        double val;
-
-val = (castValue.get());
-        TestPropReadDouble_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadDouble");
+    if (property_name.compare("TestPropReadDouble") == 0) {
+        try {
+            Glib::Variant<double> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(value);
+            double val =
+                (castValue.get());
+            TestPropReadDouble_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadDouble");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadUInt64") == 0) {
-    try {
-        Glib::Variant<guint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint64 > >(value);
-        guint64 val;
-
-val = (castValue.get());
-        TestPropReadUInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadUInt64");
+    if (property_name.compare("TestPropReadUInt64") == 0) {
+        try {
+            Glib::Variant<guint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint64>>(value);
+            guint64 val =
+                (castValue.get());
+            TestPropReadUInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadUInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadInt64") == 0) {
-    try {
-        Glib::Variant<gint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint64 > >(value);
-        gint64 val;
-
-val = (castValue.get());
-        TestPropReadInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadInt64");
+    if (property_name.compare("TestPropReadInt64") == 0) {
+        try {
+            Glib::Variant<gint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint64>>(value);
+            gint64 val =
+                (castValue.get());
+            TestPropReadInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadUInt") == 0) {
-    try {
-        Glib::Variant<guint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint32 > >(value);
-        guint32 val;
-
-val = (castValue.get());
-        TestPropReadUInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadUInt");
+    if (property_name.compare("TestPropReadUInt") == 0) {
+        try {
+            Glib::Variant<guint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint32>>(value);
+            guint32 val =
+                (castValue.get());
+            TestPropReadUInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadUInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadInt") == 0) {
-    try {
-        Glib::Variant<gint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint32 > >(value);
-        gint32 val;
-
-val = (castValue.get());
-        TestPropReadInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadInt");
+    if (property_name.compare("TestPropReadInt") == 0) {
+        try {
+            Glib::Variant<gint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
+            gint32 val =
+                (castValue.get());
+            TestPropReadInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadUInt16") == 0) {
-    try {
-        Glib::Variant<guint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint16 > >(value);
-        guint16 val;
-
-val = (castValue.get());
-        TestPropReadUInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadUInt16");
+    if (property_name.compare("TestPropReadUInt16") == 0) {
+        try {
+            Glib::Variant<guint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint16>>(value);
+            guint16 val =
+                (castValue.get());
+            TestPropReadUInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadUInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadInt16") == 0) {
-    try {
-        Glib::Variant<gint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint16 > >(value);
-        gint16 val;
-
-val = (castValue.get());
-        TestPropReadInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadInt16");
+    if (property_name.compare("TestPropReadInt16") == 0) {
+        try {
+            Glib::Variant<gint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint16>>(value);
+            gint16 val =
+                (castValue.get());
+            TestPropReadInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadChar") == 0) {
-    try {
-        Glib::Variant<guchar > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guchar > >(value);
-        guchar val;
-
-val = (castValue.get());
-        TestPropReadChar_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadChar");
+    if (property_name.compare("TestPropReadChar") == 0) {
+        try {
+            Glib::Variant<guchar> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guchar>>(value);
+            guchar val =
+                (castValue.get());
+            TestPropReadChar_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadChar");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadBoolean") == 0) {
-    try {
-        Glib::Variant<bool > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<bool > >(value);
-        bool val;
-
-val = (castValue.get());
-        TestPropReadBoolean_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadBoolean");
+    if (property_name.compare("TestPropReadBoolean") == 0) {
+        try {
+            Glib::Variant<bool> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<bool>>(value);
+            bool val =
+                (castValue.get());
+            TestPropReadBoolean_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadBoolean");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropInternalReadPropertyChange") == 0) {
-    try {
-        Glib::Variant<gint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint32 > >(value);
-        gint32 val;
-
-val = (castValue.get());
-        TestPropInternalReadPropertyChange_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropInternalReadPropertyChange");
+    if (property_name.compare("TestPropInternalReadPropertyChange") == 0) {
+        try {
+            Glib::Variant<gint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
+            gint32 val =
+                (castValue.get());
+            TestPropInternalReadPropertyChange_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropInternalReadPropertyChange");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteByteStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropWriteByteStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteByteStringArray");
+    if (property_name.compare("TestPropWriteByteStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropWriteByteStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteByteStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteObjectPathArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropWriteObjectPathArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteObjectPathArray");
+    if (property_name.compare("TestPropWriteObjectPathArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropWriteObjectPathArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteObjectPathArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<Glib::ustring> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring> > >(value);
-        std::vector<std::string> val;
-
-val = TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
-        TestPropWriteStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteStringArray");
+    if (property_name.compare("TestPropWriteStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<Glib::ustring>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
+            std::vector<std::string> val =
+                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            TestPropWriteStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteByteString") == 0) {
-    try {
-        Glib::Variant<std::string > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::string > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropWriteByteString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteByteString");
+    if (property_name.compare("TestPropWriteByteString") == 0) {
+        try {
+            Glib::Variant<std::string> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::string>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropWriteByteString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteByteString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteSignature") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropWriteSignature_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteSignature");
+    if (property_name.compare("TestPropWriteSignature") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropWriteSignature_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteSignature");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteObjectPath") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropWriteObjectPath_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteObjectPath");
+    if (property_name.compare("TestPropWriteObjectPath") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropWriteObjectPath_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteObjectPath");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteString") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = Glib::ustring(castValue.get());
-        TestPropWriteString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteString");
+    if (property_name.compare("TestPropWriteString") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                Glib::ustring(castValue.get());
+            TestPropWriteString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteDouble") == 0) {
-    try {
-        Glib::Variant<double > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<double > >(value);
-        double val;
-
-val = (castValue.get());
-        TestPropWriteDouble_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteDouble");
+    if (property_name.compare("TestPropWriteDouble") == 0) {
+        try {
+            Glib::Variant<double> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(value);
+            double val =
+                (castValue.get());
+            TestPropWriteDouble_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteDouble");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteUInt64") == 0) {
-    try {
-        Glib::Variant<guint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint64 > >(value);
-        guint64 val;
-
-val = (castValue.get());
-        TestPropWriteUInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteUInt64");
+    if (property_name.compare("TestPropWriteUInt64") == 0) {
+        try {
+            Glib::Variant<guint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint64>>(value);
+            guint64 val =
+                (castValue.get());
+            TestPropWriteUInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteUInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteInt64") == 0) {
-    try {
-        Glib::Variant<gint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint64 > >(value);
-        gint64 val;
-
-val = (castValue.get());
-        TestPropWriteInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteInt64");
+    if (property_name.compare("TestPropWriteInt64") == 0) {
+        try {
+            Glib::Variant<gint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint64>>(value);
+            gint64 val =
+                (castValue.get());
+            TestPropWriteInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteUInt") == 0) {
-    try {
-        Glib::Variant<guint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint32 > >(value);
-        guint32 val;
-
-val = (castValue.get());
-        TestPropWriteUInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteUInt");
+    if (property_name.compare("TestPropWriteUInt") == 0) {
+        try {
+            Glib::Variant<guint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint32>>(value);
+            guint32 val =
+                (castValue.get());
+            TestPropWriteUInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteUInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteInt") == 0) {
-    try {
-        Glib::Variant<gint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint32 > >(value);
-        gint32 val;
-
-val = (castValue.get());
-        TestPropWriteInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteInt");
+    if (property_name.compare("TestPropWriteInt") == 0) {
+        try {
+            Glib::Variant<gint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
+            gint32 val =
+                (castValue.get());
+            TestPropWriteInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteUInt16") == 0) {
-    try {
-        Glib::Variant<guint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint16 > >(value);
-        guint16 val;
-
-val = (castValue.get());
-        TestPropWriteUInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteUInt16");
+    if (property_name.compare("TestPropWriteUInt16") == 0) {
+        try {
+            Glib::Variant<guint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint16>>(value);
+            guint16 val =
+                (castValue.get());
+            TestPropWriteUInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteUInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteInt16") == 0) {
-    try {
-        Glib::Variant<gint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint16 > >(value);
-        gint16 val;
-
-val = (castValue.get());
-        TestPropWriteInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteInt16");
+    if (property_name.compare("TestPropWriteInt16") == 0) {
+        try {
+            Glib::Variant<gint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint16>>(value);
+            gint16 val =
+                (castValue.get());
+            TestPropWriteInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteChar") == 0) {
-    try {
-        Glib::Variant<guchar > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guchar > >(value);
-        guchar val;
-
-val = (castValue.get());
-        TestPropWriteChar_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteChar");
+    if (property_name.compare("TestPropWriteChar") == 0) {
+        try {
+            Glib::Variant<guchar> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guchar>>(value);
+            guchar val =
+                (castValue.get());
+            TestPropWriteChar_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteChar");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropWriteBoolean") == 0) {
-    try {
-        Glib::Variant<bool > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<bool > >(value);
-        bool val;
-
-val = (castValue.get());
-        TestPropWriteBoolean_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropWriteBoolean");
+    if (property_name.compare("TestPropWriteBoolean") == 0) {
+        try {
+            Glib::Variant<bool> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<bool>>(value);
+            bool val =
+                (castValue.get());
+            TestPropWriteBoolean_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropWriteBoolean");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteByteStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropReadWriteByteStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteByteStringArray");
+    if (property_name.compare("TestPropReadWriteByteStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropReadWriteByteStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteByteStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
-    try {
-        Glib::Variant<std::vector<std::string> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string> > >(value);
-        std::vector<std::string> val;
-
-val = (castValue.get());
-        TestPropReadWriteObjectPathArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteObjectPathArray");
+    if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
+        try {
+            Glib::Variant<std::vector<std::string>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
+            std::vector<std::string> val =
+                (castValue.get());
+            TestPropReadWriteObjectPathArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteObjectPathArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteStringArray") == 0) {
-    try {
-        Glib::Variant<std::vector<Glib::ustring> > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring> > >(value);
-        std::vector<std::string> val;
-
-val = TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
-        TestPropReadWriteStringArray_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteStringArray");
+    if (property_name.compare("TestPropReadWriteStringArray") == 0) {
+        try {
+            Glib::Variant<std::vector<Glib::ustring>> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
+            std::vector<std::string> val =
+                TestTypeWrap::glibStringVecToStdStringVec(castValue.get());
+            TestPropReadWriteStringArray_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteStringArray");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteByteString") == 0) {
-    try {
-        Glib::Variant<std::string > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<std::string > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadWriteByteString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteByteString");
+    if (property_name.compare("TestPropReadWriteByteString") == 0) {
+        try {
+            Glib::Variant<std::string> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<std::string>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadWriteByteString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteByteString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteSignature") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadWriteSignature_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteSignature");
+    if (property_name.compare("TestPropReadWriteSignature") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadWriteSignature_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteSignature");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = (castValue.get());
-        TestPropReadWriteObjectPath_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteObjectPath");
+    if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                (castValue.get());
+            TestPropReadWriteObjectPath_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteObjectPath");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteString") == 0) {
-    try {
-        Glib::Variant<Glib::ustring > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring > >(value);
-        std::string val;
-
-val = Glib::ustring(castValue.get());
-        TestPropReadWriteString_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteString");
+    if (property_name.compare("TestPropReadWriteString") == 0) {
+        try {
+            Glib::Variant<Glib::ustring> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
+            std::string val =
+                Glib::ustring(castValue.get());
+            TestPropReadWriteString_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteString");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteDouble") == 0) {
-    try {
-        Glib::Variant<double > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<double > >(value);
-        double val;
-
-val = (castValue.get());
-        TestPropReadWriteDouble_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteDouble");
+    if (property_name.compare("TestPropReadWriteDouble") == 0) {
+        try {
+            Glib::Variant<double> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(value);
+            double val =
+                (castValue.get());
+            TestPropReadWriteDouble_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteDouble");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteUInt64") == 0) {
-    try {
-        Glib::Variant<guint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint64 > >(value);
-        guint64 val;
-
-val = (castValue.get());
-        TestPropReadWriteUInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteUInt64");
+    if (property_name.compare("TestPropReadWriteUInt64") == 0) {
+        try {
+            Glib::Variant<guint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint64>>(value);
+            guint64 val =
+                (castValue.get());
+            TestPropReadWriteUInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteUInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteInt64") == 0) {
-    try {
-        Glib::Variant<gint64 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint64 > >(value);
-        gint64 val;
-
-val = (castValue.get());
-        TestPropReadWriteInt64_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteInt64");
+    if (property_name.compare("TestPropReadWriteInt64") == 0) {
+        try {
+            Glib::Variant<gint64> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint64>>(value);
+            gint64 val =
+                (castValue.get());
+            TestPropReadWriteInt64_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteInt64");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteUInt") == 0) {
-    try {
-        Glib::Variant<guint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint32 > >(value);
-        guint32 val;
-
-val = (castValue.get());
-        TestPropReadWriteUInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteUInt");
+    if (property_name.compare("TestPropReadWriteUInt") == 0) {
+        try {
+            Glib::Variant<guint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint32>>(value);
+            guint32 val =
+                (castValue.get());
+            TestPropReadWriteUInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteUInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteInt") == 0) {
-    try {
-        Glib::Variant<gint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint32 > >(value);
-        gint32 val;
-
-val = (castValue.get());
-        TestPropReadWriteInt_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteInt");
+    if (property_name.compare("TestPropReadWriteInt") == 0) {
+        try {
+            Glib::Variant<gint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
+            gint32 val =
+                (castValue.get());
+            TestPropReadWriteInt_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteInt");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteUInt16") == 0) {
-    try {
-        Glib::Variant<guint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guint16 > >(value);
-        guint16 val;
-
-val = (castValue.get());
-        TestPropReadWriteUInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteUInt16");
+    if (property_name.compare("TestPropReadWriteUInt16") == 0) {
+        try {
+            Glib::Variant<guint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guint16>>(value);
+            guint16 val =
+                (castValue.get());
+            TestPropReadWriteUInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteUInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteInt16") == 0) {
-    try {
-        Glib::Variant<gint16 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint16 > >(value);
-        gint16 val;
-
-val = (castValue.get());
-        TestPropReadWriteInt16_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteInt16");
+    if (property_name.compare("TestPropReadWriteInt16") == 0) {
+        try {
+            Glib::Variant<gint16> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint16>>(value);
+            gint16 val =
+                (castValue.get());
+            TestPropReadWriteInt16_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteInt16");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteChar") == 0) {
-    try {
-        Glib::Variant<guchar > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<guchar > >(value);
-        guchar val;
-
-val = (castValue.get());
-        TestPropReadWriteChar_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteChar");
+    if (property_name.compare("TestPropReadWriteChar") == 0) {
+        try {
+            Glib::Variant<guchar> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<guchar>>(value);
+            guchar val =
+                (castValue.get());
+            TestPropReadWriteChar_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteChar");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropReadWriteBoolean") == 0) {
-    try {
-        Glib::Variant<bool > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<bool > >(value);
-        bool val;
-
-val = (castValue.get());
-        TestPropReadWriteBoolean_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropReadWriteBoolean");
+    if (property_name.compare("TestPropReadWriteBoolean") == 0) {
+        try {
+            Glib::Variant<bool> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<bool>>(value);
+            bool val =
+                (castValue.get());
+            TestPropReadWriteBoolean_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropReadWriteBoolean");
+        }
     }
-}
 
-
-if (property_name.compare("TestPropInternalReadWritePropertyChange") == 0) {
-    try {
-        Glib::Variant<gint32 > castValue = Glib::VariantBase::cast_dynamic<Glib::Variant<gint32 > >(value);
-        gint32 val;
-
-val = (castValue.get());
-        TestPropInternalReadWritePropertyChange_set(val);
-
-    } catch (std::bad_cast e) {
-        g_warning ("Bad cast when casting TestPropInternalReadWritePropertyChange");
+    if (property_name.compare("TestPropInternalReadWritePropertyChange") == 0) {
+        try {
+            Glib::Variant<gint32> castValue =
+                Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
+            gint32 val =
+                (castValue.get());
+            TestPropInternalReadWritePropertyChange_set(val);
+        } catch (std::bad_cast e) {
+            g_warning ("Bad cast when casting TestPropInternalReadWritePropertyChange");
+        }
     }
-}
-
 
     return true;
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::vector<std::string> Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::vector<std::string> Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<std::vector<std::string> >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalByteStringArray",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<std::string> Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalByteStringArray",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-paramsList.push_back(Glib::Variant<std::vector<std::string> >::create((Param1)));;
+void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<std::string> Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalObjectPathArray",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vector<std::string> Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
 
-paramsList.push_back(Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(Param1)));;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalObjectPathArray",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalStringArray",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vector<std::string> Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<std::string >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalByteString",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(std::string Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalStringArray",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-paramsList.push_back(Glib::Variant<Glib::ustring >::create((Param1)));;
+void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalSignature",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(std::string Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    paramsList.push_back(Glib::Variant<std::string>::create((Param1)));;
 
-paramsList.push_back(Glib::Variant<Glib::ustring >::create((Param1)));;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalByteString",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalObjectPath",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(std::string Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(std::string Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<Glib::ustring >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalString",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalDouble_emitter(double Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalSignature",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-paramsList.push_back(Glib::Variant<double >::create((Param1)));;
+void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(std::string Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalDouble",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt64_emitter(guint64 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
-paramsList.push_back(Glib::Variant<guint64 >::create((Param1)));;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalObjectPath",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalUInt64",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalInt64_emitter(gint64 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(std::string Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<gint64 >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalInt64",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt_emitter(guint32 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalString",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-paramsList.push_back(Glib::Variant<guint32 >::create((Param1)));;
+void org::gdbus::codegen::glibmm::Test::TestSignalDouble_emitter(double Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalUInt",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalInt_emitter(gint32 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    paramsList.push_back(Glib::Variant<double>::create((Param1)));;
 
-paramsList.push_back(Glib::Variant<gint32 >::create((Param1)));;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalDouble",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalInt",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt16_emitter(guint16 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalUInt64_emitter(guint64 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<guint16 >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<guint64>::create((Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalUInt16",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalInt16_emitter(gint16 Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalUInt64",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-paramsList.push_back(Glib::Variant<gint16 >::create((Param1)));;
+void org::gdbus::codegen::glibmm::Test::TestSignalInt64_emitter(gint64 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalInt16",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalChar_emitter(guchar Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+    paramsList.push_back(Glib::Variant<gint64>::create((Param1)));;
 
-paramsList.push_back(Glib::Variant<guchar >::create((Param1)));;
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalInt64",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalChar",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
-void org::gdbus::codegen::glibmm::Test::TestSignalBoolean_emitter(bool Param1) {
-            std::vector<Glib::VariantBase> paramsList;
+void org::gdbus::codegen::glibmm::Test::TestSignalUInt_emitter(guint32 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
 
-paramsList.push_back(Glib::Variant<bool >::create((Param1)));;
+    paramsList.push_back(Glib::Variant<guint32>::create((Param1)));;
 
-m_connection->emit_signal(
-              "/org/gdbus/codegen/glibmm/Test",
-              "org.gdbus.codegen.glibmm.Test",
-              "TestSignalBoolean",
-              Glib::ustring(),
-              Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(paramsList));
-      }
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalUInt",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
 
-void org::gdbus::codegen::glibmm::Test::on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                         const Glib::ustring& /* name */) {
+void org::gdbus::codegen::glibmm::Test::TestSignalInt_emitter(gint32 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
+
+    paramsList.push_back(Glib::Variant<gint32>::create((Param1)));;
+
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalInt",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
+
+void org::gdbus::codegen::glibmm::Test::TestSignalUInt16_emitter(guint16 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
+
+    paramsList.push_back(Glib::Variant<guint16>::create((Param1)));;
+
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalUInt16",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
+
+void org::gdbus::codegen::glibmm::Test::TestSignalInt16_emitter(gint16 Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
+
+    paramsList.push_back(Glib::Variant<gint16>::create((Param1)));;
+
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalInt16",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
+
+void org::gdbus::codegen::glibmm::Test::TestSignalChar_emitter(guchar Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
+
+    paramsList.push_back(Glib::Variant<guchar>::create((Param1)));;
+
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalChar",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
+
+void org::gdbus::codegen::glibmm::Test::TestSignalBoolean_emitter(bool Param1)
+{
+    std::vector<Glib::VariantBase> paramsList;
+
+    paramsList.push_back(Glib::Variant<bool>::create((Param1)));;
+
+    m_connection->emit_signal(
+        "/org/gdbus/codegen/glibmm/Test",
+        "org.gdbus.codegen.glibmm.Test",
+        "TestSignalBoolean",
+        Glib::ustring(),
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+}
+
+void org::gdbus::codegen::glibmm::Test::on_bus_acquired(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &/* name */)
+{
     registeredId = register_object(connection,
                                    "/org/gdbus/codegen/glibmm/Test");
     m_connection = connection;
-
-    return;
 }
-void org::gdbus::codegen::glibmm::Test::on_name_acquired(const Glib::RefPtr<Gio::DBus::Connection>& /* connection */,
-                      const Glib::ustring& /* name */) {}
 
-void org::gdbus::codegen::glibmm::Test::on_name_lost(const Glib::RefPtr<Gio::DBus::Connection>& connection,
-                  const Glib::ustring& /* name */) {}
+void org::gdbus::codegen::glibmm::Test::on_name_acquired(
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* name */)
+{
+}
 
+void org::gdbus::codegen::glibmm::Test::on_name_lost(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::ustring &/* name */)
+{
+}
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(std::vector<std::string> value)
+{
     if (TestPropReadByteStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropReadByteStringArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropReadByteStringArray_get()));
         emitSignal("TestPropReadByteStringArray", value_get);
         return true;
     }
@@ -1850,9 +1743,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(std::vec
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vector<std::string> value)
+{
     if (TestPropReadObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropReadObjectPathArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropReadObjectPathArray_get()));
         emitSignal("TestPropReadObjectPathArray", value_get);
         return true;
     }
@@ -1860,9 +1755,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(std::vec
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<std::string> value)
+{
     if (TestPropReadStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<Glib::ustring> > value_get = Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
+        Glib::Variant<std::vector<Glib::ustring>> value_get =
+            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadStringArray_get()));
         emitSignal("TestPropReadStringArray", value_get);
         return true;
     }
@@ -1870,9 +1767,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(std::vector<
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(std::string value)
+{
     if (TestPropReadByteString_setHandler(value)) {
-        Glib::Variant<std::string > value_get = Glib::Variant<std::string >::create((TestPropReadByteString_get()));
+        Glib::Variant<std::string> value_get =
+            Glib::Variant<std::string>::create((TestPropReadByteString_get()));
         emitSignal("TestPropReadByteString", value_get);
         return true;
     }
@@ -1880,9 +1779,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(std::string value)
+{
     if (TestPropReadSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadSignature_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadSignature_get()));
         emitSignal("TestPropReadSignature", value_get);
         return true;
     }
@@ -1890,9 +1791,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(std::string va
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(std::string value)
+{
     if (TestPropReadObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadObjectPath_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadObjectPath_get()));
         emitSignal("TestPropReadObjectPath", value_get);
         return true;
     }
@@ -1900,9 +1803,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(std::string value)
+{
     if (TestPropReadString_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadString_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadString_get()));
         emitSignal("TestPropReadString", value_get);
         return true;
     }
@@ -1910,9 +1815,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(std::string value
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadDouble_set(double value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadDouble_set(double value)
+{
     if (TestPropReadDouble_setHandler(value)) {
-        Glib::Variant<double > value_get = Glib::Variant<double >::create((TestPropReadDouble_get()));
+        Glib::Variant<double> value_get =
+            Glib::Variant<double>::create((TestPropReadDouble_get()));
         emitSignal("TestPropReadDouble", value_get);
         return true;
     }
@@ -1920,9 +1827,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadDouble_set(double value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt64_set(guint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt64_set(guint64 value)
+{
     if (TestPropReadUInt64_setHandler(value)) {
-        Glib::Variant<guint64 > value_get = Glib::Variant<guint64 >::create((TestPropReadUInt64_get()));
+        Glib::Variant<guint64> value_get =
+            Glib::Variant<guint64>::create((TestPropReadUInt64_get()));
         emitSignal("TestPropReadUInt64", value_get);
         return true;
     }
@@ -1930,9 +1839,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt64_set(guint64 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt64_set(gint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadInt64_set(gint64 value)
+{
     if (TestPropReadInt64_setHandler(value)) {
-        Glib::Variant<gint64 > value_get = Glib::Variant<gint64 >::create((TestPropReadInt64_get()));
+        Glib::Variant<gint64> value_get =
+            Glib::Variant<gint64>::create((TestPropReadInt64_get()));
         emitSignal("TestPropReadInt64", value_get);
         return true;
     }
@@ -1940,9 +1851,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt64_set(gint64 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt_set(guint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt_set(guint32 value)
+{
     if (TestPropReadUInt_setHandler(value)) {
-        Glib::Variant<guint32 > value_get = Glib::Variant<guint32 >::create((TestPropReadUInt_get()));
+        Glib::Variant<guint32> value_get =
+            Glib::Variant<guint32>::create((TestPropReadUInt_get()));
         emitSignal("TestPropReadUInt", value_get);
         return true;
     }
@@ -1950,9 +1863,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt_set(guint32 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt_set(gint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadInt_set(gint32 value)
+{
     if (TestPropReadInt_setHandler(value)) {
-        Glib::Variant<gint32 > value_get = Glib::Variant<gint32 >::create((TestPropReadInt_get()));
+        Glib::Variant<gint32> value_get =
+            Glib::Variant<gint32>::create((TestPropReadInt_get()));
         emitSignal("TestPropReadInt", value_get);
         return true;
     }
@@ -1960,9 +1875,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt_set(gint32 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt16_set(guint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt16_set(guint16 value)
+{
     if (TestPropReadUInt16_setHandler(value)) {
-        Glib::Variant<guint16 > value_get = Glib::Variant<guint16 >::create((TestPropReadUInt16_get()));
+        Glib::Variant<guint16> value_get =
+            Glib::Variant<guint16>::create((TestPropReadUInt16_get()));
         emitSignal("TestPropReadUInt16", value_get);
         return true;
     }
@@ -1970,9 +1887,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt16_set(guint16 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt16_set(gint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadInt16_set(gint16 value)
+{
     if (TestPropReadInt16_setHandler(value)) {
-        Glib::Variant<gint16 > value_get = Glib::Variant<gint16 >::create((TestPropReadInt16_get()));
+        Glib::Variant<gint16> value_get =
+            Glib::Variant<gint16>::create((TestPropReadInt16_get()));
         emitSignal("TestPropReadInt16", value_get);
         return true;
     }
@@ -1980,9 +1899,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt16_set(gint16 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadChar_set(guchar value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadChar_set(guchar value)
+{
     if (TestPropReadChar_setHandler(value)) {
-        Glib::Variant<guchar > value_get = Glib::Variant<guchar >::create((TestPropReadChar_get()));
+        Glib::Variant<guchar> value_get =
+            Glib::Variant<guchar>::create((TestPropReadChar_get()));
         emitSignal("TestPropReadChar", value_get);
         return true;
     }
@@ -1990,9 +1911,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadChar_set(guchar value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadBoolean_set(bool value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadBoolean_set(bool value)
+{
     if (TestPropReadBoolean_setHandler(value)) {
-        Glib::Variant<bool > value_get = Glib::Variant<bool >::create((TestPropReadBoolean_get()));
+        Glib::Variant<bool> value_get =
+            Glib::Variant<bool>::create((TestPropReadBoolean_get()));
         emitSignal("TestPropReadBoolean", value_get);
         return true;
     }
@@ -2000,9 +1923,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadBoolean_set(bool value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadPropertyChange_set(gint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadPropertyChange_set(gint32 value)
+{
     if (TestPropInternalReadPropertyChange_setHandler(value)) {
-        Glib::Variant<gint32 > value_get = Glib::Variant<gint32 >::create((TestPropInternalReadPropertyChange_get()));
+        Glib::Variant<gint32> value_get =
+            Glib::Variant<gint32>::create((TestPropInternalReadPropertyChange_get()));
         emitSignal("TestPropInternalReadPropertyChange", value_get);
         return true;
     }
@@ -2010,9 +1935,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadPropertyChange_set(g
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(std::vector<std::string> value)
+{
     if (TestPropWriteByteStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropWriteByteStringArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropWriteByteStringArray_get()));
         emitSignal("TestPropWriteByteStringArray", value_get);
         return true;
     }
@@ -2020,9 +1947,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(std::ve
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::vector<std::string> value)
+{
     if (TestPropWriteObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropWriteObjectPathArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropWriteObjectPathArray_get()));
         emitSignal("TestPropWriteObjectPathArray", value_get);
         return true;
     }
@@ -2030,9 +1959,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(std::ve
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(std::vector<std::string> value)
+{
     if (TestPropWriteStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<Glib::ustring> > value_get = Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropWriteStringArray_get()));
+        Glib::Variant<std::vector<Glib::ustring>> value_get =
+            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropWriteStringArray_get()));
         emitSignal("TestPropWriteStringArray", value_get);
         return true;
     }
@@ -2040,9 +1971,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(std::vector
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(std::string value)
+{
     if (TestPropWriteByteString_setHandler(value)) {
-        Glib::Variant<std::string > value_get = Glib::Variant<std::string >::create((TestPropWriteByteString_get()));
+        Glib::Variant<std::string> value_get =
+            Glib::Variant<std::string>::create((TestPropWriteByteString_get()));
         emitSignal("TestPropWriteByteString", value_get);
         return true;
     }
@@ -2050,9 +1983,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(std::string 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(std::string value)
+{
     if (TestPropWriteSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropWriteSignature_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropWriteSignature_get()));
         emitSignal("TestPropWriteSignature", value_get);
         return true;
     }
@@ -2060,9 +1995,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(std::string v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(std::string value)
+{
     if (TestPropWriteObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropWriteObjectPath_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropWriteObjectPath_get()));
         emitSignal("TestPropWriteObjectPath", value_get);
         return true;
     }
@@ -2070,9 +2007,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(std::string 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(std::string value)
+{
     if (TestPropWriteString_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropWriteString_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropWriteString_get()));
         emitSignal("TestPropWriteString", value_get);
         return true;
     }
@@ -2080,9 +2019,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(std::string valu
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteDouble_set(double value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteDouble_set(double value)
+{
     if (TestPropWriteDouble_setHandler(value)) {
-        Glib::Variant<double > value_get = Glib::Variant<double >::create((TestPropWriteDouble_get()));
+        Glib::Variant<double> value_get =
+            Glib::Variant<double>::create((TestPropWriteDouble_get()));
         emitSignal("TestPropWriteDouble", value_get);
         return true;
     }
@@ -2090,9 +2031,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteDouble_set(double value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt64_set(guint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt64_set(guint64 value)
+{
     if (TestPropWriteUInt64_setHandler(value)) {
-        Glib::Variant<guint64 > value_get = Glib::Variant<guint64 >::create((TestPropWriteUInt64_get()));
+        Glib::Variant<guint64> value_get =
+            Glib::Variant<guint64>::create((TestPropWriteUInt64_get()));
         emitSignal("TestPropWriteUInt64", value_get);
         return true;
     }
@@ -2100,9 +2043,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt64_set(guint64 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt64_set(gint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt64_set(gint64 value)
+{
     if (TestPropWriteInt64_setHandler(value)) {
-        Glib::Variant<gint64 > value_get = Glib::Variant<gint64 >::create((TestPropWriteInt64_get()));
+        Glib::Variant<gint64> value_get =
+            Glib::Variant<gint64>::create((TestPropWriteInt64_get()));
         emitSignal("TestPropWriteInt64", value_get);
         return true;
     }
@@ -2110,9 +2055,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt64_set(gint64 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt_set(guint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt_set(guint32 value)
+{
     if (TestPropWriteUInt_setHandler(value)) {
-        Glib::Variant<guint32 > value_get = Glib::Variant<guint32 >::create((TestPropWriteUInt_get()));
+        Glib::Variant<guint32> value_get =
+            Glib::Variant<guint32>::create((TestPropWriteUInt_get()));
         emitSignal("TestPropWriteUInt", value_get);
         return true;
     }
@@ -2120,9 +2067,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt_set(guint32 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt_set(gint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt_set(gint32 value)
+{
     if (TestPropWriteInt_setHandler(value)) {
-        Glib::Variant<gint32 > value_get = Glib::Variant<gint32 >::create((TestPropWriteInt_get()));
+        Glib::Variant<gint32> value_get =
+            Glib::Variant<gint32>::create((TestPropWriteInt_get()));
         emitSignal("TestPropWriteInt", value_get);
         return true;
     }
@@ -2130,9 +2079,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt_set(gint32 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt16_set(guint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt16_set(guint16 value)
+{
     if (TestPropWriteUInt16_setHandler(value)) {
-        Glib::Variant<guint16 > value_get = Glib::Variant<guint16 >::create((TestPropWriteUInt16_get()));
+        Glib::Variant<guint16> value_get =
+            Glib::Variant<guint16>::create((TestPropWriteUInt16_get()));
         emitSignal("TestPropWriteUInt16", value_get);
         return true;
     }
@@ -2140,9 +2091,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt16_set(guint16 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt16_set(gint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt16_set(gint16 value)
+{
     if (TestPropWriteInt16_setHandler(value)) {
-        Glib::Variant<gint16 > value_get = Glib::Variant<gint16 >::create((TestPropWriteInt16_get()));
+        Glib::Variant<gint16> value_get =
+            Glib::Variant<gint16>::create((TestPropWriteInt16_get()));
         emitSignal("TestPropWriteInt16", value_get);
         return true;
     }
@@ -2150,9 +2103,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt16_set(gint16 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteChar_set(guchar value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteChar_set(guchar value)
+{
     if (TestPropWriteChar_setHandler(value)) {
-        Glib::Variant<guchar > value_get = Glib::Variant<guchar >::create((TestPropWriteChar_get()));
+        Glib::Variant<guchar> value_get =
+            Glib::Variant<guchar>::create((TestPropWriteChar_get()));
         emitSignal("TestPropWriteChar", value_get);
         return true;
     }
@@ -2160,9 +2115,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteChar_set(guchar value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteBoolean_set(bool value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropWriteBoolean_set(bool value)
+{
     if (TestPropWriteBoolean_setHandler(value)) {
-        Glib::Variant<bool > value_get = Glib::Variant<bool >::create((TestPropWriteBoolean_get()));
+        Glib::Variant<bool> value_get =
+            Glib::Variant<bool>::create((TestPropWriteBoolean_get()));
         emitSignal("TestPropWriteBoolean", value_get);
         return true;
     }
@@ -2170,9 +2127,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteBoolean_set(bool value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(std::vector<std::string> value)
+{
     if (TestPropReadWriteByteStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropReadWriteByteStringArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteByteStringArray_get()));
         emitSignal("TestPropReadWriteByteStringArray", value_get);
         return true;
     }
@@ -2180,9 +2139,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(std
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std::vector<std::string> value)
+{
     if (TestPropReadWriteObjectPathArray_setHandler(value)) {
-        Glib::Variant<std::vector<std::string> > value_get = Glib::Variant<std::vector<std::string> >::create((TestPropReadWriteObjectPathArray_get()));
+        Glib::Variant<std::vector<std::string>> value_get =
+            Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteObjectPathArray_get()));
         emitSignal("TestPropReadWriteObjectPathArray", value_get);
         return true;
     }
@@ -2190,9 +2151,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(std
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::vector<std::string> value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::vector<std::string> value)
+{
     if (TestPropReadWriteStringArray_setHandler(value)) {
-        Glib::Variant<std::vector<Glib::ustring> > value_get = Glib::Variant<std::vector<Glib::ustring> >::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
+        Glib::Variant<std::vector<Glib::ustring>> value_get =
+            Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(TestPropReadWriteStringArray_get()));
         emitSignal("TestPropReadWriteStringArray", value_get);
         return true;
     }
@@ -2200,9 +2163,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(std::ve
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(std::string value)
+{
     if (TestPropReadWriteByteString_setHandler(value)) {
-        Glib::Variant<std::string > value_get = Glib::Variant<std::string >::create((TestPropReadWriteByteString_get()));
+        Glib::Variant<std::string> value_get =
+            Glib::Variant<std::string>::create((TestPropReadWriteByteString_get()));
         emitSignal("TestPropReadWriteByteString", value_get);
         return true;
     }
@@ -2210,9 +2175,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(std::str
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::string value)
+{
     if (TestPropReadWriteSignature_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadWriteSignature_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadWriteSignature_get()));
         emitSignal("TestPropReadWriteSignature", value_get);
         return true;
     }
@@ -2220,9 +2187,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(std::stri
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::string value)
+{
     if (TestPropReadWriteObjectPath_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadWriteObjectPath_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadWriteObjectPath_get()));
         emitSignal("TestPropReadWriteObjectPath", value_get);
         return true;
     }
@@ -2230,9 +2199,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(std::str
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(std::string value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(std::string value)
+{
     if (TestPropReadWriteString_setHandler(value)) {
-        Glib::Variant<Glib::ustring > value_get = Glib::Variant<Glib::ustring >::create((TestPropReadWriteString_get()));
+        Glib::Variant<Glib::ustring> value_get =
+            Glib::Variant<Glib::ustring>::create((TestPropReadWriteString_get()));
         emitSignal("TestPropReadWriteString", value_get);
         return true;
     }
@@ -2240,9 +2211,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(std::string 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value)
+{
     if (TestPropReadWriteDouble_setHandler(value)) {
-        Glib::Variant<double > value_get = Glib::Variant<double >::create((TestPropReadWriteDouble_get()));
+        Glib::Variant<double> value_get =
+            Glib::Variant<double>::create((TestPropReadWriteDouble_get()));
         emitSignal("TestPropReadWriteDouble", value_get);
         return true;
     }
@@ -2250,9 +2223,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 value)
+{
     if (TestPropReadWriteUInt64_setHandler(value)) {
-        Glib::Variant<guint64 > value_get = Glib::Variant<guint64 >::create((TestPropReadWriteUInt64_get()));
+        Glib::Variant<guint64> value_get =
+            Glib::Variant<guint64>::create((TestPropReadWriteUInt64_get()));
         emitSignal("TestPropReadWriteUInt64", value_get);
         return true;
     }
@@ -2260,9 +2235,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 valu
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value)
+{
     if (TestPropReadWriteInt64_setHandler(value)) {
-        Glib::Variant<gint64 > value_get = Glib::Variant<gint64 >::create((TestPropReadWriteInt64_get()));
+        Glib::Variant<gint64> value_get =
+            Glib::Variant<gint64>::create((TestPropReadWriteInt64_get()));
         emitSignal("TestPropReadWriteInt64", value_get);
         return true;
     }
@@ -2270,9 +2247,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value)
+{
     if (TestPropReadWriteUInt_setHandler(value)) {
-        Glib::Variant<guint32 > value_get = Glib::Variant<guint32 >::create((TestPropReadWriteUInt_get()));
+        Glib::Variant<guint32> value_get =
+            Glib::Variant<guint32>::create((TestPropReadWriteUInt_get()));
         emitSignal("TestPropReadWriteUInt", value_get);
         return true;
     }
@@ -2280,9 +2259,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value)
+{
     if (TestPropReadWriteInt_setHandler(value)) {
-        Glib::Variant<gint32 > value_get = Glib::Variant<gint32 >::create((TestPropReadWriteInt_get()));
+        Glib::Variant<gint32> value_get =
+            Glib::Variant<gint32>::create((TestPropReadWriteInt_get()));
         emitSignal("TestPropReadWriteInt", value_get);
         return true;
     }
@@ -2290,9 +2271,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value) {
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 value)
+{
     if (TestPropReadWriteUInt16_setHandler(value)) {
-        Glib::Variant<guint16 > value_get = Glib::Variant<guint16 >::create((TestPropReadWriteUInt16_get()));
+        Glib::Variant<guint16> value_get =
+            Glib::Variant<guint16>::create((TestPropReadWriteUInt16_get()));
         emitSignal("TestPropReadWriteUInt16", value_get);
         return true;
     }
@@ -2300,9 +2283,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 valu
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value)
+{
     if (TestPropReadWriteInt16_setHandler(value)) {
-        Glib::Variant<gint16 > value_get = Glib::Variant<gint16 >::create((TestPropReadWriteInt16_get()));
+        Glib::Variant<gint16> value_get =
+            Glib::Variant<gint16>::create((TestPropReadWriteInt16_get()));
         emitSignal("TestPropReadWriteInt16", value_get);
         return true;
     }
@@ -2310,9 +2295,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value)
+{
     if (TestPropReadWriteChar_setHandler(value)) {
-        Glib::Variant<guchar > value_get = Glib::Variant<guchar >::create((TestPropReadWriteChar_get()));
+        Glib::Variant<guchar> value_get =
+            Glib::Variant<guchar>::create((TestPropReadWriteChar_get()));
         emitSignal("TestPropReadWriteChar", value_get);
         return true;
     }
@@ -2320,9 +2307,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value) 
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value)
+{
     if (TestPropReadWriteBoolean_setHandler(value)) {
-        Glib::Variant<bool > value_get = Glib::Variant<bool >::create((TestPropReadWriteBoolean_get()));
+        Glib::Variant<bool> value_get =
+            Glib::Variant<bool>::create((TestPropReadWriteBoolean_get()));
         emitSignal("TestPropReadWriteBoolean", value_get);
         return true;
     }
@@ -2330,9 +2319,11 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_set(gint32 value) {
+bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_set(gint32 value)
+{
     if (TestPropInternalReadWritePropertyChange_setHandler(value)) {
-        Glib::Variant<gint32 > value_get = Glib::Variant<gint32 >::create((TestPropInternalReadWritePropertyChange_get()));
+        Glib::Variant<gint32> value_get =
+            Glib::Variant<gint32>::create((TestPropInternalReadWritePropertyChange_get()));
         emitSignal("TestPropInternalReadWritePropertyChange", value_get);
         return true;
     }
@@ -2340,19 +2331,25 @@ bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::emitSignal(const std::string& propName, Glib::VariantBase& value) {
+bool org::gdbus::codegen::glibmm::Test::emitSignal(
+    const std::string &propName,
+    Glib::VariantBase &value)
+{
     std::map<Glib::ustring, Glib::VariantBase> changedProps;
     std::vector<Glib::ustring> changedPropsNoValue;
 
     changedProps[propName] = value;
 
-    Glib::Variant<std::map<Glib::ustring,  Glib::VariantBase> > changedPropsVar = Glib::Variant<std::map <Glib::ustring, Glib::VariantBase> >::create (changedProps);
-    Glib::Variant<std::vector<Glib::ustring> > changedPropsNoValueVar = Glib::Variant<std::vector<Glib::ustring> >::create(changedPropsNoValue);
+    Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>> changedPropsVar =
+        Glib::Variant<std::map<Glib::ustring, Glib::VariantBase>>::create(changedProps);
+    Glib::Variant<std::vector<Glib::ustring>> changedPropsNoValueVar =
+        Glib::Variant<std::vector<Glib::ustring>>::create(changedPropsNoValue);
     std::vector<Glib::VariantBase> ps;
     ps.push_back(Glib::Variant<Glib::ustring>::create(m_interfaceName));
     ps.push_back(changedPropsVar);
     ps.push_back(changedPropsNoValueVar);
-    Glib::VariantContainerBase propertiesChangedVariant = Glib::Variant<std::vector<Glib::VariantBase> >::create_tuple(ps);
+    Glib::VariantContainerBase propertiesChangedVariant =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(ps);
 
     m_connection->emit_signal(
         m_objectPath,

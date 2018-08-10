@@ -87,13 +87,13 @@ class Type:
         """ Used to create a Variant to be sent over D-Bus """
         t = self.variant_type
         return ("Glib::Variant<"+self.variant_type+"> "+name+
-            " = Glib::Variant<"+self.variant_type+">::create("+param+");")
+            " =\n    Glib::Variant<"+self.variant_type+">::create("+param+");")
 
     def cppvalue_get(self, outvar, idx, cpp_class_name):
         """ Used to extract a cpptype_out out of a Variant """
         varname = outvar + '_v'
         return ("Glib::Variant<"+self.variant_type+"> "+varname+
-            ";\n    wrapped.get_child("+varname+","+idx+");\n    "+
+            ";\nwrapped.get_child("+varname+", "+idx+");\n"+
             outvar+" = "+varname+".get();")
 
 
@@ -121,7 +121,7 @@ class StringType(Type):
         elif self.signature == 'o':
             method = 'create_object_path'
         return ("Glib::VariantStringBase " + name + ";\n" +
-            " Glib::VariantStringBase::" + method + "(" + name +
+            "Glib::VariantStringBase::" + method + "(" + name +
             ", " + param + ".c_str());")
 
 
@@ -132,7 +132,7 @@ class VariantType(Type):
 
     def cppvalue_get(self, outvar, idx, cpp_class_name):
         return 'GVariant *output;\n' +\
-                                '    g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n\n' + "    " + outvar + ' = Glib::VariantBase(output);'
+                                'g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n' + outvar + ' = Glib::VariantBase(output);'
 
 
 class ArrayType(Type):
@@ -155,29 +155,29 @@ class ArrayType(Type):
         varname = outvar + '_v'
         if self.signature == 'as':
             return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+                    "wrapped.get_child("+varname+", "+idx+");\n" +
+                    "" + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
         elif self.signature == 'ao':
             return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+                    "wrapped.get_child("+varname+", "+idx+");\n" +
+                    "" + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
         elif self.signature == 'aay':
             return ("Glib::VariantContainerBase "+varname+";\n" +
-                    "    wrapped.get_child("+varname+", "+idx+");\n" +
-                    "    " + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
+                    "wrapped.get_child("+varname+", "+idx+");\n" +
+                    "" + cpp_class_name + "TypeWrap::unwrapList("+outvar+", "+varname+");")
         else:
             return Type.cppvalue_get(self, outvar, idx, cpp_class_name)
 
     def cppvalue_send(self, name, param, cpp_class_name):
         if self.signature == 'as':
             return ("Glib::Variant<std::vector<Glib::ustring> > " + name +
-                    " = Glib::Variant<std::vector<Glib::ustring> >::create(" +
+                    " =\n    Glib::Variant<std::vector<Glib::ustring> >::create(" +
                     cpp_class_name +
                     "TypeWrap::stdStringVecToGlibStringVec(" + param +
                     "));")
         elif self.signature == 'ao':
             return ("Glib::Variant<std::vector<std::string> > " + name +
-                    " = Glib::Variant<std::vector< std::string > >::create_from_object_paths(" +
+                    " =\n    Glib::Variant<std::vector< std::string > >::create_from_object_paths(" +
                     param + ");")
         else:
             return Type.cppvalue_send(self, name, param, cpp_class_name)
