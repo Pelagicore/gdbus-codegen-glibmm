@@ -22,6 +22,13 @@
        <arg type="v" name="Param2" direction="out"></arg>
     </method>
 
+    <method name="TestVariant2">
+       <arg type="s" name="Param1" direction="in"></arg>
+       <arg type="v" name="Param2" direction="in"></arg>
+       <arg type="s" name="Param3" direction="out"></arg>
+       <arg type="v" name="Param4" direction="out"></arg>
+    </method>
+
     <method name="TestByteStringArray">
         <arg type="aay" name="Param1" direction="in"></arg>
         <arg type="aay" name="Param2" direction="out"></arg>
