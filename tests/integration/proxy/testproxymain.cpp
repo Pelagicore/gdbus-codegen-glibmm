@@ -74,6 +74,26 @@ void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib:
     printStatus("Variant", value == expectedValue);
 }
 
+void on_test_variant2_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                               std::string expectedString,
+                               Glib::ustring expectedVariant)
+{
+    std::string string;
+    Glib::VariantBase base;
+    proxy->TestVariant2_finish(string, base, result);
+
+    Glib::ustring value;
+    try {
+        Glib::Variant<Glib::ustring> res =
+            Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(base);
+        value = res.get();
+    } catch (std::bad_cast e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    printStatus("Variant2", string == expectedString && value == expectedVariant);
+}
+
 void on_test_byte_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
     std::vector<std::string> res;
     proxy->TestByteStringArray_finish(res, result);
@@ -499,6 +519,10 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Variant */
     proxy->TestVariant(variantValue, sigc::bind(sigc::ptr_fun(&on_test_variant_finished), variantValue));
+
+    /* Variant2 */
+    proxy->TestVariant2(stringValue, variantValue,
+                        sigc::bind(sigc::ptr_fun(&on_test_variant2_finished), stringValue, variantValue));
 
     /* Byte string array */
     proxy->TestByteStringArray(inputStrVec, sigc::bind(sigc::ptr_fun(&on_test_byte_string_array_finished), inputStrVec));

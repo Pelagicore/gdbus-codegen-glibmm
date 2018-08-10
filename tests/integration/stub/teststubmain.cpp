@@ -95,6 +95,12 @@ void TestImpl::TestVariant(Glib::VariantBase Param1, TestMessageHelper invocatio
     invocation.ret(variantValue);
 }
 
+void TestImpl::TestVariant2(std::string Param1, Glib::VariantBase Param2,
+                            TestMessageHelper invocation)
+{
+    invocation.ret(Param1, Param2);
+}
+
 void TestImpl::TestByteStringArray (
         std::vector<std::string>  Param1,
         TestMessageHelper invocation) {

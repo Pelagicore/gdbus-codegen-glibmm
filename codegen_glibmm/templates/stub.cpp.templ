@@ -75,9 +75,11 @@ void {{ interface.cpp_namespace_name}}::on_method_call(
 {
 {% for method in interface.methods %}
     if (method_name.compare("{{ method.name }}") == 0) {
-    {% for arg in method.in_args %}
         {% if method is templated %}
         Glib::VariantContainerBase containerBase = parameters;
+        {% endif %}
+    {% for arg in method.in_args %}
+        {% if arg.templated %}
         GVariant *output{{ loop.index0 }};
         g_variant_get_child(containerBase.gobj(), {{ loop.index0 }}, "v", &output{{ loop.index0 }});
         Glib::VariantBase p_{{ arg.name }} =

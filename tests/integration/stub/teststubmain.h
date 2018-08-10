@@ -7,6 +7,9 @@ public:
     void TestVariant (
             Glib::VariantBase Param1,
             TestMessageHelper invocation);
+    void TestVariant2(std::string Param1,
+                      Glib::VariantBase Param2,
+                      TestMessageHelper invocation) override;
     void TestStringVariantDict(
             std::map<Glib::ustring,Glib::VariantBase> Param1,
             TestMessageHelper invocation) override;

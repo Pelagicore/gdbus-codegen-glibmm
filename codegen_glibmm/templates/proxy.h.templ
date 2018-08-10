@@ -42,7 +42,7 @@ public:
         {% for arg in method.in_args %}
         {% if arg.templated %}
         Glib::Variant<Glib::Variant<T>> {{ arg.name }}_variantValue =
-            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create({{ arg.name }}_param));
+            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create({{ arg.name }}));
         params.push_back({{ arg.name }}_variantValue);
         {% else %}
         {{ arg.cppvalue_send(arg.name + "_param", arg.name, interface.cpp_class_name) }}
