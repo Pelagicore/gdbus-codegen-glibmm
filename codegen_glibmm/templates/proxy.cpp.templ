@@ -123,22 +123,6 @@ void {{ interface.cpp_namespace_name }}::createForBus(
         proxyFlags);
 }
 
-void {{ interface.cpp_namespace_name }}::createForBus(
-    Gio::DBus::BusType busType,
-    Gio::DBus::ProxyFlags proxyFlags,
-    const std::string &name,
-    const std::string &objectPath,
-    const Gio::SlotAsyncReady &slot)
-{
-    Gio::DBus::Proxy::create_for_bus(busType,
-        name,
-        objectPath,
-        "{{ interface.name }}",
-        slot,
-        Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
-        proxyFlags);
-}
-
 Glib::RefPtr<{{ interface.cpp_namespace_name }}> {{ interface.cpp_namespace_name }}::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =

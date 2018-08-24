@@ -1781,22 +1781,6 @@ void org::gdbus::codegen::glibmm::Test::createForBus(
         proxyFlags);
 }
 
-void org::gdbus::codegen::glibmm::Test::createForBus(
-    Gio::DBus::BusType busType,
-    Gio::DBus::ProxyFlags proxyFlags,
-    const std::string &name,
-    const std::string &objectPath,
-    const Gio::SlotAsyncReady &slot)
-{
-    Gio::DBus::Proxy::create_for_bus(busType,
-        name,
-        objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        slot,
-        Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
-        proxyFlags);
-}
-
 Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =

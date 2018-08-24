@@ -16,12 +16,7 @@ public:
                              const std::string &name,
                              const std::string &objectPath,
                              const Gio::SlotAsyncReady &slot,
-                             const Glib::RefPtr<Gio::Cancellable> &cancellable);
-    static void createForBus(Gio::DBus::BusType busType,
-                             Gio::DBus::ProxyFlags proxyFlags,
-                             const std::string &name,
-                             const std::string &objectPath,
-                             const Gio::SlotAsyncReady &slot);
+                             const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     static Glib::RefPtr<Test> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
 
