@@ -19,6 +19,7 @@
 
 import os.path
 import pytest
+import sys
 
 from subprocess import Popen, PIPE
 
@@ -33,7 +34,7 @@ class Generator:
                 '--generate-cpp-code=%s/%s' % (output_dir, basename),
                 xml_file,
                 ]
-        process = Popen(args, stdout=PIPE, stderr=PIPE)
+        process = Popen(args, stdout=sys.stdout, stderr=sys.stdout)
         process.wait()
 
         return (
