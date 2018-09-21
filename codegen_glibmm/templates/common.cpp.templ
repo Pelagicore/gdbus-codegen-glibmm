@@ -1,14 +1,17 @@
-#include "OUTPUT_DIR/input_common.h"
+#include "{{ common_h_name }}"
+{% for interface in interfaces %}
+{% if interface.errors %}
+{% set namespaces = interface.errors_namespace.split('::') %}
+{% set errors = interface.errors %}
 
-namespace org {
-namespace gdbus {
-namespace codegen {
-namespace glibmm {
+{% for namespace in namespaces %}
+namespace {{ namespace }} {
+{% endfor %}
 
 static const GDBusErrorEntry error_entries[] = {
-    { Error::InvalidParams, "org.gdbus.codegen.glibmm.Test.Error.InvalidParams" },
-    { Error::OutOfMemory, "org.gdbus.codegen.glibmm.Test.Error.OutOfMemory" },
-    { Error::PermissionDenied, "org.gdbus.codegen.glibmm.Test.Error.PermissionDenied" },
+{% for error in errors %}
+    { Error::{{ error.name }}, "{{ error.prefix }}.{{ error.name }}" },
+{% endfor %}
 };
 
 static void throw_func(GError *gerror)
@@ -27,7 +30,7 @@ static void throw_func(GError *gerror)
 
 static Glib::Quark register_domain_with_dbus()
 {
-    static const char domain[] = "org::gdbus::codegen::glibmm::ErrorQuark";
+    static const char domain[] = "{{ interface.cpp_namespace_name }}::ErrorQuark";
     Glib::QueryQuark quark(domain);
     if (quark.id() == 0) {
         static volatile gsize quark_volatile = 0;
@@ -57,8 +60,8 @@ void Error::initialize()
     register_domain_with_dbus();
 }
 
-}// glibmm
-}// codegen
-}// gdbus
-}// org
-
+{% for namespace in namespaces|reverse %}
+}// {{ namespace }}
+{% endfor %}
+{% endif %}
+{% endfor %}

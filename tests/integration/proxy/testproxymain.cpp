@@ -285,6 +285,26 @@ void on_test_trigger_internal_property_change_finished (const Glib::RefPtr<Gio::
     printStatus ("Internal property (write/read)", proxy->TestPropInternalReadWritePropertyChange_get() == expected);
 }
 
+void on_test_error_finished(const Glib::RefPtr<Gio::AsyncResult> result)
+{
+    bool gotOurError = false;
+    bool gotOurErrorCode = false;
+    bool gotOurErrorMessage = false;
+    namespace ogcg = org::gdbus::codegen::glibmm;
+
+    try {
+        proxy->TestError_finish(result);
+    } catch (const ogcg::Error &e) {
+        gotOurError = true;
+        gotOurErrorCode = (e.code() == ogcg::Error::InvalidParams);
+        gotOurErrorMessage = (e.what() == "Testing error message");
+    }
+
+    printStatus("Method errors (domain)", gotOurError);
+    printStatus("Method errors (code)", gotOurErrorCode);
+    printStatus("Method errors (message)", gotOurErrorMessage);
+}
+
 void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result,
                                     const std::string &expected) {
     proxy->TestPropReadWriteString_set_finish(result);
@@ -612,6 +632,10 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 
     /* Test setting internal properties using a function */
     proxy->TestTriggerInternalPropertyChange(42, sigc::bind(sigc::ptr_fun(&on_test_trigger_internal_property_change_finished), 42));
+
+    /* Test method errors */
+    org::gdbus::codegen::glibmm::Error::initialize();
+    proxy->TestError(sigc::ptr_fun(&on_test_error_finished));
 
     std::vector<std::string> PropReadByteStringArrayValue;
     PropReadByteStringArrayValue.push_back("Value1");

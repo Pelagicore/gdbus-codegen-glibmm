@@ -242,6 +242,11 @@ void TestImpl::TestTriggerInternalPropertyChange(gint32 newValue,
     invocation.ret();
 }
 
+void TestImpl::TestError(TestMessageHelper invocation) {
+    using namespace org::gdbus::codegen::glibmm;
+    invocation.ret(Error(Error::InvalidParams, "Testing error message"));
+}
+
 std::vector<std::string>  TestImpl::TestPropReadByteStringArray_get() {return m_PropReadByteStringArrayValue;}
 std::vector<Glib::DBusObjectPathString>  TestImpl::TestPropReadObjectPathArray_get() {return m_PropReadObjectPathArrayValue;}
 std::vector<Glib::ustring>  TestImpl::TestPropReadStringArray_get() {return m_PropReadStringArrayValue;}

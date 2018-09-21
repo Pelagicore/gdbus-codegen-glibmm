@@ -34,6 +34,18 @@ class Comment:
         self.lines = lines
 
 
+class Error:
+    def __init__(self, value):
+        parts = value.rsplit('.', 1)
+        self.name = parts[-1]
+        self.prefix = parts[0] if len(parts) > 1 else ''
+        self.doc_string = ''
+
+    def __lt__(self, other):
+        return self.prefix < other.prefix or (
+                self.prefix == other.prefix and self.name < other.name)
+
+
 class Type:
     def __init__(self, signature, cpptype = ''):
         self.signature = signature
@@ -324,6 +336,7 @@ class Interface:
         self.signals = []
         self.properties = []
         self.annotations = []
+        self.errors = []
 
     def unique_return_types(self):
         # Helper to create a unique list of return types
@@ -342,7 +355,7 @@ class Interface:
 
         return args.values()
 
-    def post_process(self, interface_prefix, c_namespace):
+    def post_process(self, interface_prefix, c_namespace, errors_namespace):
         if len(c_namespace) > 0:
             if utils.is_ugly_case(c_namespace):
                 cns = c_namespace.replace('_', '')
@@ -383,3 +396,5 @@ class Interface:
 
         for p in self.properties:
             p.post_process(self.cpp_class_name, cns, cns_upper, cns_lower)
+
+        self.errors_namespace = errors_namespace or self.cpp_namespace_name

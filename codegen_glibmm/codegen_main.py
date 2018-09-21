@@ -60,6 +60,8 @@ def codegen_main():
                             help='String to strip from D-Bus interface names for code and docs')
     arg_parser.add_option('', '--cpp-namespace', metavar='NAMESPACE', default='',
                             help='The namespace to use for generated C++ code')
+    arg_parser.add_option('', '--errors-namespace', metavar='ERROR_NAMESPACE', default='',
+                          help='The namespace to use for the Error classes')
     arg_parser.add_option('', '--generate-cpp-code', metavar='OUTFILES',
                           help='Generate C++ code in OUTFILES.[cpp|h]')
     (opts, args) = arg_parser.parse_args()
@@ -83,7 +85,7 @@ def codegen_main():
     interface_prefix_list = opts.interface_prefix.split(",")
 
     for i in all_ifaces:
-        i.post_process(interface_prefix_list, opts.cpp_namespace)
+        i.post_process(interface_prefix_list, opts.cpp_namespace, opts.errors_namespace)
 
     cpp_code = opts.generate_cpp_code
 

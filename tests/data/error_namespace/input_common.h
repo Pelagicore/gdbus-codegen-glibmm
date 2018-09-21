@@ -84,10 +84,9 @@ private:
     Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
 };
 
-namespace org {
-namespace gdbus {
-namespace codegen {
-namespace glibmm {
+namespace com {
+namespace example {
+namespace Namespace {
 
 class Error: public Glib::Error {
 public:
@@ -110,8 +109,7 @@ public:
 
     static void initialize();
 };
-}// glibmm
-}// codegen
-}// gdbus
-}// org
+}// Namespace
+}// example
+}// com
 

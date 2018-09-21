@@ -1,9 +1,8 @@
 #include "OUTPUT_DIR/input_common.h"
 
-namespace org {
-namespace gdbus {
-namespace codegen {
-namespace glibmm {
+namespace com {
+namespace example {
+namespace Namespace {
 
 static const GDBusErrorEntry error_entries[] = {
     { Error::InvalidParams, "org.gdbus.codegen.glibmm.Test.Error.InvalidParams" },
@@ -57,8 +56,7 @@ void Error::initialize()
     register_domain_with_dbus();
 }
 
-}// glibmm
-}// codegen
-}// gdbus
-}// org
+}// Namespace
+}// example
+}// com
 

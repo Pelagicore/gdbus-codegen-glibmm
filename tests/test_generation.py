@@ -27,10 +27,11 @@ class Generator:
     def __init__(self):
         self.path = '../gdbus-codegen-glibmm.py'
 
-    def run(self, xml_file, output_dir):
+    def run(self, xml_file, output_dir, extra_args = []):
         basename = os.path.splitext(os.path.basename(xml_file))[0]
         args = [
                 self.path,
+                *extra_args,
                 '--generate-cpp-code=%s/%s' % (output_dir, basename),
                 xml_file,
                 ]
@@ -84,4 +85,25 @@ class TestGenerator(object):
             # run `diff` on the generated file and verify that it
             # matches the expected file.
             expected_file_path = 'data/%s/%s' % (basename, file_name)
+            assert generated.diff_with(expected_file_path) == ''
+
+
+    @pytest.mark.parametrize('error_namespace, expected_files', [
+        pytest.param('', 'simple', id='No namespace'),
+        pytest.param('com::example::Namespace', 'error_namespace',
+            id='With error namespace'),
+        ])
+    def test_error_namespaces(self, error_namespace, expected_files, tmpdir):
+        generator = Generator()
+        if error_namespace:
+            namespace_param = [ '--errors-namespace=' + error_namespace ]
+        else:
+            namespace_param = []
+        files = generator.run('data/simple/input.xml', tmpdir, namespace_param)
+        for file_name in [ f for f in files if '_common.' in f ]:
+            generated = GeneratedFile(tmpdir, file_name)
+
+            # run `diff` on the generated file and verify that it
+            # matches the expected file.
+            expected_file_path = 'data/%s/%s' % (expected_files, file_name)
             assert generated.diff_with(expected_file_path) == ''

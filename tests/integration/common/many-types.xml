@@ -164,6 +164,18 @@
         <arg type="i" name="NewPropertyValue"></arg>
     </method>
 
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Error.OutOfMemory" />
+    <!--
+      Permission to complete the required operation has been denied.
+      But it might succeed if you ask very kindly.
+    -->
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Error.PermissionDenied" />
+    <!-- Invalid parameters -->
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Error.InvalidParams" />
+
+    <method name="TestError">
+    </method>
+
     <!-- Signals -->
 
     <signal name="TestSignalByteStringArray">
