@@ -96,6 +96,7 @@ public:
             TestMessageHelper invocation) override;
     void TestTriggerInternalPropertyChange(gint32 newValue,
                                            TestMessageHelper invocation);
+    void TestError(TestMessageHelper invocation) override;
 
 
     std::vector<std::string>  TestPropReadByteStringArray_get();

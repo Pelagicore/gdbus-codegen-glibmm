@@ -104,4 +104,37 @@ public:
 private:
     Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
 };
+{% for interface in interfaces %}
+{% if interface.errors %}
 
+{% set namespaces = interface.errors_namespace.split("::") %}
+{% for namespace in namespaces %}
+namespace {{ namespace }} {
+{% endfor %}
+{% set errors = interface.errors %}
+
+class Error: public Glib::Error {
+public:
+    enum Code {
+{% for error in errors %}
+        {% if error.doc_string %}
+        /**
+        {% for line in error.doc_string.lines %}
+         * {{ line }}
+        {% endfor %}
+         */
+        {% endif %}
+        {{ error.name }},
+{% endfor %}
+    };
+
+    Error();
+    Error(int code, const Glib::ustring &message);
+
+    static void initialize();
+};
+{% for namespace in namespaces|reverse %}
+}// {{ namespace }}
+{% endfor %}
+{% endif %}
+{% endfor %}

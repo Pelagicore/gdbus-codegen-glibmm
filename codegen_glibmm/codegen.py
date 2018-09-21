@@ -137,10 +137,16 @@ class CodeGenerator:
                 stub_h_name=self.stub_h.name)
         self.emit_cpp_s(h)
 
-    def generate_common(self, interfaces):
+    def generate_common_header(self):
         h = self.j2_env.get_template('common.h.templ').render(
-                interfaces=interfaces)
+                interfaces=self.ifaces)
         self.emit_h_common(h)
+
+    def generate_common_impl(self):
+        h = self.j2_env.get_template('common.cpp.templ').render(
+                interfaces=self.ifaces,
+                common_h_name=self.common_h.name)
+        self.emit_cpp_common(h)
 
     def initialize_jinja(self):
         self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR + "/templates/"),
@@ -178,4 +184,5 @@ class CodeGenerator:
         self.generate_stub_impl()
 
         # Common
-        self.generate_common(self.ifaces)
+        self.generate_common_header()
+        self.generate_common_impl()

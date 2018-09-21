@@ -2,6 +2,18 @@
                       "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.gdbus.codegen.glibmm.Test">
+    <!--
+      Permission to perform the action has been denied. But let's not
+      despair and continue writing this error description to make it span
+      across several lines.
+    -->
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Test.Error.PermissionDenied" />
+
+    <!-- Invalid parameters -->
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Test.Error.InvalidParams" />
+
+    <annotation name="org.gdbus.glibmm.Error" value="org.gdbus.codegen.glibmm.Test.Error.OutOfMemory" />
+
     <method name="TestCall">
       <arg type="i" name="Param1" direction="in"></arg>
       <arg type="a{sv}" name="Param2" direction="in"></arg>

@@ -54,6 +54,11 @@ class DBusXMLParser:
 
         self._parser.Parse(xml_data)
 
+        # Sort the errors alphabetically
+        for interface in self.parsed_interfaces:
+            interface.errors.sort()
+
+
     def handle_comment(self, data):
         lines = data.split('\n')
         parsed_lines = []
@@ -66,7 +71,7 @@ class DBusXMLParser:
                 indent = len(orig_line) - len(line)
             else:
                 line = line[indent:]
-            parsed_lines.append(line)
+            parsed_lines.append(line.rstrip())
         # remove the last line, if empty
         if parsed_lines and len(parsed_lines[-1]) == 0:
             parsed_lines = parsed_lines[:-1]
@@ -122,9 +127,14 @@ class DBusXMLParser:
                 self._cur_object = prop
             elif name == DBusXMLParser.STATE_ANNOTATION:
                 self.state = DBusXMLParser.STATE_ANNOTATION
-                anno = dbustypes.Annotation(attrs['name'], attrs['value'])
-                self._cur_object.annotations.append(anno)
-                self._cur_object = anno
+                if attrs['name'] == 'org.gdbus.glibmm.Error':
+                    error = dbustypes.Error(attrs['value'])
+                    self._cur_object.errors.append(error)
+                    self._cur_object = error
+                else:
+                    anno = dbustypes.Annotation(attrs['name'], attrs['value'])
+                    self._cur_object.annotations.append(anno)
+                    self._cur_object = anno
             else:
                 self.state = DBusXMLParser.STATE_IGNORED
 
