@@ -7,7 +7,7 @@ public:
     void TestVariant (
             const Glib::VariantBase &Param1,
             TestMessageHelper invocation) override;
-    void TestVariant2(std::string Param1,
+    void TestVariant2(const Glib::ustring &Param1,
                       const Glib::VariantBase &Param2,
                       TestMessageHelper invocation) override;
     void TestStringVariantDict(

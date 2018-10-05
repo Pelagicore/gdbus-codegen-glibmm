@@ -78,7 +78,7 @@ void on_test_variant2_finished(const Glib::RefPtr<Gio::AsyncResult> result,
                                std::string expectedString,
                                Glib::ustring expectedVariant)
 {
-    std::string string;
+    Glib::ustring string;
     Glib::VariantBase base;
     proxy->TestVariant2_finish(string, base, result);
 
