@@ -95,7 +95,8 @@ void TestImpl::TestVariant(const Glib::VariantBase &Param1, TestMessageHelper in
     invocation.ret(variantValue);
 }
 
-void TestImpl::TestVariant2(std::string Param1, Glib::VariantBase Param2,
+void TestImpl::TestVariant2(const Glib::ustring &Param1,
+                            const Glib::VariantBase &Param2,
                             TestMessageHelper invocation)
 {
     invocation.ret(Param1, Param2);
