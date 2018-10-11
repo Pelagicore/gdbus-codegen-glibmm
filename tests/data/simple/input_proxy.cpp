@@ -9,14 +9,15 @@
 void org::gdbus::codegen::glibmm::Test::TestCall(
     gint32 arg_Param1,
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
-    const Gio::SlotAsyncReady &callback)
+    const Gio::SlotAsyncReady &callback,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestCall_pack(
         arg_Param1,
         arg_Param2);
 
-    m_proxy->call("TestCall", callback, base);
+    m_proxy->call("TestCall", callback, cancellable, base);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestCall_finish(
