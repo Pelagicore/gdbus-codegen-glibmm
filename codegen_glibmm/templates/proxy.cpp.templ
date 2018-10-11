@@ -13,7 +13,8 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
     {% for arg in method.in_args %}
     {{ arg.cpptype_in }} arg_{{ arg.name }},
     {% endfor %}
-    const Gio::SlotAsyncReady &callback)
+    const Gio::SlotAsyncReady &callback,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
 {
     Glib::VariantContainerBase base;
     {% if method.in_args|length > 0 %}
@@ -25,7 +26,7 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
     {%- endfor -%});
     {% endif %}
 
-    m_proxy->call("{{ method.name }}", callback, base);
+    m_proxy->call("{{ method.name }}", callback, cancellable, base);
 }
 
 {% endif %}
