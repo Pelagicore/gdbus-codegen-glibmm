@@ -9,7 +9,8 @@
 void org::gdbus::codegen::glibmm::Test::TestCall(
     gint32 arg_Param1,
     std::map<Glib::ustring,Glib::VariantBase> arg_Param2,
-    const Gio::SlotAsyncReady &callback)
+    const Gio::SlotAsyncReady &callback,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
 {
     Glib::VariantContainerBase base;
     std::vector<Glib::VariantBase> params;
@@ -23,7 +24,7 @@ void org::gdbus::codegen::glibmm::Test::TestCall(
     params.push_back(Param2_param);
     base = Glib::VariantContainerBase::create_tuple(params);
 
-    m_proxy->call("TestCall", callback, base);
+    m_proxy->call("TestCall", callback, cancellable, base);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestCall_finish(
