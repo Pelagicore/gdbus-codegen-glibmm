@@ -22,7 +22,8 @@ public:
 
     void TestStringVariantDict(
         std::map<Glib::ustring,Glib::VariantBase> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestStringVariantDict_finish (
         std::map<Glib::ustring,Glib::VariantBase> &Param2,
@@ -30,7 +31,8 @@ public:
 
     void TestStringStringDict(
         std::map<Glib::ustring,Glib::ustring> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestStringStringDict_finish (
         std::map<Glib::ustring,Glib::ustring> &Param2,
@@ -38,7 +40,8 @@ public:
 
     void TestUintIntDict(
         std::map<guint32,gint32> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestUintIntDict_finish (
         std::map<guint32,gint32> &Param2,
@@ -47,7 +50,8 @@ public:
     template <typename T>
     void TestVariant(
         T Param1,
-        const Gio::SlotAsyncReady &callback)
+        const Gio::SlotAsyncReady &callback,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {})
     {
         Glib::VariantContainerBase base;
         Glib::Variant<Glib::Variant<T>> variantValue =
@@ -55,7 +59,7 @@ public:
         Glib::VariantBase params = variantValue;
         base = Glib::VariantContainerBase::create_tuple(params);
 
-        m_proxy->call( "TestVariant", callback, base);
+        m_proxy->call( "TestVariant", callback, cancellable, base);
     }
 
     void TestVariant_finish (
@@ -64,7 +68,8 @@ public:
 
     void TestByteStringArray(
         std::vector<std::string> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestByteStringArray_finish (
         std::vector<std::string> &Param2,
@@ -72,7 +77,8 @@ public:
 
     void TestObjectPathArray(
         std::vector<std::string> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestObjectPathArray_finish (
         std::vector<std::string> &Param2,
@@ -80,7 +86,8 @@ public:
 
     void TestStringArray(
         std::vector<std::string> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestStringArray_finish (
         std::vector<std::string> &Param2,
@@ -88,7 +95,8 @@ public:
 
     void TestByteString(
         std::string Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestByteString_finish (
         std::string &Param2,
@@ -96,7 +104,8 @@ public:
 
     void TestStruct(
         std::tuple<Glib::ustring,Glib::ustring> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestStruct_finish (
         std::tuple<Glib::ustring,Glib::ustring> &Param2,
@@ -104,7 +113,8 @@ public:
 
     void TestStructArray(
         std::vector<std::tuple<guint32,Glib::ustring,gint32>> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestStructArray_finish (
         std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param2,
@@ -112,7 +122,8 @@ public:
 
     void TestDictStructArray(
         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestDictStructArray_finish (
         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param2,
@@ -120,7 +131,8 @@ public:
 
     void TestSignature(
         std::string Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestSignature_finish (
         std::string &Param2,
@@ -128,7 +140,8 @@ public:
 
     void TestObjectPath(
         std::string Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestObjectPath_finish (
         std::string &Param2,
@@ -136,7 +149,8 @@ public:
 
     void TestString(
         std::string Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestString_finish (
         std::string &Param2,
@@ -144,7 +158,8 @@ public:
 
     void TestDouble(
         double Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestDouble_finish (
         double &Param2,
@@ -152,7 +167,8 @@ public:
 
     void TestUInt64(
         guint64 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestUInt64_finish (
         guint64 &Param2,
@@ -160,7 +176,8 @@ public:
 
     void TestInt64(
         gint64 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestInt64_finish (
         gint64 &Param2,
@@ -168,7 +185,8 @@ public:
 
     void TestUInt(
         guint32 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestUInt_finish (
         guint32 &Param2,
@@ -176,7 +194,8 @@ public:
 
     void TestInt(
         gint32 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestInt_finish (
         gint32 &Param2,
@@ -184,7 +203,8 @@ public:
 
     void TestUInt16(
         guint16 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestUInt16_finish (
         guint16 &Param2,
@@ -192,7 +212,8 @@ public:
 
     void TestInt16(
         gint16 Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestInt16_finish (
         gint16 &Param2,
@@ -200,7 +221,8 @@ public:
 
     void TestChar(
         guchar Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestChar_finish (
         guchar &Param2,
@@ -208,7 +230,8 @@ public:
 
     void TestBoolean(
         bool Param1,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestBoolean_finish (
         bool &Param2,
@@ -231,7 +254,8 @@ public:
         gint16 in_Param14,
         guchar in_Param15,
         bool in_Param16,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestAll_finish (
         std::vector<std::string> &out_Param1,
@@ -254,7 +278,8 @@ public:
 
     void TestTriggerInternalPropertyChange(
         gint32 NewPropertyValue,
-        const Gio::SlotAsyncReady &slot);
+        const Gio::SlotAsyncReady &slot,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
     void TestTriggerInternalPropertyChange_finish (
         const Glib::RefPtr<Gio::AsyncResult> &res);
