@@ -8,6 +8,13 @@
 
 {% for interface in interfaces %}
 {% for method in interface.methods %}
+{% if method.doc_string %}
+/**
+{% for line in method.doc_string.lines %}
+ * {{ line }}
+{% endfor %}
+ */
+{% endif %}
 {% if not method is templated %}
 void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
     {% for arg in method.in_args %}
@@ -74,6 +81,16 @@ void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in 
 
 void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {
 }
+
+{% endif %}
+{% endfor %}
+{% for signal in interface.signals if signal is supported_by_sigc %}
+{% if signal.doc_string %}
+/**
+{% for line in signal.doc_string.lines %}
+ * {{ line }}
+{% endfor %}
+ */
 
 {% endif %}
 {% endfor %}

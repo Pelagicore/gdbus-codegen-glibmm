@@ -7,6 +7,12 @@
       <arg type="a{sv}" name="Param2" direction="out"></arg>
     </method>
 
+    <!--
+      TestStringStringDict:
+        @Param1: the dictionary of strings
+        @Param2: the output dictionary
+      This method tests sending and receiving a dictionary of strings
+    -->
     <method name="TestStringStringDict">
       <arg type="a{ss}" name="Param1" direction="in"></arg>
       <arg type="a{ss}" name="Param2" direction="out"></arg>
@@ -159,6 +165,11 @@
 
     <!-- Signals -->
 
+    <!--
+         TestSignalByteStringArray: emitted to test arrays of byte arrays.
+
+           @Param1: the array of arrays
+    -->
     <signal name="TestSignalByteStringArray">
         <arg type="aay" name="Param1"></arg>
     </signal>
