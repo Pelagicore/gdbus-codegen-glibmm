@@ -28,6 +28,12 @@ class Annotation:
         self.value = value
         self.annotations = []
 
+
+class Comment:
+    def __init__(self, lines):
+        self.lines = lines
+
+
 class Type:
     def __init__(self, signature, cpptype = ''):
         self.signature = signature

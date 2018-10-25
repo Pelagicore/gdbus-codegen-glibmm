@@ -29,6 +29,12 @@ void org::gdbus::codegen::glibmm::Test::TestStringVariantDict_finish(
     out_Param2 = out_Param2_v.get();
 }
 
+/**
+ * TestStringStringDict:
+ *   @Param1: the dictionary of strings
+ *   @Param2: the output dictionary
+ * This method tests sending and receiving a dictionary of strings
+ */
 void org::gdbus::codegen::glibmm::Test::TestStringStringDict(
     const std::map<Glib::ustring,Glib::ustring> & arg_Param1,
     const Gio::SlotAsyncReady &callback)
@@ -1540,6 +1546,11 @@ void org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_
 
 void org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {
 }
+
+/**
+ * TestSignalByteStringArray: emitted to test arrays of byte arrays.
+ *   @Param1: the array of arrays
+ */
 
 void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring& sender_name,
     const Glib::ustring& signal_name,

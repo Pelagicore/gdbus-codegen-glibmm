@@ -50,76 +50,27 @@ class DBusXMLParser:
         self._cur_object = None
         self._cur_object_stack = []
 
-        self.doc_comment_last_symbol = ''
+        self._last_comment = None
 
         self._parser.Parse(xml_data)
 
-    COMMENT_STATE_BEGIN = 'begin'
-    COMMENT_STATE_PARAMS = 'params'
-    COMMENT_STATE_BODY = 'body'
-    COMMENT_STATE_SKIP = 'skip'
     def handle_comment(self, data):
-        comment_state = DBusXMLParser.COMMENT_STATE_BEGIN;
         lines = data.split('\n')
-        symbol = ''
-        body = ''
-        in_para = False
-        params = {}
+        parsed_lines = []
+        indent = -1
         for line in lines:
-            orig_line = line
-            line = line.lstrip()
-            if comment_state == DBusXMLParser.COMMENT_STATE_BEGIN:
-                if len(line) > 0:
-                    colon_index = line.find(': ')
-                    if colon_index == -1:
-                        if line.endswith(':'):
-                            symbol = line[0:len(line)-1]
-                            comment_state = DBusXMLParser.COMMENT_STATE_PARAMS
-                        else:
-                            comment_state = DBusXMLParser.COMMENT_STATE_SKIP
-                    else:
-                        symbol = line[0:colon_index]
-                        rest_of_line = line[colon_index+2:].strip()
-                        if len(rest_of_line) > 0:
-                            body += '<para>' + rest_of_line + '</para>'
-                        comment_state = DBusXMLParser.COMMENT_STATE_PARAMS
-            elif comment_state == DBusXMLParser.COMMENT_STATE_PARAMS:
-                if line.startswith('@'):
-                    colon_index = line.find(': ')
-                    if colon_index == -1:
-                        comment_state = DBusXMLParser.COMMENT_STATE_BODY
-                        if not in_para:
-                            body += '<para>'
-                            in_para = True
-                        body += orig_line + '\n'
-                    else:
-                        param = line[1:colon_index]
-                        docs = line[colon_index + 2:]
-                        params[param] = docs
-                else:
-                    comment_state = DBusXMLParser.COMMENT_STATE_BODY
-                    if len(line) > 0:
-                        if not in_para:
-                            body += '<para>'
-                            in_para = True
-                        body += orig_line + '\n'
-            elif comment_state == DBusXMLParser.COMMENT_STATE_BODY:
-                if len(line) > 0:
-                    if not in_para:
-                        body += '<para>'
-                        in_para = True
-                    body += orig_line + '\n'
-                else:
-                    if in_para:
-                        body += '</para>'
-                        in_para = False
-        if in_para:
-            body += '</para>'
-
-        if symbol != '':
-            self.doc_comment_last_symbol = symbol
-            self.doc_comment_params = params
-            self.doc_comment_body = body
+            if len(line) == 0: continue
+            if indent < 0:
+                orig_line = line
+                line = line.lstrip()
+                indent = len(orig_line) - len(line)
+            else:
+                line = line[indent:]
+            parsed_lines.append(line)
+        # remove the last line, if empty
+        if parsed_lines and len(parsed_lines[-1]) == 0:
+            parsed_lines = parsed_lines[:-1]
+        self._last_comment = dbustypes.Comment(parsed_lines)
 
     def handle_char_data(self, data):
         #print 'char_data=%s'%data
@@ -150,13 +101,8 @@ class DBusXMLParser:
                 self.state = DBusXMLParser.STATE_IGNORED
 
             # assign docs, if any
-            if 'name' in attrs and self.doc_comment_last_symbol == attrs['name']:
-                self._cur_object.doc_string = self.doc_comment_body
-                if 'short_description' in self.doc_comment_params:
-                    short_description = self.doc_comment_params['short_description']
-                    self._cur_object.doc_string_brief = short_description
-                if 'since' in self.doc_comment_params:
-                    self._cur_object.since = self.doc_comment_params['since']
+            self._cur_object.doc_string = self._last_comment
+            self._last_comment = None
 
         elif self.state == DBusXMLParser.STATE_INTERFACE:
             if name == DBusXMLParser.STATE_METHOD:
@@ -183,10 +129,8 @@ class DBusXMLParser:
                 self.state = DBusXMLParser.STATE_IGNORED
 
             # assign docs, if any
-            if 'name' in attrs and self.doc_comment_last_symbol == attrs['name']:
-                self._cur_object.doc_string = self.doc_comment_body
-                if 'since' in self.doc_comment_params:
-                    self._cur_object.since = self.doc_comment_params['since']
+            self._cur_object.doc_string = self._last_comment
+            self._last_comment = None
 
         elif self.state == DBusXMLParser.STATE_METHOD:
             if name == DBusXMLParser.STATE_ARG:
@@ -211,15 +155,6 @@ class DBusXMLParser:
             else:
                 self.state = DBusXMLParser.STATE_IGNORED
 
-            # assign docs, if any
-            if self.doc_comment_last_symbol == old_cur_object.name:
-                if 'name' in attrs and attrs['name'] in self.doc_comment_params:
-                    doc_string = self.doc_comment_params[attrs['name']]
-                    if doc_string != None:
-                        self._cur_object.doc_string = doc_string
-                    if 'since' in self.doc_comment_params:
-                        self._cur_object.since = self.doc_comment_params['since']
-
         elif self.state == DBusXMLParser.STATE_SIGNAL:
             if name == DBusXMLParser.STATE_ARG:
                 self.state = DBusXMLParser.STATE_ARG
@@ -236,15 +171,6 @@ class DBusXMLParser:
                 self._cur_object = anno
             else:
                 self.state = DBusXMLParser.STATE_IGNORED
-
-            # assign docs, if any
-            if self.doc_comment_last_symbol == old_cur_object.name:
-                if 'name' in attrs and attrs['name'] in self.doc_comment_params:
-                    doc_string = self.doc_comment_params[attrs['name']]
-                    if doc_string != None:
-                        self._cur_object.doc_string = doc_string
-                    if 'since' in self.doc_comment_params:
-                        self._cur_object.since = self.doc_comment_params['since']
 
         elif self.state == DBusXMLParser.STATE_PROPERTY:
             if name == DBusXMLParser.STATE_ANNOTATION:
