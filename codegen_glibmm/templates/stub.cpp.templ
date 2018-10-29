@@ -5,8 +5,9 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 #include "{{ stub_h_name }}"
 
 {% for interface in interfaces %}
+{% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name %}
 {% set object_path = "/" + interface.name | replace('.', '/') %}
-{{ interface.cpp_namespace_name }}::{{ interface.cpp_class_name }}():
+{{ class_name_with_namespace }}::{{ interface.cpp_class_name }}():
     connectionId(0),
     registeredId(0),
     m_interfaceName("{{ interface.name }}")
@@ -16,11 +17,11 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 {% endfor %}
 }
 
-{{ interface.cpp_namespace_name }}::~{{ interface.cpp_class_name }}()
+{{ class_name_with_namespace }}::~{{ interface.cpp_class_name }}()
 {
 }
 
-guint {{ interface.cpp_namespace_name }}::register_object(
+guint {{ class_name_with_namespace }}::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
@@ -53,7 +54,7 @@ guint {{ interface.cpp_namespace_name }}::register_object(
     return id;
 }
 
-void {{ interface.cpp_namespace_name }}::connect(
+void {{ class_name_with_namespace }}::connect(
     Gio::DBus::BusType busType,
     std::string name)
 {
@@ -64,7 +65,7 @@ void {{ interface.cpp_namespace_name }}::connect(
         sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_lost));
 }
 
-void {{ interface.cpp_namespace_name}}::on_method_call(
+void {{ class_name_with_namespace }}::on_method_call(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
     const Glib::ustring &/* object_path */,
@@ -101,7 +102,7 @@ void {{ interface.cpp_namespace_name}}::on_method_call(
 {% endfor %}
 }
 
-void {{ interface.cpp_namespace_name }}::on_interface_get_property(
+void {{ class_name_with_namespace }}::on_interface_get_property(
     Glib::VariantBase &property,
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &sender,
@@ -117,7 +118,7 @@ void {{ interface.cpp_namespace_name }}::on_interface_get_property(
 {% endfor %}
 }
 
-bool {{ interface.cpp_namespace_name }}::on_interface_set_property(
+bool {{ class_name_with_namespace }}::on_interface_set_property(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &sender,
     const Glib::ustring &object_path,
@@ -143,7 +144,7 @@ bool {{ interface.cpp_namespace_name }}::on_interface_set_property(
 }
 
 {% for signal in interface.signals if signal is supported_by_sigc %}
-void {{ interface.cpp_namespace_name }}::{{ signal.name }}_emitter(
+void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
 {%- set comma = joiner() -%}
 {%- for arg in signal.args -%}
 {{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
@@ -164,7 +165,7 @@ void {{ interface.cpp_namespace_name }}::{{ signal.name }}_emitter(
 }
 
 {% endfor %}
-void {{ interface.cpp_namespace_name }}::on_bus_acquired(
+void {{ class_name_with_namespace }}::on_bus_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &/* name */)
 {
@@ -173,20 +174,20 @@ void {{ interface.cpp_namespace_name }}::on_bus_acquired(
     m_connection = connection;
 }
 
-void {{ interface.cpp_namespace_name }}::on_name_acquired(
+void {{ class_name_with_namespace }}::on_name_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
 
-void {{ interface.cpp_namespace_name }}::on_name_lost(
+void {{ class_name_with_namespace }}::on_name_lost(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &/* name */)
 {
 }
 {% for prop in interface.properties %}
 
-bool {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
+bool {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
 {
     if ({{ prop.name }}_setHandler(value)) {
         Glib::Variant<{{ prop.variant_type }}> value_get =
@@ -199,7 +200,7 @@ bool {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in 
 }
 {% endfor %}
 
-bool {{ interface.cpp_namespace_name }}::emitSignal(
+bool {{ class_name_with_namespace }}::emitSignal(
     const std::string &propName,
     Glib::VariantBase &value)
 {
