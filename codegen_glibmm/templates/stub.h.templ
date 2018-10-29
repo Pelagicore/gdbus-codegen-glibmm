@@ -5,7 +5,7 @@
 #include "{{ common_h_name }}"
 
 {% for interface in interfaces %}
-{% set namespaces = interface.cpp_namespace_name.split("::")[:-1] %}
+{% set namespaces = interface.cpp_namespace_name.split("::") %}
 {% for namespace in namespaces %}
 namespace {{ namespace }} {
 {% endfor %}

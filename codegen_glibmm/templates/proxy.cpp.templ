@@ -7,6 +7,7 @@
 #include "{{ proxy_h_name }}"
 
 {% for interface in interfaces %}
+{% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name %}
 {% for method in interface.methods %}
 {% if method.doc_string %}
 /**
@@ -16,7 +17,7 @@
  */
 {% endif %}
 {% if not method is templated %}
-void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
+void {{ class_name_with_namespace }}::{{ method.camel_name }}(
     {% for arg in method.in_args %}
     {{ arg.cpptype_in }} arg_{{ arg.name }},
     {% endfor %}
@@ -37,7 +38,7 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}(
 }
 
 {% endif %}
-void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}_finish(
+void {{ class_name_with_namespace }}::{{ method.camel_name }}_finish(
     {% for arg in method.out_args %}
     {{ arg.cpptype_out }} &out_{{ arg.name }},
     {% endfor %}
@@ -54,7 +55,7 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}_finish(
 {% endfor %}
 {% for prop in interface.properties %}
 {% if prop.readable %}
-{{ prop.cpptype_out }} {{ interface.cpp_namespace_name }}::{{ prop.name }}_get()
+{{ prop.cpptype_out }} {{ class_name_with_namespace }}::{{ prop.name }}_get()
 {
     std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<{{ prop.variant_type }}> b;
@@ -69,7 +70,7 @@ void {{ interface.cpp_namespace_name }}::{{ method.camel_name }}_finish(
 
 {% endif %}
 {% if prop.writable %}
-void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in }} value, const Gio::SlotAsyncReady &cb)
+void {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value, const Gio::SlotAsyncReady &cb)
 {
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("{{ interface.name }}"));
@@ -79,7 +80,7 @@ void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set({{ prop.cpptype_in 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {
+void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {
 }
 
 {% endif %}
@@ -94,7 +95,7 @@ void {{ interface.cpp_namespace_name }}::{{ prop.name }}_set_finish(const Glib::
 
 {% endif %}
 {% endfor %}
-void {{ interface.cpp_namespace_name }}::handle_signal(const Glib::ustring& sender_name,
+void {{ class_name_with_namespace }}::handle_signal(const Glib::ustring& sender_name,
     const Glib::ustring& signal_name,
     const Glib::VariantContainerBase& parameters)
 {
@@ -117,7 +118,7 @@ void {{ interface.cpp_namespace_name }}::handle_signal(const Glib::ustring& send
 {% endfor %}
 }
 
-void {{ interface.cpp_namespace_name }}::createForBus(
+void {{ class_name_with_namespace }}::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
     const std::string &name,
@@ -135,12 +136,12 @@ void {{ interface.cpp_namespace_name }}::createForBus(
         proxyFlags);
 }
 
-Glib::RefPtr<{{ interface.cpp_namespace_name }}> {{ interface.cpp_namespace_name }}::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
+Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =
         Gio::DBus::Proxy::create_for_bus_finish(result);
-    {{ interface.cpp_namespace_name }} *p =
-        new {{ interface.cpp_namespace_name }}(proxy);
-    return Glib::RefPtr<{{ interface.cpp_namespace_name }}>(p);
+    {{ class_name_with_namespace }} *p =
+        new {{ class_name_with_namespace }}(proxy);
+    return Glib::RefPtr<{{ class_name_with_namespace }}>(p);
 }
 {%- endfor %}

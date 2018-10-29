@@ -368,10 +368,10 @@ class Interface:
         self.ns_upper = cns_upper
         self.name_lower = cns_lower + utils.camel_case_to_uscore(name)
         self.name_upper = utils.camel_case_to_uscore(name).upper()
-        self.cpp_namespace_name = self.name_without_prefix.replace(".", "::")
+        namespace_and_class_name = self.name_without_prefix.replace(".", "::")
+        (self.cpp_namespace_name, self.cpp_class_name) = namespace_and_class_name.rsplit('::', 1)
         if cns != '':
             self.cpp_namespace_name = cns + "::" + self.cpp_namespace_name
-        self.cpp_class_name = self.cpp_namespace_name.split("::")[-1]
 
         self.name_hyphen = self.name_upper.lower().replace('_', '-')
 
