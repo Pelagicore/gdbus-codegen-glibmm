@@ -51,6 +51,24 @@ class Generator:
 def basename():
     return ''
 
+
+class GeneratedFile:
+    def __init__(self, tmpdir, file_name):
+        self.file_path = tmpdir.join(file_name)
+        # gdbus-codegen-glibmm writes the full pathname of some
+        # generated include file in the #include directives: in
+        # order to get a reproducible output, let's replace it with
+        # a fixed string, "OUTPUT_DIR":
+        contents = self.file_path.read()
+        self.file_path.write(contents.replace(str(tmpdir), 'OUTPUT_DIR'))
+
+    def diff_with(self, expected_file_path):
+        args = ['diff', '-uN', expected_file_path, self.file_path]
+        process = Popen(args, stdout=PIPE)
+        (output_data, err) = process.communicate()
+        return output_data.decode("utf-8") if output_data else ''
+
+
 class TestGenerator(object):
 
     @pytest.mark.parametrize('basename', [
@@ -61,20 +79,9 @@ class TestGenerator(object):
         generator = Generator()
         files = generator.run('data/%s/input.xml' % basename, tmpdir)
         for file_name in files:
-            file_path = tmpdir.join(file_name)
-
-            # gdbus-codegen-glibmm writes the full pathname of some
-            # generated include file in the #include directives: in
-            # order to get a reproducible output, let's replace it with
-            # a fixed string, "OUTPUT_DIR":
-            contents = file_path.read()
-            file_path.write(contents.replace(str(tmpdir), 'OUTPUT_DIR'))
+            generated = GeneratedFile(tmpdir, file_name)
 
             # run `diff` on the generated file and verify that it
             # matches the expected file.
             expected_file_path = 'data/%s/%s' % (basename, file_name)
-            args = ['diff', '-uN', expected_file_path, file_path]
-            process = Popen(args, stdout=PIPE)
-            (output_data, err) = process.communicate()
-            diff = output_data.decode("utf-8") if output_data else ''
-            assert diff == ''
+            assert generated.diff_with(expected_file_path) == ''
