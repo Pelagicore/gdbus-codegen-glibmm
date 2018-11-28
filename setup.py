@@ -13,7 +13,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'gdbus-codegen-glibmm = codegen_glibmm.codegen_main:codegen_main',
+            'gdbus-codegen-glibmm2 = codegen_glibmm.codegen_main:codegen_main',
         ]
     }
  )
