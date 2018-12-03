@@ -1,4 +1,6 @@
 #include "{{ common_h_name }}"
+
+#include <cstring>
 {% for interface in interfaces %}
 {% if interface.errors %}
 {% set namespaces = interface.errors_namespace.split('::') %}
@@ -20,7 +22,8 @@ static void throw_func(GError *gerror)
     const gchar *message;
 
     if (g_str_has_prefix(gerror->message, prefix)) {
-        message = strstr(gerror->message + sizeof(prefix), ": ") + 2;
+        const char *colon = std::strstr(gerror->message + sizeof(prefix), ": ");
+        message = colon ? (colon + 2) : gerror->message;
     } else {
         message = gerror->message;
     }

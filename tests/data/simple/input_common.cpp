@@ -1,5 +1,7 @@
 #include "OUTPUT_DIR/input_common.h"
 
+#include <cstring>
+
 namespace org {
 namespace gdbus {
 namespace codegen {
@@ -17,7 +19,8 @@ static void throw_func(GError *gerror)
     const gchar *message;
 
     if (g_str_has_prefix(gerror->message, prefix)) {
-        message = strstr(gerror->message + sizeof(prefix), ": ") + 2;
+        const char *colon = std::strstr(gerror->message + sizeof(prefix), ": ");
+        message = colon ? (colon + 2) : gerror->message;
     } else {
         message = gerror->message;
     }
