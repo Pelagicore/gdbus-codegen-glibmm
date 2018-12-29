@@ -15,7 +15,8 @@ static const GDBusErrorEntry error_entries[] = {
 static void throw_func(GError *gerror)
 {
     static const gchar prefix[] = "GDBus.Error:";
-    const gchar *message;
+    Glib::ustring message;
+    gint code = gerror->code;
 
     if (g_str_has_prefix(gerror->message, prefix)) {
         const char *colon = std::strstr(gerror->message + sizeof(prefix), ": ");
@@ -23,8 +24,9 @@ static void throw_func(GError *gerror)
     } else {
         message = gerror->message;
     }
+    g_error_free(gerror);
 
-    throw Error(gerror->code, message);
+    throw Error(code, message);
 }
 
 static Glib::Quark register_domain_with_dbus()
