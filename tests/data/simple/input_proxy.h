@@ -42,12 +42,14 @@ public:
                        const Glib::ustring &signal_name,
                        const Glib::VariantContainerBase &parameters);
 
+protected:
+    Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
+
 private:
     Test(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
         this->m_proxy = proxy;
         this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
     }
-    Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 };
 
 }// glibmm
