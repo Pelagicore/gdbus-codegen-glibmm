@@ -20,6 +20,8 @@ public:
 
     static Glib::RefPtr<Test> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
 
+    Glib::RefPtr<Gio::DBus::Proxy> dbusProxy() const { return m_proxy; }
+
     void TestCall(
         gint32 Param1,
         const std::map<Glib::ustring,Glib::VariantBase> & Param2,
