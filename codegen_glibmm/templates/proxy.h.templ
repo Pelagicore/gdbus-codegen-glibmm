@@ -21,6 +21,8 @@ public:
 
     static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
 
+    Glib::RefPtr<Gio::DBus::Proxy> dbusProxy() const { return m_proxy; }
+
 {% for method in interface.methods %}
     {% if method is templated %}
     template <typename T>
