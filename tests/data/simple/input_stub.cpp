@@ -158,7 +158,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::v
     paramsList.push_back(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalObjectPathArray",
         Glib::ustring(),
