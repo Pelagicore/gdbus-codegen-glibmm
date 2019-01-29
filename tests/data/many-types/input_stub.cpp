@@ -1493,7 +1493,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::v
     paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalByteStringArray",
         Glib::ustring(),
@@ -1507,7 +1507,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::v
     paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalObjectPathArray",
         Glib::ustring(),
@@ -1521,7 +1521,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vecto
     paramsList.push_back(Glib::Variant<std::vector<Glib::ustring>>::create(TestTypeWrap::stdStringVecToGlibStringVec(Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalStringArray",
         Glib::ustring(),
@@ -1535,7 +1535,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string
     paramsList.push_back(Glib::Variant<std::string>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalByteString",
         Glib::ustring(),
@@ -1549,7 +1549,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(std::string 
     paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalSignature",
         Glib::ustring(),
@@ -1563,7 +1563,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(std::string
     paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalObjectPath",
         Glib::ustring(),
@@ -1577,7 +1577,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(std::string Par
     paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalString",
         Glib::ustring(),
@@ -1591,7 +1591,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalDouble_emitter(double Param1)
     paramsList.push_back(Glib::Variant<double>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalDouble",
         Glib::ustring(),
@@ -1605,7 +1605,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt64_emitter(guint64 Param1)
     paramsList.push_back(Glib::Variant<guint64>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalUInt64",
         Glib::ustring(),
@@ -1619,7 +1619,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt64_emitter(gint64 Param1)
     paramsList.push_back(Glib::Variant<gint64>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalInt64",
         Glib::ustring(),
@@ -1633,7 +1633,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt_emitter(guint32 Param1)
     paramsList.push_back(Glib::Variant<guint32>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalUInt",
         Glib::ustring(),
@@ -1647,7 +1647,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt_emitter(gint32 Param1)
     paramsList.push_back(Glib::Variant<gint32>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalInt",
         Glib::ustring(),
@@ -1661,7 +1661,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt16_emitter(guint16 Param1)
     paramsList.push_back(Glib::Variant<guint16>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalUInt16",
         Glib::ustring(),
@@ -1675,7 +1675,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt16_emitter(gint16 Param1)
     paramsList.push_back(Glib::Variant<gint16>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalInt16",
         Glib::ustring(),
@@ -1689,7 +1689,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalChar_emitter(guchar Param1)
     paramsList.push_back(Glib::Variant<guchar>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalChar",
         Glib::ustring(),
@@ -1703,7 +1703,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalBoolean_emitter(bool Param1)
     paramsList.push_back(Glib::Variant<bool>::create((Param1)));;
 
     m_connection->emit_signal(
-        "/org/gdbus/codegen/glibmm/Test",
+        m_objectPath,
         "org.gdbus.codegen.glibmm.Test",
         "TestSignalBoolean",
         Glib::ustring(),
