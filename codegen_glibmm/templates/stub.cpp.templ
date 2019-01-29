@@ -156,7 +156,7 @@ void {{ interface.cpp_namespace_name }}::{{ signal.name }}_emitter(
 {% endfor %}
 
     m_connection->emit_signal(
-        "{{ object_path }}",
+        m_objectPath,
         "{{ signal.iface_name }}",
         "{{ signal.name }}",
         Glib::ustring(),
