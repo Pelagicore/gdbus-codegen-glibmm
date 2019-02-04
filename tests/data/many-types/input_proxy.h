@@ -453,8 +453,8 @@ public:
     sigc::signal<void, guchar > TestSignalChar_signal;
     sigc::signal<void, bool > TestSignalBoolean_signal;
 
-    void reference() {}
-    void unreference() {}
+    void reference() const override {}
+    void unreference() const override {}
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,
