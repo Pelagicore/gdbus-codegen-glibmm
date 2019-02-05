@@ -130,6 +130,8 @@ int main(int argc, char **argv) {
     // Instantiate and run the main loop
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
     ml->run();
+
+    return 0;
 }
 ```
 
@@ -184,6 +186,8 @@ int main(int argc, char **argv) {
 
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
     ml->run();
+
+    return 0;
 }
 ```
 
