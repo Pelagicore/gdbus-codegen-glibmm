@@ -123,13 +123,33 @@ int main(int argc, char **argv) {
     Glib::init();
     Gio::init();
 
-    // Connect to the system bus and acquire our name
-    BarImpl bi;
-    bi.connect(Gio::DBus::BUS_TYPE_SESSION, "org.foo.Bar");
-
     // Instantiate and run the main loop
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
+
+    // Connect to the system bus and acquire our name
+    BarImpl bi;
+    guint connection_id = Gio::DBus::own_name(
+            Gio::DBus::BUS_TYPE_SESSION,
+            "org.foo.Bar",
+            [&](const Glib::RefPtr<Gio::DBus::Connection> &connection,
+                const Glib::ustring & /* name */) {
+                g_print("Connected to bus.\n");
+                if (bi.register_object(connection, "/org/foo/Bar") == 0)
+                    ml->quit();
+            },
+            [&](const Glib::RefPtr<Gio::DBus::Connection> & /* connection */,
+                const Glib::ustring & /* name */) {
+                g_print("Name acquired.\n");
+            },
+            [&](const Glib::RefPtr<Gio::DBus::Connection> & /* connection */,
+                const Glib::ustring & /* name */) {
+                g_print("Name lost.\n");
+                ml->quit();
+            });
+
     ml->run();
+
+    Gio::DBus::unown_name(connection_id);
 
     return 0;
 }
