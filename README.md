@@ -112,7 +112,7 @@ C++ class. In our example, the following will suffice:
 class BarImpl : public org::foo::Bar {
 public:
     // Called wben org.foo.bar.Baz() is invoked
-    virtual void Baz (MessageHelper msg) {
+    virtual void Baz (BarMessageHelper msg) {
         // Return void
         msg.ret();
     }
