@@ -80,7 +80,7 @@ void {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>& res) {
+void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
 }
 
 {% endif %}
@@ -95,10 +95,13 @@ void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::Ref
 
 {% endif %}
 {% endfor %}
-void {{ class_name_with_namespace }}::handle_signal(const Glib::ustring& sender_name,
+void {{ class_name_with_namespace }}::handle_signal(const Glib::ustring&/* sender_name */,
     const Glib::ustring& signal_name,
     const Glib::VariantContainerBase& parameters)
 {
+    static_cast<void>(signal_name); // maybe unused
+    static_cast<void>(parameters); // maybe unused
+
 {% for signal in interface.signals if signal is supported_by_sigc %}
     if (signal_name == "{{ signal.name }}") {
     {% for arg in signal.args %}

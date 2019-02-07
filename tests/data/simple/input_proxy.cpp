@@ -50,10 +50,13 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::Test::TestPropReadString
     return (b.get());
 }
 
-void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring& sender_name,
+void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring&/* sender_name */,
     const Glib::ustring& signal_name,
     const Glib::VariantContainerBase& parameters)
 {
+    static_cast<void>(signal_name); // maybe unused
+    static_cast<void>(parameters); // maybe unused
+
     if (signal_name == "TestSignalObjectPathArray") {
         if (parameters.get_n_children() != 1) return;
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_Param1;
