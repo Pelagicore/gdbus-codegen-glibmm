@@ -901,7 +901,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<std::string> val =
                 (castValue.get());
             TestPropReadByteStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadByteStringArray");
         }
     }
@@ -913,7 +913,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropReadObjectPathArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadObjectPathArray");
         }
     }
@@ -925,7 +925,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::ustring> val =
                 (castValue.get());
             TestPropReadStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadStringArray");
         }
     }
@@ -937,7 +937,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::string val =
                 (castValue.get());
             TestPropReadByteString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadByteString");
         }
     }
@@ -949,7 +949,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropReadSignature_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadSignature");
         }
     }
@@ -961,7 +961,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropReadObjectPath_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadObjectPath");
         }
     }
@@ -973,7 +973,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::ustring val =
                 (castValue.get());
             TestPropReadString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadString");
         }
     }
@@ -985,7 +985,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             double val =
                 (castValue.get());
             TestPropReadDouble_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadDouble");
         }
     }
@@ -997,7 +997,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint64 val =
                 (castValue.get());
             TestPropReadUInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadUInt64");
         }
     }
@@ -1009,7 +1009,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint64 val =
                 (castValue.get());
             TestPropReadInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadInt64");
         }
     }
@@ -1021,7 +1021,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint32 val =
                 (castValue.get());
             TestPropReadUInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadUInt");
         }
     }
@@ -1033,7 +1033,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint32 val =
                 (castValue.get());
             TestPropReadInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadInt");
         }
     }
@@ -1045,7 +1045,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint16 val =
                 (castValue.get());
             TestPropReadUInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadUInt16");
         }
     }
@@ -1057,7 +1057,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint16 val =
                 (castValue.get());
             TestPropReadInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadInt16");
         }
     }
@@ -1069,7 +1069,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guchar val =
                 (castValue.get());
             TestPropReadChar_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadChar");
         }
     }
@@ -1081,7 +1081,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             bool val =
                 (castValue.get());
             TestPropReadBoolean_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadBoolean");
         }
     }
@@ -1093,7 +1093,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint32 val =
                 (castValue.get());
             TestPropInternalReadPropertyChange_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropInternalReadPropertyChange");
         }
     }
@@ -1105,7 +1105,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<std::string> val =
                 (castValue.get());
             TestPropWriteByteStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteByteStringArray");
         }
     }
@@ -1117,7 +1117,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropWriteObjectPathArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteObjectPathArray");
         }
     }
@@ -1129,7 +1129,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::ustring> val =
                 (castValue.get());
             TestPropWriteStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteStringArray");
         }
     }
@@ -1141,7 +1141,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::string val =
                 (castValue.get());
             TestPropWriteByteString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteByteString");
         }
     }
@@ -1153,7 +1153,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropWriteSignature_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteSignature");
         }
     }
@@ -1165,7 +1165,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropWriteObjectPath_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteObjectPath");
         }
     }
@@ -1177,7 +1177,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::ustring val =
                 (castValue.get());
             TestPropWriteString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteString");
         }
     }
@@ -1189,7 +1189,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             double val =
                 (castValue.get());
             TestPropWriteDouble_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteDouble");
         }
     }
@@ -1201,7 +1201,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint64 val =
                 (castValue.get());
             TestPropWriteUInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt64");
         }
     }
@@ -1213,7 +1213,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint64 val =
                 (castValue.get());
             TestPropWriteInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt64");
         }
     }
@@ -1225,7 +1225,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint32 val =
                 (castValue.get());
             TestPropWriteUInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt");
         }
     }
@@ -1237,7 +1237,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint32 val =
                 (castValue.get());
             TestPropWriteInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt");
         }
     }
@@ -1249,7 +1249,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint16 val =
                 (castValue.get());
             TestPropWriteUInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt16");
         }
     }
@@ -1261,7 +1261,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint16 val =
                 (castValue.get());
             TestPropWriteInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt16");
         }
     }
@@ -1273,7 +1273,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guchar val =
                 (castValue.get());
             TestPropWriteChar_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteChar");
         }
     }
@@ -1285,7 +1285,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             bool val =
                 (castValue.get());
             TestPropWriteBoolean_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteBoolean");
         }
     }
@@ -1297,7 +1297,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<std::string> val =
                 (castValue.get());
             TestPropReadWriteByteStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteByteStringArray");
         }
     }
@@ -1309,7 +1309,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::DBusObjectPathString> val =
                 (castValue.get());
             TestPropReadWriteObjectPathArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteObjectPathArray");
         }
     }
@@ -1321,7 +1321,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::ustring> val =
                 (castValue.get());
             TestPropReadWriteStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteStringArray");
         }
     }
@@ -1333,7 +1333,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::string val =
                 (castValue.get());
             TestPropReadWriteByteString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteByteString");
         }
     }
@@ -1345,7 +1345,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusSignatureString val =
                 (castValue.get());
             TestPropReadWriteSignature_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteSignature");
         }
     }
@@ -1357,7 +1357,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::DBusObjectPathString val =
                 (castValue.get());
             TestPropReadWriteObjectPath_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteObjectPath");
         }
     }
@@ -1369,7 +1369,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             Glib::ustring val =
                 (castValue.get());
             TestPropReadWriteString_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteString");
         }
     }
@@ -1381,7 +1381,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             double val =
                 (castValue.get());
             TestPropReadWriteDouble_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteDouble");
         }
     }
@@ -1393,7 +1393,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint64 val =
                 (castValue.get());
             TestPropReadWriteUInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt64");
         }
     }
@@ -1405,7 +1405,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint64 val =
                 (castValue.get());
             TestPropReadWriteInt64_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt64");
         }
     }
@@ -1417,7 +1417,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint32 val =
                 (castValue.get());
             TestPropReadWriteUInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt");
         }
     }
@@ -1429,7 +1429,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint32 val =
                 (castValue.get());
             TestPropReadWriteInt_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt");
         }
     }
@@ -1441,7 +1441,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guint16 val =
                 (castValue.get());
             TestPropReadWriteUInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt16");
         }
     }
@@ -1453,7 +1453,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint16 val =
                 (castValue.get());
             TestPropReadWriteInt16_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt16");
         }
     }
@@ -1465,7 +1465,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             guchar val =
                 (castValue.get());
             TestPropReadWriteChar_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteChar");
         }
     }
@@ -1477,7 +1477,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             bool val =
                 (castValue.get());
             TestPropReadWriteBoolean_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteBoolean");
         }
     }
@@ -1489,7 +1489,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             gint32 val =
                 (castValue.get());
             TestPropInternalReadWritePropertyChange_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropInternalReadWritePropertyChange");
         }
     }

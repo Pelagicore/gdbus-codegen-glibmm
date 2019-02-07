@@ -134,7 +134,7 @@ bool {{ class_name_with_namespace }}::on_interface_set_property(
             {{ prop.cpptype_out }} val =
                 {{ prop.cpptype_get_cast }}(castValue.get());
             {{ prop.name }}_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting {{ prop.name }}");
         }
     }
