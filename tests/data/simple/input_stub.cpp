@@ -97,6 +97,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     const Glib::VariantContainerBase &parameters,
     const Glib::RefPtr<Gio::DBus::MethodInvocation> &invocation)
 {
+    static_cast<void>(method_name); // maybe unused
+    static_cast<void>(parameters); // maybe unused
+    static_cast<void>(invocation); // maybe unused
+
     if (method_name.compare("TestCall") == 0) {
         Glib::Variant<gint32> base_Param1;
         parameters.get_child(base_Param1, 0);
@@ -116,12 +120,15 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
 void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
     Glib::VariantBase &property,
-    const Glib::RefPtr<Gio::DBus::Connection> &connection,
-    const Glib::ustring &sender,
-    const Glib::ustring &object_path,
-    const Glib::ustring &interface_name,
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* sender */,
+    const Glib::ustring &/* object_path */,
+    const Glib::ustring &/* interface_name */,
     const Glib::ustring &property_name)
 {
+    static_cast<void>(property); // maybe unused
+    static_cast<void>(property_name); // maybe unused
+
     if (property_name.compare("TestPropReadStringArray") == 0) {
         property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
     }
@@ -129,13 +136,16 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
 }
 
 bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
-    const Glib::RefPtr<Gio::DBus::Connection> &connection,
-    const Glib::ustring &sender,
-    const Glib::ustring &object_path,
-    const Glib::ustring &interface_name,
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
+    const Glib::ustring &/* sender */,
+    const Glib::ustring &/* object_path */,
+    const Glib::ustring &/* interface_name */,
     const Glib::ustring &property_name,
     const Glib::VariantBase &value)
 {
+    static_cast<void>(property_name); // maybe unused
+    static_cast<void>(value); // maybe unused
+
     if (property_name.compare("TestPropReadStringArray") == 0) {
         try {
             Glib::Variant<std::vector<Glib::ustring>> castValue =
@@ -181,7 +191,7 @@ void org::gdbus::codegen::glibmm::Test::on_name_acquired(
 }
 
 void org::gdbus::codegen::glibmm::Test::on_name_lost(
-    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
