@@ -143,7 +143,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
             std::vector<Glib::ustring> val =
                 (castValue.get());
             TestPropReadStringArray_set(val);
-        } catch (std::bad_cast e) {
+        } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadStringArray");
         }
     }
