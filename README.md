@@ -9,10 +9,10 @@ glib.
 
 ## Installing
 `setup.py` is used for installing `gdbus-codegen-glibmm`. This is a Setuptools
-script, and can be invoked accordign to the [Setuptools
-manual](http://pythonhosted.org//setuptools/). In a nutshell, `python3 ./setup.py
-install`
-with sufficient priveleges should get you going.
+script, and can be invoked according to the [developer's
+guide](https://setuptools.readthedocs.io/en/latest/setuptools.html#developer-s-guide).
+In a nutshell, `python3 ./setup.py install` with sufficient priveleges should 
+get you going.
 
 Once installed, the `gdbus-codegen-glibmm` command should be available in the
 bin directory of your selected prefix, and the required python modules should
