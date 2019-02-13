@@ -109,6 +109,7 @@ public:
     Error(int code, const Glib::ustring &message);
 
     static void initialize();
+    static GQuark registered_domain();
 };
 }// glibmm
 }// codegen
