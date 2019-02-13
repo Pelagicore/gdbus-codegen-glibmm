@@ -105,6 +105,9 @@ private:
     {{ interface.cpp_class_name }}(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
         this->m_proxy = proxy;
         this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_signal));
+{% if interface.errors %}
+        {{ interface.errors_namespace }}::Error::initialize();
+{% endif %}
     }
 };
 
