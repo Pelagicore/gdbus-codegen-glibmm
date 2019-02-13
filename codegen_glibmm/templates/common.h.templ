@@ -100,10 +100,13 @@ public:
     }
 
 {% endfor %}
-{% endfor %}
 private:
     Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
 };
+{% if not loop.last %}
+
+{% endif %}
+{% endfor %}
 {% for interface in interfaces %}
 {% if interface.errors %}
 
