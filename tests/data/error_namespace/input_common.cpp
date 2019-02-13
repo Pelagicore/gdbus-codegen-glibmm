@@ -61,6 +61,11 @@ void Error::initialize()
     register_domain_with_dbus();
 }
 
+GQuark Error::registered_domain()
+{
+    return register_domain_with_dbus().id();
+}
+
 }// Namespace
 }// example
 }// com
