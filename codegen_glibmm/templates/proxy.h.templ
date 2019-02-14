@@ -96,10 +96,6 @@ public:
     void reference() const override {}
     void unreference() const override {}
 
-    void handle_signal(const Glib::ustring &sender_name,
-                       const Glib::ustring &signal_name,
-                       const Glib::VariantContainerBase &parameters);
-
 protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
@@ -111,6 +107,10 @@ private:
         {{ interface.errors_namespace }}::Error::initialize();
 {% endif %}
     }
+
+    void handle_signal(const Glib::ustring &sender_name,
+                       const Glib::ustring &signal_name,
+                       const Glib::VariantContainerBase &parameters);
 };
 
 {% for namespace in namespaces|reverse %}
