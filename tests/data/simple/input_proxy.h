@@ -41,10 +41,6 @@ public:
     void reference() const override {}
     void unreference() const override {}
 
-    void handle_signal(const Glib::ustring &sender_name,
-                       const Glib::ustring &signal_name,
-                       const Glib::VariantContainerBase &parameters);
-
 protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
@@ -54,6 +50,10 @@ private:
         this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
         org::gdbus::codegen::glibmm::Error::initialize();
     }
+
+    void handle_signal(const Glib::ustring &sender_name,
+                       const Glib::ustring &signal_name,
+                       const Glib::VariantContainerBase &parameters);
 };
 
 }// glibmm
