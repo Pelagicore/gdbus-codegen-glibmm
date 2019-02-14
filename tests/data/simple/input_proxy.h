@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <glibmm.h>
 #include <giomm.h>
 #include "OUTPUT_DIR/input_common.h"
@@ -35,6 +36,9 @@ public:
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
     std::vector<Glib::ustring> TestPropReadStringArray_get();
+    sigc::signal<void> &TestPropReadStringArray_changed() {
+        return m_TestPropReadStringArray_changed;
+    }
 
     sigc::signal<void, std::vector<Glib::DBusObjectPathString> > TestSignalObjectPathArray_signal;
 
@@ -48,12 +52,19 @@ private:
     Test(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
         this->m_proxy = proxy;
         this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
+        this->m_proxy->signal_properties_changed().
+            connect(sigc::mem_fun(this, &Test::handle_properties_changed));
         org::gdbus::codegen::glibmm::Error::initialize();
     }
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,
                        const Glib::VariantContainerBase &parameters);
+
+    void handle_properties_changed(const Gio::DBus::Proxy::MapChangedProperties &changed_properties,
+                                   const std::vector<Glib::ustring> &invalidated_properties);
+
+    sigc::signal<void> m_TestPropReadStringArray_changed;
 };
 
 }// glibmm

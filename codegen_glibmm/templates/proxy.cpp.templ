@@ -122,6 +122,22 @@ void {{ class_name_with_namespace }}::handle_signal(const Glib::ustring&/* sende
 {% endfor %}
 }
 
+void {{ class_name_with_namespace }}::handle_properties_changed(
+    const Gio::DBus::Proxy::MapChangedProperties &changed_properties,
+    const std::vector<Glib::ustring> &/* invalidated_properties */)
+{
+    static_cast<void>(changed_properties); // maybe unused
+
+    // Only check changed_properties since value will already be cached. Glib can be setup to get
+    // values of invalidated properties in which case property will be in changed_properties when
+    // value is actually received. See Gio::DBus::ProxyFlags::PROXY_FLAGS_GET_INVALIDATED_PROPERTIES .
+
+{% for prop in interface.properties %}
+    if (changed_properties.find("{{ prop.name }}") != changed_properties.cend())
+        m_{{ prop.name }}_changed.emit();
+{% endfor %}
+}
+
 void {{ class_name_with_namespace }}::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
