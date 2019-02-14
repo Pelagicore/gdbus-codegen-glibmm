@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <glibmm.h>
 #include <giomm.h>
 #include "{{ common_h_name }}"
@@ -85,6 +86,9 @@ public:
     void {{ prop.name }}_set({{ prop.cpptype_in }}, const Gio::SlotAsyncReady &);
     void {{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     {% endif %}
+    sigc::signal<void> &{{ prop.name }}_changed() {
+        return m_{{ prop.name }}_changed;
+    }
 
 {% endfor %}
 {% for signal in interface.signals %}
@@ -103,6 +107,8 @@ private:
     {{ interface.cpp_class_name }}(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
         this->m_proxy = proxy;
         this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_signal));
+        this->m_proxy->signal_properties_changed().
+            connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_properties_changed));
 {% if interface.errors %}
         {{ interface.errors_namespace }}::Error::initialize();
 {% endif %}
@@ -111,6 +117,13 @@ private:
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,
                        const Glib::VariantContainerBase &parameters);
+
+    void handle_properties_changed(const Gio::DBus::Proxy::MapChangedProperties &changed_properties,
+                                   const std::vector<Glib::ustring> &invalidated_properties);
+
+{% for prop in interface.properties %}
+    sigc::signal<void> m_{{ prop.name }}_changed;
+{% endfor %}
 };
 
 {% for namespace in namespaces|reverse %}

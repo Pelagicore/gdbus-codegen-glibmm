@@ -1753,6 +1753,118 @@ void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring&/* sen
     }
 }
 
+void org::gdbus::codegen::glibmm::Test::handle_properties_changed(
+    const Gio::DBus::Proxy::MapChangedProperties &changed_properties,
+    const std::vector<Glib::ustring> &/* invalidated_properties */)
+{
+    static_cast<void>(changed_properties); // maybe unused
+
+    // Only check changed_properties since value will already be cached. Glib can be setup to get
+    // values of invalidated properties in which case property will be in changed_properties when
+    // value is actually received. See Gio::DBus::ProxyFlags::PROXY_FLAGS_GET_INVALIDATED_PROPERTIES .
+
+    if (changed_properties.find("TestPropReadByteStringArray") != changed_properties.cend())
+        m_TestPropReadByteStringArray_changed.emit();
+    if (changed_properties.find("TestPropReadObjectPathArray") != changed_properties.cend())
+        m_TestPropReadObjectPathArray_changed.emit();
+    if (changed_properties.find("TestPropReadStringArray") != changed_properties.cend())
+        m_TestPropReadStringArray_changed.emit();
+    if (changed_properties.find("TestPropReadByteString") != changed_properties.cend())
+        m_TestPropReadByteString_changed.emit();
+    if (changed_properties.find("TestPropReadSignature") != changed_properties.cend())
+        m_TestPropReadSignature_changed.emit();
+    if (changed_properties.find("TestPropReadObjectPath") != changed_properties.cend())
+        m_TestPropReadObjectPath_changed.emit();
+    if (changed_properties.find("TestPropReadString") != changed_properties.cend())
+        m_TestPropReadString_changed.emit();
+    if (changed_properties.find("TestPropReadDouble") != changed_properties.cend())
+        m_TestPropReadDouble_changed.emit();
+    if (changed_properties.find("TestPropReadUInt64") != changed_properties.cend())
+        m_TestPropReadUInt64_changed.emit();
+    if (changed_properties.find("TestPropReadInt64") != changed_properties.cend())
+        m_TestPropReadInt64_changed.emit();
+    if (changed_properties.find("TestPropReadUInt") != changed_properties.cend())
+        m_TestPropReadUInt_changed.emit();
+    if (changed_properties.find("TestPropReadInt") != changed_properties.cend())
+        m_TestPropReadInt_changed.emit();
+    if (changed_properties.find("TestPropReadUInt16") != changed_properties.cend())
+        m_TestPropReadUInt16_changed.emit();
+    if (changed_properties.find("TestPropReadInt16") != changed_properties.cend())
+        m_TestPropReadInt16_changed.emit();
+    if (changed_properties.find("TestPropReadChar") != changed_properties.cend())
+        m_TestPropReadChar_changed.emit();
+    if (changed_properties.find("TestPropReadBoolean") != changed_properties.cend())
+        m_TestPropReadBoolean_changed.emit();
+    if (changed_properties.find("TestPropInternalReadPropertyChange") != changed_properties.cend())
+        m_TestPropInternalReadPropertyChange_changed.emit();
+    if (changed_properties.find("TestPropWriteByteStringArray") != changed_properties.cend())
+        m_TestPropWriteByteStringArray_changed.emit();
+    if (changed_properties.find("TestPropWriteObjectPathArray") != changed_properties.cend())
+        m_TestPropWriteObjectPathArray_changed.emit();
+    if (changed_properties.find("TestPropWriteStringArray") != changed_properties.cend())
+        m_TestPropWriteStringArray_changed.emit();
+    if (changed_properties.find("TestPropWriteByteString") != changed_properties.cend())
+        m_TestPropWriteByteString_changed.emit();
+    if (changed_properties.find("TestPropWriteSignature") != changed_properties.cend())
+        m_TestPropWriteSignature_changed.emit();
+    if (changed_properties.find("TestPropWriteObjectPath") != changed_properties.cend())
+        m_TestPropWriteObjectPath_changed.emit();
+    if (changed_properties.find("TestPropWriteString") != changed_properties.cend())
+        m_TestPropWriteString_changed.emit();
+    if (changed_properties.find("TestPropWriteDouble") != changed_properties.cend())
+        m_TestPropWriteDouble_changed.emit();
+    if (changed_properties.find("TestPropWriteUInt64") != changed_properties.cend())
+        m_TestPropWriteUInt64_changed.emit();
+    if (changed_properties.find("TestPropWriteInt64") != changed_properties.cend())
+        m_TestPropWriteInt64_changed.emit();
+    if (changed_properties.find("TestPropWriteUInt") != changed_properties.cend())
+        m_TestPropWriteUInt_changed.emit();
+    if (changed_properties.find("TestPropWriteInt") != changed_properties.cend())
+        m_TestPropWriteInt_changed.emit();
+    if (changed_properties.find("TestPropWriteUInt16") != changed_properties.cend())
+        m_TestPropWriteUInt16_changed.emit();
+    if (changed_properties.find("TestPropWriteInt16") != changed_properties.cend())
+        m_TestPropWriteInt16_changed.emit();
+    if (changed_properties.find("TestPropWriteChar") != changed_properties.cend())
+        m_TestPropWriteChar_changed.emit();
+    if (changed_properties.find("TestPropWriteBoolean") != changed_properties.cend())
+        m_TestPropWriteBoolean_changed.emit();
+    if (changed_properties.find("TestPropReadWriteByteStringArray") != changed_properties.cend())
+        m_TestPropReadWriteByteStringArray_changed.emit();
+    if (changed_properties.find("TestPropReadWriteObjectPathArray") != changed_properties.cend())
+        m_TestPropReadWriteObjectPathArray_changed.emit();
+    if (changed_properties.find("TestPropReadWriteStringArray") != changed_properties.cend())
+        m_TestPropReadWriteStringArray_changed.emit();
+    if (changed_properties.find("TestPropReadWriteByteString") != changed_properties.cend())
+        m_TestPropReadWriteByteString_changed.emit();
+    if (changed_properties.find("TestPropReadWriteSignature") != changed_properties.cend())
+        m_TestPropReadWriteSignature_changed.emit();
+    if (changed_properties.find("TestPropReadWriteObjectPath") != changed_properties.cend())
+        m_TestPropReadWriteObjectPath_changed.emit();
+    if (changed_properties.find("TestPropReadWriteString") != changed_properties.cend())
+        m_TestPropReadWriteString_changed.emit();
+    if (changed_properties.find("TestPropReadWriteDouble") != changed_properties.cend())
+        m_TestPropReadWriteDouble_changed.emit();
+    if (changed_properties.find("TestPropReadWriteUInt64") != changed_properties.cend())
+        m_TestPropReadWriteUInt64_changed.emit();
+    if (changed_properties.find("TestPropReadWriteInt64") != changed_properties.cend())
+        m_TestPropReadWriteInt64_changed.emit();
+    if (changed_properties.find("TestPropReadWriteUInt") != changed_properties.cend())
+        m_TestPropReadWriteUInt_changed.emit();
+    if (changed_properties.find("TestPropReadWriteInt") != changed_properties.cend())
+        m_TestPropReadWriteInt_changed.emit();
+    if (changed_properties.find("TestPropReadWriteUInt16") != changed_properties.cend())
+        m_TestPropReadWriteUInt16_changed.emit();
+    if (changed_properties.find("TestPropReadWriteInt16") != changed_properties.cend())
+        m_TestPropReadWriteInt16_changed.emit();
+    if (changed_properties.find("TestPropReadWriteChar") != changed_properties.cend())
+        m_TestPropReadWriteChar_changed.emit();
+    if (changed_properties.find("TestPropReadWriteBoolean") != changed_properties.cend())
+        m_TestPropReadWriteBoolean_changed.emit();
+    if (changed_properties.find("TestPropInternalReadWritePropertyChange") != changed_properties.cend())
+        m_TestPropInternalReadWritePropertyChange_changed.emit();
+}
+
 void org::gdbus::codegen::glibmm::Test::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
