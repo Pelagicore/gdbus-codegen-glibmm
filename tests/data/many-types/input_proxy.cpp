@@ -1865,6 +1865,13 @@ void org::gdbus::codegen::glibmm::Test::handle_properties_changed(
         m_TestPropInternalReadWritePropertyChange_changed.emit();
 }
 
+org::gdbus::codegen::glibmm::Test::Test(const Glib::RefPtr<Gio::DBus::Proxy> &proxy) : m_proxy(proxy)
+{
+    m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
+    m_proxy->signal_properties_changed().
+        connect(sigc::mem_fun(this, &Test::handle_properties_changed));
+}
+
 void org::gdbus::codegen::glibmm::Test::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
