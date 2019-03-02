@@ -104,15 +104,7 @@ protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
 private:
-    {{ interface.cpp_class_name }}(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
-        this->m_proxy = proxy;
-        this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_signal));
-        this->m_proxy->signal_properties_changed().
-            connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::handle_properties_changed));
-{% if interface.errors %}
-        {{ interface.errors_namespace }}::Error::initialize();
-{% endif %}
-    }
+    {{ interface.cpp_class_name }}(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,

@@ -49,13 +49,7 @@ protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
 private:
-    Test(Glib::RefPtr<Gio::DBus::Proxy> proxy): Glib::ObjectBase() {
-        this->m_proxy = proxy;
-        this->m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
-        this->m_proxy->signal_properties_changed().
-            connect(sigc::mem_fun(this, &Test::handle_properties_changed));
-        org::gdbus::codegen::glibmm::Error::initialize();
-    }
+    Test(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,
