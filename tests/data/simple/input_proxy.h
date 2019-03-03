@@ -26,7 +26,8 @@ public:
         gint32 Param1,
         const std::map<Glib::ustring,Glib::VariantBase> & Param2,
         const Gio::SlotAsyncReady &slot,
-        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestCall_finish (
         Glib::ustring &Param3,

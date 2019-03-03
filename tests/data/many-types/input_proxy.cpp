@@ -9,13 +9,14 @@
 void org::gdbus::codegen::glibmm::Test::TestStringVariantDict(
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestStringVariantDict_pack(
         arg_Param1);
 
-    m_proxy->call("TestStringVariantDict", callback, cancellable, base);
+    m_proxy->call("TestStringVariantDict", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestStringVariantDict_finish(
@@ -39,13 +40,14 @@ void org::gdbus::codegen::glibmm::Test::TestStringVariantDict_finish(
 void org::gdbus::codegen::glibmm::Test::TestStringStringDict(
     const std::map<Glib::ustring,Glib::ustring> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestStringStringDict_pack(
         arg_Param1);
 
-    m_proxy->call("TestStringStringDict", callback, cancellable, base);
+    m_proxy->call("TestStringStringDict", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestStringStringDict_finish(
@@ -63,13 +65,14 @@ void org::gdbus::codegen::glibmm::Test::TestStringStringDict_finish(
 void org::gdbus::codegen::glibmm::Test::TestUintIntDict(
     const std::map<guint32,gint32> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestUintIntDict_pack(
         arg_Param1);
 
-    m_proxy->call("TestUintIntDict", callback, cancellable, base);
+    m_proxy->call("TestUintIntDict", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestUintIntDict_finish(
@@ -99,13 +102,14 @@ void org::gdbus::codegen::glibmm::Test::TestVariant_finish(
 void org::gdbus::codegen::glibmm::Test::TestByteStringArray(
     const std::vector<std::string> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestByteStringArray_pack(
         arg_Param1);
 
-    m_proxy->call("TestByteStringArray", callback, cancellable, base);
+    m_proxy->call("TestByteStringArray", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestByteStringArray_finish(
@@ -123,13 +127,14 @@ void org::gdbus::codegen::glibmm::Test::TestByteStringArray_finish(
 void org::gdbus::codegen::glibmm::Test::TestObjectPathArray(
     const std::vector<Glib::DBusObjectPathString> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestObjectPathArray_pack(
         arg_Param1);
 
-    m_proxy->call("TestObjectPathArray", callback, cancellable, base);
+    m_proxy->call("TestObjectPathArray", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestObjectPathArray_finish(
@@ -147,13 +152,14 @@ void org::gdbus::codegen::glibmm::Test::TestObjectPathArray_finish(
 void org::gdbus::codegen::glibmm::Test::TestStringArray(
     const std::vector<Glib::ustring> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestStringArray_pack(
         arg_Param1);
 
-    m_proxy->call("TestStringArray", callback, cancellable, base);
+    m_proxy->call("TestStringArray", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestStringArray_finish(
@@ -171,13 +177,14 @@ void org::gdbus::codegen::glibmm::Test::TestStringArray_finish(
 void org::gdbus::codegen::glibmm::Test::TestByteString(
     const std::string & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestByteString_pack(
         arg_Param1);
 
-    m_proxy->call("TestByteString", callback, cancellable, base);
+    m_proxy->call("TestByteString", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestByteString_finish(
@@ -195,13 +202,14 @@ void org::gdbus::codegen::glibmm::Test::TestByteString_finish(
 void org::gdbus::codegen::glibmm::Test::TestStruct(
     const std::tuple<Glib::ustring,Glib::ustring> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestStruct_pack(
         arg_Param1);
 
-    m_proxy->call("TestStruct", callback, cancellable, base);
+    m_proxy->call("TestStruct", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestStruct_finish(
@@ -219,13 +227,14 @@ void org::gdbus::codegen::glibmm::Test::TestStruct_finish(
 void org::gdbus::codegen::glibmm::Test::TestStructArray(
     const std::vector<std::tuple<guint32,Glib::ustring,gint32>> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestStructArray_pack(
         arg_Param1);
 
-    m_proxy->call("TestStructArray", callback, cancellable, base);
+    m_proxy->call("TestStructArray", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestStructArray_finish(
@@ -243,13 +252,14 @@ void org::gdbus::codegen::glibmm::Test::TestStructArray_finish(
 void org::gdbus::codegen::glibmm::Test::TestDictStructArray(
     const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestDictStructArray_pack(
         arg_Param1);
 
-    m_proxy->call("TestDictStructArray", callback, cancellable, base);
+    m_proxy->call("TestDictStructArray", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestDictStructArray_finish(
@@ -267,13 +277,14 @@ void org::gdbus::codegen::glibmm::Test::TestDictStructArray_finish(
 void org::gdbus::codegen::glibmm::Test::TestSignature(
     const Glib::DBusSignatureString & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestSignature_pack(
         arg_Param1);
 
-    m_proxy->call("TestSignature", callback, cancellable, base);
+    m_proxy->call("TestSignature", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestSignature_finish(
@@ -291,13 +302,14 @@ void org::gdbus::codegen::glibmm::Test::TestSignature_finish(
 void org::gdbus::codegen::glibmm::Test::TestObjectPath(
     const Glib::DBusObjectPathString & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestObjectPath_pack(
         arg_Param1);
 
-    m_proxy->call("TestObjectPath", callback, cancellable, base);
+    m_proxy->call("TestObjectPath", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestObjectPath_finish(
@@ -315,13 +327,14 @@ void org::gdbus::codegen::glibmm::Test::TestObjectPath_finish(
 void org::gdbus::codegen::glibmm::Test::TestString(
     const Glib::ustring & arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestString_pack(
         arg_Param1);
 
-    m_proxy->call("TestString", callback, cancellable, base);
+    m_proxy->call("TestString", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestString_finish(
@@ -339,13 +352,14 @@ void org::gdbus::codegen::glibmm::Test::TestString_finish(
 void org::gdbus::codegen::glibmm::Test::TestDouble(
     double arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestDouble_pack(
         arg_Param1);
 
-    m_proxy->call("TestDouble", callback, cancellable, base);
+    m_proxy->call("TestDouble", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestDouble_finish(
@@ -363,13 +377,14 @@ void org::gdbus::codegen::glibmm::Test::TestDouble_finish(
 void org::gdbus::codegen::glibmm::Test::TestUInt64(
     guint64 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestUInt64_pack(
         arg_Param1);
 
-    m_proxy->call("TestUInt64", callback, cancellable, base);
+    m_proxy->call("TestUInt64", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestUInt64_finish(
@@ -387,13 +402,14 @@ void org::gdbus::codegen::glibmm::Test::TestUInt64_finish(
 void org::gdbus::codegen::glibmm::Test::TestInt64(
     gint64 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestInt64_pack(
         arg_Param1);
 
-    m_proxy->call("TestInt64", callback, cancellable, base);
+    m_proxy->call("TestInt64", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestInt64_finish(
@@ -411,13 +427,14 @@ void org::gdbus::codegen::glibmm::Test::TestInt64_finish(
 void org::gdbus::codegen::glibmm::Test::TestUInt(
     guint32 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestUInt_pack(
         arg_Param1);
 
-    m_proxy->call("TestUInt", callback, cancellable, base);
+    m_proxy->call("TestUInt", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestUInt_finish(
@@ -435,13 +452,14 @@ void org::gdbus::codegen::glibmm::Test::TestUInt_finish(
 void org::gdbus::codegen::glibmm::Test::TestInt(
     gint32 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestInt_pack(
         arg_Param1);
 
-    m_proxy->call("TestInt", callback, cancellable, base);
+    m_proxy->call("TestInt", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestInt_finish(
@@ -459,13 +477,14 @@ void org::gdbus::codegen::glibmm::Test::TestInt_finish(
 void org::gdbus::codegen::glibmm::Test::TestUInt16(
     guint16 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestUInt16_pack(
         arg_Param1);
 
-    m_proxy->call("TestUInt16", callback, cancellable, base);
+    m_proxy->call("TestUInt16", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestUInt16_finish(
@@ -483,13 +502,14 @@ void org::gdbus::codegen::glibmm::Test::TestUInt16_finish(
 void org::gdbus::codegen::glibmm::Test::TestInt16(
     gint16 arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestInt16_pack(
         arg_Param1);
 
-    m_proxy->call("TestInt16", callback, cancellable, base);
+    m_proxy->call("TestInt16", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestInt16_finish(
@@ -507,13 +527,14 @@ void org::gdbus::codegen::glibmm::Test::TestInt16_finish(
 void org::gdbus::codegen::glibmm::Test::TestChar(
     guchar arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestChar_pack(
         arg_Param1);
 
-    m_proxy->call("TestChar", callback, cancellable, base);
+    m_proxy->call("TestChar", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestChar_finish(
@@ -531,13 +552,14 @@ void org::gdbus::codegen::glibmm::Test::TestChar_finish(
 void org::gdbus::codegen::glibmm::Test::TestBoolean(
     bool arg_Param1,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestBoolean_pack(
         arg_Param1);
 
-    m_proxy->call("TestBoolean", callback, cancellable, base);
+    m_proxy->call("TestBoolean", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestBoolean_finish(
@@ -570,7 +592,8 @@ void org::gdbus::codegen::glibmm::Test::TestAll(
     guchar arg_in_Param15,
     bool arg_in_Param16,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestAll_pack(
@@ -591,7 +614,7 @@ void org::gdbus::codegen::glibmm::Test::TestAll(
         arg_in_Param15,
         arg_in_Param16);
 
-    m_proxy->call("TestAll", callback, cancellable, base);
+    m_proxy->call("TestAll", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestAll_finish(
@@ -684,13 +707,14 @@ void org::gdbus::codegen::glibmm::Test::TestAll_finish(
 void org::gdbus::codegen::glibmm::Test::TestTriggerInternalPropertyChange(
     gint32 arg_NewPropertyValue,
     const Gio::SlotAsyncReady &callback,
-    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
 {
     Glib::VariantContainerBase base;
     base = TestTypeWrap::TestTriggerInternalPropertyChange_pack(
         arg_NewPropertyValue);
 
-    m_proxy->call("TestTriggerInternalPropertyChange", callback, cancellable, base);
+    m_proxy->call("TestTriggerInternalPropertyChange", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestTriggerInternalPropertyChange_finish(
