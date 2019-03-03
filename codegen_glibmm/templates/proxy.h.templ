@@ -37,7 +37,8 @@ public:
     {%- endfor -%}
     {% if method is templated %}
         const Gio::SlotAsyncReady &callback,
-        const Glib::RefPtr<Gio::Cancellable> &cancellable = {})
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1)
     {
         Glib::VariantContainerBase base;
         {% if method.in_args|length > 0 %}
@@ -61,11 +62,12 @@ public:
         base = Glib::VariantContainerBase::create_tuple(params);
         {% endif %}
 
-        m_proxy->call( "{{ method.name }}", callback, cancellable, base);
+        m_proxy->call( "{{ method.name }}", callback, cancellable, base, timeout_msec);
     }
     {% else %}
         const Gio::SlotAsyncReady &slot,
-        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
     {% endif %}
 
     void {{ method.name }}_finish (
