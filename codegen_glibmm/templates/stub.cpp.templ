@@ -100,7 +100,7 @@ void {{ class_name_with_namespace }}::on_method_call(
     {% for arg in method.in_args %}
             {{ arg.cpptype_get_cast }}(p_{{ arg.name }}),
     {% endfor %}
-            {{ interface.cpp_class_name }}MessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
 {% endfor %}

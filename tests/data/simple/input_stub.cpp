@@ -113,7 +113,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         TestCall(
             (p_Param1),
             (p_Param2),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
 }
