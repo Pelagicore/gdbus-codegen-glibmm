@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <glibmm.h>
 #include <giomm.h>
 #include "OUTPUT_DIR/input_common.h"
@@ -17,16 +18,16 @@ public:
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
 
+    class MethodInvocation;
+
     // deprecated:
     void connect(Gio::DBus::BusType, std::string);
-
     bool TestPropReadStringArray_set(const std::vector<Glib::ustring> & value);
-
 protected:
     virtual void TestCall(
         gint32 Param1,
         const std::map<Glib::ustring,Glib::VariantBase> & Param2,
-        TestMessageHelper msg) = 0;
+        MethodInvocation invocation) = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -79,6 +80,39 @@ private:
     Glib::RefPtr<Gio::DBus::Connection> m_connection;
     std::string m_objectPath;
     std::string m_interfaceName;
+};
+
+class Test::MethodInvocation {
+public:
+    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
+        m_message(msg) {}
+
+    const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
+        return m_message;
+    }
+
+    void ret(Glib::Error error) {
+        m_message->return_error(error);
+    }
+
+    void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {
+        m_message->return_error(domain, code, message);
+    }
+
+    void ret(const Glib::ustring & p0, const std::map<Glib::ustring,Glib::VariantBase> & p1) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::Variant<Glib::ustring> var0 =
+            Glib::Variant<Glib::ustring>::create(p0);
+        vlist.push_back(var0);
+        Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> var1 =
+            Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>>::create(p1);
+        vlist.push_back(var1);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+private:
+    Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
 };
 
 } // glibmm

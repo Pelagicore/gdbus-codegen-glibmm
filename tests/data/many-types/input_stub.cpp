@@ -422,7 +422,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestStringVariantDict(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestStringStringDict") == 0) {
@@ -432,7 +432,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestStringStringDict(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestUintIntDict") == 0) {
@@ -442,7 +442,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestUintIntDict(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestVariant") == 0) {
@@ -454,7 +454,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestVariant(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestByteStringArray") == 0) {
@@ -464,7 +464,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestByteStringArray(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestObjectPathArray") == 0) {
@@ -474,7 +474,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestObjectPathArray(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestStringArray") == 0) {
@@ -484,7 +484,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestStringArray(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestByteString") == 0) {
@@ -494,7 +494,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestByteString(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestStruct") == 0) {
@@ -504,7 +504,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestStruct(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestStructArray") == 0) {
@@ -514,7 +514,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestStructArray(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestDictStructArray") == 0) {
@@ -524,7 +524,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestDictStructArray(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestSignature") == 0) {
@@ -534,7 +534,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestSignature(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestObjectPath") == 0) {
@@ -544,7 +544,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestObjectPath(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestString") == 0) {
@@ -554,7 +554,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestString(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestDouble") == 0) {
@@ -564,7 +564,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestDouble(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestUInt64") == 0) {
@@ -574,7 +574,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestUInt64(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestInt64") == 0) {
@@ -584,7 +584,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestInt64(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestUInt") == 0) {
@@ -594,7 +594,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestUInt(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestInt") == 0) {
@@ -604,7 +604,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestInt(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestUInt16") == 0) {
@@ -614,7 +614,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestUInt16(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestInt16") == 0) {
@@ -624,7 +624,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestInt16(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestChar") == 0) {
@@ -634,7 +634,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestChar(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestBoolean") == 0) {
@@ -644,7 +644,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestBoolean(
             (p_Param1),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestAll") == 0) {
@@ -729,7 +729,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
             (p_in_Param14),
             (p_in_Param15),
             (p_in_Param16),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
     if (method_name.compare("TestTriggerInternalPropertyChange") == 0) {
@@ -739,7 +739,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestTriggerInternalPropertyChange(
             (p_NewPropertyValue),
-            TestMessageHelper(invocation));
+            MethodInvocation(invocation));
     }
 
 }

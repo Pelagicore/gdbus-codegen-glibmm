@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <glibmm.h>
 #include <giomm.h>
 #include "{{ common_h_name }}"
@@ -18,20 +19,20 @@ public:
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
 
+    class MethodInvocation;
+
     // deprecated:
     void connect(Gio::DBus::BusType, std::string);
-
 {% for prop in interface.properties %}
     bool {{ prop.name }}_set({{ prop.cpptype_in }} value);
 {% endfor %}
-
 protected:
 {% for method in interface.methods %}
     virtual void {{ method.name }}(
         {% for arg in method.in_args %}
         {{ arg.cpptype_in }} {{ arg.name }},
         {% endfor %}
-        {{ interface.cpp_class_name }}MessageHelper msg) = 0;
+        MethodInvocation invocation) = 0;
 {% endfor %}
 {% for prop in interface.properties %}
 
@@ -91,6 +92,49 @@ private:
     Glib::RefPtr<Gio::DBus::Connection> m_connection;
     std::string m_objectPath;
     std::string m_interfaceName;
+};
+
+class {{interface.cpp_class_name}}::MethodInvocation {
+public:
+    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
+        m_message(msg) {}
+
+    const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
+        return m_message;
+    }
+
+    void ret(Glib::Error error) {
+        m_message->return_error(error);
+    }
+
+    void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {
+        m_message->return_error(domain, code, message);
+    }
+
+    {% for return_types in interface.unique_return_types() %}
+    void ret(
+    {%- for type in return_types -%}
+        {{- type.cpptype_in }} p{{ loop.index0 -}}
+        {{- ", " if not loop.last -}}
+    {%- endfor -%}
+    ) {
+        std::vector<Glib::VariantBase> vlist;
+    {% for type in return_types %}
+        {% if type.signature == "v" %}
+        vlist.push_back(p{{ loop.index0 }});
+        {% else %}
+        {% set index = loop.index0|string %}
+        {{ type.cppvalue_send('var' + index, 'p' + index, interface.cpp_class_name) | indent(2) }}
+        vlist.push_back(var{{ loop.index0 }});
+        {% endif %}
+    {% endfor %}
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+{% endfor %}
+private:
+    Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
 };
 
 {% for namespace in namespaces|reverse %}

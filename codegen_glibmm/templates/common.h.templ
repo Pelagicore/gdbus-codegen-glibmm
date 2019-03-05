@@ -1,11 +1,15 @@
 #pragma once
 #include <iostream>
-#include <map>
-#include <tuple>
+#include <vector>
 #include "glibmm.h"
 #include "giomm.h"
 
 {% for interface in interfaces %}
+{% set namespaces = interface.cpp_namespace_name.split("::") %}
+{% for namespace in namespaces %}
+namespace {{ namespace }} {
+{% endfor %}
+
 class {{ interface.cpp_class_name }}TypeWrap {
 public:
     template<typename T>
@@ -61,55 +65,13 @@ public:
 {% endfor %}
 };
 
-class {{interface.cpp_class_name}}MessageHelper {
-public:
-    {{interface.cpp_class_name}}MessageHelper (const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
-        m_message(msg) {}
-
-    const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
-        return m_message;
-    }
-
-    void ret(Glib::Error error) {
-        m_message->return_error(error);
-    }
-
-    void returnError(const Glib::ustring &domain, int code, const Glib::ustring &message) {
-        m_message->return_error(domain, code, message);
-    }
-
-{% for return_types in interface.unique_return_types() %}
-    void ret(
-    {%- for type in return_types -%}
-        {{- type.cpptype_in }} p{{ loop.index0 -}}
-        {{- ", " if not loop.last -}}
-    {%- endfor -%}
-    ) {
-        std::vector<Glib::VariantBase> vlist;
-    {% for type in return_types %}
-        {% if type.signature == "v" %}
-        vlist.push_back(p{{ loop.index0 }});
-        {% else %}
-        {% set index = loop.index0|string %}
-        {{ type.cppvalue_send('var' + index, 'p' + index, interface.cpp_class_name) | indent(2) }}
-        vlist.push_back(var{{ loop.index0 }});
-        {% endif %}
-    {% endfor %}
-
-        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
-    }
-
+{% for namespace in namespaces|reverse %}
+} // {{ namespace }}
 {% endfor %}
-private:
-    Glib::RefPtr<Gio::DBus::MethodInvocation> m_message;
-};
-{% if not loop.last %}
 
-{% endif %}
 {% endfor %}
 {% for interface in interfaces %}
 {% if interface.errors %}
-
 {% set namespaces = interface.errors_namespace.split("::") %}
 {% for namespace in namespaces %}
 namespace {{ namespace }} {
