@@ -136,7 +136,7 @@ bool {{ class_name_with_namespace }}::on_interface_set_property(
     static_cast<void>(property_name); // maybe unused
     static_cast<void>(value); // maybe unused
 
-{% for prop in interface.properties  %}
+{% for prop in interface.properties if prop.writable %}
     if (property_name.compare("{{ prop.name }}") == 0) {
         try {
             Glib::Variant<{{ prop.variant_type }}> castValue =
