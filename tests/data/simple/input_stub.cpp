@@ -146,18 +146,6 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
     static_cast<void>(property_name); // maybe unused
     static_cast<void>(value); // maybe unused
 
-    if (property_name.compare("TestPropReadStringArray") == 0) {
-        try {
-            Glib::Variant<std::vector<Glib::ustring>> castValue =
-                Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
-            std::vector<Glib::ustring> val =
-                (castValue.get());
-            TestPropReadStringArray_set(val);
-        } catch (const std::bad_cast &) {
-            g_warning ("Bad cast when casting TestPropReadStringArray");
-        }
-    }
-
     return true;
 }
 
