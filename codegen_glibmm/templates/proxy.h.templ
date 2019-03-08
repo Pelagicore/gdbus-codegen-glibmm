@@ -54,6 +54,7 @@ public:
     {% if prop.writable %}
     void {{ prop.name }}_set({{ prop.cpptype_in }}, const Gio::SlotAsyncReady &);
     void {{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
+    void {{ prop.name }}_set_sync({{ prop.cpptype_in }});
     {% endif %}
     sigc::signal<void> &{{ prop.name }}_changed() {
         return m_{{ prop.name }}_changed;
