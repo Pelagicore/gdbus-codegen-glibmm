@@ -82,6 +82,15 @@ void {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} 
 void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
 }
 
+void {{ class_name_with_namespace }}::{{ prop.name }}_set_sync({{ prop.cpptype_in }} value) {
+    std::vector<Glib::VariantBase> paramsVec;
+    paramsVec.push_back(Glib::Variant<Glib::ustring>::create("{{ interface.name }}"));
+    paramsVec.push_back(Glib::Variant<Glib::ustring>::create("{{ prop.name }}"));
+    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}(value))));
+    Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
+    m_proxy->call_sync("org.freedesktop.DBus.Properties.Set", params);
+}
+
 {% endif %}
 {% endfor %}
 {% for signal in interface.signals if signal is supported_by_sigc %}
