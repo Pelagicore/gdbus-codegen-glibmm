@@ -1943,3 +1943,23 @@ Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Tes
         new org::gdbus::codegen::glibmm::Test(proxy);
     return Glib::RefPtr<org::gdbus::codegen::glibmm::Test>(p);
 }
+
+Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBus_sync(
+    Gio::DBus::BusType busType,
+    Gio::DBus::ProxyFlags proxyFlags,
+    const std::string &name,
+    const std::string &objectPath,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+{
+    Glib::RefPtr<Gio::DBus::Proxy> proxy =
+        Gio::DBus::Proxy::create_for_bus_sync(busType,
+            name,
+            objectPath,
+            "org.gdbus.codegen.glibmm.Test",
+            cancellable,
+            Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
+            proxyFlags);
+    org::gdbus::codegen::glibmm::Test *p =
+        new org::gdbus::codegen::glibmm::Test(proxy);
+    return Glib::RefPtr<org::gdbus::codegen::glibmm::Test>(p);
+}
