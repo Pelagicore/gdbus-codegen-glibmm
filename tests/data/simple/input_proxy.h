@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <tuple>
 #include <vector>
 #include <glibmm.h>
 #include <giomm.h>
@@ -41,6 +42,11 @@ public:
         Glib::ustring &Param3,
         std::map<Glib::ustring,Glib::VariantBase> &Param4,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::tuple<Glib::ustring, std::map<Glib::ustring,Glib::VariantBase>>
+    TestCall_sync(
+        gint32 Param1,        const std::map<Glib::ustring,Glib::VariantBase> & Param2,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     std::vector<Glib::ustring> TestPropReadStringArray_get();
     sigc::signal<void> &TestPropReadStringArray_changed() {

@@ -6,6 +6,8 @@
 
 #include "{{ proxy_h_name }}"
 
+#include <utility>
+
 {% for interface in interfaces %}
 {% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name %}
 {% for method in interface.methods %}
@@ -49,6 +51,52 @@ void {{ class_name_with_namespace }}::{{ method.camel_name }}_finish(
 
     {{ arg.cppvalue_get("out_" + arg.name, loop.index0|string, interface.cpp_class_name) | indent(1) }}
     {% endfor %}
+}
+
+{% if method.out_args|length == 0 %}
+void
+{% elif method.out_args|length == 1 %}
+{{ method.out_args[0].cpptype_out }}
+{% else %}
+std::tuple<{{ method.out_args|join(', ', attribute='cpptype_out') }}>
+{% endif %}
+{{ class_name_with_namespace }}::{{ method.camel_name }}_sync(
+    {% for arg in method.in_args %}
+    {{ arg.cpptype_in }} arg_{{ arg.name }},
+    {% endfor %}
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
+{
+    Glib::VariantContainerBase base;
+    {% if method.in_args|length > 0 %}
+    base = {{ interface.cpp_class_name }}TypeWrap::{{ method.camel_name }}_pack(
+    {%- set comma = joiner(',') -%}
+    {%- for arg in method.in_args -%}
+        {{ comma() }}
+        arg_{{ arg.name }}
+    {%- endfor -%});
+    {% endif %}
+
+    Glib::VariantContainerBase wrapped;
+    wrapped = m_proxy->call_sync("{{ method.name }}", cancellable, base, timeout_msec);
+
+{% if method.out_args|length == 1 %}
+    {% set arg = method.out_args[0] %}
+    {{ arg.cpptype_out }} out_{{ arg.name }};
+    {{ arg.cppvalue_get("out_" + arg.name, "0", interface.cpp_class_name) | indent(1) }}
+    return out_{{ arg.name }};
+{% elif method.out_args|length > 1 %}
+    {% for arg in method.out_args %}
+    {{ arg.cpptype_out }} out_{{ arg.name }};
+    {{ arg.cppvalue_get("out_" + arg.name, loop.index0|string, interface.cpp_class_name) | indent(1) }}
+
+    {% endfor %}
+    return std::make_tuple(
+    {% for arg in method.out_args %}
+        std::move(out_{{ arg.name }}){{ "," if not loop.last }}
+    {% endfor %}
+    );
+{% endif %}
 }
 
 {% endfor %}
