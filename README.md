@@ -213,6 +213,14 @@ int main(int argc, char **argv) {
 
 It can be compiled in a similar fashion as the previous example.
 
+There are synchronous versions available for method invocations, setting
+properties and creating a proxy that have a `_sync` suffix. These should only be
+used if it is acceptable to block the application for a very long time. For
+instance, the default method invocation timeout for a proxy is 25 seconds.
+Blocking for that amount of time is most likely not a good idea when writing
+e.g. a system daemon. The asynchronous version, that calls a callback when the
+D-Bus method returns, should be used instead.
+
 ## CMake integration
 Running the code generator from CMake can be done using the following snippet:
 
