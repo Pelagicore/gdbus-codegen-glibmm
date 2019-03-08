@@ -21,6 +21,13 @@ public:
 
     static Glib::RefPtr<Test> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
 
+    static Glib::RefPtr<Test> createForBus_sync(
+        Gio::DBus::BusType busType,
+        Gio::DBus::ProxyFlags proxyFlags,
+        const std::string &name,
+        const std::string &objectPath,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
+
     Glib::RefPtr<Gio::DBus::Proxy> dbusProxy() const { return m_proxy; }
 
     void TestStringVariantDict(
