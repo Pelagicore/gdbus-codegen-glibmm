@@ -6,6 +6,8 @@
 
 #include "OUTPUT_DIR/input_proxy.h"
 
+#include <utility>
+
 void org::gdbus::codegen::glibmm::Test::TestCall(
     gint32 arg_Param1,
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
@@ -36,6 +38,37 @@ void org::gdbus::codegen::glibmm::Test::TestCall_finish(
     Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> out_Param4_v;
     wrapped.get_child(out_Param4_v, 1);
     out_Param4 = out_Param4_v.get();
+}
+
+std::tuple<Glib::ustring, std::map<Glib::ustring,Glib::VariantBase>>
+org::gdbus::codegen::glibmm::Test::TestCall_sync(
+    gint32 arg_Param1,
+    const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
+{
+    Glib::VariantContainerBase base;
+    base = TestTypeWrap::TestCall_pack(
+        arg_Param1,
+        arg_Param2);
+
+    Glib::VariantContainerBase wrapped;
+    wrapped = m_proxy->call_sync("TestCall", cancellable, base, timeout_msec);
+
+    Glib::ustring out_Param3;
+    Glib::Variant<Glib::ustring> out_Param3_v;
+    wrapped.get_child(out_Param3_v, 0);
+    out_Param3 = out_Param3_v.get();
+
+    std::map<Glib::ustring,Glib::VariantBase> out_Param4;
+    Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> out_Param4_v;
+    wrapped.get_child(out_Param4_v, 1);
+    out_Param4 = out_Param4_v.get();
+
+    return std::make_tuple(
+        std::move(out_Param3),
+        std::move(out_Param4)
+    );
 }
 
 std::vector<Glib::ustring> org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_get()

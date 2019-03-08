@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <tuple>
 #include <vector>
 #include <glibmm.h>
 #include <giomm.h>
@@ -40,6 +41,11 @@ public:
         std::map<Glib::ustring,Glib::VariantBase> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::map<Glib::ustring,Glib::VariantBase>
+    TestStringVariantDict_sync(
+        const std::map<Glib::ustring,Glib::VariantBase> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestStringStringDict(
         const std::map<Glib::ustring,Glib::ustring> & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -49,6 +55,11 @@ public:
     void TestStringStringDict_finish (
         std::map<Glib::ustring,Glib::ustring> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::map<Glib::ustring,Glib::ustring>
+    TestStringStringDict_sync(
+        const std::map<Glib::ustring,Glib::ustring> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestUintIntDict(
         const std::map<guint32,gint32> & Param1,
@@ -60,6 +71,11 @@ public:
         std::map<guint32,gint32> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::map<guint32,gint32>
+    TestUintIntDict_sync(
+        const std::map<guint32,gint32> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestVariant(
         const Glib::VariantBase & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -69,6 +85,11 @@ public:
     void TestVariant_finish (
         Glib::VariantBase &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    Glib::VariantBase
+    TestVariant_sync(
+        const Glib::VariantBase & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestVariant2(
         const Glib::ustring & Param1,
@@ -82,6 +103,11 @@ public:
         Glib::VariantBase &Param4,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::tuple<Glib::ustring, Glib::VariantBase>
+    TestVariant2_sync(
+        const Glib::ustring & Param1,        const Glib::VariantBase & Param2,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestByteStringArray(
         const std::vector<std::string> & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -91,6 +117,11 @@ public:
     void TestByteStringArray_finish (
         std::vector<std::string> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::vector<std::string>
+    TestByteStringArray_sync(
+        const std::vector<std::string> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestObjectPathArray(
         const std::vector<Glib::DBusObjectPathString> & Param1,
@@ -102,6 +133,11 @@ public:
         std::vector<Glib::DBusObjectPathString> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::vector<Glib::DBusObjectPathString>
+    TestObjectPathArray_sync(
+        const std::vector<Glib::DBusObjectPathString> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestStringArray(
         const std::vector<Glib::ustring> & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -111,6 +147,11 @@ public:
     void TestStringArray_finish (
         std::vector<Glib::ustring> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::vector<Glib::ustring>
+    TestStringArray_sync(
+        const std::vector<Glib::ustring> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestByteString(
         const std::string & Param1,
@@ -122,6 +163,11 @@ public:
         std::string &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::string
+    TestByteString_sync(
+        const std::string & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestStruct(
         const std::tuple<Glib::ustring,Glib::ustring> & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -131,6 +177,11 @@ public:
     void TestStruct_finish (
         std::tuple<Glib::ustring,Glib::ustring> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::tuple<Glib::ustring,Glib::ustring>
+    TestStruct_sync(
+        const std::tuple<Glib::ustring,Glib::ustring> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestStructArray(
         const std::vector<std::tuple<guint32,Glib::ustring,gint32>> & Param1,
@@ -142,6 +193,11 @@ public:
         std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::vector<std::tuple<guint32,Glib::ustring,gint32>>
+    TestStructArray_sync(
+        const std::vector<std::tuple<guint32,Glib::ustring,gint32>> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestDictStructArray(
         const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -151,6 +207,11 @@ public:
     void TestDictStructArray_finish (
         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>>
+    TestDictStructArray_sync(
+        const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestSignature(
         const Glib::DBusSignatureString & Param1,
@@ -162,6 +223,11 @@ public:
         Glib::DBusSignatureString &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    Glib::DBusSignatureString
+    TestSignature_sync(
+        const Glib::DBusSignatureString & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestObjectPath(
         const Glib::DBusObjectPathString & Param1,
         const Gio::SlotAsyncReady &slot,
@@ -171,6 +237,11 @@ public:
     void TestObjectPath_finish (
         Glib::DBusObjectPathString &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    Glib::DBusObjectPathString
+    TestObjectPath_sync(
+        const Glib::DBusObjectPathString & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestString(
         const Glib::ustring & Param1,
@@ -182,6 +253,11 @@ public:
         Glib::ustring &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    Glib::ustring
+    TestString_sync(
+        const Glib::ustring & Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestDouble(
         double Param1,
         const Gio::SlotAsyncReady &slot,
@@ -191,6 +267,11 @@ public:
     void TestDouble_finish (
         double &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    double
+    TestDouble_sync(
+        double Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestUInt64(
         guint64 Param1,
@@ -202,6 +283,11 @@ public:
         guint64 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    guint64
+    TestUInt64_sync(
+        guint64 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestInt64(
         gint64 Param1,
         const Gio::SlotAsyncReady &slot,
@@ -211,6 +297,11 @@ public:
     void TestInt64_finish (
         gint64 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    gint64
+    TestInt64_sync(
+        gint64 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestUInt(
         guint32 Param1,
@@ -222,6 +313,11 @@ public:
         guint32 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    guint32
+    TestUInt_sync(
+        guint32 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestInt(
         gint32 Param1,
         const Gio::SlotAsyncReady &slot,
@@ -231,6 +327,11 @@ public:
     void TestInt_finish (
         gint32 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    gint32
+    TestInt_sync(
+        gint32 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestUInt16(
         guint16 Param1,
@@ -242,6 +343,11 @@ public:
         guint16 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    guint16
+    TestUInt16_sync(
+        guint16 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestInt16(
         gint16 Param1,
         const Gio::SlotAsyncReady &slot,
@@ -251,6 +357,11 @@ public:
     void TestInt16_finish (
         gint16 &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    gint16
+    TestInt16_sync(
+        gint16 Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestChar(
         guchar Param1,
@@ -262,6 +373,11 @@ public:
         guchar &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    guchar
+    TestChar_sync(
+        guchar Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestBoolean(
         bool Param1,
         const Gio::SlotAsyncReady &slot,
@@ -271,6 +387,11 @@ public:
     void TestBoolean_finish (
         bool &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    bool
+    TestBoolean_sync(
+        bool Param1,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     void TestAll(
         const std::vector<std::string> & in_Param1,
@@ -312,6 +433,11 @@ public:
         bool &out_Param16,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
+    std::tuple<std::vector<std::string>, std::vector<Glib::DBusObjectPathString>, std::vector<Glib::ustring>, std::string, Glib::DBusSignatureString, Glib::DBusObjectPathString, Glib::ustring, double, guint64, gint64, guint32, gint32, guint16, gint16, guchar, bool>
+    TestAll_sync(
+        const std::vector<std::string> & in_Param1,        const std::vector<Glib::DBusObjectPathString> & in_Param2,        const std::vector<Glib::ustring> & in_Param3,        const std::string & in_Param4,        const Glib::DBusSignatureString & in_Param5,        const Glib::DBusObjectPathString & in_Param6,        const Glib::ustring & in_Param7,        double in_Param8,        guint64 in_Param9,        gint64 in_Param10,        guint32 in_Param11,        gint32 in_Param12,        guint16 in_Param13,        gint16 in_Param14,        guchar in_Param15,        bool in_Param16,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
+
     void TestTriggerInternalPropertyChange(
         gint32 NewPropertyValue,
         const Gio::SlotAsyncReady &slot,
@@ -320,6 +446,11 @@ public:
 
     void TestTriggerInternalPropertyChange_finish (
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    void
+    TestTriggerInternalPropertyChange_sync(
+        gint32 NewPropertyValue,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
     std::vector<std::string> TestPropReadByteStringArray_get();
     sigc::signal<void> &TestPropReadByteStringArray_changed() {

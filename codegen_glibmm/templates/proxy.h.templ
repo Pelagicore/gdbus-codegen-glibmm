@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <tuple>
 #include <vector>
 #include <glibmm.h>
 #include <giomm.h>
@@ -45,6 +46,20 @@ public:
         {{ arg.cpptype_out }} &{{ arg.name }},
         {% endfor %}
         const Glib::RefPtr<Gio::AsyncResult> &res);
+
+    {% if method.out_args|length == 0 %}
+    void
+    {% elif method.out_args|length == 1 %}
+    {{ method.out_args[0].cpptype_out }}
+    {% else %}
+    std::tuple<{{ method.out_args|join(', ', attribute='cpptype_out') }}>
+    {% endif %}
+    {{ method.name }}_sync(
+    {% for arg in method.in_args %}
+        {{ arg.cpptype_in }} {{ arg.name }},
+    {%- endfor -%}
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
+        int timeout_msec = -1);
 
 {% endfor %}
 {% for prop in interface.properties %}
