@@ -99,6 +99,23 @@ void org::gdbus::codegen::glibmm::Test::TestVariant_finish(
     out_Param2 = Glib::VariantBase(output);
 }
 
+void org::gdbus::codegen::glibmm::Test::TestVariant2_finish(
+    Glib::ustring &out_Param3,
+    Glib::VariantBase &out_Param4,
+    const Glib::RefPtr<Gio::AsyncResult> &result)
+{
+    Glib::VariantContainerBase wrapped;
+    wrapped = m_proxy->call_finish(result);
+
+    Glib::Variant<Glib::ustring> out_Param3_v;
+    wrapped.get_child(out_Param3_v, 0);
+    out_Param3 = out_Param3_v.get();
+
+    GVariant *output;
+    g_variant_get_child(wrapped.gobj(), 1, "v", &output);
+    out_Param4 = Glib::VariantBase(output);
+}
+
 void org::gdbus::codegen::glibmm::Test::TestByteStringArray(
     const std::vector<std::string> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
