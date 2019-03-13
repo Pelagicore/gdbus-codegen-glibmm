@@ -157,7 +157,7 @@ class VariantType(Type):
 
     def cppvalue_get(self, outvar, idx, cpp_class_name):
         return 'GVariant *output;\n' +\
-                                'g_variant_get_child(wrapped.gobj(), 0, "v", &output);\n' + outvar + ' = Glib::VariantBase(output);'
+                                'g_variant_get_child(wrapped.gobj(), ' + idx + ', "v", &output);\n' + outvar + ' = Glib::VariantBase(output);'
 
 
 class ArrayType(Type):

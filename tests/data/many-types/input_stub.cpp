@@ -28,6 +28,13 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
        <arg type="v" name="Param2" direction="out"></arg>
     </method>
 
+    <method name="TestVariant2">
+       <arg type="s" name="Param1" direction="in"></arg>
+       <arg type="v" name="Param2" direction="in"></arg>
+       <arg type="s" name="Param3" direction="out"></arg>
+       <arg type="v" name="Param4" direction="out"></arg>
+    </method>
+
     <method name="TestByteStringArray">
         <arg type="aay" name="Param1" direction="in"></arg>
         <arg type="aay" name="Param2" direction="out"></arg>
@@ -454,6 +461,23 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
         TestVariant(
             (p_Param1),
+            MethodInvocation(invocation));
+    }
+
+    if (method_name.compare("TestVariant2") == 0) {
+        Glib::VariantContainerBase containerBase = parameters;
+        Glib::Variant<Glib::ustring> base_Param1;
+        parameters.get_child(base_Param1, 0);
+        Glib::ustring p_Param1 = base_Param1.get();
+
+        GVariant *output1;
+        g_variant_get_child(containerBase.gobj(), 1, "v", &output1);
+        Glib::VariantBase p_Param2 =
+            Glib::VariantBase(output1);
+
+        TestVariant2(
+            (p_Param1),
+            (p_Param2),
             MethodInvocation(invocation));
     }
 

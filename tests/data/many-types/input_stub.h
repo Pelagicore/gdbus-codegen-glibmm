@@ -85,6 +85,10 @@ protected:
     virtual void TestVariant(
         const Glib::VariantBase & Param1,
         MethodInvocation invocation) = 0;
+    virtual void TestVariant2(
+        const Glib::ustring & Param1,
+        const Glib::VariantBase & Param2,
+        MethodInvocation invocation) = 0;
     virtual void TestByteStringArray(
         const std::vector<std::string> & Param1,
         MethodInvocation invocation) = 0;
@@ -701,6 +705,16 @@ public:
     void ret(const Glib::VariantBase & p0) {
         std::vector<Glib::VariantBase> vlist;
         vlist.push_back(p0);
+
+        m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
+    }
+
+    void ret(const Glib::ustring & p0, const Glib::VariantBase & p1) {
+        std::vector<Glib::VariantBase> vlist;
+        Glib::Variant<Glib::ustring> var0 =
+            Glib::Variant<Glib::ustring>::create(p0);
+        vlist.push_back(var0);
+        vlist.push_back(p1);
 
         m_message->return_value(Glib::Variant<Glib::VariantBase>::create_tuple(vlist));
     }
