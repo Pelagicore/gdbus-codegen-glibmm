@@ -80,20 +80,10 @@ void {{ class_name_with_namespace }}::on_method_call(
 
 {% for method in interface.methods %}
     if (method_name.compare("{{ method.name }}") == 0) {
-        {% if method is templated %}
-        Glib::VariantContainerBase containerBase = parameters;
-        {% endif %}
     {% for arg in method.in_args %}
-        {% if arg.templated %}
-        GVariant *output{{ loop.index0 }};
-        g_variant_get_child(containerBase.gobj(), {{ loop.index0 }}, "v", &output{{ loop.index0 }});
-        Glib::VariantBase p_{{ arg.name }} =
-            Glib::VariantBase(output{{ loop.index0 }});
-        {% else %}
         Glib::Variant<{{ arg.variant_type }}> base_{{ arg.name }};
         parameters.get_child(base_{{ arg.name }}, {{ loop.index0 }});
         {{ arg.variant_type }} p_{{ arg.name }} = base_{{ arg.name }}.get();
-        {% endif %}
 
     {% endfor %}
         {{ method.name }}(

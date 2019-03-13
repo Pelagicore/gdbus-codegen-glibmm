@@ -53,46 +53,22 @@ public:
         std::map<guint32,gint32> &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
-    template <typename T>
     void TestVariant(
-        T Param1,
-        const Gio::SlotAsyncReady &callback,
+        const Glib::VariantBase & Param1,
+        const Gio::SlotAsyncReady &slot,
         const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
-        int timeout_msec = -1)
-    {
-        Glib::VariantContainerBase base;
-        Glib::Variant<Glib::Variant<T>> variantValue =
-            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create(Param1));
-        Glib::VariantBase params = variantValue;
-        base = Glib::VariantContainerBase::create_tuple(params);
-
-        m_proxy->call( "TestVariant", callback, cancellable, base, timeout_msec);
-    }
+        int timeout_msec = -1);
 
     void TestVariant_finish (
         Glib::VariantBase &Param2,
         const Glib::RefPtr<Gio::AsyncResult> &res);
 
-    template <typename T>
     void TestVariant2(
         const Glib::ustring & Param1,
-        T Param2,
-        const Gio::SlotAsyncReady &callback,
+        const Glib::VariantBase & Param2,
+        const Gio::SlotAsyncReady &slot,
         const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
-        int timeout_msec = -1)
-    {
-        Glib::VariantContainerBase base;
-        std::vector<Glib::VariantBase> params;
-        Glib::Variant<Glib::ustring> Param1_param =
-    Glib::Variant<Glib::ustring>::create(Param1);
-        params.push_back(Param1_param);
-        Glib::Variant<Glib::Variant<T>> Param2_variantValue =
-            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create(Param2));
-        params.push_back(Param2_variantValue);
-        base = Glib::VariantContainerBase::create_tuple(params);
-
-        m_proxy->call( "TestVariant2", callback, cancellable, base, timeout_msec);
-    }
+        int timeout_msec = -1);
 
     void TestVariant2_finish (
         Glib::ustring &Param3,

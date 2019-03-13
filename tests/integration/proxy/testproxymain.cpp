@@ -56,12 +56,11 @@ void on_test_uint_int_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
     printStatus("UintIntDict", res == expectedMap);
 }
 
-void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::ustring expectedBase) {
+void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib::Variant<Glib::ustring> expectedBase) {
     Glib::VariantBase base;
     proxy->TestVariant_finish(base, result);
 
-    // The proxy code has extracted the variant which should be a string so we can cast it now
-    std::string value;
+    Glib::ustring value;
     try {
         Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(base);
         value = res.get();
@@ -69,14 +68,12 @@ void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result, Glib:
         std::cout << e.what() << std::endl;
     }
 
-    std::string expectedValue = expectedBase;
-
-    printStatus("Variant", value == expectedValue);
+    printStatus("Variant", value == expectedBase.get());
 }
 
 void on_test_variant2_finished(const Glib::RefPtr<Gio::AsyncResult> result,
                                std::string expectedString,
-                               Glib::ustring expectedVariant)
+                               Glib::Variant<Glib::ustring> expectedVariant)
 {
     Glib::ustring string;
     Glib::VariantBase base;
@@ -91,7 +88,7 @@ void on_test_variant2_finished(const Glib::RefPtr<Gio::AsyncResult> result,
         std::cerr << e.what() << std::endl;
     }
 
-    printStatus("Variant2", string == expectedString && value == expectedVariant);
+    printStatus("Variant2", string == expectedString && value == expectedVariant.get());
 }
 
 void on_test_byte_string_array_finished (const Glib::RefPtr<Gio::AsyncResult> result, std::vector<std::string> expected) {
@@ -490,7 +487,7 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
         { 12, -384 },
         { 0, 1 },
     };
-    Glib::ustring variantValue = "string-as-variant";
+    Glib::Variant<Glib::ustring> variantValue = Glib::Variant<Glib::ustring>::create("string-as-variant");
 
     std::vector<std::string> inputStrVec;
     inputStrVec.push_back(__FUNCTION__);
