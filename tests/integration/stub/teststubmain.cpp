@@ -99,7 +99,18 @@ void TestImpl::TestVariant2(const Glib::ustring &Param1,
                             const Glib::VariantBase &Param2,
                             MethodInvocation invocation)
 {
-    invocation.ret(Param1, Param2);
+    std::string value;
+    try {
+        Glib::Variant<Glib::ustring> res = Glib::VariantBase::cast_dynamic< Glib::Variant<Glib::ustring> >(Param2);
+        value = res.get();
+    } catch (std::bad_cast e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    Glib::Variant<Glib::Variant<Glib::ustring> > variantValue;
+    variantValue = Glib::Variant<Glib::Variant<Glib::ustring> >::create(Glib::Variant<Glib::ustring>::create(value));
+
+    invocation.ret(Param1, variantValue);
 }
 
 void TestImpl::TestByteStringArray (
