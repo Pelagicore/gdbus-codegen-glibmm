@@ -152,12 +152,6 @@ class CodeGenerator:
         self.j2_env = Environment(loader=FileSystemLoader(THIS_DIR + "/templates/"),
                                   trim_blocks=True,
                                   lstrip_blocks=True)
-        def is_templated(method):
-            for a in method.in_args:
-                if a.templated:
-                    return True
-            return False
-        self.j2_env.tests['templated'] = is_templated
 
         def is_supported_by_sigc(signal):
             return len(signal.args) <= SIGNAL_MAX_PARAM

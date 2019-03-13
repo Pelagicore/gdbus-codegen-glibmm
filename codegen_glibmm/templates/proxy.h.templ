@@ -25,51 +25,13 @@ public:
     Glib::RefPtr<Gio::DBus::Proxy> dbusProxy() const { return m_proxy; }
 
 {% for method in interface.methods %}
-    {% if method is templated %}
-    template <typename T>
-    {% endif %}
     void {{ method.name }}(
     {% for arg in method.in_args %}
-        {% if arg.templated %}
-        T {{ arg.name }},
-        {% else %}
         {{ arg.cpptype_in }} {{ arg.name }},
-        {% endif %}
-    {%- endfor -%}
-    {% if method is templated %}
-        const Gio::SlotAsyncReady &callback,
-        const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
-        int timeout_msec = -1)
-    {
-        Glib::VariantContainerBase base;
-        {% if method.in_args|length > 0 %}
-        {% if method.in_args|length > 1 %}
-        std::vector<Glib::VariantBase> params;
-        {% for arg in method.in_args %}
-        {% if arg.templated %}
-        Glib::Variant<Glib::Variant<T>> {{ arg.name }}_variantValue =
-            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create({{ arg.name }}));
-        params.push_back({{ arg.name }}_variantValue);
-        {% else %}
-        {{ arg.cppvalue_send(arg.name + "_param", arg.name, interface.cpp_class_name) }}
-        params.push_back({{ arg.name }}_param);
-        {% endif %}
-        {%- endfor -%}
-        {% else %}
-        Glib::Variant<Glib::Variant<T>> variantValue =
-            Glib::Variant<Glib::Variant<T>>::create(Glib::Variant<T>::create({{ method.in_args[0].name }}));
-        Glib::VariantBase params = variantValue;
-        {% endif %}
-        base = Glib::VariantContainerBase::create_tuple(params);
-        {% endif %}
-
-        m_proxy->call( "{{ method.name }}", callback, cancellable, base, timeout_msec);
-    }
-    {% else %}
+    {% endfor %}
         const Gio::SlotAsyncReady &slot,
         const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
         int timeout_msec = -1);
-    {% endif %}
 
     void {{ method.name }}_finish (
         {% for arg in method.out_args %}

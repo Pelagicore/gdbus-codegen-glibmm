@@ -38,7 +38,7 @@ public:
 
         return newStrv;
     }
-{% for method in interface.methods if not method is templated %}
+{% for method in interface.methods %}
 {% if method.in_args|length > 0 %}
 
     static Glib::VariantContainerBase {{ method.camel_name }}_pack(

@@ -87,6 +87,19 @@ void org::gdbus::codegen::glibmm::Test::TestUintIntDict_finish(
     out_Param2 = out_Param2_v.get();
 }
 
+void org::gdbus::codegen::glibmm::Test::TestVariant(
+    const Glib::VariantBase & arg_Param1,
+    const Gio::SlotAsyncReady &callback,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
+{
+    Glib::VariantContainerBase base;
+    base = TestTypeWrap::TestVariant_pack(
+        arg_Param1);
+
+    m_proxy->call("TestVariant", callback, cancellable, base, timeout_msec);
+}
+
 void org::gdbus::codegen::glibmm::Test::TestVariant_finish(
     Glib::VariantBase &out_Param2,
     const Glib::RefPtr<Gio::AsyncResult> &result)
@@ -97,6 +110,21 @@ void org::gdbus::codegen::glibmm::Test::TestVariant_finish(
     GVariant *output;
     g_variant_get_child(wrapped.gobj(), 0, "v", &output);
     out_Param2 = Glib::VariantBase(output);
+}
+
+void org::gdbus::codegen::glibmm::Test::TestVariant2(
+    const Glib::ustring & arg_Param1,
+    const Glib::VariantBase & arg_Param2,
+    const Gio::SlotAsyncReady &callback,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable,
+    int timeout_msec)
+{
+    Glib::VariantContainerBase base;
+    base = TestTypeWrap::TestVariant2_pack(
+        arg_Param1,
+        arg_Param2);
+
+    m_proxy->call("TestVariant2", callback, cancellable, base, timeout_msec);
 }
 
 void org::gdbus::codegen::glibmm::Test::TestVariant2_finish(

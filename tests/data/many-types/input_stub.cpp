@@ -453,11 +453,9 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     }
 
     if (method_name.compare("TestVariant") == 0) {
-        Glib::VariantContainerBase containerBase = parameters;
-        GVariant *output0;
-        g_variant_get_child(containerBase.gobj(), 0, "v", &output0);
-        Glib::VariantBase p_Param1 =
-            Glib::VariantBase(output0);
+        Glib::Variant<Glib::VariantBase> base_Param1;
+        parameters.get_child(base_Param1, 0);
+        Glib::VariantBase p_Param1 = base_Param1.get();
 
         TestVariant(
             (p_Param1),
@@ -465,15 +463,13 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
     }
 
     if (method_name.compare("TestVariant2") == 0) {
-        Glib::VariantContainerBase containerBase = parameters;
         Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
         Glib::ustring p_Param1 = base_Param1.get();
 
-        GVariant *output1;
-        g_variant_get_child(containerBase.gobj(), 1, "v", &output1);
-        Glib::VariantBase p_Param2 =
-            Glib::VariantBase(output1);
+        Glib::Variant<Glib::VariantBase> base_Param2;
+        parameters.get_child(base_Param2, 1);
+        Glib::VariantBase p_Param2 = base_Param2.get();
 
         TestVariant2(
             (p_Param1),

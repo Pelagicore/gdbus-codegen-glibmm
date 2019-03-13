@@ -62,6 +62,30 @@ public:
         return Glib::VariantContainerBase::create_tuple(params);
     }
 
+    static Glib::VariantContainerBase TestVariant_pack(
+        const Glib::VariantBase & arg_Param1) {
+        Glib::VariantContainerBase base;
+        Glib::Variant<Glib::VariantBase> params =
+            Glib::Variant<Glib::VariantBase>::create(arg_Param1);
+        return Glib::VariantContainerBase::create_tuple(params);
+    }
+
+    static Glib::VariantContainerBase TestVariant2_pack(
+        const Glib::ustring & arg_Param1,
+        const Glib::VariantBase & arg_Param2) {
+        Glib::VariantContainerBase base;
+        std::vector<Glib::VariantBase> params;
+
+        Glib::Variant<Glib::ustring> Param1_param =
+            Glib::Variant<Glib::ustring>::create(arg_Param1);
+        params.push_back(Param1_param);
+
+        Glib::Variant<Glib::VariantBase> Param2_param =
+            Glib::Variant<Glib::VariantBase>::create(arg_Param2);
+        params.push_back(Param2_param);
+        return Glib::VariantContainerBase::create_tuple(params);
+    }
+
     static Glib::VariantContainerBase TestByteStringArray_pack(
         const std::vector<std::string> & arg_Param1) {
         Glib::VariantContainerBase base;
