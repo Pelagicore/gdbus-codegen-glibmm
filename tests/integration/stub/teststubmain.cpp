@@ -62,24 +62,24 @@ TestImpl::TestImpl() {
 }
 
 void TestImpl::TestStringVariantDict(const std::map<Glib::ustring,Glib::VariantBase> &Param1,
-                                     MethodInvocation invocation)
+                                     MethodInvocation &invocation)
 {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStringStringDict(const std::map<Glib::ustring,Glib::ustring> &Param1,
-                                    MethodInvocation invocation)
+                                    MethodInvocation &invocation)
 {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestUintIntDict(const std::map<guint32,gint32> &Param1,
-                               MethodInvocation invocation)
+                               MethodInvocation &invocation)
 {
     invocation.ret(Param1);
 }
 
-void TestImpl::TestVariant(const Glib::VariantBase &Param1, MethodInvocation invocation)
+void TestImpl::TestVariant(const Glib::VariantBase &Param1, MethodInvocation &invocation)
 {
     std::string value;
     try {
@@ -97,7 +97,7 @@ void TestImpl::TestVariant(const Glib::VariantBase &Param1, MethodInvocation inv
 
 void TestImpl::TestVariant2(const Glib::ustring &Param1,
                             const Glib::VariantBase &Param2,
-                            MethodInvocation invocation)
+                            MethodInvocation &invocation)
 {
     std::string value;
     try {
@@ -115,115 +115,115 @@ void TestImpl::TestVariant2(const Glib::ustring &Param1,
 
 void TestImpl::TestByteStringArray (
         const std::vector<std::string> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestObjectPathArray (
         const std::vector<Glib::DBusObjectPathString> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStringArray (
         const std::vector<Glib::ustring> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStruct(
         const std::tuple<Glib::ustring,Glib::ustring> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestStructArray (
         const std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestDictStructArray (
         const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestByteString (
         const std::string &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestSignature (
         const Glib::DBusSignatureString &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestObjectPath (
         const Glib::DBusObjectPathString &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestString (
         const Glib::ustring &Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestDouble (
         double Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestUInt64 (
         guint64 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestInt64 (
         gint64 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestUInt (
         guint32 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestInt (
         gint32 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestUInt16 (
         guint16 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestInt16 (
         gint16 Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestChar (
         guchar Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
 void TestImpl::TestBoolean (
         bool Param1,
-        MethodInvocation invocation) {
+        MethodInvocation &invocation) {
     invocation.ret(Param1);
 }
 
@@ -244,16 +244,16 @@ void TestImpl::TestAll (
         gint16 in_Param14,
         guchar in_Param15,
         bool in_Param16,
-        MethodInvocation invocation) {}
+        MethodInvocation &invocation) {}
 
 void TestImpl::TestTriggerInternalPropertyChange(gint32 newValue,
-                                                 MethodInvocation invocation) {
+                                                 MethodInvocation &invocation) {
     TestPropInternalReadPropertyChange_set (newValue);
     TestPropInternalReadWritePropertyChange_set (newValue);
     invocation.ret();
 }
 
-void TestImpl::TestError(MethodInvocation invocation) {
+void TestImpl::TestError(MethodInvocation &invocation) {
     using namespace org::gdbus::codegen::glibmm;
     invocation.ret(Error(Error::InvalidParams, "Testing error message"));
 }

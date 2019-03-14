@@ -110,10 +110,11 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param2, 1);
         std::map<Glib::ustring,Glib::VariantBase> p_Param2 = base_Param2.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestCall(
             (p_Param1),
             (p_Param2),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
 }

@@ -21,7 +21,7 @@ public:
                              const Gio::SlotAsyncReady &slot,
                              const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
-    static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBusFinish (Glib::RefPtr<Gio::AsyncResult> result);
+    static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
 
     static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBus_sync(
         Gio::DBus::BusType busType,

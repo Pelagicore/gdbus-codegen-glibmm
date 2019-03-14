@@ -427,9 +427,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::map<Glib::ustring,Glib::VariantBase> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestStringVariantDict(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestStringStringDict") == 0) {
@@ -437,9 +438,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::map<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestStringStringDict(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestUintIntDict") == 0) {
@@ -447,9 +449,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::map<guint32,gint32> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestUintIntDict(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestVariant") == 0) {
@@ -457,9 +460,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         Glib::VariantBase p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestVariant(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestVariant2") == 0) {
@@ -471,10 +475,11 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param2, 1);
         Glib::VariantBase p_Param2 = base_Param2.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestVariant2(
             (p_Param1),
             (p_Param2),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestByteStringArray") == 0) {
@@ -482,9 +487,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::vector<std::string> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestByteStringArray(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestObjectPathArray") == 0) {
@@ -492,9 +498,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::vector<Glib::DBusObjectPathString> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestObjectPathArray(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestStringArray") == 0) {
@@ -502,9 +509,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::vector<Glib::ustring> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestStringArray(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestByteString") == 0) {
@@ -512,9 +520,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::string p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestByteString(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestStruct") == 0) {
@@ -522,9 +531,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::tuple<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestStruct(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestStructArray") == 0) {
@@ -532,9 +542,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::vector<std::tuple<guint32,Glib::ustring,gint32>> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestStructArray(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestDictStructArray") == 0) {
@@ -542,9 +553,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestDictStructArray(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestSignature") == 0) {
@@ -552,9 +564,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         Glib::DBusSignatureString p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestSignature(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestObjectPath") == 0) {
@@ -562,9 +575,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         Glib::DBusObjectPathString p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestObjectPath(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestString") == 0) {
@@ -572,9 +586,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         Glib::ustring p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestString(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestDouble") == 0) {
@@ -582,9 +597,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         double p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestDouble(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestUInt64") == 0) {
@@ -592,9 +608,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         guint64 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestUInt64(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestInt64") == 0) {
@@ -602,9 +619,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         gint64 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestInt64(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestUInt") == 0) {
@@ -612,9 +630,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         guint32 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestUInt(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestInt") == 0) {
@@ -622,9 +641,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         gint32 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestInt(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestUInt16") == 0) {
@@ -632,9 +652,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         guint16 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestUInt16(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestInt16") == 0) {
@@ -642,9 +663,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         gint16 p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestInt16(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestChar") == 0) {
@@ -652,9 +674,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         guchar p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestChar(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestBoolean") == 0) {
@@ -662,9 +685,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_Param1, 0);
         bool p_Param1 = base_Param1.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestBoolean(
             (p_Param1),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestAll") == 0) {
@@ -732,6 +756,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_in_Param16, 15);
         bool p_in_Param16 = base_in_Param16.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestAll(
             (p_in_Param1),
             (p_in_Param2),
@@ -749,7 +774,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
             (p_in_Param14),
             (p_in_Param15),
             (p_in_Param16),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
     if (method_name.compare("TestTriggerInternalPropertyChange") == 0) {
@@ -757,9 +782,10 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
         parameters.get_child(base_NewPropertyValue, 0);
         gint32 p_NewPropertyValue = base_NewPropertyValue.get();
 
+        MethodInvocation methodInvocation(invocation);
         TestTriggerInternalPropertyChange(
             (p_NewPropertyValue),
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
 }

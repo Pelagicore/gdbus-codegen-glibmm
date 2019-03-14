@@ -6,76 +6,76 @@ public:
 
     void TestVariant (
             const Glib::VariantBase &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestVariant2(const Glib::ustring &Param1,
                       const Glib::VariantBase &Param2,
-                      MethodInvocation invocation) override;
+                      MethodInvocation &invocation) override;
     void TestStringVariantDict(
             const std::map<Glib::ustring,Glib::VariantBase> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestStringStringDict(
             const std::map<Glib::ustring,Glib::ustring> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestUintIntDict(
             const std::map<guint32,gint32> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestByteStringArray (
             const std::vector<std::string> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestObjectPathArray (
             const std::vector<Glib::DBusObjectPathString> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestStringArray (
             const std::vector<Glib::ustring> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestStruct(
             const std::tuple<Glib::ustring,Glib::ustring> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestStructArray (
             const std::vector<std::tuple<guint32,Glib::ustring,gint32>> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestDictStructArray (
             const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestByteString (
             const std::string &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestSignature (
             const Glib::DBusSignatureString &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestObjectPath (
             const Glib::DBusObjectPathString &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestString (
             const Glib::ustring &Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestDouble (
             double Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestUInt64 (
             guint64 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestInt64 (
             gint64 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestUInt (
             guint32 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestInt (
             gint32 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestUInt16 (
             guint16 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestInt16 (
             gint16 Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestChar (
             guchar Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestBoolean (
             bool Param1,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestAll (
             const std::vector<std::string> &in_Param1,
             const std::vector<Glib::DBusObjectPathString> &in_Param2,
@@ -93,10 +93,10 @@ public:
             gint16 in_Param14,
             guchar in_Param15,
             bool in_Param16,
-            MethodInvocation invocation) override;
+            MethodInvocation &invocation) override;
     void TestTriggerInternalPropertyChange(gint32 newValue,
-                                           MethodInvocation invocation);
-    void TestError(MethodInvocation invocation) override;
+                                           MethodInvocation &invocation);
+    void TestError(MethodInvocation &invocation) override;
 
 
     std::vector<std::string>  TestPropReadByteStringArray_get();

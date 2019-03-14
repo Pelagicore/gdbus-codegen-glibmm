@@ -2883,7 +2883,7 @@ void org::gdbus::codegen::glibmm::Test::createForBus(
         proxyFlags);
 }
 
-Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
+Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBusFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =
         Gio::DBus::Proxy::create_for_bus_finish(result);

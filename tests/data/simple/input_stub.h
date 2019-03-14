@@ -27,7 +27,7 @@ protected:
     virtual void TestCall(
         gint32 Param1,
         const std::map<Glib::ustring,Glib::VariantBase> & Param2,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -84,7 +84,7 @@ private:
 
 class Test::MethodInvocation {
 public:
-    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
+    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> &msg):
         m_message(msg) {}
 
     const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
