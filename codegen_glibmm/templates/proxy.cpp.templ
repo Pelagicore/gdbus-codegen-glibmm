@@ -221,7 +221,7 @@ void {{ class_name_with_namespace }}::createForBus(
         proxyFlags);
 }
 
-Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::createForBusFinish(Glib::RefPtr<Gio::AsyncResult> result)
+Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::createForBusFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =
         Gio::DBus::Proxy::create_for_bus_finish(result);

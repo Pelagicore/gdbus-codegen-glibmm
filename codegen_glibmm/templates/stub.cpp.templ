@@ -86,11 +86,12 @@ void {{ class_name_with_namespace }}::on_method_call(
         {{ arg.variant_type }} p_{{ arg.name }} = base_{{ arg.name }}.get();
 
     {% endfor %}
+        MethodInvocation methodInvocation(invocation);
         {{ method.name }}(
     {% for arg in method.in_args %}
             {{ arg.cpptype_get_cast }}(p_{{ arg.name }}),
     {% endfor %}
-            MethodInvocation(invocation));
+            methodInvocation);
     }
 
 {% endfor %}

@@ -75,77 +75,77 @@ public:
 protected:
     virtual void TestStringVariantDict(
         const std::map<Glib::ustring,Glib::VariantBase> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestStringStringDict(
         const std::map<Glib::ustring,Glib::ustring> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestUintIntDict(
         const std::map<guint32,gint32> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestVariant(
         const Glib::VariantBase & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestVariant2(
         const Glib::ustring & Param1,
         const Glib::VariantBase & Param2,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestByteStringArray(
         const std::vector<std::string> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestObjectPathArray(
         const std::vector<Glib::DBusObjectPathString> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestStringArray(
         const std::vector<Glib::ustring> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestByteString(
         const std::string & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestStruct(
         const std::tuple<Glib::ustring,Glib::ustring> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestStructArray(
         const std::vector<std::tuple<guint32,Glib::ustring,gint32>> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestDictStructArray(
         const std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestSignature(
         const Glib::DBusSignatureString & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestObjectPath(
         const Glib::DBusObjectPathString & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestString(
         const Glib::ustring & Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestDouble(
         double Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestUInt64(
         guint64 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestInt64(
         gint64 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestUInt(
         guint32 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestInt(
         gint32 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestUInt16(
         guint16 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestInt16(
         gint16 Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestChar(
         guchar Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestBoolean(
         bool Param1,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestAll(
         const std::vector<std::string> & in_Param1,
         const std::vector<Glib::DBusObjectPathString> & in_Param2,
@@ -163,10 +163,10 @@ protected:
         gint16 in_Param14,
         guchar in_Param15,
         bool in_Param16,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
     virtual void TestTriggerInternalPropertyChange(
         gint32 NewPropertyValue,
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
 
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
@@ -660,7 +660,7 @@ private:
 
 class Test::MethodInvocation {
 public:
-    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
+    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> &msg):
         m_message(msg) {}
 
     const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {

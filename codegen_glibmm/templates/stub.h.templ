@@ -32,7 +32,7 @@ protected:
         {% for arg in method.in_args %}
         {{ arg.cpptype_in }} {{ arg.name }},
         {% endfor %}
-        MethodInvocation invocation) = 0;
+        MethodInvocation &invocation) = 0;
 {% endfor %}
 {% for prop in interface.properties %}
 
@@ -96,7 +96,7 @@ private:
 
 class {{interface.cpp_class_name}}::MethodInvocation {
 public:
-    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> msg):
+    MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> &msg):
         m_message(msg) {}
 
     const Glib::RefPtr<Gio::DBus::MethodInvocation> getMessage() {
