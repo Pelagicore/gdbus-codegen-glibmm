@@ -1,6 +1,6 @@
 #include "many-types_stub.h"
 
-class TestImpl : public org::gdbus::codegen::glibmm::Test {
+class TestImpl : public org::gdbus::codegen::glibmm::TestStub {
 public:
     TestImpl();
 

@@ -11,10 +11,10 @@
 namespace {{ namespace }} {
 {% endfor %}
 
-class {{ interface.cpp_class_name }} {
+class {{ interface.cpp_class_name_stub }} {
 public:
-    {{ interface.cpp_class_name }}();
-    virtual ~{{ interface.cpp_class_name }}();
+    {{ interface.cpp_class_name_stub }}();
+    virtual ~{{ interface.cpp_class_name_stub }}();
 
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
@@ -94,7 +94,7 @@ private:
     std::string m_interfaceName;
 };
 
-class {{interface.cpp_class_name}}::MethodInvocation {
+class {{interface.cpp_class_name_stub}}::MethodInvocation {
 public:
     MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> &msg):
         m_message(msg) {}

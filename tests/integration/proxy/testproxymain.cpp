@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-Glib::RefPtr<org::gdbus::codegen::glibmm::Test> proxy;
+Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> proxy;
 
 void printStatus (std::string message, bool isOK) {
     if (isOK) {
@@ -532,7 +532,7 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     bool booleanValue = true;
 
     /* Proxy */ 
-    proxy = org::gdbus::codegen::glibmm::Test::createForBusFinish(result);
+    proxy = org::gdbus::codegen::glibmm::TestProxy::createForBusFinish(result);
 
     /* Dictionary string -> variant */
     proxy->TestStringVariantDict(variantMapValue, sigc::bind(sigc::ptr_fun(&on_test_string_variant_dict_finished), variantMapValue));
@@ -752,7 +752,7 @@ int main() {
     Glib::init();
     Gio::init();
 
-    org::gdbus::codegen::glibmm::Test::createForBus(Gio::DBus::BUS_TYPE_SESSION,
+    org::gdbus::codegen::glibmm::TestProxy::createForBus(Gio::DBus::BUS_TYPE_SESSION,
                                 Gio::DBus::PROXY_FLAGS_NONE,
                                 "org.gdbus.codegen.glibmm.Test",
                                 "/org/gdbus/codegen/glibmm/Test",

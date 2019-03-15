@@ -12,7 +12,7 @@
 namespace {{ namespace }} {
 {% endfor %}
 
-class {{ interface.cpp_class_name }} : public Glib::ObjectBase {
+class {{ interface.cpp_class_name_proxy }} : public Glib::ObjectBase {
 public:
     static void createForBus(Gio::DBus::BusType busType,
                              Gio::DBus::ProxyFlags proxyFlags,
@@ -21,9 +21,9 @@ public:
                              const Gio::SlotAsyncReady &slot,
                              const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
-    static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
 
-    static Glib::RefPtr<{{ interface.cpp_class_name }}> createForBus_sync(
+    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createForBus_sync(
         Gio::DBus::BusType busType,
         Gio::DBus::ProxyFlags proxyFlags,
         const std::string &name,
@@ -89,7 +89,7 @@ protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
 private:
-    {{ interface.cpp_class_name }}(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
+    {{ interface.cpp_class_name_proxy }}(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,

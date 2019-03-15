@@ -382,6 +382,9 @@ class Interface:
         if cns != '':
             self.cpp_namespace_name = cns + "::" + self.cpp_namespace_name
 
+        self.cpp_class_name_proxy = self.cpp_class_name + 'Proxy'
+        self.cpp_class_name_stub = self.cpp_class_name + 'Stub'
+
         self.name_hyphen = self.name_upper.lower().replace('_', '-')
 
         for m in self.methods:
