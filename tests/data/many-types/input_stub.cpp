@@ -338,34 +338,34 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
 
 #include "OUTPUT_DIR/input_stub.h"
 
-org::gdbus::codegen::glibmm::Test::Test():
+org::gdbus::codegen::glibmm::TestStub::TestStub():
     connectionId(0),
     registeredId(0),
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-    TestSignalByteStringArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalByteStringArray_emitter));
-    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalObjectPathArray_emitter));
-    TestSignalStringArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalStringArray_emitter));
-    TestSignalByteString_signal.connect(sigc::mem_fun(this, &Test::TestSignalByteString_emitter));
-    TestSignalSignature_signal.connect(sigc::mem_fun(this, &Test::TestSignalSignature_emitter));
-    TestSignalObjectPath_signal.connect(sigc::mem_fun(this, &Test::TestSignalObjectPath_emitter));
-    TestSignalString_signal.connect(sigc::mem_fun(this, &Test::TestSignalString_emitter));
-    TestSignalDouble_signal.connect(sigc::mem_fun(this, &Test::TestSignalDouble_emitter));
-    TestSignalUInt64_signal.connect(sigc::mem_fun(this, &Test::TestSignalUInt64_emitter));
-    TestSignalInt64_signal.connect(sigc::mem_fun(this, &Test::TestSignalInt64_emitter));
-    TestSignalUInt_signal.connect(sigc::mem_fun(this, &Test::TestSignalUInt_emitter));
-    TestSignalInt_signal.connect(sigc::mem_fun(this, &Test::TestSignalInt_emitter));
-    TestSignalUInt16_signal.connect(sigc::mem_fun(this, &Test::TestSignalUInt16_emitter));
-    TestSignalInt16_signal.connect(sigc::mem_fun(this, &Test::TestSignalInt16_emitter));
-    TestSignalChar_signal.connect(sigc::mem_fun(this, &Test::TestSignalChar_emitter));
-    TestSignalBoolean_signal.connect(sigc::mem_fun(this, &Test::TestSignalBoolean_emitter));
+    TestSignalByteStringArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter));
+    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
+    TestSignalStringArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter));
+    TestSignalByteString_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter));
+    TestSignalSignature_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter));
+    TestSignalObjectPath_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter));
+    TestSignalString_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalString_emitter));
+    TestSignalDouble_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter));
+    TestSignalUInt64_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter));
+    TestSignalInt64_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter));
+    TestSignalUInt_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter));
+    TestSignalInt_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter));
+    TestSignalUInt16_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter));
+    TestSignalInt16_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter));
+    TestSignalChar_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter));
+    TestSignalBoolean_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter));
 }
 
-org::gdbus::codegen::glibmm::Test::~Test()
+org::gdbus::codegen::glibmm::TestStub::~TestStub()
 {
 }
 
-guint org::gdbus::codegen::glibmm::Test::register_object(
+guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
@@ -382,9 +382,9 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
-            sigc::mem_fun(this, &Test::on_method_call),
-            sigc::mem_fun(this, &Test::on_interface_get_property),
-            sigc::mem_fun(this, &Test::on_interface_set_property));
+            sigc::mem_fun(this, &TestStub::on_method_call),
+            sigc::mem_fun(this, &TestStub::on_interface_get_property),
+            sigc::mem_fun(this, &TestStub::on_interface_set_property));
     guint id = 0;
     try {
         id = connection->register_object(object_path,
@@ -398,18 +398,18 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
     return id;
 }
 
-void org::gdbus::codegen::glibmm::Test::connect(
+void org::gdbus::codegen::glibmm::TestStub::connect(
     Gio::DBus::BusType busType,
     std::string name)
 {
     connectionId = Gio::DBus::own_name(
         busType, name,
-        sigc::mem_fun(this, &Test::on_bus_acquired),
-        sigc::mem_fun(this, &Test::on_name_acquired),
-        sigc::mem_fun(this, &Test::on_name_lost));
+        sigc::mem_fun(this, &TestStub::on_bus_acquired),
+        sigc::mem_fun(this, &TestStub::on_name_acquired),
+        sigc::mem_fun(this, &TestStub::on_name_lost));
 }
 
-void org::gdbus::codegen::glibmm::Test::on_method_call(
+void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
     const Glib::ustring &/* object_path */,
@@ -790,7 +790,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
 }
 
-void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
+void org::gdbus::codegen::glibmm::TestStub::on_interface_get_property(
     Glib::VariantBase &property,
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
@@ -939,7 +939,7 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
 
 }
 
-bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
+bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
     const Glib::ustring &/* object_path */,
@@ -1349,7 +1349,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
     return true;
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::vector<std::string> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(std::vector<std::string> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1363,7 +1363,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteStringArray_emitter(std::v
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1377,7 +1377,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::v
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vector<Glib::ustring> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(std::vector<Glib::ustring> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1391,7 +1391,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalStringArray_emitter(std::vecto
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(std::string Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1405,7 +1405,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalByteString_emitter(std::string
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(Glib::DBusSignatureString Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(Glib::DBusSignatureString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1419,7 +1419,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalSignature_emitter(Glib::DBusSi
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(Glib::DBusObjectPathString Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(Glib::DBusObjectPathString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1433,7 +1433,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPath_emitter(Glib::DBusO
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(Glib::ustring Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(Glib::ustring Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1447,7 +1447,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalString_emitter(Glib::ustring P
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalDouble_emitter(double Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(double Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1461,7 +1461,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalDouble_emitter(double Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt64_emitter(guint64 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(guint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1475,7 +1475,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt64_emitter(guint64 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalInt64_emitter(gint64 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(gint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1489,7 +1489,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt64_emitter(gint64 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt_emitter(guint32 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(guint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1503,7 +1503,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt_emitter(guint32 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalInt_emitter(gint32 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(gint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1517,7 +1517,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt_emitter(gint32 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalUInt16_emitter(guint16 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(guint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1531,7 +1531,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalUInt16_emitter(guint16 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalInt16_emitter(gint16 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(gint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1545,7 +1545,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalInt16_emitter(gint16 Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalChar_emitter(guchar Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(guchar Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1559,7 +1559,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalChar_emitter(guchar Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalBoolean_emitter(bool Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1573,7 +1573,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalBoolean_emitter(bool Param1)
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::on_bus_acquired(
+void org::gdbus::codegen::glibmm::TestStub::on_bus_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &/* name */)
 {
@@ -1582,19 +1582,19 @@ void org::gdbus::codegen::glibmm::Test::on_bus_acquired(
     m_connection = connection;
 }
 
-void org::gdbus::codegen::glibmm::Test::on_name_acquired(
+void org::gdbus::codegen::glibmm::TestStub::on_name_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
 
-void org::gdbus::codegen::glibmm::Test::on_name_lost(
+void org::gdbus::codegen::glibmm::TestStub::on_name_lost(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(const std::vector<std::string> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteStringArray_set(const std::vector<std::string> & value)
 {
     if (TestPropReadByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
@@ -1606,7 +1606,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteStringArray_set(const st
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
 {
     if (TestPropReadObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
@@ -1618,7 +1618,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPathArray_set(const st
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
 {
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
@@ -1630,7 +1630,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(const std::v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(const std::string & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteString_set(const std::string & value)
 {
     if (TestPropReadByteString_setHandler(value)) {
         Glib::Variant<std::string> value_get =
@@ -1642,7 +1642,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadByteString_set(const std::st
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(const Glib::DBusSignatureString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadSignature_set(const Glib::DBusSignatureString & value)
 {
     if (TestPropReadSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
@@ -1654,7 +1654,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadSignature_set(const Glib::DB
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(const Glib::DBusObjectPathString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadObjectPath_set(const Glib::DBusObjectPathString & value)
 {
     if (TestPropReadObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
@@ -1666,7 +1666,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadObjectPath_set(const Glib::D
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(const Glib::ustring & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadString_set(const Glib::ustring & value)
 {
     if (TestPropReadString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
@@ -1678,7 +1678,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadString_set(const Glib::ustri
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadDouble_set(double value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadDouble_set(double value)
 {
     if (TestPropReadDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
@@ -1690,7 +1690,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadDouble_set(double value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt64_set(guint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt64_set(guint64 value)
 {
     if (TestPropReadUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
@@ -1702,7 +1702,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt64_set(guint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt64_set(gint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt64_set(gint64 value)
 {
     if (TestPropReadInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
@@ -1714,7 +1714,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt64_set(gint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt_set(guint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt_set(guint32 value)
 {
     if (TestPropReadUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
@@ -1726,7 +1726,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt_set(guint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt_set(gint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt_set(gint32 value)
 {
     if (TestPropReadInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
@@ -1738,7 +1738,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt_set(gint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt16_set(guint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt16_set(guint16 value)
 {
     if (TestPropReadUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
@@ -1750,7 +1750,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadUInt16_set(guint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadInt16_set(gint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt16_set(gint16 value)
 {
     if (TestPropReadInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
@@ -1762,7 +1762,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadInt16_set(gint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadChar_set(guchar value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadChar_set(guchar value)
 {
     if (TestPropReadChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
@@ -1774,7 +1774,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadChar_set(guchar value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadBoolean_set(bool value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadBoolean_set(bool value)
 {
     if (TestPropReadBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
@@ -1786,7 +1786,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadBoolean_set(bool value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadPropertyChange_set(gint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropInternalReadPropertyChange_set(gint32 value)
 {
     if (TestPropInternalReadPropertyChange_setHandler(value)) {
         Glib::Variant<gint32> value_get =
@@ -1798,7 +1798,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadPropertyChange_set(g
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(const std::vector<std::string> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteByteStringArray_set(const std::vector<std::string> & value)
 {
     if (TestPropWriteByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
@@ -1810,7 +1810,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteStringArray_set(const s
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
 {
     if (TestPropWriteObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
@@ -1822,7 +1822,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPathArray_set(const s
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(const std::vector<Glib::ustring> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteStringArray_set(const std::vector<Glib::ustring> & value)
 {
     if (TestPropWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
@@ -1834,7 +1834,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteStringArray_set(const std::
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(const std::string & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteByteString_set(const std::string & value)
 {
     if (TestPropWriteByteString_setHandler(value)) {
         Glib::Variant<std::string> value_get =
@@ -1846,7 +1846,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteByteString_set(const std::s
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(const Glib::DBusSignatureString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteSignature_set(const Glib::DBusSignatureString & value)
 {
     if (TestPropWriteSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
@@ -1858,7 +1858,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteSignature_set(const Glib::D
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(const Glib::DBusObjectPathString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteObjectPath_set(const Glib::DBusObjectPathString & value)
 {
     if (TestPropWriteObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
@@ -1870,7 +1870,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteObjectPath_set(const Glib::
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(const Glib::ustring & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteString_set(const Glib::ustring & value)
 {
     if (TestPropWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
@@ -1882,7 +1882,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteString_set(const Glib::ustr
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteDouble_set(double value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteDouble_set(double value)
 {
     if (TestPropWriteDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
@@ -1894,7 +1894,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteDouble_set(double value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt64_set(guint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt64_set(guint64 value)
 {
     if (TestPropWriteUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
@@ -1906,7 +1906,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt64_set(guint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt64_set(gint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt64_set(gint64 value)
 {
     if (TestPropWriteInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
@@ -1918,7 +1918,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt64_set(gint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt_set(guint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt_set(guint32 value)
 {
     if (TestPropWriteUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
@@ -1930,7 +1930,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt_set(guint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt_set(gint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt_set(gint32 value)
 {
     if (TestPropWriteInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
@@ -1942,7 +1942,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt_set(gint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt16_set(guint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt16_set(guint16 value)
 {
     if (TestPropWriteUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
@@ -1954,7 +1954,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteUInt16_set(guint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt16_set(gint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt16_set(gint16 value)
 {
     if (TestPropWriteInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
@@ -1966,7 +1966,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteInt16_set(gint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteChar_set(guchar value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteChar_set(guchar value)
 {
     if (TestPropWriteChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
@@ -1978,7 +1978,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteChar_set(guchar value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropWriteBoolean_set(bool value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteBoolean_set(bool value)
 {
     if (TestPropWriteBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
@@ -1990,7 +1990,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropWriteBoolean_set(bool value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(const std::vector<std::string> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteByteStringArray_set(const std::vector<std::string> & value)
 {
     if (TestPropReadWriteByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
@@ -2002,7 +2002,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteStringArray_set(con
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value)
 {
     if (TestPropReadWriteObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
@@ -2014,7 +2014,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPathArray_set(con
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(const std::vector<Glib::ustring> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteStringArray_set(const std::vector<Glib::ustring> & value)
 {
     if (TestPropReadWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
@@ -2026,7 +2026,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteStringArray_set(const s
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(const std::string & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteByteString_set(const std::string & value)
 {
     if (TestPropReadWriteByteString_setHandler(value)) {
         Glib::Variant<std::string> value_get =
@@ -2038,7 +2038,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteByteString_set(const st
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(const Glib::DBusSignatureString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteSignature_set(const Glib::DBusSignatureString & value)
 {
     if (TestPropReadWriteSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
@@ -2050,7 +2050,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteSignature_set(const Gli
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(const Glib::DBusObjectPathString & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteObjectPath_set(const Glib::DBusObjectPathString & value)
 {
     if (TestPropReadWriteObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
@@ -2062,7 +2062,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteObjectPath_set(const Gl
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(const Glib::ustring & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteString_set(const Glib::ustring & value)
 {
     if (TestPropReadWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
@@ -2074,7 +2074,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteString_set(const Glib::
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteDouble_set(double value)
 {
     if (TestPropReadWriteDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
@@ -2086,7 +2086,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteDouble_set(double value
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt64_set(guint64 value)
 {
     if (TestPropReadWriteUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
@@ -2098,7 +2098,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt64_set(guint64 valu
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt64_set(gint64 value)
 {
     if (TestPropReadWriteInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
@@ -2110,7 +2110,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt64_set(gint64 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt_set(guint32 value)
 {
     if (TestPropReadWriteUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
@@ -2122,7 +2122,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt_set(guint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt_set(gint32 value)
 {
     if (TestPropReadWriteInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
@@ -2134,7 +2134,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt_set(gint32 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt16_set(guint16 value)
 {
     if (TestPropReadWriteUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
@@ -2146,7 +2146,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteUInt16_set(guint16 valu
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt16_set(gint16 value)
 {
     if (TestPropReadWriteInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
@@ -2158,7 +2158,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteInt16_set(gint16 value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteChar_set(guchar value)
 {
     if (TestPropReadWriteChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
@@ -2170,7 +2170,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteChar_set(guchar value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteBoolean_set(bool value)
 {
     if (TestPropReadWriteBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
@@ -2182,7 +2182,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadWriteBoolean_set(bool value)
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_set(gint32 value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropInternalReadWritePropertyChange_set(gint32 value)
 {
     if (TestPropInternalReadWritePropertyChange_setHandler(value)) {
         Glib::Variant<gint32> value_get =
@@ -2194,7 +2194,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropInternalReadWritePropertyChange_
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::emitSignal(
+bool org::gdbus::codegen::glibmm::TestStub::emitSignal(
     const std::string &propName,
     Glib::VariantBase &value)
 {

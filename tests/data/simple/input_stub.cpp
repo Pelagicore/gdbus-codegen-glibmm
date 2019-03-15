@@ -32,19 +32,19 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
 
 #include "OUTPUT_DIR/input_stub.h"
 
-org::gdbus::codegen::glibmm::Test::Test():
+org::gdbus::codegen::glibmm::TestStub::TestStub():
     connectionId(0),
     registeredId(0),
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &Test::TestSignalObjectPathArray_emitter));
+    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
 }
 
-org::gdbus::codegen::glibmm::Test::~Test()
+org::gdbus::codegen::glibmm::TestStub::~TestStub()
 {
 }
 
-guint org::gdbus::codegen::glibmm::Test::register_object(
+guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
@@ -61,9 +61,9 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
-            sigc::mem_fun(this, &Test::on_method_call),
-            sigc::mem_fun(this, &Test::on_interface_get_property),
-            sigc::mem_fun(this, &Test::on_interface_set_property));
+            sigc::mem_fun(this, &TestStub::on_method_call),
+            sigc::mem_fun(this, &TestStub::on_interface_get_property),
+            sigc::mem_fun(this, &TestStub::on_interface_set_property));
     guint id = 0;
     try {
         id = connection->register_object(object_path,
@@ -77,18 +77,18 @@ guint org::gdbus::codegen::glibmm::Test::register_object(
     return id;
 }
 
-void org::gdbus::codegen::glibmm::Test::connect(
+void org::gdbus::codegen::glibmm::TestStub::connect(
     Gio::DBus::BusType busType,
     std::string name)
 {
     connectionId = Gio::DBus::own_name(
         busType, name,
-        sigc::mem_fun(this, &Test::on_bus_acquired),
-        sigc::mem_fun(this, &Test::on_name_acquired),
-        sigc::mem_fun(this, &Test::on_name_lost));
+        sigc::mem_fun(this, &TestStub::on_bus_acquired),
+        sigc::mem_fun(this, &TestStub::on_name_acquired),
+        sigc::mem_fun(this, &TestStub::on_name_lost));
 }
 
-void org::gdbus::codegen::glibmm::Test::on_method_call(
+void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
     const Glib::ustring &/* object_path */,
@@ -119,7 +119,7 @@ void org::gdbus::codegen::glibmm::Test::on_method_call(
 
 }
 
-void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
+void org::gdbus::codegen::glibmm::TestStub::on_interface_get_property(
     Glib::VariantBase &property,
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
@@ -136,7 +136,7 @@ void org::gdbus::codegen::glibmm::Test::on_interface_get_property(
 
 }
 
-bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
+bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* sender */,
     const Glib::ustring &/* object_path */,
@@ -150,7 +150,7 @@ bool org::gdbus::codegen::glibmm::Test::on_interface_set_property(
     return true;
 }
 
-void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -164,7 +164,7 @@ void org::gdbus::codegen::glibmm::Test::TestSignalObjectPathArray_emitter(std::v
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::Test::on_bus_acquired(
+void org::gdbus::codegen::glibmm::TestStub::on_bus_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &/* name */)
 {
@@ -173,19 +173,19 @@ void org::gdbus::codegen::glibmm::Test::on_bus_acquired(
     m_connection = connection;
 }
 
-void org::gdbus::codegen::glibmm::Test::on_name_acquired(
+void org::gdbus::codegen::glibmm::TestStub::on_name_acquired(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
 
-void org::gdbus::codegen::glibmm::Test::on_name_lost(
+void org::gdbus::codegen::glibmm::TestStub::on_name_lost(
     const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
     const Glib::ustring &/* name */)
 {
 }
 
-bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
+bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
 {
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
@@ -197,7 +197,7 @@ bool org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_set(const std::v
     return false;
 }
 
-bool org::gdbus::codegen::glibmm::Test::emitSignal(
+bool org::gdbus::codegen::glibmm::TestStub::emitSignal(
     const std::string &propName,
     Glib::VariantBase &value)
 {

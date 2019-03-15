@@ -8,7 +8,7 @@
 
 #include <utility>
 
-void org::gdbus::codegen::glibmm::Test::TestCall(
+void org::gdbus::codegen::glibmm::TestProxy::TestCall(
     gint32 arg_Param1,
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
     const Gio::SlotAsyncReady &callback,
@@ -23,7 +23,7 @@ void org::gdbus::codegen::glibmm::Test::TestCall(
     m_proxy->call("TestCall", callback, cancellable, base, timeout_msec);
 }
 
-void org::gdbus::codegen::glibmm::Test::TestCall_finish(
+void org::gdbus::codegen::glibmm::TestProxy::TestCall_finish(
     Glib::ustring &out_Param3,
     std::map<Glib::ustring,Glib::VariantBase> &out_Param4,
     const Glib::RefPtr<Gio::AsyncResult> &result)
@@ -41,7 +41,7 @@ void org::gdbus::codegen::glibmm::Test::TestCall_finish(
 }
 
 std::tuple<Glib::ustring, std::map<Glib::ustring,Glib::VariantBase>>
-org::gdbus::codegen::glibmm::Test::TestCall_sync(
+org::gdbus::codegen::glibmm::TestProxy::TestCall_sync(
     gint32 arg_Param1,
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
     const Glib::RefPtr<Gio::Cancellable> &cancellable,
@@ -71,7 +71,7 @@ org::gdbus::codegen::glibmm::Test::TestCall_sync(
     );
 }
 
-std::vector<Glib::ustring> org::gdbus::codegen::glibmm::Test::TestPropReadStringArray_get()
+std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get()
 {
     std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
@@ -84,7 +84,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::Test::TestPropReadString
     return (b.get());
 }
 
-void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring&/* sender_name */,
+void org::gdbus::codegen::glibmm::TestProxy::handle_signal(const Glib::ustring&/* sender_name */,
     const Glib::ustring& signal_name,
     const Glib::VariantContainerBase& parameters)
 {
@@ -102,7 +102,7 @@ void org::gdbus::codegen::glibmm::Test::handle_signal(const Glib::ustring&/* sen
     }
 }
 
-void org::gdbus::codegen::glibmm::Test::handle_properties_changed(
+void org::gdbus::codegen::glibmm::TestProxy::handle_properties_changed(
     const Gio::DBus::Proxy::MapChangedProperties &changed_properties,
     const std::vector<Glib::ustring> &/* invalidated_properties */)
 {
@@ -116,15 +116,15 @@ void org::gdbus::codegen::glibmm::Test::handle_properties_changed(
         m_TestPropReadStringArray_changed.emit();
 }
 
-org::gdbus::codegen::glibmm::Test::Test(const Glib::RefPtr<Gio::DBus::Proxy> &proxy) : m_proxy(proxy)
+org::gdbus::codegen::glibmm::TestProxy::TestProxy(const Glib::RefPtr<Gio::DBus::Proxy> &proxy) : m_proxy(proxy)
 {
-    m_proxy->signal_signal().connect(sigc::mem_fun(this, &Test::handle_signal));
+    m_proxy->signal_signal().connect(sigc::mem_fun(this, &TestProxy::handle_signal));
     m_proxy->signal_properties_changed().
-        connect(sigc::mem_fun(this, &Test::handle_properties_changed));
+        connect(sigc::mem_fun(this, &TestProxy::handle_properties_changed));
     org::gdbus::codegen::glibmm::Error::initialize();
 }
 
-void org::gdbus::codegen::glibmm::Test::createForBus(
+void org::gdbus::codegen::glibmm::TestProxy::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
     const std::string &name,
@@ -142,16 +142,16 @@ void org::gdbus::codegen::glibmm::Test::createForBus(
         proxyFlags);
 }
 
-Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBusFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
+Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> org::gdbus::codegen::glibmm::TestProxy::createForBusFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
 {
     Glib::RefPtr<Gio::DBus::Proxy> proxy =
         Gio::DBus::Proxy::create_for_bus_finish(result);
-    org::gdbus::codegen::glibmm::Test *p =
-        new org::gdbus::codegen::glibmm::Test(proxy);
-    return Glib::RefPtr<org::gdbus::codegen::glibmm::Test>(p);
+    org::gdbus::codegen::glibmm::TestProxy *p =
+        new org::gdbus::codegen::glibmm::TestProxy(proxy);
+    return Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy>(p);
 }
 
-Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Test::createForBus_sync(
+Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> org::gdbus::codegen::glibmm::TestProxy::createForBus_sync(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
     const std::string &name,
@@ -166,7 +166,7 @@ Glib::RefPtr<org::gdbus::codegen::glibmm::Test> org::gdbus::codegen::glibmm::Tes
             cancellable,
             Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
             proxyFlags);
-    org::gdbus::codegen::glibmm::Test *p =
-        new org::gdbus::codegen::glibmm::Test(proxy);
-    return Glib::RefPtr<org::gdbus::codegen::glibmm::Test>(p);
+    org::gdbus::codegen::glibmm::TestProxy *p =
+        new org::gdbus::codegen::glibmm::TestProxy(proxy);
+    return Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy>(p);
 }

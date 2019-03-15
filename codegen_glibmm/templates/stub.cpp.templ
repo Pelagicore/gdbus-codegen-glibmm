@@ -5,19 +5,19 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 #include "{{ stub_h_name }}"
 
 {% for interface in interfaces %}
-{% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name %}
+{% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name_stub %}
 {% set object_path = "/" + interface.name | replace('.', '/') %}
-{{ class_name_with_namespace }}::{{ interface.cpp_class_name }}():
+{{ class_name_with_namespace }}::{{ interface.cpp_class_name_stub }}():
     connectionId(0),
     registeredId(0),
     m_interfaceName("{{ interface.name }}")
 {
 {% for signal in interface.signals if signal is supported_by_sigc %}
-    {{ signal.name }}_signal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name }}::{{ signal.name }}_emitter));
+    {{ signal.name }}_signal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::{{ signal.name }}_emitter));
 {% endfor %}
 }
 
-{{ class_name_with_namespace }}::~{{ interface.cpp_class_name }}()
+{{ class_name_with_namespace }}::~{{ interface.cpp_class_name_stub }}()
 {
 }
 
@@ -38,9 +38,9 @@ guint {{ class_name_with_namespace }}::register_object(
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
-            sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_method_call),
-            sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_interface_get_property),
-            sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_interface_set_property));
+            sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_method_call),
+            sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_interface_get_property),
+            sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_interface_set_property));
     guint id = 0;
     try {
         id = connection->register_object(object_path,
@@ -60,9 +60,9 @@ void {{ class_name_with_namespace }}::connect(
 {
     connectionId = Gio::DBus::own_name(
         busType, name,
-        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_bus_acquired),
-        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_acquired),
-        sigc::mem_fun(this, &{{ interface.cpp_class_name }}::on_name_lost));
+        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_bus_acquired),
+        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_name_acquired),
+        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_name_lost));
 }
 
 void {{ class_name_with_namespace }}::on_method_call(

@@ -109,7 +109,7 @@ C++ class. In our example, the following will suffice:
 ```cpp
 #include "bar_stub.h"
 
-class BarImpl : public org::foo::Bar {
+class BarImpl : public org::foo::BarStub {
 public:
     // Called wben org.foo.bar.Baz() is invoked
     void Baz (MethodInvocation invocation) override {
@@ -183,14 +183,14 @@ The following file shows the proxy corresponding to the stub above:
 ```cpp
 #include "bar_proxy.h"
 
-Glib::RefPtr<org::foo::Bar> proxy;
+Glib::RefPtr<org::foo::BarProxy> proxy;
 
 void on_baz_finished(const Glib::RefPtr<Gio::AsyncResult> &result) {
     proxy->Baz_finish(result);
 }
 
 void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
-    proxy = org::foo::Bar::createForBusFinish(result);
+    proxy = org::foo::BarProxy::createForBusFinish(result);
     proxy->Baz(sigc::ptr_fun(&on_baz_finished));
 }
 
@@ -198,11 +198,11 @@ int main(int argc, char **argv) {
     Glib::init();
     Gio::init();
 
-    org::foo::Bar::createForBus(Gio::DBus::BUS_TYPE_SESSION,
-                                Gio::DBus::PROXY_FLAGS_NONE,
-                                "org.foo.Bar",
-                                "/org/foo/Bar",
-                                sigc::ptr_fun(&proxy_created));
+    org::foo::BarProxy::createForBus(Gio::DBus::BUS_TYPE_SESSION,
+                                     Gio::DBus::PROXY_FLAGS_NONE,
+                                     "org.foo.Bar",
+                                     "/org/foo/Bar",
+                                     sigc::ptr_fun(&proxy_created));
 
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
     ml->run();

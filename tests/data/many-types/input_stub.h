@@ -10,10 +10,10 @@ namespace gdbus {
 namespace codegen {
 namespace glibmm {
 
-class Test {
+class TestStub {
 public:
-    Test();
-    virtual ~Test();
+    TestStub();
+    virtual ~TestStub();
 
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
@@ -658,7 +658,7 @@ private:
     std::string m_interfaceName;
 };
 
-class Test::MethodInvocation {
+class TestStub::MethodInvocation {
 public:
     MethodInvocation(const Glib::RefPtr<Gio::DBus::MethodInvocation> &msg):
         m_message(msg) {}

@@ -11,7 +11,7 @@ namespace gdbus {
 namespace codegen {
 namespace glibmm {
 
-class Test : public Glib::ObjectBase {
+class TestProxy : public Glib::ObjectBase {
 public:
     static void createForBus(Gio::DBus::BusType busType,
                              Gio::DBus::ProxyFlags proxyFlags,
@@ -20,9 +20,9 @@ public:
                              const Gio::SlotAsyncReady &slot,
                              const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
-    static Glib::RefPtr<Test> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<TestProxy> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
 
-    static Glib::RefPtr<Test> createForBus_sync(
+    static Glib::RefPtr<TestProxy> createForBus_sync(
         Gio::DBus::BusType busType,
         Gio::DBus::ProxyFlags proxyFlags,
         const std::string &name,
@@ -809,7 +809,7 @@ protected:
     Glib::RefPtr<Gio::DBus::Proxy> m_proxy;
 
 private:
-    Test(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
+    TestProxy(const Glib::RefPtr<Gio::DBus::Proxy> &proxy);
 
     void handle_signal(const Glib::ustring &sender_name,
                        const Glib::ustring &signal_name,
