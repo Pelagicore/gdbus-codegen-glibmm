@@ -112,7 +112,7 @@ C++ class. In our example, the following will suffice:
 class BarImpl : public org::foo::BarStub {
 public:
     // Called wben org.foo.bar.Baz() is invoked
-    void Baz (MethodInvocation invocation) override {
+    void Baz (MethodInvocation &invocation) override {
         // Return void
         invocation.ret();
     }
