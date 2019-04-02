@@ -1651,7 +1651,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set(co
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set_sync(const std::vector<std::string> & value) {
@@ -1673,7 +1674,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPathArray_set(co
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPathArray_set_sync(const std::vector<Glib::DBusObjectPathString> & value) {
@@ -1695,7 +1697,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteStringArray_set(const 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteStringArray_set_sync(const std::vector<Glib::ustring> & value) {
@@ -1717,7 +1720,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteString_set(const s
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteString_set_sync(const std::string & value) {
@@ -1739,7 +1743,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteSignature_set(const Gl
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteSignature_set_sync(const Glib::DBusSignatureString & value) {
@@ -1761,7 +1766,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPath_set(const G
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPath_set_sync(const Glib::DBusObjectPathString & value) {
@@ -1783,7 +1789,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteString_set(const Glib:
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteString_set_sync(const Glib::ustring & value) {
@@ -1805,7 +1812,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteDouble_set(double valu
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteDouble_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteDouble_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteDouble_set_sync(double value) {
@@ -1827,7 +1835,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt64_set(guint64 val
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt64_set_sync(guint64 value) {
@@ -1849,7 +1858,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt64_set(gint64 value
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt64_set_sync(gint64 value) {
@@ -1871,7 +1881,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt_set(guint32 value
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt_set_sync(guint32 value) {
@@ -1893,7 +1904,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt_set(gint32 value, 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt_set_sync(gint32 value) {
@@ -1915,7 +1927,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt16_set(guint16 val
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt16_set_sync(guint16 value) {
@@ -1937,7 +1950,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt16_set(gint16 value
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt16_set_sync(gint16 value) {
@@ -1959,7 +1973,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteChar_set(guchar value,
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteChar_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteChar_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteChar_set_sync(guchar value) {
@@ -1981,7 +1996,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set(bool value
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set_sync(bool value) {
@@ -2016,7 +2032,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_se
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_set_sync(const std::vector<std::string> & value) {
@@ -2051,7 +2068,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_se
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_set_sync(const std::vector<Glib::DBusObjectPathString> & value) {
@@ -2086,7 +2104,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set(co
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set_sync(const std::vector<Glib::ustring> & value) {
@@ -2121,7 +2140,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set(con
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set_sync(const std::string & value) {
@@ -2156,7 +2176,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set(cons
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set_sync(const Glib::DBusSignatureString & value) {
@@ -2191,7 +2212,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set(con
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set_sync(const Glib::DBusObjectPathString & value) {
@@ -2226,7 +2248,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set(const G
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set_sync(const Glib::ustring & value) {
@@ -2261,7 +2284,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set(double 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set_sync(double value) {
@@ -2296,7 +2320,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set(guint64
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set_sync(guint64 value) {
@@ -2331,7 +2356,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set(gint64 v
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set_sync(gint64 value) {
@@ -2366,7 +2392,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set(guint32 v
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set_sync(guint32 value) {
@@ -2401,7 +2428,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set(gint32 val
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set_sync(gint32 value) {
@@ -2436,7 +2464,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set(guint16
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set_sync(guint16 value) {
@@ -2471,7 +2500,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set(gint16 v
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set_sync(gint16 value) {
@@ -2506,7 +2536,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set(guchar va
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set_sync(guchar value) {
@@ -2541,7 +2572,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set(bool v
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set_sync(bool value) {
@@ -2576,7 +2608,8 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyCh
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_set_sync(gint32 value) {
