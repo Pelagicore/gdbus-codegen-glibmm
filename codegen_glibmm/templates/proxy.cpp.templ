@@ -127,7 +127,8 @@ void {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} 
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
 
-void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult>&/* res */) {
+void {{ class_name_with_namespace }}::{{ prop.name }}_set_finish(const Glib::RefPtr<Gio::AsyncResult> &result) {
+    m_proxy->call_finish(result);
 }
 
 void {{ class_name_with_namespace }}::{{ prop.name }}_set_sync({{ prop.cpptype_in }} value) {
