@@ -23,6 +23,7 @@ public:
 
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
+    void unregister_object();
 
     class MethodInvocation;
 
@@ -83,6 +84,7 @@ private:
 
     Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
     Glib::RefPtr<Gio::DBus::Connection> m_connection;
+    guint m_registeredObjectId = 0;
     std::string m_objectPath;
     std::string m_interfaceName;
 };
