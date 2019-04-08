@@ -20,8 +20,6 @@ public:
 
     class MethodInvocation;
 
-    // deprecated:
-    void connect(Gio::DBus::BusType, std::string);
     bool TestPropReadStringArray_set(const std::vector<Glib::ustring> & value);
 protected:
     virtual void TestCall(
@@ -39,15 +37,6 @@ protected:
 
     void TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString>);
     sigc::signal<void, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_signal;
-
-    void on_bus_acquired(const Glib::RefPtr<Gio::DBus::Connection> &connection,
-                         const Glib::ustring &name);
-
-    void on_name_acquired(const Glib::RefPtr<Gio::DBus::Connection> &connection,
-                          const Glib::ustring &name);
-
-    void on_name_lost(const Glib::RefPtr<Gio::DBus::Connection> &connection,
-                      const Glib::ustring &name);
 
     void on_method_call(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                         const Glib::ustring &sender,
@@ -75,7 +64,6 @@ protected:
 private:
     bool emitSignal(const std::string &propName, Glib::VariantBase &value);
 
-    guint connectionId, registeredId;
     Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
     Glib::RefPtr<Gio::DBus::Connection> m_connection;
     std::string m_objectPath;

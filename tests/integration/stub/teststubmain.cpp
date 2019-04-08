@@ -455,12 +455,26 @@ int main() {
     Glib::init();
     Gio::init();
 
-    TestImpl impl;
-    impl.connect(Gio::DBus::BUS_TYPE_SESSION,
-                     "org.gdbus.codegen.glibmm.Test");
-
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
+
+    TestImpl impl;
+    guint connection_id = Gio::DBus::own_name(
+            Gio::DBus::BUS_TYPE_SESSION,
+            "org.gdbus.codegen.glibmm.Test",
+            [&](const Glib::RefPtr<Gio::DBus::Connection> &connection,
+                const Glib::ustring & /* name */) {
+                if (impl.register_object(connection, "/org/gdbus/codegen/glibmm/Test") == 0)
+                    ml->quit();
+            },
+            Gio::DBus::SlotNameAcquired(),
+            [&](const Glib::RefPtr<Gio::DBus::Connection> & /* connection */,
+                const Glib::ustring & /* name */) {
+                ml->quit();
+            });
+
     ml->run();
+
+    Gio::DBus::unown_name(connection_id);
 
     return 0;
 }

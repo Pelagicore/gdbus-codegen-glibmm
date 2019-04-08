@@ -339,8 +339,6 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
 #include "OUTPUT_DIR/input_stub.h"
 
 org::gdbus::codegen::glibmm::TestStub::TestStub():
-    connectionId(0),
-    registeredId(0),
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
     TestSignalByteStringArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter));
@@ -396,17 +394,6 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
         g_warning("Registration of object failed");
     }
     return id;
-}
-
-void org::gdbus::codegen::glibmm::TestStub::connect(
-    Gio::DBus::BusType busType,
-    std::string name)
-{
-    connectionId = Gio::DBus::own_name(
-        busType, name,
-        sigc::mem_fun(this, &TestStub::on_bus_acquired),
-        sigc::mem_fun(this, &TestStub::on_name_acquired),
-        sigc::mem_fun(this, &TestStub::on_name_lost));
 }
 
 void org::gdbus::codegen::glibmm::TestStub::on_method_call(
@@ -1573,26 +1560,6 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
 }
 
-void org::gdbus::codegen::glibmm::TestStub::on_bus_acquired(
-    const Glib::RefPtr<Gio::DBus::Connection> &connection,
-    const Glib::ustring &/* name */)
-{
-    registeredId = register_object(connection,
-                                   "/org/gdbus/codegen/glibmm/Test");
-    m_connection = connection;
-}
-
-void org::gdbus::codegen::glibmm::TestStub::on_name_acquired(
-    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
-    const Glib::ustring &/* name */)
-{
-}
-
-void org::gdbus::codegen::glibmm::TestStub::on_name_lost(
-    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
-    const Glib::ustring &/* name */)
-{
-}
 
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteStringArray_set(const std::vector<std::string> & value)
 {
