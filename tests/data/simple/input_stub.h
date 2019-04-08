@@ -15,6 +15,11 @@ public:
     TestStub();
     virtual ~TestStub();
 
+    TestStub(const TestStub &other) = delete;
+    TestStub(TestStub &&other) = delete;
+    TestStub &operator=(const TestStub &other) = delete;
+    TestStub &operator=(TestStub &&other) = delete;
+
     guint register_object(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                           const Glib::ustring &object_path);
 
