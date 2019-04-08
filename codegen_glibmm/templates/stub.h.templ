@@ -11,7 +11,7 @@
 namespace {{ namespace }} {
 {% endfor %}
 
-class {{ interface.cpp_class_name_stub }} {
+class {{ interface.cpp_class_name_stub }} : public sigc::trackable {
 public:
     {{ interface.cpp_class_name_stub }}();
     virtual ~{{ interface.cpp_class_name_stub }}();

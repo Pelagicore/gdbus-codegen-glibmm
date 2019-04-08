@@ -10,7 +10,7 @@ namespace gdbus {
 namespace codegen {
 namespace glibmm {
 
-class TestStub {
+class TestStub : public sigc::trackable {
 public:
     TestStub();
     virtual ~TestStub();
