@@ -461,4 +461,6 @@ int main() {
 
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
     ml->run();
+
+    return 0;
 }
