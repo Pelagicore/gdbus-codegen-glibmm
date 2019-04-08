@@ -6,10 +6,7 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 
 {% for interface in interfaces %}
 {% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name_stub %}
-{% set object_path = "/" + interface.name | replace('.', '/') %}
 {{ class_name_with_namespace }}::{{ interface.cpp_class_name_stub }}():
-    connectionId(0),
-    registeredId(0),
     m_interfaceName("{{ interface.name }}")
 {
 {% for signal in interface.signals if signal is supported_by_sigc %}
@@ -52,17 +49,6 @@ guint {{ class_name_with_namespace }}::register_object(
         g_warning("Registration of object failed");
     }
     return id;
-}
-
-void {{ class_name_with_namespace }}::connect(
-    Gio::DBus::BusType busType,
-    std::string name)
-{
-    connectionId = Gio::DBus::own_name(
-        busType, name,
-        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_bus_acquired),
-        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_name_acquired),
-        sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_name_lost));
 }
 
 void {{ class_name_with_namespace }}::on_method_call(
@@ -166,26 +152,6 @@ void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
 }
 
 {% endfor %}
-void {{ class_name_with_namespace }}::on_bus_acquired(
-    const Glib::RefPtr<Gio::DBus::Connection> &connection,
-    const Glib::ustring &/* name */)
-{
-    registeredId = register_object(connection,
-                                   "{{ object_path }}");
-    m_connection = connection;
-}
-
-void {{ class_name_with_namespace }}::on_name_acquired(
-    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
-    const Glib::ustring &/* name */)
-{
-}
-
-void {{ class_name_with_namespace }}::on_name_lost(
-    const Glib::RefPtr<Gio::DBus::Connection> &/* connection */,
-    const Glib::ustring &/* name */)
-{
-}
 {% for prop in interface.properties %}
 
 bool {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
