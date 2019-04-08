@@ -16,6 +16,7 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 
 {{ class_name_with_namespace }}::~{{ interface.cpp_class_name_stub }}()
 {
+    unregister_object();
 }
 
 guint {{ class_name_with_namespace }}::register_object(
@@ -38,9 +39,9 @@ guint {{ class_name_with_namespace }}::register_object(
             sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_method_call),
             sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_interface_get_property),
             sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::on_interface_set_property));
-    guint id = 0;
+
     try {
-        id = connection->register_object(object_path,
+        m_registeredObjectId = connection->register_object(object_path,
             introspection_data->lookup_interface("{{ interface.name }}"),
             *interface_vtable);
         m_connection = connection;
@@ -48,7 +49,19 @@ guint {{ class_name_with_namespace }}::register_object(
     } catch(const Glib::Error &ex) {
         g_warning("Registration of object failed");
     }
-    return id;
+
+    return m_registeredObjectId;
+}
+
+void {{ class_name_with_namespace }}::unregister_object()
+{
+    if (m_registeredObjectId == 0)
+        return;
+
+    m_connection->unregister_object(m_registeredObjectId);
+    m_registeredObjectId = 0;
+    m_connection.reset();
+    m_objectPath.clear();
 }
 
 void {{ class_name_with_namespace }}::on_method_call(

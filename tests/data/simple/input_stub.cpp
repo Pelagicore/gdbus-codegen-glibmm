@@ -40,6 +40,7 @@ org::gdbus::codegen::glibmm::TestStub::TestStub():
 
 org::gdbus::codegen::glibmm::TestStub::~TestStub()
 {
+    unregister_object();
 }
 
 guint org::gdbus::codegen::glibmm::TestStub::register_object(
@@ -62,9 +63,9 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
             sigc::mem_fun(this, &TestStub::on_method_call),
             sigc::mem_fun(this, &TestStub::on_interface_get_property),
             sigc::mem_fun(this, &TestStub::on_interface_set_property));
-    guint id = 0;
+
     try {
-        id = connection->register_object(object_path,
+        m_registeredObjectId = connection->register_object(object_path,
             introspection_data->lookup_interface("org.gdbus.codegen.glibmm.Test"),
             *interface_vtable);
         m_connection = connection;
@@ -72,7 +73,19 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
     } catch(const Glib::Error &ex) {
         g_warning("Registration of object failed");
     }
-    return id;
+
+    return m_registeredObjectId;
+}
+
+void org::gdbus::codegen::glibmm::TestStub::unregister_object()
+{
+    if (m_registeredObjectId == 0)
+        return;
+
+    m_connection->unregister_object(m_registeredObjectId);
+    m_registeredObjectId = 0;
+    m_connection.reset();
+    m_objectPath.clear();
 }
 
 void org::gdbus::codegen::glibmm::TestStub::on_method_call(
