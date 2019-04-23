@@ -24,6 +24,10 @@ public:
                           const Glib::ustring &object_path);
     void unregister_object();
 
+    int usage_count() const {
+        return m_registeredObjectId == 0 ? 0 : 1;
+    }
+
     class MethodInvocation;
 
     bool TestPropReadByteStringArray_set(const std::vector<std::string> & value);
