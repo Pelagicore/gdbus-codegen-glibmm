@@ -47,7 +47,7 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
-    if (!m_objectPath.empty() && m_objectPath != object_path) {
+    if (m_registeredObjectId != 0) {
         g_warning("Cannot register the same object (%s) twice", object_path.c_str());
         return 0;
     }
