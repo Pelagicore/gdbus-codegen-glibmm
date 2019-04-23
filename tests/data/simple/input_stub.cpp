@@ -56,6 +56,7 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
         introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
     } catch(const Glib::Error& ex) {
         g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
+        return 0;
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
