@@ -48,15 +48,14 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::ustring &object_path)
 {
     if (!m_objectPath.empty() && m_objectPath != object_path) {
-        g_warning("Cannot register the same object twice!");
+        g_warning("Cannot register the same object (%s) twice", object_path.c_str());
         return 0;
     }
 
     try {
         introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
     } catch(const Glib::Error& ex) {
-        g_warning("Unable to create introspection data: ");
-        g_warning("%s\n", ex.what().c_str());
+        g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
     }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
@@ -71,7 +70,7 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
         m_connection = connection;
         m_objectPath = object_path;
     } catch(const Glib::Error &ex) {
-        g_warning("Registration of object failed");
+        g_warning("Registration of object %s failed: %s", object_path.c_str(), ex.what().c_str());
     }
 
     return m_registeredObjectId;
