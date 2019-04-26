@@ -8,6 +8,23 @@
 
 #include <utility>
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 void org::gdbus::codegen::glibmm::TestProxy::TestStringVariantDict(
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param1,
     const Gio::SlotAsyncReady &callback,
@@ -1428,7 +1445,7 @@ std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadByt
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1437,6 +1454,7 @@ std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadByt
         }
         return std::vector<std::string>();
     }
+
 }
 
 std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::TestPropReadObjectPathArray_get(bool *ok)
@@ -1447,7 +1465,7 @@ std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1456,6 +1474,7 @@ std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::
         }
         return std::vector<Glib::DBusObjectPathString>();
     }
+
 }
 
 std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get(bool *ok)
@@ -1466,7 +1485,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadS
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1475,6 +1494,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadS
         }
         return std::vector<Glib::ustring>();
     }
+
 }
 
 std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadByteString_get(bool *ok)
@@ -1485,7 +1505,7 @@ std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadByteString_get(b
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1494,6 +1514,7 @@ std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadByteString_get(b
         }
         return std::string();
     }
+
 }
 
 Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadSignature_get(bool *ok)
@@ -1504,7 +1525,7 @@ Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadSi
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1513,6 +1534,7 @@ Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadSi
         }
         return Glib::DBusSignatureString();
     }
+
 }
 
 Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadObjectPath_get(bool *ok)
@@ -1523,7 +1545,7 @@ Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadO
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1532,6 +1554,7 @@ Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadO
         }
         return Glib::DBusObjectPathString();
     }
+
 }
 
 Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadString_get(bool *ok)
@@ -1542,7 +1565,7 @@ Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadString_get(boo
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1551,6 +1574,7 @@ Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadString_get(boo
         }
         return Glib::ustring();
     }
+
 }
 
 double org::gdbus::codegen::glibmm::TestProxy::TestPropReadDouble_get(bool *ok)
@@ -1561,7 +1585,7 @@ double org::gdbus::codegen::glibmm::TestProxy::TestPropReadDouble_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1570,6 +1594,7 @@ double org::gdbus::codegen::glibmm::TestProxy::TestPropReadDouble_get(bool *ok)
         }
         return double();
     }
+
 }
 
 guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt64_get(bool *ok)
@@ -1580,7 +1605,7 @@ guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt64_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1589,6 +1614,7 @@ guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt64_get(bool *ok)
         }
         return guint64();
     }
+
 }
 
 gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt64_get(bool *ok)
@@ -1599,7 +1625,7 @@ gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt64_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1608,6 +1634,7 @@ gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt64_get(bool *ok)
         }
         return gint64();
     }
+
 }
 
 guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt_get(bool *ok)
@@ -1618,7 +1645,7 @@ guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1627,6 +1654,7 @@ guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt_get(bool *ok)
         }
         return guint32();
     }
+
 }
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt_get(bool *ok)
@@ -1637,7 +1665,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1646,6 +1674,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt_get(bool *ok)
         }
         return gint32();
     }
+
 }
 
 guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt16_get(bool *ok)
@@ -1656,7 +1685,7 @@ guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt16_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1665,6 +1694,7 @@ guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt16_get(bool *ok)
         }
         return guint16();
     }
+
 }
 
 gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt16_get(bool *ok)
@@ -1675,7 +1705,7 @@ gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt16_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1684,6 +1714,7 @@ gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt16_get(bool *ok)
         }
         return gint16();
     }
+
 }
 
 guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadChar_get(bool *ok)
@@ -1694,7 +1725,7 @@ guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadChar_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1703,6 +1734,7 @@ guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadChar_get(bool *ok)
         }
         return guchar();
     }
+
 }
 
 bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadBoolean_get(bool *ok)
@@ -1713,7 +1745,7 @@ bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadBoolean_get(bool *ok)
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1722,6 +1754,7 @@ bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadBoolean_get(bool *ok)
         }
         return bool();
     }
+
 }
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadPropertyChange_get(bool *ok)
@@ -1732,7 +1765,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadPropertyChang
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -1741,6 +1774,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadPropertyChang
         }
         return gint32();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set(const std::vector<std::string> & value, const Gio::SlotAsyncReady &cb)
@@ -1749,6 +1783,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set(co
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteByteStringArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<std::string>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1772,6 +1807,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPathArray_set(co
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteObjectPathArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1795,6 +1831,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteStringArray_set(const 
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteStringArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<Glib::ustring>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1817,7 +1854,16 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteString_set(const s
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteByteString"));
-    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::string>::create((value))));
+    gsize len;
+    char *data;
+
+    len = value.size();
+    data = g_strndup (value.c_str(), len);
+
+    GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::string>(newVar)));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1841,6 +1887,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteSignature_set(const Gl
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteSignature"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::DBusSignatureString>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1864,6 +1911,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteObjectPath_set(const G
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteObjectPath"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::DBusObjectPathString>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1887,6 +1935,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteString_set(const Glib:
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteString"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::ustring>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1910,6 +1959,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteDouble_set(double valu
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteDouble"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<double>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1933,6 +1983,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt64_set(guint64 val
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteUInt64"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint64>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1956,6 +2007,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt64_set(gint64 value
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteInt64"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint64>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -1979,6 +2031,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt_set(guint32 value
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteUInt"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint32>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2002,6 +2055,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt_set(gint32 value, 
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteInt"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint32>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2025,6 +2079,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteUInt16_set(guint16 val
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteUInt16"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint16>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2048,6 +2103,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteInt16_set(gint16 value
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteInt16"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint16>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2071,6 +2127,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteChar_set(guchar value,
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteChar"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guchar>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2094,6 +2151,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set(bool value
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropWriteBoolean"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<bool>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2119,7 +2177,7 @@ std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadWri
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2128,6 +2186,7 @@ std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadWri
         }
         return std::vector<std::string>();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_set(const std::vector<std::string> & value, const Gio::SlotAsyncReady &cb)
@@ -2136,6 +2195,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_se
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteByteStringArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<std::string>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2161,7 +2221,7 @@ std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2170,6 +2230,7 @@ std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::
         }
         return std::vector<Glib::DBusObjectPathString>();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value, const Gio::SlotAsyncReady &cb)
@@ -2178,6 +2239,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_se
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteObjectPathArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2203,7 +2265,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadW
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2212,6 +2274,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadW
         }
         return std::vector<Glib::ustring>();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set(const std::vector<Glib::ustring> & value, const Gio::SlotAsyncReady &cb)
@@ -2220,6 +2283,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set(co
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteStringArray"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::vector<Glib::ustring>>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2245,7 +2309,7 @@ std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2254,6 +2318,7 @@ std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_
         }
         return std::string();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set(const std::string & value, const Gio::SlotAsyncReady &cb)
@@ -2261,7 +2326,16 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set(con
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteByteString"));
-    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::string>::create((value))));
+    gsize len;
+    char *data;
+
+    len = value.size();
+    data = g_strndup (value.c_str(), len);
+
+    GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::string>(newVar)));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2287,7 +2361,7 @@ Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadWr
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2296,6 +2370,7 @@ Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadWr
         }
         return Glib::DBusSignatureString();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set(const Glib::DBusSignatureString & value, const Gio::SlotAsyncReady &cb)
@@ -2304,6 +2379,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set(cons
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteSignature"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::DBusSignatureString>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2329,7 +2405,7 @@ Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadW
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2338,6 +2414,7 @@ Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadW
         }
         return Glib::DBusObjectPathString();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set(const Glib::DBusObjectPathString & value, const Gio::SlotAsyncReady &cb)
@@ -2346,6 +2423,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set(con
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteObjectPath"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::DBusObjectPathString>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2371,7 +2449,7 @@ Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_ge
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2380,6 +2458,7 @@ Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_ge
         }
         return Glib::ustring();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set(const Glib::ustring & value, const Gio::SlotAsyncReady &cb)
@@ -2388,6 +2467,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set(const G
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteString"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<Glib::ustring>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2413,7 +2493,7 @@ double org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_get(bool 
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2422,6 +2502,7 @@ double org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_get(bool 
         }
         return double();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set(double value, const Gio::SlotAsyncReady &cb)
@@ -2430,6 +2511,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set(double 
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteDouble"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<double>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2455,7 +2537,7 @@ guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_get(bool
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2464,6 +2546,7 @@ guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_get(bool
         }
         return guint64();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set(guint64 value, const Gio::SlotAsyncReady &cb)
@@ -2472,6 +2555,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set(guint64
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteUInt64"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint64>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2497,7 +2581,7 @@ gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_get(bool *
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2506,6 +2590,7 @@ gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_get(bool *
         }
         return gint64();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set(gint64 value, const Gio::SlotAsyncReady &cb)
@@ -2514,6 +2599,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set(gint64 v
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteInt64"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint64>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2539,7 +2625,7 @@ guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_get(bool *
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2548,6 +2634,7 @@ guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_get(bool *
         }
         return guint32();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set(guint32 value, const Gio::SlotAsyncReady &cb)
@@ -2556,6 +2643,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set(guint32 v
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteUInt"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint32>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2581,7 +2669,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_get(bool *ok
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2590,6 +2678,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_get(bool *ok
         }
         return gint32();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set(gint32 value, const Gio::SlotAsyncReady &cb)
@@ -2598,6 +2687,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set(gint32 val
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteInt"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint32>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2623,7 +2713,7 @@ guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_get(bool
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2632,6 +2722,7 @@ guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_get(bool
         }
         return guint16();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set(guint16 value, const Gio::SlotAsyncReady &cb)
@@ -2640,6 +2731,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set(guint16
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteUInt16"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guint16>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2665,7 +2757,7 @@ gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_get(bool *
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2674,6 +2766,7 @@ gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_get(bool *
         }
         return gint16();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set(gint16 value, const Gio::SlotAsyncReady &cb)
@@ -2682,6 +2775,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set(gint16 v
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteInt16"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint16>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2707,7 +2801,7 @@ guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_get(bool *o
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2716,6 +2810,7 @@ guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_get(bool *o
         }
         return guchar();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set(guchar value, const Gio::SlotAsyncReady &cb)
@@ -2724,6 +2819,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set(guchar va
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteChar"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<guchar>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2749,7 +2845,7 @@ bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_get(bool *
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2758,6 +2854,7 @@ bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_get(bool *
         }
         return bool();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set(bool value, const Gio::SlotAsyncReady &cb)
@@ -2766,6 +2863,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set(bool v
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropReadWriteBoolean"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<bool>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -2791,7 +2889,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWriteProperty
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -2800,6 +2898,7 @@ gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWriteProperty
         }
         return gint32();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_set(gint32 value, const Gio::SlotAsyncReady &cb)
@@ -2808,6 +2907,7 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyCh
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("org.gdbus.codegen.glibmm.Test"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("TestPropInternalReadWritePropertyChange"));
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<gint32>::create((value))));
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }

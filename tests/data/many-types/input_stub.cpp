@@ -338,6 +338,23 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
 
 #include "OUTPUT_DIR/input_stub.h"
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
@@ -426,7 +443,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestStringVariantDict") == 0) {
         Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<Glib::ustring,Glib::VariantBase> p_Param1 = base_Param1.get();
+        std::map<Glib::ustring,Glib::VariantBase> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestStringVariantDict(
@@ -437,7 +454,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestStringStringDict") == 0) {
         Glib::Variant<std::map<Glib::ustring,Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
+        std::map<Glib::ustring,Glib::ustring> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestStringStringDict(
@@ -448,7 +465,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestUintIntDict") == 0) {
         Glib::Variant<std::map<guint32,gint32>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::map<guint32,gint32> p_Param1 = base_Param1.get();
+        std::map<guint32,gint32> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestUintIntDict(
@@ -459,7 +476,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestVariant") == 0) {
         Glib::Variant<Glib::VariantBase> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::VariantBase p_Param1 = base_Param1.get();
+        Glib::VariantBase p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestVariant(
@@ -470,11 +487,11 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestVariant2") == 0) {
         Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1 = base_Param1.get();
+        Glib::ustring p_Param1 = specialGetter(base_Param1);
 
         Glib::Variant<Glib::VariantBase> base_Param2;
         parameters.get_child(base_Param2, 1);
-        Glib::VariantBase p_Param2 = base_Param2.get();
+        Glib::VariantBase p_Param2 = specialGetter(base_Param2);
 
         MethodInvocation methodInvocation(invocation);
         TestVariant2(
@@ -486,7 +503,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestByteStringArray") == 0) {
         Glib::Variant<std::vector<std::string>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::string> p_Param1 = base_Param1.get();
+        std::vector<std::string> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestByteStringArray(
@@ -497,7 +514,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestObjectPathArray") == 0) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<Glib::DBusObjectPathString> p_Param1 = base_Param1.get();
+        std::vector<Glib::DBusObjectPathString> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestObjectPathArray(
@@ -508,7 +525,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestStringArray") == 0) {
         Glib::Variant<std::vector<Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<Glib::ustring> p_Param1 = base_Param1.get();
+        std::vector<Glib::ustring> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestStringArray(
@@ -519,7 +536,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestByteString") == 0) {
         Glib::Variant<std::string> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::string p_Param1 = base_Param1.get();
+        std::string p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestByteString(
@@ -530,7 +547,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestStruct") == 0) {
         Glib::Variant<std::tuple<Glib::ustring,Glib::ustring>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::tuple<Glib::ustring,Glib::ustring> p_Param1 = base_Param1.get();
+        std::tuple<Glib::ustring,Glib::ustring> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestStruct(
@@ -541,7 +558,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestStructArray") == 0) {
         Glib::Variant<std::vector<std::tuple<guint32,Glib::ustring,gint32>>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::tuple<guint32,Glib::ustring,gint32>> p_Param1 = base_Param1.get();
+        std::vector<std::tuple<guint32,Glib::ustring,gint32>> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestStructArray(
@@ -552,7 +569,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestDictStructArray") == 0) {
         Glib::Variant<std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>>> base_Param1;
         parameters.get_child(base_Param1, 0);
-        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> p_Param1 = base_Param1.get();
+        std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestDictStructArray(
@@ -563,7 +580,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestSignature") == 0) {
         Glib::Variant<Glib::DBusSignatureString> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::DBusSignatureString p_Param1 = base_Param1.get();
+        Glib::DBusSignatureString p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestSignature(
@@ -574,7 +591,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestObjectPath") == 0) {
         Glib::Variant<Glib::DBusObjectPathString> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::DBusObjectPathString p_Param1 = base_Param1.get();
+        Glib::DBusObjectPathString p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestObjectPath(
@@ -585,7 +602,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestString") == 0) {
         Glib::Variant<Glib::ustring> base_Param1;
         parameters.get_child(base_Param1, 0);
-        Glib::ustring p_Param1 = base_Param1.get();
+        Glib::ustring p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestString(
@@ -596,7 +613,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestDouble") == 0) {
         Glib::Variant<double> base_Param1;
         parameters.get_child(base_Param1, 0);
-        double p_Param1 = base_Param1.get();
+        double p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestDouble(
@@ -607,7 +624,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestUInt64") == 0) {
         Glib::Variant<guint64> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint64 p_Param1 = base_Param1.get();
+        guint64 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestUInt64(
@@ -618,7 +635,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestInt64") == 0) {
         Glib::Variant<gint64> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint64 p_Param1 = base_Param1.get();
+        gint64 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestInt64(
@@ -629,7 +646,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestUInt") == 0) {
         Glib::Variant<guint32> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint32 p_Param1 = base_Param1.get();
+        guint32 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestUInt(
@@ -640,7 +657,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestInt") == 0) {
         Glib::Variant<gint32> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint32 p_Param1 = base_Param1.get();
+        gint32 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestInt(
@@ -651,7 +668,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestUInt16") == 0) {
         Glib::Variant<guint16> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guint16 p_Param1 = base_Param1.get();
+        guint16 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestUInt16(
@@ -662,7 +679,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestInt16") == 0) {
         Glib::Variant<gint16> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint16 p_Param1 = base_Param1.get();
+        gint16 p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestInt16(
@@ -673,7 +690,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestChar") == 0) {
         Glib::Variant<guchar> base_Param1;
         parameters.get_child(base_Param1, 0);
-        guchar p_Param1 = base_Param1.get();
+        guchar p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestChar(
@@ -684,7 +701,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestBoolean") == 0) {
         Glib::Variant<bool> base_Param1;
         parameters.get_child(base_Param1, 0);
-        bool p_Param1 = base_Param1.get();
+        bool p_Param1 = specialGetter(base_Param1);
 
         MethodInvocation methodInvocation(invocation);
         TestBoolean(
@@ -695,67 +712,67 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestAll") == 0) {
         Glib::Variant<std::vector<std::string>> base_in_Param1;
         parameters.get_child(base_in_Param1, 0);
-        std::vector<std::string> p_in_Param1 = base_in_Param1.get();
+        std::vector<std::string> p_in_Param1 = specialGetter(base_in_Param1);
 
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> base_in_Param2;
         parameters.get_child(base_in_Param2, 1);
-        std::vector<Glib::DBusObjectPathString> p_in_Param2 = base_in_Param2.get();
+        std::vector<Glib::DBusObjectPathString> p_in_Param2 = specialGetter(base_in_Param2);
 
         Glib::Variant<std::vector<Glib::ustring>> base_in_Param3;
         parameters.get_child(base_in_Param3, 2);
-        std::vector<Glib::ustring> p_in_Param3 = base_in_Param3.get();
+        std::vector<Glib::ustring> p_in_Param3 = specialGetter(base_in_Param3);
 
         Glib::Variant<std::string> base_in_Param4;
         parameters.get_child(base_in_Param4, 3);
-        std::string p_in_Param4 = base_in_Param4.get();
+        std::string p_in_Param4 = specialGetter(base_in_Param4);
 
         Glib::Variant<Glib::DBusSignatureString> base_in_Param5;
         parameters.get_child(base_in_Param5, 4);
-        Glib::DBusSignatureString p_in_Param5 = base_in_Param5.get();
+        Glib::DBusSignatureString p_in_Param5 = specialGetter(base_in_Param5);
 
         Glib::Variant<Glib::DBusObjectPathString> base_in_Param6;
         parameters.get_child(base_in_Param6, 5);
-        Glib::DBusObjectPathString p_in_Param6 = base_in_Param6.get();
+        Glib::DBusObjectPathString p_in_Param6 = specialGetter(base_in_Param6);
 
         Glib::Variant<Glib::ustring> base_in_Param7;
         parameters.get_child(base_in_Param7, 6);
-        Glib::ustring p_in_Param7 = base_in_Param7.get();
+        Glib::ustring p_in_Param7 = specialGetter(base_in_Param7);
 
         Glib::Variant<double> base_in_Param8;
         parameters.get_child(base_in_Param8, 7);
-        double p_in_Param8 = base_in_Param8.get();
+        double p_in_Param8 = specialGetter(base_in_Param8);
 
         Glib::Variant<guint64> base_in_Param9;
         parameters.get_child(base_in_Param9, 8);
-        guint64 p_in_Param9 = base_in_Param9.get();
+        guint64 p_in_Param9 = specialGetter(base_in_Param9);
 
         Glib::Variant<gint64> base_in_Param10;
         parameters.get_child(base_in_Param10, 9);
-        gint64 p_in_Param10 = base_in_Param10.get();
+        gint64 p_in_Param10 = specialGetter(base_in_Param10);
 
         Glib::Variant<guint32> base_in_Param11;
         parameters.get_child(base_in_Param11, 10);
-        guint32 p_in_Param11 = base_in_Param11.get();
+        guint32 p_in_Param11 = specialGetter(base_in_Param11);
 
         Glib::Variant<gint32> base_in_Param12;
         parameters.get_child(base_in_Param12, 11);
-        gint32 p_in_Param12 = base_in_Param12.get();
+        gint32 p_in_Param12 = specialGetter(base_in_Param12);
 
         Glib::Variant<guint16> base_in_Param13;
         parameters.get_child(base_in_Param13, 12);
-        guint16 p_in_Param13 = base_in_Param13.get();
+        guint16 p_in_Param13 = specialGetter(base_in_Param13);
 
         Glib::Variant<gint16> base_in_Param14;
         parameters.get_child(base_in_Param14, 13);
-        gint16 p_in_Param14 = base_in_Param14.get();
+        gint16 p_in_Param14 = specialGetter(base_in_Param14);
 
         Glib::Variant<guchar> base_in_Param15;
         parameters.get_child(base_in_Param15, 14);
-        guchar p_in_Param15 = base_in_Param15.get();
+        guchar p_in_Param15 = specialGetter(base_in_Param15);
 
         Glib::Variant<bool> base_in_Param16;
         parameters.get_child(base_in_Param16, 15);
-        bool p_in_Param16 = base_in_Param16.get();
+        bool p_in_Param16 = specialGetter(base_in_Param16);
 
         MethodInvocation methodInvocation(invocation);
         TestAll(
@@ -781,7 +798,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestTriggerInternalPropertyChange") == 0) {
         Glib::Variant<gint32> base_NewPropertyValue;
         parameters.get_child(base_NewPropertyValue, 0);
-        gint32 p_NewPropertyValue = base_NewPropertyValue.get();
+        gint32 p_NewPropertyValue = specialGetter(base_NewPropertyValue);
 
         MethodInvocation methodInvocation(invocation);
         TestTriggerInternalPropertyChange(
@@ -803,138 +820,190 @@ void org::gdbus::codegen::glibmm::TestStub::on_interface_get_property(
     static_cast<void>(property_name); // maybe unused
 
     if (property_name.compare("TestPropReadByteStringArray") == 0) {
+
         property = Glib::Variant<std::vector<std::string>>::create((TestPropReadByteStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadObjectPathArray") == 0) {
+
         property = Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadObjectPathArray_get()));
     }
 
     if (property_name.compare("TestPropReadStringArray") == 0) {
+
         property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadByteString") == 0) {
-        property = Glib::Variant<std::string>::create((TestPropReadByteString_get()));
+
+        gsize len;
+        char *data;
+
+        std::string temp = TestPropReadByteString_get();
+        len = temp.size();
+        data = g_strndup (temp.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+        property = Glib::Variant<std::string>(newVar);
     }
 
     if (property_name.compare("TestPropReadSignature") == 0) {
+
         property = Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadSignature_get()));
     }
 
     if (property_name.compare("TestPropReadObjectPath") == 0) {
+
         property = Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadObjectPath_get()));
     }
 
     if (property_name.compare("TestPropReadString") == 0) {
+
         property = Glib::Variant<Glib::ustring>::create((TestPropReadString_get()));
     }
 
     if (property_name.compare("TestPropReadDouble") == 0) {
+
         property = Glib::Variant<double>::create((TestPropReadDouble_get()));
     }
 
     if (property_name.compare("TestPropReadUInt64") == 0) {
+
         property = Glib::Variant<guint64>::create((TestPropReadUInt64_get()));
     }
 
     if (property_name.compare("TestPropReadInt64") == 0) {
+
         property = Glib::Variant<gint64>::create((TestPropReadInt64_get()));
     }
 
     if (property_name.compare("TestPropReadUInt") == 0) {
+
         property = Glib::Variant<guint32>::create((TestPropReadUInt_get()));
     }
 
     if (property_name.compare("TestPropReadInt") == 0) {
+
         property = Glib::Variant<gint32>::create((TestPropReadInt_get()));
     }
 
     if (property_name.compare("TestPropReadUInt16") == 0) {
+
         property = Glib::Variant<guint16>::create((TestPropReadUInt16_get()));
     }
 
     if (property_name.compare("TestPropReadInt16") == 0) {
+
         property = Glib::Variant<gint16>::create((TestPropReadInt16_get()));
     }
 
     if (property_name.compare("TestPropReadChar") == 0) {
+
         property = Glib::Variant<guchar>::create((TestPropReadChar_get()));
     }
 
     if (property_name.compare("TestPropReadBoolean") == 0) {
+
         property = Glib::Variant<bool>::create((TestPropReadBoolean_get()));
     }
 
     if (property_name.compare("TestPropInternalReadPropertyChange") == 0) {
+
         property = Glib::Variant<gint32>::create((TestPropInternalReadPropertyChange_get()));
     }
 
     if (property_name.compare("TestPropReadWriteByteStringArray") == 0) {
+
         property = Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteByteStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadWriteObjectPathArray") == 0) {
+
         property = Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadWriteObjectPathArray_get()));
     }
 
     if (property_name.compare("TestPropReadWriteStringArray") == 0) {
+
         property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadWriteStringArray_get()));
     }
 
     if (property_name.compare("TestPropReadWriteByteString") == 0) {
-        property = Glib::Variant<std::string>::create((TestPropReadWriteByteString_get()));
+
+        gsize len;
+        char *data;
+
+        std::string temp = TestPropReadWriteByteString_get();
+        len = temp.size();
+        data = g_strndup (temp.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+        property = Glib::Variant<std::string>(newVar);
     }
 
     if (property_name.compare("TestPropReadWriteSignature") == 0) {
+
         property = Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadWriteSignature_get()));
     }
 
     if (property_name.compare("TestPropReadWriteObjectPath") == 0) {
+
         property = Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadWriteObjectPath_get()));
     }
 
     if (property_name.compare("TestPropReadWriteString") == 0) {
+
         property = Glib::Variant<Glib::ustring>::create((TestPropReadWriteString_get()));
     }
 
     if (property_name.compare("TestPropReadWriteDouble") == 0) {
+
         property = Glib::Variant<double>::create((TestPropReadWriteDouble_get()));
     }
 
     if (property_name.compare("TestPropReadWriteUInt64") == 0) {
+
         property = Glib::Variant<guint64>::create((TestPropReadWriteUInt64_get()));
     }
 
     if (property_name.compare("TestPropReadWriteInt64") == 0) {
+
         property = Glib::Variant<gint64>::create((TestPropReadWriteInt64_get()));
     }
 
     if (property_name.compare("TestPropReadWriteUInt") == 0) {
+
         property = Glib::Variant<guint32>::create((TestPropReadWriteUInt_get()));
     }
 
     if (property_name.compare("TestPropReadWriteInt") == 0) {
+
         property = Glib::Variant<gint32>::create((TestPropReadWriteInt_get()));
     }
 
     if (property_name.compare("TestPropReadWriteUInt16") == 0) {
+
         property = Glib::Variant<guint16>::create((TestPropReadWriteUInt16_get()));
     }
 
     if (property_name.compare("TestPropReadWriteInt16") == 0) {
+
         property = Glib::Variant<gint16>::create((TestPropReadWriteInt16_get()));
     }
 
     if (property_name.compare("TestPropReadWriteChar") == 0) {
+
         property = Glib::Variant<guchar>::create((TestPropReadWriteChar_get()));
     }
 
     if (property_name.compare("TestPropReadWriteBoolean") == 0) {
+
         property = Glib::Variant<bool>::create((TestPropReadWriteBoolean_get()));
     }
 
     if (property_name.compare("TestPropInternalReadWritePropertyChange") == 0) {
+
         property = Glib::Variant<gint32>::create((TestPropInternalReadWritePropertyChange_get()));
     }
 
@@ -956,7 +1025,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<std::string>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
             std::vector<std::string> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteByteStringArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteByteStringArray");
@@ -968,7 +1037,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<Glib::DBusObjectPathString>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::DBusObjectPathString>>>(value);
             std::vector<Glib::DBusObjectPathString> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteObjectPathArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteObjectPathArray");
@@ -980,7 +1049,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
             std::vector<Glib::ustring> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteStringArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteStringArray");
@@ -992,7 +1061,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::string> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::string>>(value);
             std::string val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteByteString_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteByteString");
@@ -1004,7 +1073,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::DBusSignatureString> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusSignatureString>>(value);
             Glib::DBusSignatureString val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteSignature_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteSignature");
@@ -1016,7 +1085,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::DBusObjectPathString> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusObjectPathString>>(value);
             Glib::DBusObjectPathString val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteObjectPath_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteObjectPath");
@@ -1028,7 +1097,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::ustring> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
             Glib::ustring val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteString_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteString");
@@ -1040,7 +1109,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<double> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(value);
             double val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteDouble_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteDouble");
@@ -1052,7 +1121,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint64> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint64>>(value);
             guint64 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteUInt64_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt64");
@@ -1064,7 +1133,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint64> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint64>>(value);
             gint64 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteInt64_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt64");
@@ -1076,7 +1145,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint32> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint32>>(value);
             guint32 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteUInt_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt");
@@ -1088,7 +1157,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint32> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
             gint32 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteInt_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt");
@@ -1100,7 +1169,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint16> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint16>>(value);
             guint16 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteUInt16_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteUInt16");
@@ -1112,7 +1181,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint16> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint16>>(value);
             gint16 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteInt16_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteInt16");
@@ -1124,7 +1193,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guchar> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guchar>>(value);
             guchar val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteChar_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteChar");
@@ -1136,7 +1205,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<bool> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<bool>>(value);
             bool val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropWriteBoolean_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropWriteBoolean");
@@ -1148,7 +1217,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<std::string>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<std::string>>>(value);
             std::vector<std::string> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteByteStringArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteByteStringArray");
@@ -1160,7 +1229,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<Glib::DBusObjectPathString>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::DBusObjectPathString>>>(value);
             std::vector<Glib::DBusObjectPathString> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteObjectPathArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteObjectPathArray");
@@ -1172,7 +1241,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::vector<Glib::ustring>> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::vector<Glib::ustring>>>(value);
             std::vector<Glib::ustring> val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteStringArray_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteStringArray");
@@ -1184,7 +1253,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<std::string> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<std::string>>(value);
             std::string val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteByteString_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteByteString");
@@ -1196,7 +1265,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::DBusSignatureString> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusSignatureString>>(value);
             Glib::DBusSignatureString val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteSignature_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteSignature");
@@ -1208,7 +1277,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::DBusObjectPathString> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::DBusObjectPathString>>(value);
             Glib::DBusObjectPathString val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteObjectPath_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteObjectPath");
@@ -1220,7 +1289,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<Glib::ustring> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<Glib::ustring>>(value);
             Glib::ustring val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteString_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteString");
@@ -1232,7 +1301,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<double> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<double>>(value);
             double val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteDouble_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteDouble");
@@ -1244,7 +1313,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint64> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint64>>(value);
             guint64 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteUInt64_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt64");
@@ -1256,7 +1325,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint64> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint64>>(value);
             gint64 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteInt64_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt64");
@@ -1268,7 +1337,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint32> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint32>>(value);
             guint32 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteUInt_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt");
@@ -1280,7 +1349,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint32> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
             gint32 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteInt_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt");
@@ -1292,7 +1361,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guint16> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guint16>>(value);
             guint16 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteUInt16_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteUInt16");
@@ -1304,7 +1373,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint16> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint16>>(value);
             gint16 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteInt16_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteInt16");
@@ -1316,7 +1385,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<guchar> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<guchar>>(value);
             guchar val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteChar_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteChar");
@@ -1328,7 +1397,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<bool> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<bool>>(value);
             bool val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropReadWriteBoolean_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropReadWriteBoolean");
@@ -1340,7 +1409,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
             Glib::Variant<gint32> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<gint32>>(value);
             gint32 val =
-                (castValue.get());
+                (specialGetter(castValue));
             TestPropInternalReadWritePropertyChange_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting TestPropInternalReadWritePropertyChange");
@@ -1644,6 +1713,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteStringArray_set(cons
     if (TestPropReadByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
             Glib::Variant<std::vector<std::string>>::create((TestPropReadByteStringArray_get()));
+
         emitSignal("TestPropReadByteStringArray", value_get);
         return true;
     }
@@ -1656,6 +1726,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadObjectPathArray_set(cons
     if (TestPropReadObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
             Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadObjectPathArray_get()));
+
         emitSignal("TestPropReadObjectPathArray", value_get);
         return true;
     }
@@ -1668,6 +1739,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const st
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
             Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
+
         emitSignal("TestPropReadStringArray", value_get);
         return true;
     }
@@ -1678,8 +1750,17 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const st
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteString_set(const std::string & value)
 {
     if (TestPropReadByteString_setHandler(value)) {
+        gsize len;
+        char *data;
+
+        len = value.size();
+        data = g_strndup (value.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
         Glib::Variant<std::string> value_get =
-            Glib::Variant<std::string>::create((TestPropReadByteString_get()));
+            Glib::Variant<std::string>(newVar);
+
         emitSignal("TestPropReadByteString", value_get);
         return true;
     }
@@ -1692,6 +1773,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadSignature_set(const Glib
     if (TestPropReadSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
             Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadSignature_get()));
+
         emitSignal("TestPropReadSignature", value_get);
         return true;
     }
@@ -1704,6 +1786,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadObjectPath_set(const Gli
     if (TestPropReadObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
             Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadObjectPath_get()));
+
         emitSignal("TestPropReadObjectPath", value_get);
         return true;
     }
@@ -1716,6 +1799,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadString_set(const Glib::u
     if (TestPropReadString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
             Glib::Variant<Glib::ustring>::create((TestPropReadString_get()));
+
         emitSignal("TestPropReadString", value_get);
         return true;
     }
@@ -1728,6 +1812,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadDouble_set(double value)
     if (TestPropReadDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
             Glib::Variant<double>::create((TestPropReadDouble_get()));
+
         emitSignal("TestPropReadDouble", value_get);
         return true;
     }
@@ -1740,6 +1825,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt64_set(guint64 value
     if (TestPropReadUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
             Glib::Variant<guint64>::create((TestPropReadUInt64_get()));
+
         emitSignal("TestPropReadUInt64", value_get);
         return true;
     }
@@ -1752,6 +1838,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt64_set(gint64 value)
     if (TestPropReadInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
             Glib::Variant<gint64>::create((TestPropReadInt64_get()));
+
         emitSignal("TestPropReadInt64", value_get);
         return true;
     }
@@ -1764,6 +1851,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt_set(guint32 value)
     if (TestPropReadUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
             Glib::Variant<guint32>::create((TestPropReadUInt_get()));
+
         emitSignal("TestPropReadUInt", value_get);
         return true;
     }
@@ -1776,6 +1864,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt_set(gint32 value)
     if (TestPropReadInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
             Glib::Variant<gint32>::create((TestPropReadInt_get()));
+
         emitSignal("TestPropReadInt", value_get);
         return true;
     }
@@ -1788,6 +1877,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadUInt16_set(guint16 value
     if (TestPropReadUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
             Glib::Variant<guint16>::create((TestPropReadUInt16_get()));
+
         emitSignal("TestPropReadUInt16", value_get);
         return true;
     }
@@ -1800,6 +1890,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadInt16_set(gint16 value)
     if (TestPropReadInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
             Glib::Variant<gint16>::create((TestPropReadInt16_get()));
+
         emitSignal("TestPropReadInt16", value_get);
         return true;
     }
@@ -1812,6 +1903,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadChar_set(guchar value)
     if (TestPropReadChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
             Glib::Variant<guchar>::create((TestPropReadChar_get()));
+
         emitSignal("TestPropReadChar", value_get);
         return true;
     }
@@ -1824,6 +1916,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadBoolean_set(bool value)
     if (TestPropReadBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
             Glib::Variant<bool>::create((TestPropReadBoolean_get()));
+
         emitSignal("TestPropReadBoolean", value_get);
         return true;
     }
@@ -1836,6 +1929,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropInternalReadPropertyChange_s
     if (TestPropInternalReadPropertyChange_setHandler(value)) {
         Glib::Variant<gint32> value_get =
             Glib::Variant<gint32>::create((TestPropInternalReadPropertyChange_get()));
+
         emitSignal("TestPropInternalReadPropertyChange", value_get);
         return true;
     }
@@ -1848,6 +1942,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteByteStringArray_set(con
     if (TestPropWriteByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
             Glib::Variant<std::vector<std::string>>::create((TestPropWriteByteStringArray_get()));
+
         emitSignal("TestPropWriteByteStringArray", value_get);
         return true;
     }
@@ -1860,6 +1955,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteObjectPathArray_set(con
     if (TestPropWriteObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
             Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropWriteObjectPathArray_get()));
+
         emitSignal("TestPropWriteObjectPathArray", value_get);
         return true;
     }
@@ -1872,6 +1968,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteStringArray_set(const s
     if (TestPropWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
             Glib::Variant<std::vector<Glib::ustring>>::create((TestPropWriteStringArray_get()));
+
         emitSignal("TestPropWriteStringArray", value_get);
         return true;
     }
@@ -1882,8 +1979,17 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteStringArray_set(const s
 bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteByteString_set(const std::string & value)
 {
     if (TestPropWriteByteString_setHandler(value)) {
+        gsize len;
+        char *data;
+
+        len = value.size();
+        data = g_strndup (value.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
         Glib::Variant<std::string> value_get =
-            Glib::Variant<std::string>::create((TestPropWriteByteString_get()));
+            Glib::Variant<std::string>(newVar);
+
         emitSignal("TestPropWriteByteString", value_get);
         return true;
     }
@@ -1896,6 +2002,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteSignature_set(const Gli
     if (TestPropWriteSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
             Glib::Variant<Glib::DBusSignatureString>::create((TestPropWriteSignature_get()));
+
         emitSignal("TestPropWriteSignature", value_get);
         return true;
     }
@@ -1908,6 +2015,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteObjectPath_set(const Gl
     if (TestPropWriteObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
             Glib::Variant<Glib::DBusObjectPathString>::create((TestPropWriteObjectPath_get()));
+
         emitSignal("TestPropWriteObjectPath", value_get);
         return true;
     }
@@ -1920,6 +2028,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteString_set(const Glib::
     if (TestPropWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
             Glib::Variant<Glib::ustring>::create((TestPropWriteString_get()));
+
         emitSignal("TestPropWriteString", value_get);
         return true;
     }
@@ -1932,6 +2041,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteDouble_set(double value
     if (TestPropWriteDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
             Glib::Variant<double>::create((TestPropWriteDouble_get()));
+
         emitSignal("TestPropWriteDouble", value_get);
         return true;
     }
@@ -1944,6 +2054,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt64_set(guint64 valu
     if (TestPropWriteUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
             Glib::Variant<guint64>::create((TestPropWriteUInt64_get()));
+
         emitSignal("TestPropWriteUInt64", value_get);
         return true;
     }
@@ -1956,6 +2067,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt64_set(gint64 value)
     if (TestPropWriteInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
             Glib::Variant<gint64>::create((TestPropWriteInt64_get()));
+
         emitSignal("TestPropWriteInt64", value_get);
         return true;
     }
@@ -1968,6 +2080,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt_set(guint32 value)
     if (TestPropWriteUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
             Glib::Variant<guint32>::create((TestPropWriteUInt_get()));
+
         emitSignal("TestPropWriteUInt", value_get);
         return true;
     }
@@ -1980,6 +2093,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt_set(gint32 value)
     if (TestPropWriteInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
             Glib::Variant<gint32>::create((TestPropWriteInt_get()));
+
         emitSignal("TestPropWriteInt", value_get);
         return true;
     }
@@ -1992,6 +2106,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteUInt16_set(guint16 valu
     if (TestPropWriteUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
             Glib::Variant<guint16>::create((TestPropWriteUInt16_get()));
+
         emitSignal("TestPropWriteUInt16", value_get);
         return true;
     }
@@ -2004,6 +2119,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteInt16_set(gint16 value)
     if (TestPropWriteInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
             Glib::Variant<gint16>::create((TestPropWriteInt16_get()));
+
         emitSignal("TestPropWriteInt16", value_get);
         return true;
     }
@@ -2016,6 +2132,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteChar_set(guchar value)
     if (TestPropWriteChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
             Glib::Variant<guchar>::create((TestPropWriteChar_get()));
+
         emitSignal("TestPropWriteChar", value_get);
         return true;
     }
@@ -2028,6 +2145,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropWriteBoolean_set(bool value)
     if (TestPropWriteBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
             Glib::Variant<bool>::create((TestPropWriteBoolean_get()));
+
         emitSignal("TestPropWriteBoolean", value_get);
         return true;
     }
@@ -2040,6 +2158,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteByteStringArray_set
     if (TestPropReadWriteByteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<std::string>> value_get =
             Glib::Variant<std::vector<std::string>>::create((TestPropReadWriteByteStringArray_get()));
+
         emitSignal("TestPropReadWriteByteStringArray", value_get);
         return true;
     }
@@ -2052,6 +2171,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteObjectPathArray_set
     if (TestPropReadWriteObjectPathArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::DBusObjectPathString>> value_get =
             Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((TestPropReadWriteObjectPathArray_get()));
+
         emitSignal("TestPropReadWriteObjectPathArray", value_get);
         return true;
     }
@@ -2064,6 +2184,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteStringArray_set(con
     if (TestPropReadWriteStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
             Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadWriteStringArray_get()));
+
         emitSignal("TestPropReadWriteStringArray", value_get);
         return true;
     }
@@ -2074,8 +2195,17 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteStringArray_set(con
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteByteString_set(const std::string & value)
 {
     if (TestPropReadWriteByteString_setHandler(value)) {
+        gsize len;
+        char *data;
+
+        len = value.size();
+        data = g_strndup (value.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
         Glib::Variant<std::string> value_get =
-            Glib::Variant<std::string>::create((TestPropReadWriteByteString_get()));
+            Glib::Variant<std::string>(newVar);
+
         emitSignal("TestPropReadWriteByteString", value_get);
         return true;
     }
@@ -2088,6 +2218,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteSignature_set(const
     if (TestPropReadWriteSignature_setHandler(value)) {
         Glib::Variant<Glib::DBusSignatureString> value_get =
             Glib::Variant<Glib::DBusSignatureString>::create((TestPropReadWriteSignature_get()));
+
         emitSignal("TestPropReadWriteSignature", value_get);
         return true;
     }
@@ -2100,6 +2231,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteObjectPath_set(cons
     if (TestPropReadWriteObjectPath_setHandler(value)) {
         Glib::Variant<Glib::DBusObjectPathString> value_get =
             Glib::Variant<Glib::DBusObjectPathString>::create((TestPropReadWriteObjectPath_get()));
+
         emitSignal("TestPropReadWriteObjectPath", value_get);
         return true;
     }
@@ -2112,6 +2244,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteString_set(const Gl
     if (TestPropReadWriteString_setHandler(value)) {
         Glib::Variant<Glib::ustring> value_get =
             Glib::Variant<Glib::ustring>::create((TestPropReadWriteString_get()));
+
         emitSignal("TestPropReadWriteString", value_get);
         return true;
     }
@@ -2124,6 +2257,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteDouble_set(double v
     if (TestPropReadWriteDouble_setHandler(value)) {
         Glib::Variant<double> value_get =
             Glib::Variant<double>::create((TestPropReadWriteDouble_get()));
+
         emitSignal("TestPropReadWriteDouble", value_get);
         return true;
     }
@@ -2136,6 +2270,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt64_set(guint64 
     if (TestPropReadWriteUInt64_setHandler(value)) {
         Glib::Variant<guint64> value_get =
             Glib::Variant<guint64>::create((TestPropReadWriteUInt64_get()));
+
         emitSignal("TestPropReadWriteUInt64", value_get);
         return true;
     }
@@ -2148,6 +2283,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt64_set(gint64 va
     if (TestPropReadWriteInt64_setHandler(value)) {
         Glib::Variant<gint64> value_get =
             Glib::Variant<gint64>::create((TestPropReadWriteInt64_get()));
+
         emitSignal("TestPropReadWriteInt64", value_get);
         return true;
     }
@@ -2160,6 +2296,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt_set(guint32 va
     if (TestPropReadWriteUInt_setHandler(value)) {
         Glib::Variant<guint32> value_get =
             Glib::Variant<guint32>::create((TestPropReadWriteUInt_get()));
+
         emitSignal("TestPropReadWriteUInt", value_get);
         return true;
     }
@@ -2172,6 +2309,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt_set(gint32 valu
     if (TestPropReadWriteInt_setHandler(value)) {
         Glib::Variant<gint32> value_get =
             Glib::Variant<gint32>::create((TestPropReadWriteInt_get()));
+
         emitSignal("TestPropReadWriteInt", value_get);
         return true;
     }
@@ -2184,6 +2322,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteUInt16_set(guint16 
     if (TestPropReadWriteUInt16_setHandler(value)) {
         Glib::Variant<guint16> value_get =
             Glib::Variant<guint16>::create((TestPropReadWriteUInt16_get()));
+
         emitSignal("TestPropReadWriteUInt16", value_get);
         return true;
     }
@@ -2196,6 +2335,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteInt16_set(gint16 va
     if (TestPropReadWriteInt16_setHandler(value)) {
         Glib::Variant<gint16> value_get =
             Glib::Variant<gint16>::create((TestPropReadWriteInt16_get()));
+
         emitSignal("TestPropReadWriteInt16", value_get);
         return true;
     }
@@ -2208,6 +2348,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteChar_set(guchar val
     if (TestPropReadWriteChar_setHandler(value)) {
         Glib::Variant<guchar> value_get =
             Glib::Variant<guchar>::create((TestPropReadWriteChar_get()));
+
         emitSignal("TestPropReadWriteChar", value_get);
         return true;
     }
@@ -2220,6 +2361,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadWriteBoolean_set(bool va
     if (TestPropReadWriteBoolean_setHandler(value)) {
         Glib::Variant<bool> value_get =
             Glib::Variant<bool>::create((TestPropReadWriteBoolean_get()));
+
         emitSignal("TestPropReadWriteBoolean", value_get);
         return true;
     }
@@ -2232,6 +2374,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropInternalReadWritePropertyCha
     if (TestPropInternalReadWritePropertyChange_setHandler(value)) {
         Glib::Variant<gint32> value_get =
             Glib::Variant<gint32>::create((TestPropInternalReadWritePropertyChange_get()));
+
         emitSignal("TestPropInternalReadWritePropertyChange", value_get);
         return true;
     }

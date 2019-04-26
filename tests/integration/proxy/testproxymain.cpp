@@ -768,7 +768,10 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     PropReadStringArrayValue.push_back("Value6");
     printStatus("Property (read): TestPropReadStringArray", m_proxy->TestPropReadStringArray_get() == PropReadStringArrayValue);
 
-    printStatus("Property (read): TestPropReadByteString", m_proxy->TestPropReadByteString_get() == "Value7");
+    //std::string res = m_proxy->TestPropReadByteString_get();
+    //res.push_back('\0');
+    //std::cout << res << std::endl;
+    printStatus("Property (read): TestPropReadByteString", m_proxy->TestPropReadByteString_get() == std::string("Value7"));
     printStatus("Property (read): TestPropReadSignature", m_proxy->TestPropReadSignature_get() == "sa{sv}a(bi)");
     printStatus("Property (read): TestPropReadObjectPath", m_proxy->TestPropReadObjectPath_get() == "/Value9");
     printStatus("Property (read): TestPropReadString", m_proxy->TestPropReadString_get() == "Value10");

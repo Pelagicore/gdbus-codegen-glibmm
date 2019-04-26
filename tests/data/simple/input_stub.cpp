@@ -32,6 +32,23 @@ static const char interfaceXml0[] = R"XML_DELIMITER(<!DOCTYPE node PUBLIC "-//fr
 
 #include "OUTPUT_DIR/input_stub.h"
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
@@ -105,11 +122,11 @@ void org::gdbus::codegen::glibmm::TestStub::on_method_call(
     if (method_name.compare("TestCall") == 0) {
         Glib::Variant<gint32> base_Param1;
         parameters.get_child(base_Param1, 0);
-        gint32 p_Param1 = base_Param1.get();
+        gint32 p_Param1 = specialGetter(base_Param1);
 
         Glib::Variant<std::map<Glib::ustring,Glib::VariantBase>> base_Param2;
         parameters.get_child(base_Param2, 1);
-        std::map<Glib::ustring,Glib::VariantBase> p_Param2 = base_Param2.get();
+        std::map<Glib::ustring,Glib::VariantBase> p_Param2 = specialGetter(base_Param2);
 
         MethodInvocation methodInvocation(invocation);
         TestCall(
@@ -132,6 +149,7 @@ void org::gdbus::codegen::glibmm::TestStub::on_interface_get_property(
     static_cast<void>(property_name); // maybe unused
 
     if (property_name.compare("TestPropReadStringArray") == 0) {
+
         property = Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
     }
 
@@ -175,6 +193,7 @@ bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const st
     if (TestPropReadStringArray_setHandler(value)) {
         Glib::Variant<std::vector<Glib::ustring>> value_get =
             Glib::Variant<std::vector<Glib::ustring>>::create((TestPropReadStringArray_get()));
+
         emitSignal("TestPropReadStringArray", value_get);
         return true;
     }

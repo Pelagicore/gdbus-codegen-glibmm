@@ -8,6 +8,23 @@
 
 #include <utility>
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 {% for interface in interfaces %}
 {% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name_proxy %}
 {% for method in interface.methods %}
@@ -110,7 +127,7 @@ std::tuple<{{ method.out_args|join(', ', attribute='cpptype_out') }}>
         if (ok) {
             *ok = true;
         }
-        return {{ prop.cpptype_get_cast }}(b.get());
+        return {{ prop.cpptype_get_cast }}(specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -119,6 +136,7 @@ std::tuple<{{ method.out_args|join(', ', attribute='cpptype_out') }}>
         }
         return {{ prop.cpptype_out }}();
     }
+
 }
 
 {% endif %}
@@ -128,7 +146,20 @@ void {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} 
     std::vector<Glib::VariantBase> paramsVec;
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("{{ interface.name }}"));
     paramsVec.push_back(Glib::Variant<Glib::ustring>::create("{{ prop.name }}"));
+    {% if prop.signature == "ay" %}
+    gsize len;
+    char *data;
+
+    len = value.size();
+    data = g_strndup (value.c_str(), len);
+
+    GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+    paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<std::string>(newVar)));
+    {% else %}
     paramsVec.push_back(Glib::Variant<Glib::VariantBase>::create(Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}(value))));
+    {% endif %}
+
     Glib::VariantContainerBase params = Glib::VariantContainerBase::create_tuple(paramsVec);
     m_proxy->call("org.freedesktop.DBus.Properties.Set", cb, params);
 }
@@ -257,3 +288,4 @@ Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::c
     return Glib::RefPtr<{{ class_name_with_namespace }}>(p);
 }
 {%- endfor %}
+

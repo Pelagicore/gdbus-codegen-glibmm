@@ -8,6 +8,23 @@
 
 #include <utility>
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 void org::gdbus::codegen::glibmm::TestProxy::TestCall(
     gint32 arg_Param1,
     const std::map<Glib::ustring,Glib::VariantBase> & arg_Param2,
@@ -79,7 +96,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadS
         if (ok) {
             *ok = true;
         }
-        return (b.get());
+        return (specialGetter(b));
     } else {
         if (ok) {
             *ok = false;
@@ -88,6 +105,7 @@ std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadS
         }
         return std::vector<Glib::ustring>();
     }
+
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::handle_signal(const Glib::ustring&/* sender_name */,
