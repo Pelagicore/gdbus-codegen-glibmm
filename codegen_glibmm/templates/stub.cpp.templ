@@ -4,6 +4,23 @@ static const char interfaceXml{{ loop.index0 }}[] = R"XML_DELIMITER({{ node_xml 
 
 #include "{{ stub_h_name }}"
 
+template<class T>
+inline T specialGetter(Glib::Variant<T> variant)
+{
+    return variant.get();
+}
+
+template<>
+inline std::string specialGetter(Glib::Variant<std::string> variant)
+{
+    // String is not guaranteed to be null-terminated, so don't use ::get()
+    gsize n_elem;
+    gsize elem_size = sizeof(char);
+    char* data = (char*)g_variant_get_fixed_array(variant.gobj(), &n_elem, elem_size);
+
+    return std::string(data, n_elem);
+}
+
 {% for interface in interfaces %}
 {% set class_name_with_namespace = interface.cpp_namespace_name + '::' + interface.cpp_class_name_stub %}
 {{ class_name_with_namespace }}::{{ interface.cpp_class_name_stub }}():
@@ -83,7 +100,7 @@ void {{ class_name_with_namespace }}::on_method_call(
     {% for arg in method.in_args %}
         Glib::Variant<{{ arg.variant_type }}> base_{{ arg.name }};
         parameters.get_child(base_{{ arg.name }}, {{ loop.index0 }});
-        {{ arg.variant_type }} p_{{ arg.name }} = base_{{ arg.name }}.get();
+        {{ arg.variant_type }} p_{{ arg.name }} = specialGetter(base_{{ arg.name }});
 
     {% endfor %}
         MethodInvocation methodInvocation(invocation);
@@ -110,7 +127,21 @@ void {{ class_name_with_namespace }}::on_interface_get_property(
 
 {% for prop in interface.properties if prop.readable %}
     if (property_name.compare("{{ prop.name }}") == 0) {
+
+        {% if prop.signature == "ay" %}
+        gsize len;
+        char *data;
+
+        {{ prop.variant_type }} temp = {{ prop.name }}_get();
+        len = temp.size();
+        data = g_strndup (temp.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+        property = Glib::Variant<std::string>(newVar);
+        {% else %}
         property = Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
+        {% endif %}
     }
 
 {% endfor %}
@@ -133,7 +164,7 @@ bool {{ class_name_with_namespace }}::on_interface_set_property(
             Glib::Variant<{{ prop.variant_type }}> castValue =
                 Glib::VariantBase::cast_dynamic<Glib::Variant<{{ prop.variant_type }}>>(value);
             {{ prop.cpptype_out }} val =
-                {{ prop.cpptype_get_cast }}(castValue.get());
+                {{ prop.cpptype_get_cast }}(specialGetter(castValue));
             {{ prop.name }}_set(val);
         } catch (const std::bad_cast &) {
             g_warning ("Bad cast when casting {{ prop.name }}");
@@ -175,8 +206,22 @@ void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
 bool {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
 {
     if ({{ prop.name }}_setHandler(value)) {
+        {% if prop.signature == "ay" %}
+        gsize len;
+        char *data;
+
+        len = value.size();
+        data = g_strndup (value.c_str(), len);
+
+        GVariant * newVar = g_variant_new_from_data (G_VARIANT_TYPE ("ay"), data, len, TRUE, g_free, data);
+
+        Glib::Variant<{{ prop.variant_type }}> value_get =
+            Glib::Variant<{{ prop.variant_type }}>(newVar);
+        {% else %}
         Glib::Variant<{{ prop.variant_type }}> value_get =
             Glib::Variant<{{ prop.variant_type }}>::create({{ prop.cpptype_to_dbus }}({{ prop.name }}_get()));
+        {% endif %}
+
         emitSignal("{{ prop.name }}", value_get);
         return true;
     }
