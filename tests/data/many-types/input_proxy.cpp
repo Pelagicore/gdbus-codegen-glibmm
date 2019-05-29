@@ -1422,342 +1422,325 @@ org::gdbus::codegen::glibmm::TestProxy::TestTriggerInternalPropertyChange_sync(
 
 std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadByteStringArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<std::string>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadByteStringArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadByteStringArray");
+    m_proxy->get_cached_property(b, "TestPropReadByteStringArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadByteStringArray");
         }
+        return std::vector<std::string>();
     }
-
-    return (b.get());
 }
 
 std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::TestPropReadObjectPathArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::DBusObjectPathString>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadObjectPathArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadObjectPathArray");
+    m_proxy->get_cached_property(b, "TestPropReadObjectPathArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadObjectPathArray");
         }
+        return std::vector<Glib::DBusObjectPathString>();
     }
-
-    return (b.get());
 }
 
 std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadStringArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadStringArray");
+    m_proxy->get_cached_property(b, "TestPropReadStringArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadStringArray");
         }
+        return std::vector<Glib::ustring>();
     }
-
-    return (b.get());
 }
 
 std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadByteString_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::string> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadByteString") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadByteString");
+    m_proxy->get_cached_property(b, "TestPropReadByteString");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadByteString");
         }
+        return std::string();
     }
-
-    return (b.get());
 }
 
 Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadSignature_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::DBusSignatureString> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadSignature") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadSignature");
+    m_proxy->get_cached_property(b, "TestPropReadSignature");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadSignature");
         }
+        return Glib::DBusSignatureString();
     }
-
-    return (b.get());
 }
 
 Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadObjectPath_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::DBusObjectPathString> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadObjectPath") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadObjectPath");
+    m_proxy->get_cached_property(b, "TestPropReadObjectPath");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadObjectPath");
         }
+        return Glib::DBusObjectPathString();
     }
-
-    return (b.get());
 }
 
 Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadString_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::ustring> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadString") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadString");
+    m_proxy->get_cached_property(b, "TestPropReadString");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadString");
         }
+        return Glib::ustring();
     }
-
-    return (b.get());
 }
 
 double org::gdbus::codegen::glibmm::TestProxy::TestPropReadDouble_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<double> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadDouble") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadDouble");
+    m_proxy->get_cached_property(b, "TestPropReadDouble");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadDouble");
         }
+        return double();
     }
-
-    return (b.get());
 }
 
 guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt64_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint64> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadUInt64") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadUInt64");
+    m_proxy->get_cached_property(b, "TestPropReadUInt64");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadUInt64");
         }
+        return guint64();
     }
-
-    return (b.get());
 }
 
 gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt64_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint64> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadInt64") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadInt64");
+    m_proxy->get_cached_property(b, "TestPropReadInt64");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadInt64");
         }
+        return gint64();
     }
-
-    return (b.get());
 }
 
 guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadUInt") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadUInt");
+    m_proxy->get_cached_property(b, "TestPropReadUInt");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadUInt");
         }
+        return guint32();
     }
-
-    return (b.get());
 }
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadInt") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadInt");
+    m_proxy->get_cached_property(b, "TestPropReadInt");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadInt");
         }
+        return gint32();
     }
-
-    return (b.get());
 }
 
 guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadUInt16_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint16> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadUInt16") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadUInt16");
+    m_proxy->get_cached_property(b, "TestPropReadUInt16");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadUInt16");
         }
+        return guint16();
     }
-
-    return (b.get());
 }
 
 gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadInt16_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint16> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadInt16") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadInt16");
+    m_proxy->get_cached_property(b, "TestPropReadInt16");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadInt16");
         }
+        return gint16();
     }
-
-    return (b.get());
 }
 
 guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadChar_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guchar> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadChar") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadChar");
+    m_proxy->get_cached_property(b, "TestPropReadChar");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadChar");
         }
+        return guchar();
     }
-
-    return (b.get());
 }
 
 bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadBoolean_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<bool> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadBoolean") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadBoolean");
+    m_proxy->get_cached_property(b, "TestPropReadBoolean");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadBoolean");
         }
+        return bool();
     }
-
-    return (b.get());
 }
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadPropertyChange_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropInternalReadPropertyChange") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropInternalReadPropertyChange");
+    m_proxy->get_cached_property(b, "TestPropInternalReadPropertyChange");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropInternalReadPropertyChange");
         }
+        return gint32();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteByteStringArray_set(const std::vector<std::string> & value, const Gio::SlotAsyncReady &cb)
@@ -2130,22 +2113,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropWriteBoolean_set_sync(bool 
 
 std::vector<std::string> org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<std::string>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteByteStringArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteByteStringArray");
+    m_proxy->get_cached_property(b, "TestPropReadWriteByteStringArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteByteStringArray");
         }
+        return std::vector<std::string>();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_set(const std::vector<std::string> & value, const Gio::SlotAsyncReady &cb)
@@ -2173,22 +2155,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteStringArray_se
 
 std::vector<Glib::DBusObjectPathString> org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::DBusObjectPathString>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteObjectPathArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteObjectPathArray");
+    m_proxy->get_cached_property(b, "TestPropReadWriteObjectPathArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteObjectPathArray");
         }
+        return std::vector<Glib::DBusObjectPathString>();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> & value, const Gio::SlotAsyncReady &cb)
@@ -2216,22 +2197,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPathArray_se
 
 std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteStringArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteStringArray");
+    m_proxy->get_cached_property(b, "TestPropReadWriteStringArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteStringArray");
         }
+        return std::vector<Glib::ustring>();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set(const std::vector<Glib::ustring> & value, const Gio::SlotAsyncReady &cb)
@@ -2259,22 +2239,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteStringArray_set_sy
 
 std::string org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::string> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteByteString") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteByteString");
+    m_proxy->get_cached_property(b, "TestPropReadWriteByteString");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteByteString");
         }
+        return std::string();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set(const std::string & value, const Gio::SlotAsyncReady &cb)
@@ -2302,22 +2281,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteByteString_set_syn
 
 Glib::DBusSignatureString org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::DBusSignatureString> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteSignature") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteSignature");
+    m_proxy->get_cached_property(b, "TestPropReadWriteSignature");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteSignature");
         }
+        return Glib::DBusSignatureString();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set(const Glib::DBusSignatureString & value, const Gio::SlotAsyncReady &cb)
@@ -2345,22 +2323,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteSignature_set_sync
 
 Glib::DBusObjectPathString org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::DBusObjectPathString> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteObjectPath") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteObjectPath");
+    m_proxy->get_cached_property(b, "TestPropReadWriteObjectPath");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteObjectPath");
         }
+        return Glib::DBusObjectPathString();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set(const Glib::DBusObjectPathString & value, const Gio::SlotAsyncReady &cb)
@@ -2388,22 +2365,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteObjectPath_set_syn
 
 Glib::ustring org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<Glib::ustring> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteString") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteString");
+    m_proxy->get_cached_property(b, "TestPropReadWriteString");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteString");
         }
+        return Glib::ustring();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set(const Glib::ustring & value, const Gio::SlotAsyncReady &cb)
@@ -2431,22 +2407,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteString_set_sync(co
 
 double org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<double> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteDouble") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteDouble");
+    m_proxy->get_cached_property(b, "TestPropReadWriteDouble");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteDouble");
         }
+        return double();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set(double value, const Gio::SlotAsyncReady &cb)
@@ -2474,22 +2449,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteDouble_set_sync(do
 
 guint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint64> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteUInt64") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteUInt64");
+    m_proxy->get_cached_property(b, "TestPropReadWriteUInt64");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteUInt64");
         }
+        return guint64();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set(guint64 value, const Gio::SlotAsyncReady &cb)
@@ -2517,22 +2491,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt64_set_sync(gu
 
 gint64 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint64> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteInt64") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteInt64");
+    m_proxy->get_cached_property(b, "TestPropReadWriteInt64");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteInt64");
         }
+        return gint64();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set(gint64 value, const Gio::SlotAsyncReady &cb)
@@ -2560,22 +2533,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt64_set_sync(gin
 
 guint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteUInt") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteUInt");
+    m_proxy->get_cached_property(b, "TestPropReadWriteUInt");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteUInt");
         }
+        return guint32();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set(guint32 value, const Gio::SlotAsyncReady &cb)
@@ -2603,22 +2575,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt_set_sync(guin
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteInt") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteInt");
+    m_proxy->get_cached_property(b, "TestPropReadWriteInt");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteInt");
         }
+        return gint32();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set(gint32 value, const Gio::SlotAsyncReady &cb)
@@ -2646,22 +2617,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt_set_sync(gint3
 
 guint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guint16> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteUInt16") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteUInt16");
+    m_proxy->get_cached_property(b, "TestPropReadWriteUInt16");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteUInt16");
         }
+        return guint16();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set(guint16 value, const Gio::SlotAsyncReady &cb)
@@ -2689,22 +2659,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteUInt16_set_sync(gu
 
 gint16 org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint16> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteInt16") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteInt16");
+    m_proxy->get_cached_property(b, "TestPropReadWriteInt16");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteInt16");
         }
+        return gint16();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set(gint16 value, const Gio::SlotAsyncReady &cb)
@@ -2732,22 +2701,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteInt16_set_sync(gin
 
 guchar org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<guchar> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteChar") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteChar");
+    m_proxy->get_cached_property(b, "TestPropReadWriteChar");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteChar");
         }
+        return guchar();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set(guchar value, const Gio::SlotAsyncReady &cb)
@@ -2775,22 +2743,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteChar_set_sync(guch
 
 bool org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<bool> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadWriteBoolean") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadWriteBoolean");
+    m_proxy->get_cached_property(b, "TestPropReadWriteBoolean");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadWriteBoolean");
         }
+        return bool();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set(bool value, const Gio::SlotAsyncReady &cb)
@@ -2818,22 +2785,21 @@ void org::gdbus::codegen::glibmm::TestProxy::TestPropReadWriteBoolean_set_sync(b
 
 gint32 org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<gint32> b;
-    if (std::find(props.begin(), props.end(), "TestPropInternalReadWritePropertyChange") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropInternalReadWritePropertyChange");
+    m_proxy->get_cached_property(b, "TestPropInternalReadWritePropertyChange");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropInternalReadWritePropertyChange");
         }
+        return gint32();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::TestPropInternalReadWritePropertyChange_set(gint32 value, const Gio::SlotAsyncReady &cb)

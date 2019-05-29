@@ -73,22 +73,21 @@ org::gdbus::codegen::glibmm::TestProxy::TestCall_sync(
 
 std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
-    if (std::find(props.begin(), props.end(), "TestPropReadStringArray") != props.end()) {
-        m_proxy->get_cached_property(b, "TestPropReadStringArray");
+    m_proxy->get_cached_property(b, "TestPropReadStringArray");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return (b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property TestPropReadStringArray");
         }
+        return std::vector<Glib::ustring>();
     }
-
-    return (b.get());
 }
 
 void org::gdbus::codegen::glibmm::TestProxy::handle_signal(const Glib::ustring&/* sender_name */,
