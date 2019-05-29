@@ -71,14 +71,21 @@ org::gdbus::codegen::glibmm::TestProxy::TestCall_sync(
     );
 }
 
-std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get()
+std::vector<Glib::ustring> org::gdbus::codegen::glibmm::TestProxy::TestPropReadStringArray_get(bool *ok)
 {
     std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<std::vector<Glib::ustring>> b;
     if (std::find(props.begin(), props.end(), "TestPropReadStringArray") != props.end()) {
         m_proxy->get_cached_property(b, "TestPropReadStringArray");
+        if (ok) {
+            *ok = true;
+        }
     } else {
-        g_print("Todo: lookup value\n");
+        if (ok) {
+            *ok = false;
+        } else {
+            g_warning("Unhandled error while getting property TestPropReadStringArray");
+        }
     }
 
     return (b.get());

@@ -64,7 +64,7 @@ public:
 {% endfor %}
 {% for prop in interface.properties %}
     {% if prop.readable %}
-    {{ prop.cpptype_out }} {{ prop.name }}_get();
+    {{ prop.cpptype_out }} {{ prop.name }}_get(bool *ok = nullptr);
     {% endif %}
     {% if prop.writable %}
     void {{ prop.name }}_set({{ prop.cpptype_in }}, const Gio::SlotAsyncReady &);
