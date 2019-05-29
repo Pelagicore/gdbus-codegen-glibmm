@@ -662,6 +662,10 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     printStatus("Property (read): TestPropReadInt16", proxy->TestPropReadInt16_get() == 1343);
     printStatus("Property (read): TestPropReadChar", proxy->TestPropReadChar_get() == 'A');
     printStatus("Property (read): TestPropReadBoolean", proxy->TestPropReadBoolean_get() == true);
+    
+    bool valueOk = false;
+    proxy->TestPropReadBoolean_get(&valueOk);
+    printStatus("Property (read): TestPropReadStatusBoolOk", valueOk == true);
 
     std::vector<std::string> PropReadWriteByteStringArrayValue;
     PropReadWriteByteStringArrayValue.push_back("Value21");

@@ -452,87 +452,87 @@ public:
         gint32 NewPropertyValue,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
         int timeout_msec = -1);
 
-    std::vector<std::string> TestPropReadByteStringArray_get();
+    std::vector<std::string> TestPropReadByteStringArray_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadByteStringArray_changed() {
         return m_TestPropReadByteStringArray_changed;
     }
 
-    std::vector<Glib::DBusObjectPathString> TestPropReadObjectPathArray_get();
+    std::vector<Glib::DBusObjectPathString> TestPropReadObjectPathArray_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadObjectPathArray_changed() {
         return m_TestPropReadObjectPathArray_changed;
     }
 
-    std::vector<Glib::ustring> TestPropReadStringArray_get();
+    std::vector<Glib::ustring> TestPropReadStringArray_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadStringArray_changed() {
         return m_TestPropReadStringArray_changed;
     }
 
-    std::string TestPropReadByteString_get();
+    std::string TestPropReadByteString_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadByteString_changed() {
         return m_TestPropReadByteString_changed;
     }
 
-    Glib::DBusSignatureString TestPropReadSignature_get();
+    Glib::DBusSignatureString TestPropReadSignature_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadSignature_changed() {
         return m_TestPropReadSignature_changed;
     }
 
-    Glib::DBusObjectPathString TestPropReadObjectPath_get();
+    Glib::DBusObjectPathString TestPropReadObjectPath_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadObjectPath_changed() {
         return m_TestPropReadObjectPath_changed;
     }
 
-    Glib::ustring TestPropReadString_get();
+    Glib::ustring TestPropReadString_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadString_changed() {
         return m_TestPropReadString_changed;
     }
 
-    double TestPropReadDouble_get();
+    double TestPropReadDouble_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadDouble_changed() {
         return m_TestPropReadDouble_changed;
     }
 
-    guint64 TestPropReadUInt64_get();
+    guint64 TestPropReadUInt64_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadUInt64_changed() {
         return m_TestPropReadUInt64_changed;
     }
 
-    gint64 TestPropReadInt64_get();
+    gint64 TestPropReadInt64_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadInt64_changed() {
         return m_TestPropReadInt64_changed;
     }
 
-    guint32 TestPropReadUInt_get();
+    guint32 TestPropReadUInt_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadUInt_changed() {
         return m_TestPropReadUInt_changed;
     }
 
-    gint32 TestPropReadInt_get();
+    gint32 TestPropReadInt_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadInt_changed() {
         return m_TestPropReadInt_changed;
     }
 
-    guint16 TestPropReadUInt16_get();
+    guint16 TestPropReadUInt16_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadUInt16_changed() {
         return m_TestPropReadUInt16_changed;
     }
 
-    gint16 TestPropReadInt16_get();
+    gint16 TestPropReadInt16_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadInt16_changed() {
         return m_TestPropReadInt16_changed;
     }
 
-    guchar TestPropReadChar_get();
+    guchar TestPropReadChar_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadChar_changed() {
         return m_TestPropReadChar_changed;
     }
 
-    bool TestPropReadBoolean_get();
+    bool TestPropReadBoolean_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadBoolean_changed() {
         return m_TestPropReadBoolean_changed;
     }
 
-    gint32 TestPropInternalReadPropertyChange_get();
+    gint32 TestPropInternalReadPropertyChange_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropInternalReadPropertyChange_changed() {
         return m_TestPropInternalReadPropertyChange_changed;
     }
@@ -649,7 +649,7 @@ public:
         return m_TestPropWriteBoolean_changed;
     }
 
-    std::vector<std::string> TestPropReadWriteByteStringArray_get();
+    std::vector<std::string> TestPropReadWriteByteStringArray_get(bool *ok = nullptr);
     void TestPropReadWriteByteStringArray_set(const std::vector<std::string> &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteByteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteByteStringArray_set_sync(const std::vector<std::string> &);
@@ -657,7 +657,7 @@ public:
         return m_TestPropReadWriteByteStringArray_changed;
     }
 
-    std::vector<Glib::DBusObjectPathString> TestPropReadWriteObjectPathArray_get();
+    std::vector<Glib::DBusObjectPathString> TestPropReadWriteObjectPathArray_get(bool *ok = nullptr);
     void TestPropReadWriteObjectPathArray_set(const std::vector<Glib::DBusObjectPathString> &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteObjectPathArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteObjectPathArray_set_sync(const std::vector<Glib::DBusObjectPathString> &);
@@ -665,7 +665,7 @@ public:
         return m_TestPropReadWriteObjectPathArray_changed;
     }
 
-    std::vector<Glib::ustring> TestPropReadWriteStringArray_get();
+    std::vector<Glib::ustring> TestPropReadWriteStringArray_get(bool *ok = nullptr);
     void TestPropReadWriteStringArray_set(const std::vector<Glib::ustring> &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteStringArray_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteStringArray_set_sync(const std::vector<Glib::ustring> &);
@@ -673,7 +673,7 @@ public:
         return m_TestPropReadWriteStringArray_changed;
     }
 
-    std::string TestPropReadWriteByteString_get();
+    std::string TestPropReadWriteByteString_get(bool *ok = nullptr);
     void TestPropReadWriteByteString_set(const std::string &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteByteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteByteString_set_sync(const std::string &);
@@ -681,7 +681,7 @@ public:
         return m_TestPropReadWriteByteString_changed;
     }
 
-    Glib::DBusSignatureString TestPropReadWriteSignature_get();
+    Glib::DBusSignatureString TestPropReadWriteSignature_get(bool *ok = nullptr);
     void TestPropReadWriteSignature_set(const Glib::DBusSignatureString &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteSignature_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteSignature_set_sync(const Glib::DBusSignatureString &);
@@ -689,7 +689,7 @@ public:
         return m_TestPropReadWriteSignature_changed;
     }
 
-    Glib::DBusObjectPathString TestPropReadWriteObjectPath_get();
+    Glib::DBusObjectPathString TestPropReadWriteObjectPath_get(bool *ok = nullptr);
     void TestPropReadWriteObjectPath_set(const Glib::DBusObjectPathString &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteObjectPath_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteObjectPath_set_sync(const Glib::DBusObjectPathString &);
@@ -697,7 +697,7 @@ public:
         return m_TestPropReadWriteObjectPath_changed;
     }
 
-    Glib::ustring TestPropReadWriteString_get();
+    Glib::ustring TestPropReadWriteString_get(bool *ok = nullptr);
     void TestPropReadWriteString_set(const Glib::ustring &, const Gio::SlotAsyncReady &);
     void TestPropReadWriteString_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteString_set_sync(const Glib::ustring &);
@@ -705,7 +705,7 @@ public:
         return m_TestPropReadWriteString_changed;
     }
 
-    double TestPropReadWriteDouble_get();
+    double TestPropReadWriteDouble_get(bool *ok = nullptr);
     void TestPropReadWriteDouble_set(double, const Gio::SlotAsyncReady &);
     void TestPropReadWriteDouble_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteDouble_set_sync(double);
@@ -713,7 +713,7 @@ public:
         return m_TestPropReadWriteDouble_changed;
     }
 
-    guint64 TestPropReadWriteUInt64_get();
+    guint64 TestPropReadWriteUInt64_get(bool *ok = nullptr);
     void TestPropReadWriteUInt64_set(guint64, const Gio::SlotAsyncReady &);
     void TestPropReadWriteUInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteUInt64_set_sync(guint64);
@@ -721,7 +721,7 @@ public:
         return m_TestPropReadWriteUInt64_changed;
     }
 
-    gint64 TestPropReadWriteInt64_get();
+    gint64 TestPropReadWriteInt64_get(bool *ok = nullptr);
     void TestPropReadWriteInt64_set(gint64, const Gio::SlotAsyncReady &);
     void TestPropReadWriteInt64_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteInt64_set_sync(gint64);
@@ -729,7 +729,7 @@ public:
         return m_TestPropReadWriteInt64_changed;
     }
 
-    guint32 TestPropReadWriteUInt_get();
+    guint32 TestPropReadWriteUInt_get(bool *ok = nullptr);
     void TestPropReadWriteUInt_set(guint32, const Gio::SlotAsyncReady &);
     void TestPropReadWriteUInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteUInt_set_sync(guint32);
@@ -737,7 +737,7 @@ public:
         return m_TestPropReadWriteUInt_changed;
     }
 
-    gint32 TestPropReadWriteInt_get();
+    gint32 TestPropReadWriteInt_get(bool *ok = nullptr);
     void TestPropReadWriteInt_set(gint32, const Gio::SlotAsyncReady &);
     void TestPropReadWriteInt_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteInt_set_sync(gint32);
@@ -745,7 +745,7 @@ public:
         return m_TestPropReadWriteInt_changed;
     }
 
-    guint16 TestPropReadWriteUInt16_get();
+    guint16 TestPropReadWriteUInt16_get(bool *ok = nullptr);
     void TestPropReadWriteUInt16_set(guint16, const Gio::SlotAsyncReady &);
     void TestPropReadWriteUInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteUInt16_set_sync(guint16);
@@ -753,7 +753,7 @@ public:
         return m_TestPropReadWriteUInt16_changed;
     }
 
-    gint16 TestPropReadWriteInt16_get();
+    gint16 TestPropReadWriteInt16_get(bool *ok = nullptr);
     void TestPropReadWriteInt16_set(gint16, const Gio::SlotAsyncReady &);
     void TestPropReadWriteInt16_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteInt16_set_sync(gint16);
@@ -761,7 +761,7 @@ public:
         return m_TestPropReadWriteInt16_changed;
     }
 
-    guchar TestPropReadWriteChar_get();
+    guchar TestPropReadWriteChar_get(bool *ok = nullptr);
     void TestPropReadWriteChar_set(guchar, const Gio::SlotAsyncReady &);
     void TestPropReadWriteChar_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteChar_set_sync(guchar);
@@ -769,7 +769,7 @@ public:
         return m_TestPropReadWriteChar_changed;
     }
 
-    bool TestPropReadWriteBoolean_get();
+    bool TestPropReadWriteBoolean_get(bool *ok = nullptr);
     void TestPropReadWriteBoolean_set(bool, const Gio::SlotAsyncReady &);
     void TestPropReadWriteBoolean_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropReadWriteBoolean_set_sync(bool);
@@ -777,7 +777,7 @@ public:
         return m_TestPropReadWriteBoolean_changed;
     }
 
-    gint32 TestPropInternalReadWritePropertyChange_get();
+    gint32 TestPropInternalReadWritePropertyChange_get(bool *ok = nullptr);
     void TestPropInternalReadWritePropertyChange_set(gint32, const Gio::SlotAsyncReady &);
     void TestPropInternalReadWritePropertyChange_set_finish(const Glib::RefPtr<Gio::AsyncResult> &);
     void TestPropInternalReadWritePropertyChange_set_sync(gint32);

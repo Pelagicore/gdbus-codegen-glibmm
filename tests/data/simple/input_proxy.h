@@ -48,7 +48,7 @@ public:
         gint32 Param1,        const std::map<Glib::ustring,Glib::VariantBase> & Param2,const Glib::RefPtr<Gio::Cancellable> &cancellable = {},
         int timeout_msec = -1);
 
-    std::vector<Glib::ustring> TestPropReadStringArray_get();
+    std::vector<Glib::ustring> TestPropReadStringArray_get(bool *ok = nullptr);
     sigc::signal<void> &TestPropReadStringArray_changed() {
         return m_TestPropReadStringArray_changed;
     }
