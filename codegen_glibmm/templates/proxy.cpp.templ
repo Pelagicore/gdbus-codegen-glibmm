@@ -104,22 +104,21 @@ std::tuple<{{ method.out_args|join(', ', attribute='cpptype_out') }}>
 {% if prop.readable %}
 {{ prop.cpptype_out }} {{ class_name_with_namespace }}::{{ prop.name }}_get(bool *ok)
 {
-    std::vector<Glib::ustring> props = m_proxy->get_cached_property_names();
     Glib::Variant<{{ prop.variant_type }}> b;
-    if (std::find(props.begin(), props.end(), "{{ prop.name }}") != props.end()) {
-        m_proxy->get_cached_property(b, "{{ prop.name }}");
+    m_proxy->get_cached_property(b, "{{ prop.name }}");
+    if (b) {
         if (ok) {
             *ok = true;
         }
+        return {{ prop.cpptype_get_cast }}(b.get());
     } else {
         if (ok) {
             *ok = false;
         } else {
             g_warning("Unhandled error while getting property {{ prop.name }}");
         }
+        return {{ prop.cpptype_out }}();
     }
-
-    return {{ prop.cpptype_get_cast }}(b.get());
 }
 
 {% endif %}
