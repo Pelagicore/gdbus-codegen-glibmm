@@ -256,4 +256,5 @@ SPDX-License-Identifier: CC-BY-SA-4.0
 The python code is 
 - Copyright &copy; 2008-2011 Red Hat, Inc.
 - Copyright &copy; 2018-2019 Luxoft Sweden AB
+
 Source code licensed under the LGPL 2.1 (please see source code headers for more.)
