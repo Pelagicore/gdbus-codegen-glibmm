@@ -47,45 +47,46 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
-    if (m_registeredObjectId != 0) {
-        g_warning("Cannot register the same object (%s) twice", object_path.c_str());
-        return 0;
+    if (!introspection_data) {
+        try {
+            introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
+        } catch(const Glib::Error& ex) {
+            g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
+            return 0;
+        }
     }
 
-    try {
-        introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
-    } catch(const Glib::Error& ex) {
-        g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
-        return 0;
-    }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
             sigc::mem_fun(this, &TestStub::on_method_call),
             sigc::mem_fun(this, &TestStub::on_interface_get_property),
             sigc::mem_fun(this, &TestStub::on_interface_set_property));
 
+    guint registration_id;
     try {
-        m_registeredObjectId = connection->register_object(object_path,
+        registration_id = connection->register_object(object_path,
             introspection_data->lookup_interface("org.gdbus.codegen.glibmm.Test"),
             *interface_vtable);
-        m_connection = connection;
-        m_objectPath = object_path;
     } catch(const Glib::Error &ex) {
         g_warning("Registration of object %s failed: %s", object_path.c_str(), ex.what().c_str());
+        return 0;
     }
 
-    return m_registeredObjectId;
+    m_registered_objects.emplace_back(RegisteredObject {
+        registration_id,
+        connection,
+        object_path
+    });
+
+    return registration_id;
 }
 
 void org::gdbus::codegen::glibmm::TestStub::unregister_object()
 {
-    if (m_registeredObjectId == 0)
-        return;
-
-    m_connection->unregister_object(m_registeredObjectId);
-    m_registeredObjectId = 0;
-    m_connection.reset();
-    m_objectPath.clear();
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->unregister_object(obj.id);
+    }
+    m_registered_objects.clear();
 }
 
 void org::gdbus::codegen::glibmm::TestStub::on_method_call(
@@ -156,12 +157,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(st
 
     paramsList.push_back(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalObjectPathArray",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalObjectPathArray",
+            Glib::ustring(),
+            params);
+    }
 }
 
 
@@ -197,12 +202,14 @@ bool org::gdbus::codegen::glibmm::TestStub::emitSignal(
     Glib::VariantContainerBase propertiesChangedVariant =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(ps);
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.freedesktop.DBus.Properties",
-        "PropertiesChanged",
-        Glib::ustring(),
-        propertiesChangedVariant);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.freedesktop.DBus.Properties",
+            "PropertiesChanged",
+            Glib::ustring(),
+            propertiesChangedVariant);
+    }
 
     return true;
 }
