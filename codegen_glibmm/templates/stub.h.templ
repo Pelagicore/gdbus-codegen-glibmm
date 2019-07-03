@@ -25,8 +25,8 @@ public:
                           const Glib::ustring &object_path);
     void unregister_object();
 
-    int usage_count() const {
-        return m_registeredObjectId == 0 ? 0 : 1;
+    unsigned int usage_count() const {
+        return static_cast<unsigned int>(m_registered_objects.size());
     }
 
     class MethodInvocation;
@@ -86,10 +86,14 @@ protected:
 private:
     bool emitSignal(const std::string &propName, Glib::VariantBase &value);
 
+    struct RegisteredObject {
+        guint id;
+        Glib::RefPtr<Gio::DBus::Connection> connection;
+        std::string object_path;
+    };
+
     Glib::RefPtr<Gio::DBus::NodeInfo> introspection_data;
-    Glib::RefPtr<Gio::DBus::Connection> m_connection;
-    guint m_registeredObjectId = 0;
-    std::string m_objectPath;
+    std::vector<RegisteredObject> m_registered_objects;
     std::string m_interfaceName;
 };
 

@@ -368,45 +368,46 @@ guint org::gdbus::codegen::glibmm::TestStub::register_object(
     const Glib::RefPtr<Gio::DBus::Connection> &connection,
     const Glib::ustring &object_path)
 {
-    if (m_registeredObjectId != 0) {
-        g_warning("Cannot register the same object (%s) twice", object_path.c_str());
-        return 0;
+    if (!introspection_data) {
+        try {
+            introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
+        } catch(const Glib::Error& ex) {
+            g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
+            return 0;
+        }
     }
 
-    try {
-        introspection_data = Gio::DBus::NodeInfo::create_for_xml(interfaceXml0);
-    } catch(const Glib::Error& ex) {
-        g_warning("Unable to create introspection data for %s: %s", object_path.c_str(), ex.what().c_str());
-        return 0;
-    }
     Gio::DBus::InterfaceVTable *interface_vtable =
         new Gio::DBus::InterfaceVTable(
             sigc::mem_fun(this, &TestStub::on_method_call),
             sigc::mem_fun(this, &TestStub::on_interface_get_property),
             sigc::mem_fun(this, &TestStub::on_interface_set_property));
 
+    guint registration_id;
     try {
-        m_registeredObjectId = connection->register_object(object_path,
+        registration_id = connection->register_object(object_path,
             introspection_data->lookup_interface("org.gdbus.codegen.glibmm.Test"),
             *interface_vtable);
-        m_connection = connection;
-        m_objectPath = object_path;
     } catch(const Glib::Error &ex) {
         g_warning("Registration of object %s failed: %s", object_path.c_str(), ex.what().c_str());
+        return 0;
     }
 
-    return m_registeredObjectId;
+    m_registered_objects.emplace_back(RegisteredObject {
+        registration_id,
+        connection,
+        object_path
+    });
+
+    return registration_id;
 }
 
 void org::gdbus::codegen::glibmm::TestStub::unregister_object()
 {
-    if (m_registeredObjectId == 0)
-        return;
-
-    m_connection->unregister_object(m_registeredObjectId);
-    m_registeredObjectId = 0;
-    m_connection.reset();
-    m_objectPath.clear();
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->unregister_object(obj.id);
+    }
+    m_registered_objects.clear();
 }
 
 void org::gdbus::codegen::glibmm::TestStub::on_method_call(
@@ -1355,12 +1356,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(st
 
     paramsList.push_back(Glib::Variant<std::vector<std::string>>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalByteStringArray",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalByteStringArray",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
@@ -1369,12 +1374,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(st
 
     paramsList.push_back(Glib::Variant<std::vector<Glib::DBusObjectPathString>>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalObjectPathArray",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalObjectPathArray",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(std::vector<Glib::ustring> Param1)
@@ -1383,12 +1392,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(std::v
 
     paramsList.push_back(Glib::Variant<std::vector<Glib::ustring>>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalStringArray",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalStringArray",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(std::string Param1)
@@ -1397,12 +1410,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(std::st
 
     paramsList.push_back(Glib::Variant<std::string>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalByteString",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalByteString",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(Glib::DBusSignatureString Param1)
@@ -1411,12 +1428,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(Glib::DB
 
     paramsList.push_back(Glib::Variant<Glib::DBusSignatureString>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalSignature",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalSignature",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(Glib::DBusObjectPathString Param1)
@@ -1425,12 +1446,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(Glib::D
 
     paramsList.push_back(Glib::Variant<Glib::DBusObjectPathString>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalObjectPath",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalObjectPath",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(Glib::ustring Param1)
@@ -1439,12 +1464,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(Glib::ustri
 
     paramsList.push_back(Glib::Variant<Glib::ustring>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalString",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalString",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(double Param1)
@@ -1453,12 +1482,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(double Para
 
     paramsList.push_back(Glib::Variant<double>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalDouble",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalDouble",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(guint64 Param1)
@@ -1467,12 +1500,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(guint64 Par
 
     paramsList.push_back(Glib::Variant<guint64>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalUInt64",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalUInt64",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(gint64 Param1)
@@ -1481,12 +1518,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(gint64 Param
 
     paramsList.push_back(Glib::Variant<gint64>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalInt64",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalInt64",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(guint32 Param1)
@@ -1495,12 +1536,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(guint32 Param
 
     paramsList.push_back(Glib::Variant<guint32>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalUInt",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalUInt",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(gint32 Param1)
@@ -1509,12 +1554,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(gint32 Param1)
 
     paramsList.push_back(Glib::Variant<gint32>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalInt",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalInt",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(guint16 Param1)
@@ -1523,12 +1572,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(guint16 Par
 
     paramsList.push_back(Glib::Variant<guint16>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalUInt16",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalUInt16",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(gint16 Param1)
@@ -1537,12 +1590,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(gint16 Param
 
     paramsList.push_back(Glib::Variant<gint16>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalInt16",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalInt16",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(guchar Param1)
@@ -1551,12 +1608,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(guchar Param1
 
     paramsList.push_back(Glib::Variant<guchar>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalChar",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalChar",
+            Glib::ustring(),
+            params);
+    }
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param1)
@@ -1565,12 +1626,16 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param
 
     paramsList.push_back(Glib::Variant<bool>::create((Param1)));;
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.gdbus.codegen.glibmm.Test",
-        "TestSignalBoolean",
-        Glib::ustring(),
-        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList));
+    const Glib::VariantContainerBase params =
+        Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.gdbus.codegen.glibmm.Test",
+            "TestSignalBoolean",
+            Glib::ustring(),
+            params);
+    }
 }
 
 
@@ -2194,12 +2259,14 @@ bool org::gdbus::codegen::glibmm::TestStub::emitSignal(
     Glib::VariantContainerBase propertiesChangedVariant =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(ps);
 
-    m_connection->emit_signal(
-        m_objectPath,
-        "org.freedesktop.DBus.Properties",
-        "PropertiesChanged",
-        Glib::ustring(),
-        propertiesChangedVariant);
+    for (const RegisteredObject &obj: m_registered_objects) {
+        obj.connection->emit_signal(
+            obj.object_path,
+            "org.freedesktop.DBus.Properties",
+            "PropertiesChanged",
+            Glib::ustring(),
+            propertiesChangedVariant);
+    }
 
     return true;
 }
