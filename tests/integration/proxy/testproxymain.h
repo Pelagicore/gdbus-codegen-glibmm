@@ -14,6 +14,7 @@ public:
 private:
     void printStatus(const std::string &message, bool isOk);
     void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result);
+    void check_done();
 
     /* method callbacks */
     void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
@@ -121,9 +122,13 @@ private:
     void on_test_signal_char_cb(const guchar s);
     void on_test_signal_boolean_cb(const bool s);
 
+    void on_notification_received();
+    void expect_notification(sigc::signal<void> &signal);
+
 private:
     Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> m_proxy;
     sigc::signal<void> m_done;
     int m_exit_status = EXIT_SUCCESS;
     unsigned int m_pending_signals = 0;
+    unsigned int m_pending_notifications = 0;
 };
