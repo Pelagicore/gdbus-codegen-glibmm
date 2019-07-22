@@ -361,6 +361,13 @@ void on_test_prop_read_write_signature(const Glib::RefPtr<Gio::AsyncResult> resu
     printStatus("Property (write/read): TestPropReadWriteSignature", actual == expected);
 }
 
+void on_test_prop_read_write_object_path(const Glib::RefPtr<Gio::AsyncResult> result,
+                                         const Glib::DBusObjectPathString &expected) {
+    proxy->TestPropReadWriteObjectPath_set_finish(result);
+    Glib::DBusObjectPathString actual = proxy->TestPropReadWriteObjectPath_get();
+    printStatus("Property (write/read): TestPropReadWriteObjectPath", actual == expected);
+}
+
 void on_test_prop_read_write_double(const Glib::RefPtr<Gio::AsyncResult> result,
                                     const double &expected) {
     proxy->TestPropReadWriteDouble_set_finish(result);
@@ -743,6 +750,7 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
                    "ByteString test"));
 
     proxy->TestPropReadWriteSignature_set("b", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_signature), "b"));
+    proxy->TestPropReadWriteObjectPath_set("/some/where", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_object_path), "/some/where"));
     proxy->TestPropReadWriteString_set("Hello world", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_string), "Hello world"));
     proxy->TestPropReadWriteDouble_set(7331, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_double), 7331));
     proxy->TestPropReadWriteUInt64_set(7332, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_uint64), 7332));
