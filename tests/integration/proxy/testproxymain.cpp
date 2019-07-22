@@ -511,6 +511,26 @@ void TestProxyImpl::on_test_signal_boolean_cb(const bool s) {
     record_signal();
 }
 
+void TestProxyImpl::on_notification_received()
+{
+    m_pending_notifications--;
+    check_done();
+}
+
+void TestProxyImpl::expect_notification(sigc::signal<void> &signal)
+{
+    m_pending_notifications++;
+    signal.connect(sigc::mem_fun(this, &TestProxyImpl::on_notification_received));
+}
+
+void TestProxyImpl::check_done()
+{
+    if (m_pending_notifications == 0 &&
+        m_pending_signals == 0) {
+        m_done.emit();
+    }
+}
+
 void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
     std::map<Glib::ustring, Glib::VariantBase> variantMapValue {
@@ -775,6 +795,24 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     m_proxy->TestPropReadWriteChar_set('X', sigc::bind(sigc::mem_fun(this, &TestProxyImpl::on_test_prop_read_write_char), 'X'));
     m_proxy->TestPropReadWriteBoolean_set(true, sigc::bind(sigc::mem_fun(this, &TestProxyImpl::on_test_prop_read_write_boolean), true));
 
+    /* Test change notification, for the properties we just changed. */
+    expect_notification(m_proxy->TestPropReadWriteByteStringArray_changed());
+    expect_notification(m_proxy->TestPropReadWriteObjectPathArray_changed());
+    expect_notification(m_proxy->TestPropReadWriteStringArray_changed());
+    expect_notification(m_proxy->TestPropReadWriteByteString_changed());
+    expect_notification(m_proxy->TestPropReadWriteSignature_changed());
+    expect_notification(m_proxy->TestPropReadWriteObjectPath_changed());
+    expect_notification(m_proxy->TestPropReadWriteString_changed());
+    expect_notification(m_proxy->TestPropReadWriteDouble_changed());
+    expect_notification(m_proxy->TestPropReadWriteUInt64_changed());
+    expect_notification(m_proxy->TestPropReadWriteInt64_changed());
+    expect_notification(m_proxy->TestPropReadWriteUInt_changed());
+    expect_notification(m_proxy->TestPropReadWriteInt_changed());
+    expect_notification(m_proxy->TestPropReadWriteUInt16_changed());
+    expect_notification(m_proxy->TestPropReadWriteInt16_changed());
+    expect_notification(m_proxy->TestPropReadWriteChar_changed());
+    expect_notification(m_proxy->TestPropReadWriteBoolean_changed());
+
     /* Test signal emissions */
     m_proxy->TestSignalByteStringArray_signal.connect(
         sigc::mem_fun(this, &TestProxyImpl::on_test_signal_byte_string_array_cb));
@@ -829,9 +867,7 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
 void TestProxyImpl::record_signal()
 {
     m_pending_signals--;
-    if (m_pending_signals == 0) {
-        m_done.emit();
-    }
+    check_done();
 }
 
 int main() {
