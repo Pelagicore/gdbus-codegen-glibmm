@@ -431,68 +431,84 @@ void on_test_prop_read_write_boolean(const Glib::RefPtr<Gio::AsyncResult> result
     printStatus("Property (write/read): TestPropReadWriteBoolean", actual == expected);
 }
 
-void on_test_signal_byte_string_array_cb(const std::vector<std::string> s) {
+void TestProxyImpl::on_test_signal_byte_string_array_cb(const std::vector<std::string> s) {
     printStatus("Signal TestSignalByteStringArray", true);
+    record_signal();
 }
 
-void on_test_signal_object_path_array_cb(const std::vector<Glib::DBusObjectPathString> s) {
+void TestProxyImpl::on_test_signal_object_path_array_cb(const std::vector<Glib::DBusObjectPathString> s) {
     printStatus("Signal TestSignalObjectPathArray", true);
+    record_signal();
 }
 
-void on_test_signal_string_array_cb(const std::vector<Glib::ustring> s) {
+void TestProxyImpl::on_test_signal_string_array_cb(const std::vector<Glib::ustring> s) {
     printStatus("Signal TestSignalStringArray", true);
+    record_signal();
 }
 
-void on_test_signal_byte_string_cb(const std::string s) {
+void TestProxyImpl::on_test_signal_byte_string_cb(const std::string s) {
     printStatus("Signal TestSignalByteString", true);
+    record_signal();
 }
 
-void on_test_signal_signature_cb(const Glib::DBusSignatureString s) {
+void TestProxyImpl::on_test_signal_signature_cb(const Glib::DBusSignatureString s) {
     printStatus("Signal TestSignalSignature", true);
+    record_signal();
 }
 
-void on_test_signal_object_path_cb(const Glib::DBusObjectPathString s) {
+void TestProxyImpl::on_test_signal_object_path_cb(const Glib::DBusObjectPathString s) {
     printStatus("Signal TestSignalObjectPath", true);
+    record_signal();
 }
 
-void on_test_signal_string_cb(const std::string s) {
+void TestProxyImpl::on_test_signal_string_cb(const std::string s) {
     printStatus("Signal TestSignalString", true);
+    record_signal();
 }
 
-void on_test_signal_double_cb(const double s) {
+void TestProxyImpl::on_test_signal_double_cb(const double s) {
     printStatus("Signal TestSignalDouble", true);
+    record_signal();
 }
 
-void on_test_signal_uint64_cb(const guint64 s) {
+void TestProxyImpl::on_test_signal_uint64_cb(const guint64 s) {
     printStatus("Signal TestSignalUInt64", true);
+    record_signal();
 }
 
-void on_test_signal_int64_cb(const gint64 s) {
+void TestProxyImpl::on_test_signal_int64_cb(const gint64 s) {
     printStatus("Signal TestSignalInt64", true);
+    record_signal();
 }
 
-void on_test_signal_uint_cb(const guint s) {
+void TestProxyImpl::on_test_signal_uint_cb(const guint s) {
     printStatus("Signal TestSignalUInt", true);
+    record_signal();
 }
 
-void on_test_signal_int_cb(const gint s) {
+void TestProxyImpl::on_test_signal_int_cb(const gint s) {
     printStatus("Signal TestSignalInt", true);
+    record_signal();
 }
 
-void on_test_signal_uint16_cb(const guint16 s) {
+void TestProxyImpl::on_test_signal_uint16_cb(const guint16 s) {
     printStatus("Signal TestSignalUInt16", true);
+    record_signal();
 }
 
-void on_test_signal_int16_cb(const gint16 s) {
+void TestProxyImpl::on_test_signal_int16_cb(const gint16 s) {
     printStatus("Signal TestSignalInt16", true);
+    record_signal();
 }
 
-void on_test_signal_char_cb(const guchar s) {
+void TestProxyImpl::on_test_signal_char_cb(const guchar s) {
     printStatus("Signal TestSignalChar", true);
+    record_signal();
 }
 
-void on_test_signal_boolean_cb(const bool s) {
+void TestProxyImpl::on_test_signal_boolean_cb(const bool s) {
     printStatus("Signal TestSignalBoolean", true);
+    record_signal();
 }
 
 void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
@@ -762,22 +778,63 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     proxy->TestPropReadWriteChar_set('X', sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_char), 'X'));
     proxy->TestPropReadWriteBoolean_set(true, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_boolean), true));
 
-    proxy->TestSignalByteStringArray_signal.connect(sigc::ptr_fun(&on_test_signal_byte_string_array_cb));
-    proxy->TestSignalObjectPathArray_signal.connect(sigc::ptr_fun(&on_test_signal_object_path_array_cb));
-    proxy->TestSignalStringArray_signal.connect(sigc::ptr_fun(&on_test_signal_string_array_cb));
-    proxy->TestSignalByteString_signal.connect(sigc::ptr_fun(&on_test_signal_byte_string_cb));
-    proxy->TestSignalSignature_signal.connect(sigc::ptr_fun(&on_test_signal_signature_cb));
-    proxy->TestSignalObjectPath_signal.connect(sigc::ptr_fun(&on_test_signal_object_path_cb));
-    proxy->TestSignalString_signal.connect(sigc::ptr_fun(&on_test_signal_string_cb));
-    proxy->TestSignalDouble_signal.connect(sigc::ptr_fun(&on_test_signal_double_cb));
-    proxy->TestSignalUInt64_signal.connect(sigc::ptr_fun(&on_test_signal_uint64_cb));
-    proxy->TestSignalInt64_signal.connect(sigc::ptr_fun(&on_test_signal_int64_cb));
-    proxy->TestSignalUInt_signal.connect(sigc::ptr_fun(&on_test_signal_uint_cb));
-    proxy->TestSignalInt_signal.connect(sigc::ptr_fun(&on_test_signal_int_cb));
-    proxy->TestSignalUInt16_signal.connect(sigc::ptr_fun(&on_test_signal_uint16_cb));
-    proxy->TestSignalInt16_signal.connect(sigc::ptr_fun(&on_test_signal_int16_cb));
-    proxy->TestSignalChar_signal.connect(sigc::ptr_fun(&on_test_signal_char_cb));
-    proxy->TestSignalBoolean_signal.connect(sigc::ptr_fun(&on_test_signal_boolean_cb));
+    /* Test signal emissions */
+    proxy->TestSignalByteStringArray_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_byte_string_array_cb));
+    m_pending_signals++;
+    proxy->TestSignalObjectPathArray_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_object_path_array_cb));
+    m_pending_signals++;
+    proxy->TestSignalStringArray_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_string_array_cb));
+    m_pending_signals++;
+    proxy->TestSignalByteString_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_byte_string_cb));
+    m_pending_signals++;
+    proxy->TestSignalSignature_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_signature_cb));
+    m_pending_signals++;
+    proxy->TestSignalObjectPath_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_object_path_cb));
+    m_pending_signals++;
+    proxy->TestSignalString_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_string_cb));
+    m_pending_signals++;
+    proxy->TestSignalDouble_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_double_cb));
+    m_pending_signals++;
+    proxy->TestSignalUInt64_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_uint64_cb));
+    m_pending_signals++;
+    proxy->TestSignalInt64_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_int64_cb));
+    m_pending_signals++;
+    proxy->TestSignalUInt_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_uint_cb));
+    m_pending_signals++;
+    proxy->TestSignalInt_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_int_cb));
+    m_pending_signals++;
+    proxy->TestSignalUInt16_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_uint16_cb));
+    m_pending_signals++;
+    proxy->TestSignalInt16_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_int16_cb));
+    m_pending_signals++;
+    proxy->TestSignalChar_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_char_cb));
+    m_pending_signals++;
+    proxy->TestSignalBoolean_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_signal_boolean_cb));
+    m_pending_signals++;
+}
+
+void TestProxyImpl::record_signal()
+{
+    m_pending_signals--;
+    if (m_pending_signals == 0) {
+        m_done.emit();
+    }
 }
 
 int main() {
@@ -792,7 +849,7 @@ int main() {
     /* Define a test timeout to ensure that the test terminates */
     Glib::signal_timeout().connect_seconds_once([&]() {
         proxyTest.fail();
-    }, 1);
+    }, 10);
 
     ml->run();
 
