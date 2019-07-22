@@ -1,4 +1,5 @@
-#include "many-types_proxy.h"
+#include "testproxymain.h"
+
 #include "another-service_proxy.h"
 #include "tools.h"
 #include <iostream>
@@ -24,6 +25,22 @@ bool maps_are_equal(const std::map<Glib::ustring,Glib::VariantBase> &a,
         }
     }
     return equal;
+}
+
+TestProxyImpl::TestProxyImpl()
+{
+    org::gdbus::codegen::glibmm::TestProxy::createForBus(
+        Gio::DBus::BUS_TYPE_SESSION,
+        Gio::DBus::PROXY_FLAGS_NONE,
+        "org.gdbus.codegen.glibmm.Test",
+        "/org/gdbus/codegen/glibmm/Test",
+        sigc::mem_fun(this, &TestProxyImpl::proxy_created));
+}
+
+void TestProxyImpl::fail()
+{
+    m_exit_status = EXIT_FAILURE;
+    m_done.emit();
 }
 
 void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
@@ -471,7 +488,7 @@ void on_test_signal_boolean_cb(const bool s) {
     printStatus("Signal TestSignalBoolean", true);
 }
 
-void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
+void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     /* Input data */
     std::map<Glib::ustring, Glib::VariantBase> variantMapValue {
         { "string value", Glib::Variant<Glib::ustring>::create("Yes indeed") },
@@ -531,8 +548,11 @@ void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     guchar ucharValue = 'A';
     bool booleanValue = true;
 
-    /* Proxy */ 
-    proxy = org::gdbus::codegen::glibmm::TestProxy::createForBusFinish(result);
+    /* Proxy */
+    m_proxy = org::gdbus::codegen::glibmm::TestProxy::createForBusFinish(result);
+
+    /* For the static functions: */
+    proxy = m_proxy;
 
     /* Dictionary string -> variant */
     proxy->TestStringVariantDict(variantMapValue, sigc::bind(sigc::ptr_fun(&on_test_string_variant_dict_finished), variantMapValue));
@@ -758,17 +778,15 @@ int main() {
 
     Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
 
+    TestProxyImpl proxyTest;
+    proxyTest.done().connect([&]() { ml->quit(); });
+
     /* Define a test timeout to ensure that the test terminates */
     Glib::signal_timeout().connect_seconds_once([&]() {
-        ml->quit();
+        proxyTest.fail();
     }, 1);
 
-    org::gdbus::codegen::glibmm::TestProxy::createForBus(Gio::DBus::BUS_TYPE_SESSION,
-                                Gio::DBus::PROXY_FLAGS_NONE,
-                                "org.gdbus.codegen.glibmm.Test",
-                                "/org/gdbus/codegen/glibmm/Test",
-                                sigc::ptr_fun(&proxy_created));
     ml->run();
 
-    return 0;
+    return proxyTest.exit_status();
 }
