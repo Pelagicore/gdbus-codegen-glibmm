@@ -756,13 +756,18 @@ int main() {
     Glib::init();
     Gio::init();
 
+    Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
+
+    /* Define a test timeout to ensure that the test terminates */
+    Glib::signal_timeout().connect_seconds_once([&]() {
+        ml->quit();
+    }, 1);
+
     org::gdbus::codegen::glibmm::TestProxy::createForBus(Gio::DBus::BUS_TYPE_SESSION,
                                 Gio::DBus::PROXY_FLAGS_NONE,
                                 "org.gdbus.codegen.glibmm.Test",
                                 "/org/gdbus/codegen/glibmm/Test",
                                 sigc::ptr_fun(&proxy_created));
-
-    Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create();
     ml->run();
 
     return 0;
