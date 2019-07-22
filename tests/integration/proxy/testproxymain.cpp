@@ -742,7 +742,7 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
         sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_byte_string),
                    "ByteString test"));
 
-//    proxy->TestPropReadWriteSignature_set("b", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_signature), "b"));
+    proxy->TestPropReadWriteSignature_set("b", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_signature), "b"));
     proxy->TestPropReadWriteString_set("Hello world", sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_string), "Hello world"));
     proxy->TestPropReadWriteDouble_set(7331, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_double), 7331));
     proxy->TestPropReadWriteUInt64_set(7332, sigc::bind(sigc::ptr_fun(&on_test_prop_read_write_uint64), 7332));
