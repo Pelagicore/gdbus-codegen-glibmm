@@ -12,7 +12,95 @@ public:
     sigc::signal<void> &done() { return m_done; }
 
 private:
+    void printStatus(const std::string &message, bool isOk);
     void proxy_created(const Glib::RefPtr<Gio::AsyncResult> result);
+
+    /* method callbacks */
+    void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                              const std::map<Glib::ustring,Glib::VariantBase> expectedMap);
+    void on_test_string_string_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                             const std::map<Glib::ustring,Glib::ustring> expectedMap);
+    void on_test_uint_int_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        const std::map<guint32,gint32> expectedMap);
+    void on_test_variant_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  Glib::Variant<Glib::ustring> expectedBase);
+    void on_test_variant2_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                   std::string expectedString,
+                                   Glib::Variant<Glib::ustring> expectedVariant);
+    void on_test_byte_string_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                            std::vector<std::string> expected);
+    void on_test_object_path_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                            std::vector<Glib::DBusObjectPathString> expected);
+    void on_test_string_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                       std::vector<Glib::ustring> expected);
+    void on_test_struct_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  std::tuple<Glib::ustring,Glib::ustring> expected);
+    void on_test_struct_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                       std::vector<std::tuple<guint32,Glib::ustring,gint32>> expected);
+    void on_test_dict_struct_array_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                            std::vector<std::tuple<Glib::ustring,std::map<Glib::ustring,Glib::VariantBase>>> expected);
+    void on_test_byte_string_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                      std::string expected);
+    void on_test_signature_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                    Glib::DBusSignatureString expected);
+    void on_test_object_path_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                      Glib::DBusObjectPathString expected);
+    void on_test_string_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                 Glib::ustring expected);
+    void on_test_double_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                 double expected);
+    void on_test_uint64_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                 guint64 expected);
+    void on_test_int64_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                gint64 expected);
+    void on_test_uint_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                               guint expected);
+    void on_test_int_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                              gint expected);
+    void on_test_uint16_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                 guint16 expected);
+    void on_test_int16_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                gint16 expected);
+    void on_test_uchar_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                guchar expected);
+    void on_test_boolean_finished(const Glib::RefPtr<Gio::AsyncResult> result,
+                                  bool expected);
+    void on_test_all_finished(const Glib::RefPtr<Gio::AsyncResult> result);
+    void on_test_trigger_internal_property_change_finished (const Glib::RefPtr<Gio::AsyncResult> result,
+                                                            const int expected);
+    void on_test_error_finished(const Glib::RefPtr<Gio::AsyncResult> result);
+    void on_test_prop_read_write_string(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        const std::string &expected);
+    void on_test_prop_read_write_byte_string_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                                   const std::vector<std::string> &expected);
+    void on_test_prop_read_write_object_path_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                                   const std::vector<Glib::DBusObjectPathString> &expected);
+    void on_test_prop_read_write_string_array(const Glib::RefPtr<Gio::AsyncResult> result,
+                                              const std::vector<Glib::ustring> &expected);
+    void on_test_prop_read_write_byte_string(const Glib::RefPtr<Gio::AsyncResult> result,
+                                             const std::string &expected);
+    void on_test_prop_read_write_signature(const Glib::RefPtr<Gio::AsyncResult> result,
+                                           const Glib::DBusSignatureString &expected);
+    void on_test_prop_read_write_object_path(const Glib::RefPtr<Gio::AsyncResult> result,
+                                             const Glib::DBusObjectPathString &expected);
+    void on_test_prop_read_write_double(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        const double &expected);
+    void on_test_prop_read_write_uint64(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        const guint64 &expected);
+    void on_test_prop_read_write_int64(const Glib::RefPtr<Gio::AsyncResult> result,
+                                       const gint64 &expected);
+    void on_test_prop_read_write_uint(const Glib::RefPtr<Gio::AsyncResult> result,
+                                      const guint &expected);
+    void on_test_prop_read_write_int(const Glib::RefPtr<Gio::AsyncResult> result,
+                                     const gint &expected);
+    void on_test_prop_read_write_uint16(const Glib::RefPtr<Gio::AsyncResult> result,
+                                        const guint16 &expected);
+    void on_test_prop_read_write_int16(const Glib::RefPtr<Gio::AsyncResult> result,
+                                       const gint16 &expected);
+    void on_test_prop_read_write_char(const Glib::RefPtr<Gio::AsyncResult> result,
+                                      const guchar &expected);
+    void on_test_prop_read_write_boolean(const Glib::RefPtr<Gio::AsyncResult> result,
+                                         const guchar &expected);
 
     /* signal handlers */
     void record_signal();
