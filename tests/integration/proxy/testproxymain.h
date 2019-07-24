@@ -17,6 +17,7 @@ private:
     void check_done();
 
     /* method callbacks */
+    void record_call();
     void on_test_string_variant_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
                                               const std::map<Glib::ustring,Glib::VariantBase> expectedMap);
     void on_test_string_string_dict_finished(const Glib::RefPtr<Gio::AsyncResult> result,
@@ -129,6 +130,7 @@ private:
     Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> m_proxy;
     sigc::signal<void> m_done;
     int m_exit_status = EXIT_SUCCESS;
+    unsigned int m_pending_calls = 0;
     unsigned int m_pending_signals = 0;
     unsigned int m_pending_notifications = 0;
 };
