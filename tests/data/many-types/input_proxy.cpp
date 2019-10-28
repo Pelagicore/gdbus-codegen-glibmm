@@ -3102,6 +3102,53 @@ org::gdbus::codegen::glibmm::TestProxy::TestProxy(const Glib::RefPtr<Gio::DBus::
         connect(sigc::mem_fun(this, &TestProxy::handle_properties_changed));
 }
 
+void org::gdbus::codegen::glibmm::TestProxy::create(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    Gio::DBus::ProxyFlags proxyFlags,
+    const std::string &name,
+    const std::string &objectPath,
+    const Gio::SlotAsyncReady &slot,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+{
+    Gio::DBus::Proxy::create(connection,
+        name,
+        objectPath,
+        "org.gdbus.codegen.glibmm.Test",
+        slot,
+        cancellable,
+        Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
+        proxyFlags);
+}
+
+Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> org::gdbus::codegen::glibmm::TestProxy::createFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
+{
+    Glib::RefPtr<Gio::DBus::Proxy> proxy =
+        Gio::DBus::Proxy::create_finish(result);
+    org::gdbus::codegen::glibmm::TestProxy *p =
+        new org::gdbus::codegen::glibmm::TestProxy(proxy);
+    return Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy>(p);
+}
+
+Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy> org::gdbus::codegen::glibmm::TestProxy::create_sync(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    Gio::DBus::ProxyFlags proxyFlags,
+    const std::string &name,
+    const std::string &objectPath,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+{
+    Glib::RefPtr<Gio::DBus::Proxy> proxy =
+        Gio::DBus::Proxy::create_sync(connection,
+            name,
+            objectPath,
+            "org.gdbus.codegen.glibmm.Test",
+            cancellable,
+            Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
+            proxyFlags);
+    org::gdbus::codegen::glibmm::TestProxy *p =
+        new org::gdbus::codegen::glibmm::TestProxy(proxy);
+    return Glib::RefPtr<org::gdbus::codegen::glibmm::TestProxy>(p);
+}
+
 void org::gdbus::codegen::glibmm::TestProxy::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,

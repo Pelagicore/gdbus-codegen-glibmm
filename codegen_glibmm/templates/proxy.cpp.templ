@@ -210,6 +210,53 @@ void {{ class_name_with_namespace }}::handle_properties_changed(
 {% endif %}
 }
 
+void {{ class_name_with_namespace }}::create(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    Gio::DBus::ProxyFlags proxyFlags,
+    const std::string &name,
+    const std::string &objectPath,
+    const Gio::SlotAsyncReady &slot,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+{
+    Gio::DBus::Proxy::create(connection,
+        name,
+        objectPath,
+        "{{ interface.name }}",
+        slot,
+        cancellable,
+        Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
+        proxyFlags);
+}
+
+Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::createFinish(const Glib::RefPtr<Gio::AsyncResult> &result)
+{
+    Glib::RefPtr<Gio::DBus::Proxy> proxy =
+        Gio::DBus::Proxy::create_finish(result);
+    {{ class_name_with_namespace }} *p =
+        new {{ class_name_with_namespace }}(proxy);
+    return Glib::RefPtr<{{ class_name_with_namespace }}>(p);
+}
+
+Glib::RefPtr<{{ class_name_with_namespace }}> {{ class_name_with_namespace }}::create_sync(
+    const Glib::RefPtr<Gio::DBus::Connection> &connection,
+    Gio::DBus::ProxyFlags proxyFlags,
+    const std::string &name,
+    const std::string &objectPath,
+    const Glib::RefPtr<Gio::Cancellable> &cancellable)
+{
+    Glib::RefPtr<Gio::DBus::Proxy> proxy =
+        Gio::DBus::Proxy::create_sync(connection,
+            name,
+            objectPath,
+            "{{ interface.name }}",
+            cancellable,
+            Glib::RefPtr<Gio::DBus::InterfaceInfo>(),
+            proxyFlags);
+    {{ class_name_with_namespace }} *p =
+        new {{ class_name_with_namespace }}(proxy);
+    return Glib::RefPtr<{{ class_name_with_namespace }}>(p);
+}
+
 void {{ class_name_with_namespace }}::createForBus(
     Gio::DBus::BusType busType,
     Gio::DBus::ProxyFlags proxyFlags,
