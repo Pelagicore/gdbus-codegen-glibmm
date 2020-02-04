@@ -76,6 +76,9 @@ public:
     void TestBoolean (
             bool Param1,
             MethodInvocation &invocation) override;
+    void TestSelectiveSignalTrigger (
+            bool Param1,
+            MethodInvocation &invocation) override;
     void TestAll (
             const std::vector<std::string> &in_Param1,
             const std::vector<Glib::DBusObjectPathString> &in_Param2,
