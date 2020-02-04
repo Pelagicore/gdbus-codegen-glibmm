@@ -543,6 +543,11 @@ void TestProxyImpl::on_test_signal_boolean_cb(const bool s) {
     record_signal();
 }
 
+void TestProxyImpl::on_test_selective_signal_cb(const bool s) {
+    printStatus("Signal TestSelectiveSignal", true);
+    record_signal();
+}
+
 void TestProxyImpl::on_notification_received()
 {
     m_pending_notifications--;
@@ -924,6 +929,12 @@ void TestProxyImpl::proxy_created(const Glib::RefPtr<Gio::AsyncResult> result) {
     m_proxy->TestSignalBoolean_signal.connect(
         sigc::mem_fun(this, &TestProxyImpl::on_test_signal_boolean_cb));
     m_pending_signals++;
+
+    /* Test Selective signal */
+    m_proxy->TestSelectiveSignal_signal.connect(
+        sigc::mem_fun(this, &TestProxyImpl::on_test_selective_signal_cb));
+    m_pending_signals++;
+    m_proxy->TestSelectiveSignalTrigger_sync(true);
 }
 
 void TestProxyImpl::record_signal()

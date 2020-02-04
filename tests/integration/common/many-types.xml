@@ -124,6 +124,10 @@
         <arg type="b" name="Param2" direction="out"></arg>
     </method>
 
+    <method name="TestSelectiveSignalTrigger">
+        <arg type="b" name="Param1" direction="in"></arg>
+    </method>
+
     <method name="TestAll">
         <arg type="aay" name="in_Param1"  direction="in"></arg>
         <arg type="ao"  name="in_Param2"  direction="in"></arg>
@@ -239,6 +243,10 @@
     </signal>
 
     <signal name="TestSignalBoolean">
+        <arg type="b" name="Param1"></arg>
+    </signal>
+
+    <signal name="TestSelectiveSignal">
         <arg type="b" name="Param1"></arg>
     </signal>
 

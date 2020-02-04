@@ -27,7 +27,8 @@ inline std::string specialGetter(Glib::Variant<std::string> variant)
     m_interfaceName("{{ interface.name }}")
 {
 {% for signal in interface.signals if signal is supported_by_sigc %}
-    {{ signal.name }}_signal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::{{ signal.name }}_emitter));
+    {{ signal.name }}_signal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::{{ signal.name }}_broadcastEmitter));
+    {{ signal.name }}_selectiveSignal.connect(sigc::mem_fun(this, &{{ interface.cpp_class_name_stub }}::{{ signal.name }}_multicastEmitter));
 {% endfor %}
 }
 
@@ -177,9 +178,10 @@ bool {{ class_name_with_namespace }}::on_interface_set_property(
 
 {% for signal in interface.signals if signal is supported_by_sigc %}
 void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,
 {%- set comma = joiner() -%}
 {%- for arg in signal.args -%}
-{{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
+{{ comma() }}{{ arg.cpptype_out }} &{{ arg.name }}
 {%- endfor -%})
 {
     std::vector<Glib::VariantBase> paramsList;
@@ -191,16 +193,19 @@ void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "{{ signal.iface_name }}",
-            "{{ signal.name }}",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "{{ signal.iface_name }}",
+                    "{{ signal.name }}",
+                    bus_name,
+                    params);
+        }
     }
 }
 
 {% endfor %}
+
 {% for prop in interface.properties %}
 
 bool {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)

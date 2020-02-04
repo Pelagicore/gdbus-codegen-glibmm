@@ -576,53 +576,165 @@ protected:
     virtual bool TestPropInternalReadWritePropertyChange_setHandler(gint32 value) = 0;
     virtual gint32 TestPropInternalReadWritePropertyChange_get() = 0;
 
-    void TestSignalByteStringArray_emitter(std::vector<std::string>);
+    void TestSignalByteStringArray_emitter(const std::vector<Glib::ustring> &destination_bus_names, std::vector<std::string>&);
+    inline void TestSignalByteStringArray_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,std::vector<std::string> Param1) {
+        TestSignalByteStringArray_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalByteStringArray_broadcastEmitter(std::vector<std::string> Param1) {
+        TestSignalByteStringArray_emitter({}, Param1);
+    }
     sigc::signal<void, std::vector<std::string>> TestSignalByteStringArray_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, std::vector<std::string>> TestSignalByteStringArray_selectiveSignal;
 
-    void TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString>);
+    void TestSignalObjectPathArray_emitter(const std::vector<Glib::ustring> &destination_bus_names, std::vector<Glib::DBusObjectPathString>&);
+    inline void TestSignalObjectPathArray_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> Param1) {
+        TestSignalObjectPathArray_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalObjectPathArray_broadcastEmitter(std::vector<Glib::DBusObjectPathString> Param1) {
+        TestSignalObjectPathArray_emitter({}, Param1);
+    }
     sigc::signal<void, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_selectiveSignal;
 
-    void TestSignalStringArray_emitter(std::vector<Glib::ustring>);
+    void TestSignalStringArray_emitter(const std::vector<Glib::ustring> &destination_bus_names, std::vector<Glib::ustring>&);
+    inline void TestSignalStringArray_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::ustring> Param1) {
+        TestSignalStringArray_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalStringArray_broadcastEmitter(std::vector<Glib::ustring> Param1) {
+        TestSignalStringArray_emitter({}, Param1);
+    }
     sigc::signal<void, std::vector<Glib::ustring>> TestSignalStringArray_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, std::vector<Glib::ustring>> TestSignalStringArray_selectiveSignal;
 
-    void TestSignalByteString_emitter(std::string);
+    void TestSignalByteString_emitter(const std::vector<Glib::ustring> &destination_bus_names, std::string&);
+    inline void TestSignalByteString_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,std::string Param1) {
+        TestSignalByteString_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalByteString_broadcastEmitter(std::string Param1) {
+        TestSignalByteString_emitter({}, Param1);
+    }
     sigc::signal<void, std::string> TestSignalByteString_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, std::string> TestSignalByteString_selectiveSignal;
 
-    void TestSignalSignature_emitter(Glib::DBusSignatureString);
+    void TestSignalSignature_emitter(const std::vector<Glib::ustring> &destination_bus_names, Glib::DBusSignatureString&);
+    inline void TestSignalSignature_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusSignatureString Param1) {
+        TestSignalSignature_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalSignature_broadcastEmitter(Glib::DBusSignatureString Param1) {
+        TestSignalSignature_emitter({}, Param1);
+    }
     sigc::signal<void, Glib::DBusSignatureString> TestSignalSignature_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, Glib::DBusSignatureString> TestSignalSignature_selectiveSignal;
 
-    void TestSignalObjectPath_emitter(Glib::DBusObjectPathString);
+    void TestSignalObjectPath_emitter(const std::vector<Glib::ustring> &destination_bus_names, Glib::DBusObjectPathString&);
+    inline void TestSignalObjectPath_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusObjectPathString Param1) {
+        TestSignalObjectPath_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalObjectPath_broadcastEmitter(Glib::DBusObjectPathString Param1) {
+        TestSignalObjectPath_emitter({}, Param1);
+    }
     sigc::signal<void, Glib::DBusObjectPathString> TestSignalObjectPath_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, Glib::DBusObjectPathString> TestSignalObjectPath_selectiveSignal;
 
-    void TestSignalString_emitter(Glib::ustring);
+    void TestSignalString_emitter(const std::vector<Glib::ustring> &destination_bus_names, Glib::ustring&);
+    inline void TestSignalString_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,Glib::ustring Param1) {
+        TestSignalString_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalString_broadcastEmitter(Glib::ustring Param1) {
+        TestSignalString_emitter({}, Param1);
+    }
     sigc::signal<void, Glib::ustring> TestSignalString_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, Glib::ustring> TestSignalString_selectiveSignal;
 
-    void TestSignalDouble_emitter(double);
+    void TestSignalDouble_emitter(const std::vector<Glib::ustring> &destination_bus_names, double&);
+    inline void TestSignalDouble_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,double Param1) {
+        TestSignalDouble_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalDouble_broadcastEmitter(double Param1) {
+        TestSignalDouble_emitter({}, Param1);
+    }
     sigc::signal<void, double> TestSignalDouble_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, double> TestSignalDouble_selectiveSignal;
 
-    void TestSignalUInt64_emitter(guint64);
+    void TestSignalUInt64_emitter(const std::vector<Glib::ustring> &destination_bus_names, guint64&);
+    inline void TestSignalUInt64_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,guint64 Param1) {
+        TestSignalUInt64_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalUInt64_broadcastEmitter(guint64 Param1) {
+        TestSignalUInt64_emitter({}, Param1);
+    }
     sigc::signal<void, guint64> TestSignalUInt64_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, guint64> TestSignalUInt64_selectiveSignal;
 
-    void TestSignalInt64_emitter(gint64);
+    void TestSignalInt64_emitter(const std::vector<Glib::ustring> &destination_bus_names, gint64&);
+    inline void TestSignalInt64_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,gint64 Param1) {
+        TestSignalInt64_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalInt64_broadcastEmitter(gint64 Param1) {
+        TestSignalInt64_emitter({}, Param1);
+    }
     sigc::signal<void, gint64> TestSignalInt64_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, gint64> TestSignalInt64_selectiveSignal;
 
-    void TestSignalUInt_emitter(guint32);
+    void TestSignalUInt_emitter(const std::vector<Glib::ustring> &destination_bus_names, guint32&);
+    inline void TestSignalUInt_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,guint32 Param1) {
+        TestSignalUInt_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalUInt_broadcastEmitter(guint32 Param1) {
+        TestSignalUInt_emitter({}, Param1);
+    }
     sigc::signal<void, guint32> TestSignalUInt_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, guint32> TestSignalUInt_selectiveSignal;
 
-    void TestSignalInt_emitter(gint32);
+    void TestSignalInt_emitter(const std::vector<Glib::ustring> &destination_bus_names, gint32&);
+    inline void TestSignalInt_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,gint32 Param1) {
+        TestSignalInt_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalInt_broadcastEmitter(gint32 Param1) {
+        TestSignalInt_emitter({}, Param1);
+    }
     sigc::signal<void, gint32> TestSignalInt_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, gint32> TestSignalInt_selectiveSignal;
 
-    void TestSignalUInt16_emitter(guint16);
+    void TestSignalUInt16_emitter(const std::vector<Glib::ustring> &destination_bus_names, guint16&);
+    inline void TestSignalUInt16_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,guint16 Param1) {
+        TestSignalUInt16_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalUInt16_broadcastEmitter(guint16 Param1) {
+        TestSignalUInt16_emitter({}, Param1);
+    }
     sigc::signal<void, guint16> TestSignalUInt16_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, guint16> TestSignalUInt16_selectiveSignal;
 
-    void TestSignalInt16_emitter(gint16);
+    void TestSignalInt16_emitter(const std::vector<Glib::ustring> &destination_bus_names, gint16&);
+    inline void TestSignalInt16_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,gint16 Param1) {
+        TestSignalInt16_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalInt16_broadcastEmitter(gint16 Param1) {
+        TestSignalInt16_emitter({}, Param1);
+    }
     sigc::signal<void, gint16> TestSignalInt16_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, gint16> TestSignalInt16_selectiveSignal;
 
-    void TestSignalChar_emitter(guchar);
+    void TestSignalChar_emitter(const std::vector<Glib::ustring> &destination_bus_names, guchar&);
+    inline void TestSignalChar_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,guchar Param1) {
+        TestSignalChar_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalChar_broadcastEmitter(guchar Param1) {
+        TestSignalChar_emitter({}, Param1);
+    }
     sigc::signal<void, guchar> TestSignalChar_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, guchar> TestSignalChar_selectiveSignal;
 
-    void TestSignalBoolean_emitter(bool);
+    void TestSignalBoolean_emitter(const std::vector<Glib::ustring> &destination_bus_names, bool&);
+    inline void TestSignalBoolean_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,bool Param1) {
+        TestSignalBoolean_emitter(destination_bus_names, Param1);
+    }
+    inline void TestSignalBoolean_broadcastEmitter(bool Param1) {
+        TestSignalBoolean_emitter({}, Param1);
+    }
     sigc::signal<void, bool> TestSignalBoolean_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, bool> TestSignalBoolean_selectiveSignal;
 
     void on_method_call(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                         const Glib::ustring &sender,

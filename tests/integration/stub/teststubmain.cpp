@@ -227,6 +227,16 @@ void TestImpl::TestBoolean (
     invocation.ret(Param1);
 }
 
+void TestImpl::TestSelectiveSignalTrigger (
+        bool Param1,
+        MethodInvocation &invocation) {
+    std::vector<Glib::ustring> clientIds;
+    clientIds.emplace_back(invocation.getMessage()->get_sender());
+    TestSelectiveSignal_selectiveSignal(clientIds, Param1);
+
+    invocation.ret();
+}
+
 void TestImpl::TestAll (
         const std::vector<std::string> &in_Param1,
         const std::vector<Glib::DBusObjectPathString> &in_Param2,

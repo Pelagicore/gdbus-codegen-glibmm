@@ -123,6 +123,9 @@ private:
     void on_test_signal_char_cb(const guchar s);
     void on_test_signal_boolean_cb(const bool s);
 
+    /* selective signal handler */
+    void on_test_selective_signal_cb(const bool s);
+
     void on_notification_received();
     void expect_notification(sigc::signal<void> &signal);
 
