@@ -52,7 +52,9 @@ inline std::string specialGetter(Glib::Variant<std::string> variant)
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
+TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalObjectPathArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
 }
 
 org::gdbus::codegen::glibmm::TestStub::~TestStub()
@@ -169,7 +171,8 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
     return true;
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -178,14 +181,17 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(st
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalObjectPathArray",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalObjectPathArray",
+                    bus_name,
+                    params);
+        }
     }
 }
+
 
 
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)

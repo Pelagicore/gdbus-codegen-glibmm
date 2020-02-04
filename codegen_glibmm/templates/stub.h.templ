@@ -55,8 +55,9 @@ protected:
 {% for signal in interface.signals %}
 {% if signal is supported_by_sigc %}
 
-    void {{ signal.name }}_emitter({{ signal.args|map(attribute='cpptype_out')|join(', ') }});
+    void {{ signal.name }}_emitter(const std::vector<Glib::ustring> &destination_bus_names, {{ signal.args|map(attribute='cpptype_out')|join(', ') }});
     sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }}> {{ signal.name }}_signal;
+    sigc::signal<void, const std::vector<Glib::ustring>&, {{ signal.args|map(attribute='cpptype_out')|join(', ') }}> {{ signal.name }}_selectiveSignal;
 {% endif %}
 {% endfor %}
 

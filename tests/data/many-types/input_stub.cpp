@@ -358,22 +358,54 @@ inline std::string specialGetter(Glib::Variant<std::string> variant)
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-    TestSignalByteStringArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter));
-    TestSignalObjectPathArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
-    TestSignalStringArray_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter));
-    TestSignalByteString_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter));
-    TestSignalSignature_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter));
-    TestSignalObjectPath_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter));
-    TestSignalString_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalString_emitter));
-    TestSignalDouble_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter));
-    TestSignalUInt64_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter));
-    TestSignalInt64_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter));
-    TestSignalUInt_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter));
-    TestSignalInt_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter));
-    TestSignalUInt16_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter));
-    TestSignalInt16_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter));
-    TestSignalChar_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter));
-    TestSignalBoolean_signal.connect(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter));
+TestSignalByteStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalByteStringArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter));
+TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalObjectPathArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
+TestSignalStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalStringArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter));
+TestSignalByteString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalByteString_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter));
+TestSignalSignature_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalSignature_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter));
+TestSignalObjectPath_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalObjectPath_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter));
+TestSignalString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalString_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalString_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalString_emitter));
+TestSignalDouble_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalDouble_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter));
+TestSignalUInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalUInt64_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter));
+TestSignalInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalInt64_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter));
+TestSignalUInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalUInt_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter));
+TestSignalInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalInt_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter));
+TestSignalUInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalUInt16_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter));
+TestSignalInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalInt16_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter));
+TestSignalChar_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalChar_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter));
+TestSignalBoolean_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter),
+            std::vector<Glib::ustring>({""})) );
+    TestSignalBoolean_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter));
 }
 
 org::gdbus::codegen::glibmm::TestStub::~TestStub()
@@ -1419,7 +1451,8 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
     return true;
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(std::vector<std::string> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,std::vector<std::string> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1428,16 +1461,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(st
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalByteStringArray",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalByteStringArray",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(std::vector<Glib::DBusObjectPathString> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1446,16 +1482,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(st
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalObjectPathArray",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalObjectPathArray",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(std::vector<Glib::ustring> Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::ustring> Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1464,16 +1503,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(std::v
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalStringArray",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalStringArray",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(std::string Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,std::string Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1482,16 +1524,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(std::st
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalByteString",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalByteString",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(Glib::DBusSignatureString Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusSignatureString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1500,16 +1545,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(Glib::DB
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalSignature",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalSignature",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(Glib::DBusObjectPathString Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusObjectPathString Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1518,16 +1566,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(Glib::D
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalObjectPath",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalObjectPath",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(Glib::ustring Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,Glib::ustring Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1536,16 +1587,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(Glib::ustri
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalString",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalString",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(double Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,double Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1554,16 +1608,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(double Para
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalDouble",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalDouble",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(guint64 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,guint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1572,16 +1629,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(guint64 Par
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalUInt64",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalUInt64",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(gint64 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,gint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1590,16 +1650,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(gint64 Param
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalInt64",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalInt64",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(guint32 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,guint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1608,16 +1671,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(guint32 Param
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalUInt",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalUInt",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(gint32 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,gint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1626,16 +1692,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(gint32 Param1)
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalInt",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalInt",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(guint16 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,guint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1644,16 +1713,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(guint16 Par
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalUInt16",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalUInt16",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(gint16 Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,gint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1662,16 +1734,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(gint16 Param
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalInt16",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalInt16",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(guchar Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,guchar Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1680,16 +1755,19 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(guchar Param1
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalChar",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalChar",
+                    bus_name,
+                    params);
+        }
     }
 }
 
-void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param1)
+void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(
+    const std::vector<Glib::ustring> &destination_bus_names,bool Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1698,14 +1776,17 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(bool Param
     const Glib::VariantContainerBase params =
         Glib::Variant<std::vector<Glib::VariantBase>>::create_tuple(paramsList);
     for (const RegisteredObject &obj: m_registered_objects) {
-        obj.connection->emit_signal(
-            obj.object_path,
-            "org.gdbus.codegen.glibmm.Test",
-            "TestSignalBoolean",
-            Glib::ustring(),
-            params);
+        for (const auto &bus_name: destination_bus_names) {
+            obj.connection->emit_signal(
+                    obj.object_path,
+                    "org.gdbus.codegen.glibmm.Test",
+                    "TestSignalBoolean",
+                    bus_name,
+                    params);
+        }
     }
 }
+
 
 
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteStringArray_set(const std::vector<std::string> & value)
