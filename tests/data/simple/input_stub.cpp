@@ -171,7 +171,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::DBusObjectPathString> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 

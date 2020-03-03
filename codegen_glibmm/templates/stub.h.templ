@@ -55,11 +55,11 @@ protected:
 {% for signal in interface.signals %}
 {% if signal is supported_by_sigc %}
 
-    void {{ signal.name }}_emitter(const std::vector<Glib::ustring> &destination_bus_names, {{ signal.args|map(attribute='cpptype_out')|join(', ') }}&);
+    void {{ signal.name }}_emitter(const std::vector<Glib::ustring> &destination_bus_names, {{ signal.args|map(attribute='cpptype_in')|join(', ') }});
     inline void {{ signal.name}}_multicastEmitter(const std::vector<Glib::ustring> &destination_bus_names,
     {%- set comma = joiner() -%}
     {%- for arg in signal.args -%}
-    {{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
+    {{ comma() }}{{ arg.cpptype_in }} {{ arg.name }}
     {%- endfor -%}) {
         {% for arg in signal.args %}
         {{ signal.name }}_emitter(destination_bus_names, {{ arg.cpptype_to_dbus }}{{ arg.name }});
@@ -68,14 +68,14 @@ protected:
     inline void {{ signal.name}}_broadcastEmitter(
     {%- set comma = joiner() -%}
     {%- for arg in signal.args -%}
-    {{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
+    {{ comma() }}{{ arg.cpptype_in }} {{ arg.name }}
     {%- endfor -%}) {
         {% for arg in signal.args %}
         {{ signal.name }}_emitter({}, {{ arg.cpptype_to_dbus }}{{ arg.name }});
         {% endfor %}
     }
-    sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }}> {{ signal.name }}_signal;
-    sigc::signal<void, std::vector<Glib::ustring>&, {{ signal.args|map(attribute='cpptype_out')|join(', ') }}> {{ signal.name }}_selectiveSignal;
+    sigc::signal<void, {{ signal.args|map(attribute='cpptype_in')|join(', ') }}> {{ signal.name }}_signal;
+    sigc::signal<void, std::vector<Glib::ustring>&, {{ signal.args|map(attribute='cpptype_in')|join(', ') }}> {{ signal.name }}_selectiveSignal;
 {% endif %}
 {% endfor %}
 

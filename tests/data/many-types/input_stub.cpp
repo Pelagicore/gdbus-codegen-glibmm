@@ -1436,7 +1436,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<std::string> &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<std::string> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1457,7 +1457,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::DBusObjectPathString> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1478,7 +1478,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::ustring> &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::ustring> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1499,7 +1499,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::string &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::string & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1520,7 +1520,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusSignatureString &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::DBusSignatureString & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1541,7 +1541,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusObjectPathString &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::DBusObjectPathString & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1562,7 +1562,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::ustring &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::ustring & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1583,7 +1583,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,double &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,double Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1604,7 +1604,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalDouble_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,guint64 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,guint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1625,7 +1625,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt64_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,gint64 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,gint64 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1646,7 +1646,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt64_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,guint32 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,guint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1667,7 +1667,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,gint32 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,gint32 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1688,7 +1688,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,guint16 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,guint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1709,7 +1709,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalUInt16_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,gint16 &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,gint16 Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1730,7 +1730,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalInt16_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,guchar &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,guchar Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1751,7 +1751,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalChar_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,bool &Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,bool Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
