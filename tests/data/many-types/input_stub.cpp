@@ -358,52 +358,52 @@ inline std::string specialGetter(Glib::Variant<std::string> variant)
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-TestSignalByteStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter),
+    TestSignalByteStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalByteStringArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteStringArray_emitter));
-TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
+    TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalObjectPathArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
-TestSignalStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter),
+    TestSignalStringArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalStringArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalStringArray_emitter));
-TestSignalByteString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter),
+    TestSignalByteString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalByteString_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalByteString_emitter));
-TestSignalSignature_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter),
+    TestSignalSignature_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalSignature_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalSignature_emitter));
-TestSignalObjectPath_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter),
+    TestSignalObjectPath_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalObjectPath_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPath_emitter));
-TestSignalString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalString_emitter),
+    TestSignalString_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalString_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalString_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalString_emitter));
-TestSignalDouble_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter),
+    TestSignalDouble_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalDouble_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalDouble_emitter));
-TestSignalUInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter),
+    TestSignalUInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalUInt64_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt64_emitter));
-TestSignalInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter),
+    TestSignalInt64_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalInt64_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt64_emitter));
-TestSignalUInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter),
+    TestSignalUInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalUInt_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt_emitter));
-TestSignalInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter),
+    TestSignalInt_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalInt_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt_emitter));
-TestSignalUInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter),
+    TestSignalUInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalUInt16_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalUInt16_emitter));
-TestSignalInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter),
+    TestSignalInt16_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalInt16_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalInt16_emitter));
-TestSignalChar_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter),
+    TestSignalChar_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalChar_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalChar_emitter));
-TestSignalBoolean_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter),
+    TestSignalBoolean_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalBoolean_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalBoolean_emitter));
 }
@@ -1452,7 +1452,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<std::string> Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<std::string> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1473,7 +1473,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteStringArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::DBusObjectPathString> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1494,7 +1494,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::ustring> Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::ustring> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1515,7 +1515,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalStringArray_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::string Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::string & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1536,7 +1536,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalByteString_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusSignatureString Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::DBusSignatureString & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1557,7 +1557,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalSignature_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::DBusObjectPathString Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::DBusObjectPathString & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1578,7 +1578,7 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPath_emitter(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalString_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,Glib::ustring Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const Glib::ustring & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -1786,7 +1786,6 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalBoolean_emitter(
         }
     }
 }
-
 
 
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadByteStringArray_set(const std::vector<std::string> & value)
