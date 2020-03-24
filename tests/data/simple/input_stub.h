@@ -45,9 +45,9 @@ protected:
     virtual bool TestPropReadStringArray_setHandler(const std::vector<Glib::ustring> & value) = 0;
     virtual std::vector<Glib::ustring> TestPropReadStringArray_get() = 0;
 
-    void TestSignalObjectPathArray_emitter(const std::vector<Glib::ustring> &destination_bus_names, std::vector<Glib::DBusObjectPathString>);
-    sigc::signal<void, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_signal;
-    sigc::signal<void, const std::vector<Glib::ustring>&, std::vector<Glib::DBusObjectPathString>> TestSignalObjectPathArray_selectiveSignal;
+    void TestSignalObjectPathArray_emitter(const std::vector<Glib::ustring> &destination_bus_names, const std::vector<Glib::DBusObjectPathString> &);
+    sigc::signal<void, const std::vector<Glib::DBusObjectPathString> &> TestSignalObjectPathArray_signal;
+    sigc::signal<void, const std::vector<Glib::ustring>&, const std::vector<Glib::DBusObjectPathString> &> TestSignalObjectPathArray_selectiveSignal;
 
     void on_method_call(const Glib::RefPtr<Gio::DBus::Connection> &connection,
                         const Glib::ustring &sender,

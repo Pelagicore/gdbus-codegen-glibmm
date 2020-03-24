@@ -182,7 +182,7 @@ void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
     const std::vector<Glib::ustring> &destination_bus_names,
 {%- set comma = joiner() -%}
 {%- for arg in signal.args -%}
-{{ comma() }}{{ arg.cpptype_out }} {{ arg.name }}
+{{ comma() }}{{ arg.cpptype_in }} {{ arg.name }}
 {%- endfor -%})
 {
     std::vector<Glib::VariantBase> paramsList;

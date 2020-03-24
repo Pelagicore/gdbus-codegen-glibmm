@@ -52,7 +52,7 @@ inline std::string specialGetter(Glib::Variant<std::string> variant)
 org::gdbus::codegen::glibmm::TestStub::TestStub():
     m_interfaceName("org.gdbus.codegen.glibmm.Test")
 {
-TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
+    TestSignalObjectPathArray_signal.connect(sigc::bind<0>(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter),
             std::vector<Glib::ustring>({""})) );
     TestSignalObjectPathArray_selectiveSignal.connect(sigc::mem_fun(this, &TestStub::TestSignalObjectPathArray_emitter));
 }
@@ -172,7 +172,7 @@ bool org::gdbus::codegen::glibmm::TestStub::on_interface_set_property(
 }
 
 void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,std::vector<Glib::DBusObjectPathString> Param1)
+    const std::vector<Glib::ustring> &destination_bus_names,const std::vector<Glib::DBusObjectPathString> & Param1)
 {
     std::vector<Glib::VariantBase> paramsList;
 
@@ -191,7 +191,6 @@ void org::gdbus::codegen::glibmm::TestStub::TestSignalObjectPathArray_emitter(
         }
     }
 }
-
 
 
 bool org::gdbus::codegen::glibmm::TestStub::TestPropReadStringArray_set(const std::vector<Glib::ustring> & value)
