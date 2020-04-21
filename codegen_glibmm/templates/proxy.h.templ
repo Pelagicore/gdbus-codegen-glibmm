@@ -14,6 +14,12 @@ namespace {{ namespace }} {
 
 class {{ interface.cpp_class_name_proxy }} : public Glib::ObjectBase {
 public:
+    static void create(const Glib::RefPtr<Gio::DBus::Connection> &connection,
+                       Gio::DBus::ProxyFlags proxyFlags,
+                       const std::string &name,
+                       const std::string &objectPath,
+                       const Gio::SlotAsyncReady &slot,
+                       const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
     static void createForBus(Gio::DBus::BusType busType,
                              Gio::DBus::ProxyFlags proxyFlags,
                              const std::string &name,
@@ -21,8 +27,15 @@ public:
                              const Gio::SlotAsyncReady &slot,
                              const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
-    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createFinish(const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> create_sync(
+        const Glib::RefPtr<Gio::DBus::Connection> &connection,
+        Gio::DBus::ProxyFlags proxyFlags,
+        const std::string &name,
+        const std::string &objectPath,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
+    static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
     static Glib::RefPtr<{{ interface.cpp_class_name_proxy }}> createForBus_sync(
         Gio::DBus::BusType busType,
         Gio::DBus::ProxyFlags proxyFlags,

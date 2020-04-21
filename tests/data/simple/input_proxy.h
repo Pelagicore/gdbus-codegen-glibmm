@@ -13,6 +13,12 @@ namespace glibmm {
 
 class TestProxy : public Glib::ObjectBase {
 public:
+    static void create(const Glib::RefPtr<Gio::DBus::Connection> &connection,
+                       Gio::DBus::ProxyFlags proxyFlags,
+                       const std::string &name,
+                       const std::string &objectPath,
+                       const Gio::SlotAsyncReady &slot,
+                       const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
     static void createForBus(Gio::DBus::BusType busType,
                              Gio::DBus::ProxyFlags proxyFlags,
                              const std::string &name,
@@ -20,8 +26,15 @@ public:
                              const Gio::SlotAsyncReady &slot,
                              const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
-    static Glib::RefPtr<TestProxy> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<TestProxy> createFinish(const Glib::RefPtr<Gio::AsyncResult> &result);
+    static Glib::RefPtr<TestProxy> create_sync(
+        const Glib::RefPtr<Gio::DBus::Connection> &connection,
+        Gio::DBus::ProxyFlags proxyFlags,
+        const std::string &name,
+        const std::string &objectPath,
+        const Glib::RefPtr<Gio::Cancellable> &cancellable = {});
 
+    static Glib::RefPtr<TestProxy> createForBusFinish (const Glib::RefPtr<Gio::AsyncResult> &result);
     static Glib::RefPtr<TestProxy> createForBus_sync(
         Gio::DBus::BusType busType,
         Gio::DBus::ProxyFlags proxyFlags,
