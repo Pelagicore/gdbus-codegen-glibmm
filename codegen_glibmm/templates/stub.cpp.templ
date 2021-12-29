@@ -206,7 +206,7 @@ void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
 }
 
 {% endfor %}
-{% for prop in interface.properties %}
+{% for prop in interface.properties if prop.writable %}
 
 bool {{ class_name_with_namespace }}::{{ prop.name }}_set({{ prop.cpptype_in }} value)
 {

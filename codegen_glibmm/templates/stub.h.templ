@@ -31,7 +31,7 @@ public:
 
     class MethodInvocation;
 
-{% for prop in interface.properties %}
+{% for prop in interface.properties if prop.writable %}
     bool {{ prop.name }}_set({{ prop.cpptype_in }} value);
 {% endfor %}
 protected:
@@ -44,12 +44,14 @@ protected:
 {% endfor %}
 {% for prop in interface.properties %}
 
+{% if prop.writable %}
     /* Handle the setting of a property
      * This method will be called as a result of a call to <PropName>_set
      * and should implement the actual setting of the property value.
      * Should return true on success and false otherwise.
      */
     virtual bool {{ prop.name }}_setHandler({{ prop.cpptype_in }} value) = 0;
+{% endif %}
     virtual {{ prop.cpptype_out }} {{ prop.name }}_get() = 0;
 {% endfor %}
 {% for signal in interface.signals %}
