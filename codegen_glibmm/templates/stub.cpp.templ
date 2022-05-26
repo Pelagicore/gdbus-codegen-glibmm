@@ -178,12 +178,17 @@ bool {{ class_name_with_namespace }}::on_interface_set_property(
 }
 
 {% for signal in interface.signals if signal is supported_by_sigc %}
-void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
-    const std::vector<Glib::ustring> &destination_bus_names,
-{%- set comma = joiner() -%}
-{%- for arg in signal.args -%}
-{{ comma() }}{{ arg.cpptype_in }} {{ arg.name }}
-{%- endfor -%})
+    {% if signal.args|length == 0 %}
+        void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
+	const std::vector<Glib::ustring> &destination_bus_names)
+    {% else %}
+        void {{ class_name_with_namespace }}::{{ signal.name }}_emitter(
+        const std::vector<Glib::ustring> &destination_bus_names,
+    {%- set comma = joiner() -%}
+    {%- for arg in signal.args -%}
+    {{ comma() }}{{ arg.cpptype_in }} {{ arg.name }}
+    {%- endfor -%})
+    {% endif %}
 {
     std::vector<Glib::VariantBase> paramsList;
 

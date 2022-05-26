@@ -54,10 +54,15 @@ protected:
 {% endfor %}
 {% for signal in interface.signals %}
 {% if signal is supported_by_sigc %}
-
+    {% if signal.args|length == 0 %}
+    void {{ signal.name }}_emitter(const std::vector<Glib::ustring> &destination_bus_names);
+    sigc::signal<void> {{ signal.name }}_signal;
+    sigc::signal<void, const std::vector<Glib::ustring>&> {{ signal.name }}_selectiveSignal;
+    {% else %}
     void {{ signal.name }}_emitter(const std::vector<Glib::ustring> &destination_bus_names, {{ signal.args|map(attribute='cpptype_in')|join(', ') }});
     sigc::signal<void, {{ signal.args|map(attribute='cpptype_in')|join(', ') }}> {{ signal.name }}_signal;
     sigc::signal<void, const std::vector<Glib::ustring>&, {{ signal.args|map(attribute='cpptype_in')|join(', ') }}> {{ signal.name }}_selectiveSignal;
+    {% endif %}
 {% endif %}
 {% endfor %}
 
