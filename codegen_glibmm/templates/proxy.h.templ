@@ -82,7 +82,7 @@ public:
     sigc::signal<void> {{ signal.name }}_signal;
     {% else %}
     sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }} > {{ signal.name }}_signal;
-    <% endif %>
+    {% endif %}
 {% endif %}
 {% endfor %}
 
