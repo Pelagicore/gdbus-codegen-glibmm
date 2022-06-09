@@ -78,7 +78,11 @@ public:
 {% endfor %}
 {% for signal in interface.signals %}
 {% if signal is supported_by_sigc %}
+    {% if signal.args|length == 0 %}
+    sigc::signal<void> {{ signal.name }}_signal;
+    {% else %}
     sigc::signal<void, {{ signal.args|map(attribute='cpptype_out')|join(', ') }} > {{ signal.name }}_signal;
+    {% endif %}
 {% endif %}
 {% endfor %}
 
